@@ -2,7 +2,7 @@
   "name": "unity-homes.com",
   "version": "1.0.0",
   "description": "The website for Unity Homes ",
-  "main": "server.js",
+  "main": "unity-server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
