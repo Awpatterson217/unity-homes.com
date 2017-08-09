@@ -1,0 +1,22 @@
+{
+  "name": "unity-homes.com",
+  "version": "1.0.0",
+  "description": "The website for Unity Homes ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Awpatterson217/unity-homes.com.git"
+  },
+  "author": "Adam Patterson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Awpatterson217/unity-homes.com/issues"
+  },
+  "homepage": "https://github.com/Awpatterson217/unity-homes.com#readme",
+  "dependencies": {
+    "express": "^4.15.4"
+  }
+}
