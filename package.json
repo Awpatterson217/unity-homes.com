@@ -1,7 +1,7 @@
 {
   "name": "unity-homes.com",
   "version": "1.0.0",
-  "description": "Unity Homes is a real estate business that owns and rents out properties",
+  "description": "A web application for a real estate business",
   "main": "unity_homes_server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

@@ -1,2 +1,6 @@
 # unity-homes.com
-Unity Homes is a real estate business that owns and rents out properties.
+A web application for a real estate business
+
+<hr>
+<br>
+See progress <a href='adamwpatterson.com/unity-homes'>here<a>.
