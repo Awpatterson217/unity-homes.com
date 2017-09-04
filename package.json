@@ -1,8 +1,8 @@
 {
   "name": "unity-homes.com",
   "version": "1.0.0",
-  "description": "The website for Unity Homes ",
-  "main": "unity-server.js",
+  "description": "Unity Homes is a real estate business that owns and rents out properties",
+  "main": "unity_homes_server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,13 +10,19 @@
     "type": "git",
     "url": "git+https://github.com/Awpatterson217/unity-homes.com.git"
   },
-  "author": "Adam Patterson",
+  "author": "Adam W Patterson",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Awpatterson217/unity-homes.com/issues"
   },
   "homepage": "https://github.com/Awpatterson217/unity-homes.com#readme",
   "dependencies": {
-    "express": "^4.15.4"
+    "body-parser": "^1.17.2",
+    "connect-redis": "^3.3.0",
+    "ejs": "^2.5.7",
+    "express": "^4.15.4",
+    "express-session": "^1.15.5",
+    "helmet": "^3.8.1",
+    "vue": "^2.4.2"
   }
 }
