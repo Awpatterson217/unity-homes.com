@@ -32,12 +32,12 @@ app.use(
     secret: 'keyboard cat'
   })
 );
-//app.use('/', express.static(__dirname + 'public/static/css/'));
-//app.use('/', express.static(__dirname + 'public/static/img/'));
+app.use('/bootstrap/', express.static(__dirname + 'public/vendor/bootstrap-4.0.0-alpha.6-dist/'));
+app.use('/jquery/', express.static(__dirname + 'public/vendor/jquery/'));
 //app.use('/', express.static(__dirname + 'public/static/js/'));
 //app.use('/', express.static(__dirname + 'public/static/external/'));
 //        ROUTES
-app.get('/unity-homes', function (req, res, next) {
+app.get('/home', function (req, res, next) {
   let target = req.params.name;
   res.sendFile('views/index.html', defaultGetOptions, function (err) {
     if (err)
