@@ -1,15 +1,18 @@
+"use strict";
 const express    = require('express');
 const bodyParser = require('body-parser');
 const path       = require('path');
 const helmet     = require('helmet');
 const session    = require('express-session');
 const RedisStore = require('connect-redis')(session);
+const ejs        = require('ejs');
 /**
  * Initializations
  */
-const port = 3000;
-const host = '127.0.0.4';
-const app  = express();
+const port   = 3000;
+const host   = '127.0.0.4';
+const app    = express();
+const routes = require('./public/routes/index.js');
 //        OPTIONS
 const defaultGetOptions = {
   root: __dirname + '/public/',
@@ -23,6 +26,11 @@ const redisOptions = {
   port: 6379
 }
 /**
+ * Template engine
+ */
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'public', 'views'));
+/**
  * Middleware
  */
 app.use(helmet());
@@ -32,20 +40,14 @@ app.use(
     secret: 'keyboard cat'
   })
 );
-app.use('/bootstrap/', express.static(__dirname + 'public/vendor/bootstrap-4.0.0-alpha.6-dist/'));
-app.use('/jquery/', express.static(__dirname + 'public/vendor/jquery/'));
-//app.use('/', express.static(__dirname + 'public/static/js/'));
-//app.use('/', express.static(__dirname + 'public/static/external/'));
-//        ROUTES
-app.get('/home', function (req, res, next) {
-  let target = req.params.name;
-  res.sendFile('views/index.html', defaultGetOptions, function (err) {
-    if (err)
-      next(err);  
-    else
-      console.log('Sent:', target);
-  });
-});
+app.use('/bootstrap', express.static(__dirname + '/vendor/bootstrap-4.0.0-alpha.6-dist/'));
+app.use('/jquery', express.static(__dirname + '/vendor/jquery/'));
+app.use('/css', express.static(__dirname + '/public/resources/css/'));
+app.use('/js', express.static(__dirname + '/public/resources/js/'));
+app.use('/images', express.static(__dirname + '/public/resources/images/'));
+app.use('/includes', express.static(__dirname + '/public/includes/'));
+// Routes
+routes(app);
 /**
  * Server
  */
