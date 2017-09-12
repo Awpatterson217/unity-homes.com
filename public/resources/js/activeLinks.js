@@ -7,10 +7,10 @@ let removeAllActive = function(){
 }
 
 let addActive = function(){
-    if(currentPage !== 'home')
-        if(currentPage !== null)            
+   
+    if (typeof(currentPage) != 'undefined' && some_variable != null){
         document.getElementById(`${currentPage}`).classList.add("active");
+    }
 }
-
 removeAllActive();
 addActive();
