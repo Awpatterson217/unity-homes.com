@@ -1,3 +1,7 @@
 body { 
     padding-top: 65px; 
 }
+#register {
+    max-width: 330px;
+    margin: 0 auto;
+}

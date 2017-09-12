@@ -1,0 +1,10 @@
+body {
+    padding-top: 100px;
+    padding-bottom: 40px;
+}
+.red {
+    color:red;
+}
+#contactForm {
+    margin: 0 auto;    
+}
