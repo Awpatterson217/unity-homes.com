@@ -8,7 +8,7 @@ let removeAllActive = function(){
 
 let addActive = function(){
    
-    if (typeof(currentPage) != 'undefined' && some_variable != null){
+    if (typeof(currentPage) != 'undefined' && currentPage != null){
         document.getElementById(`${currentPage}`).classList.add("active");
     }
 }
