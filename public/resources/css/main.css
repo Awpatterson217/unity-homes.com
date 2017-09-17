@@ -31,3 +31,6 @@ nav .left {
 nav .right {
     float: right;
 }
+.popover   {
+    font-style: italic;
+}

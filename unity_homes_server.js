@@ -9,11 +9,10 @@ const ejs        = require('ejs');
 /**
  * Initializations
  */
-const port   = 3000;
-const host   = '127.0.0.4';
-const app    = express();
-const routes = require('./public/routes/index.js');
-//        OPTIONS
+const port    = 3000;
+const host    = '127.0.0.4';
+const app     = express();
+const routes  = require('./routes');
 const defaultGetOptions = {
   root: __dirname + '/public/',
   dotfiles: 'deny',
@@ -23,10 +22,11 @@ const defaultGetOptions = {
   }
 }
 const redisOptions = {
-  port: 6379
+  port: 6379,
+  ttl: 900
 }
 /**
- * Template engine
+ * Template Engine
  */
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'public', 'views'));
@@ -37,21 +37,33 @@ app.use(helmet());
 app.use(
   session({
     store: new RedisStore(redisOptions),
-    secret: 'keyboard cat'
+    secret: 'keyboard cat',
   })
 );
+app.use(bodyParser.json({
+  strict: true,
+  limit: 100
+}));
+app.use(bodyParser.urlencoded({
+  extended: true
+})); 
+// Static
 app.use('/bootstrap', express.static(__dirname + '/public/vendor/bootstrap-4.0.0-alpha.6-dist/'));
+app.use('/vue', express.static(__dirname + '/public/vendor/vue/'));
 app.use('/jquery', express.static(__dirname + '/public/vendor/jquery/'));
 app.use('/css', express.static(__dirname + '/public/resources/css/'));
 app.use('/js', express.static(__dirname + '/public/resources/js/'));
 app.use('/images', express.static(__dirname + '/public/resources/images/'));
 // Routes
-routes(app);
+for(let route in routes){
+  app.use(routes[route]);
+}
 /**
- * Server
+ * Start Server
  */
 const server = app.listen(port, host, () => {
-    const host = server.address().address;
-    const port = server.address().port;
-    console.log(`Server running at http://${host}:${port}`);
+  const host = server.address().address;
+  const port = server.address().port;
+  console.log(`Server running at http://${host}:${port}`);
 });
+  
