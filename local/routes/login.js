@@ -11,7 +11,7 @@ const { sanitize }        = require('../resources/js/sanitize');
 const { isPassFormatted } = require('../resources/js/sanitize');
 
 // {sessionKey: Math.random().toString(36).slice(2)}
-const csrfProtection = csrf({ cookie: true });
+const csrfProtection = csrf();
 const router         = express.Router();
 const parser         = bodyParser.urlencoded({
   extended: true

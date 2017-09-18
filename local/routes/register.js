@@ -10,7 +10,7 @@ const { register }        = require('../api/new');
 const { sanitize }        = require('../resources/js/sanitize');
 const { isPassFormatted } = require('../resources/js/sanitize');
 
-const csrfProtection = csrf({ cookie: true });
+const csrfProtection = csrf();
 const router         = express.Router();
 
 router.get('/register', csrfProtection, function(req, res) {
