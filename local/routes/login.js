@@ -15,7 +15,6 @@ const csrfProtection = csrf();
 const router         = express.Router();
 
 router.get('/login', csrfProtection,function(req, res) {
-  res.end('done');
   res.render('login', { csrfToken: req.csrfToken() });
 });
   
