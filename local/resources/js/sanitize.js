@@ -1,4 +1,5 @@
 const validator = require('validator');
+const safe      = require('safe-regex');
 
 const passExp = /^(?=.*\d)(?=.*[a-zA-Z])[a-zA-Z0-9]{8,20}$/;
 
