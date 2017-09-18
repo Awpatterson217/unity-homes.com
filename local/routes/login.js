@@ -18,7 +18,7 @@ const csrfProtection = csrf();
 const router         = express.Router();
 const parseForm      = bodyParser.urlencoded({ extended: false });
 
-app.use(csrf(csrfOptions))
+router.use(csrf(csrfOptions))
 
 router.get('/login', csrfProtection,function(req, res) {
   res.render('login', { csrfToken: req.csrfToken() });
