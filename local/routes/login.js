@@ -13,15 +13,13 @@ const { isPassFormatted } = require('../resources/js/sanitize');
 // {sessionKey: Math.random().toString(36).slice(2)}
 const csrfProtection = csrf();
 const router         = express.Router();
-const parser         = bodyParser.urlencoded({
-  extended: true
-});
+const parseForm      = bodyParser.urlencoded({ extended: false });
 
 router.get('/login', csrfProtection,function(req, res) {
   res.render('login', { csrfToken: req.csrfToken() });
 });
   
-router.post('/login', parser, csrfProtection, function(req, res, next) {
+router.post('/login', parseForm, csrfProtection, function(req, res, next) {
   let time; // TODO Log time and req
   const NOW = new Date().getTime();
 
@@ -67,7 +65,7 @@ router.post('/login', parser, csrfProtection, function(req, res, next) {
 // handle csrf errors specifically
 router.use(function(err, req, res, next) {
     if (err.code !== 'EBADCSRFTOKEN') return next(err);
-    res.status(403).json({"ERROR": "session has expired or tampered with"});
+    res.status(403).send("ERROR: session has expired or tampered with");
 });
 
 /*

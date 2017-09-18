@@ -100,7 +100,7 @@ router.post('/register', csrfProtection, function(req, res, next) {
 // handle csrf errors specifically
 router.use(function(err, req, res, next) {
     if (err.code !== 'EBADCSRFTOKEN') return next(err);
-    res.status(403).json({"ERROR": "session has expired or tampered with"});
-  });
+    res.status(403).send("ERROR: session has expired or tampered with");
+});
   
 module.exports = router;
