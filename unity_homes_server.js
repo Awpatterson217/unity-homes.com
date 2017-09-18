@@ -3,15 +3,25 @@ const express    = require('express');
 const bodyParser = require('body-parser');
 const path       = require('path');
 const helmet     = require('helmet');
+const redis      = require("redis");
 const session    = require('express-session');
 const RedisStore = require('connect-redis')(session);
 const ejs        = require('ejs');
-/**
- * Initializations
- */
+const csrf       = require('csurf');
+
+const client  = redis.createClient();
+const app     = express();
+const limiter = require('express-limiter')(app, client);
+
+// Limit requests to 100 per hour per ip address.
+limiter({
+  lookup: ['connection.remoteAddress'],
+  total: 100,
+  expire: 1000 * 60 * 60
+})
+
 const port    = 3000;
 const host    = '127.0.0.4';
-const app     = express();
 const routes  = require('./local/routes');
 const defaultGetOptions = {
   root: __dirname + '/public/',
@@ -22,8 +32,10 @@ const defaultGetOptions = {
   }
 }
 const redisOptions = {
+  host: 'localhost',
   port: 6379,
-  ttl: 900
+  client: client,
+  ttl: 260
 }
 /**
  * Template Engine
@@ -34,13 +46,22 @@ app.set('views', path.join(__dirname, 'public', 'views'));
  * Middleware
  */
 app.use(helmet());
+app.use(helmet.hidePoweredBy());
 app.use(
   session({
     store: new RedisStore(redisOptions),
-    secret: 'some secret',
-    cookie: {secure: true}
+    secret: 'ssshhhhh',
+    saveUninitialized: false,
+    resave: false,
+    key: 'sessionid',
+    cookie: {
+      //secure: true,
+      httpOnly: true,
+      expires: new Date( Date.now() + 60 * 60 * 1000 )
+    }
   })
 );
+app.use(csrf());
 app.use(bodyParser.json({
   strict: true,
   limit: 100

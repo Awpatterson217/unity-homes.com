@@ -25,7 +25,7 @@ let isPassFormatted = function(password){
   // 1 uppercase
   // 1 lowercase
   // 1 number
-  if(!(validator.matches(password, passExp)))
+  if(!(validator.matches(password, safe(passExp))))
     return false;
   return true;
 }

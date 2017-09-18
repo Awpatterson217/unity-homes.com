@@ -2,20 +2,22 @@
 // VENDOR
 const express = require('express');
 const moment  = require('moment');
-const safe    = require('safe-regex')
+const safe    = require('safe-regex');
+const csrf    = require('csurf');
 // LOCAL
 const { findNewUser }     = require('../api/authenticate');
 const { register }        = require('../api/new');
 const { sanitize }        = require('../resources/js/sanitize');
 const { isPassFormatted } = require('../resources/js/sanitize');
 
-const router = express.Router();
+const csrfProtection = csrf();
+const router         = express.Router();
 
-router.get('/register', function(req, res) {
-  res.render('register');
+router.get('/register', csrfProtection, function(req, res) {
+  res.render('register', { csrfToken: req.csrfToken() });
 });
 
-router.post('/register', function(req, res, next) {
+router.post('/register', csrfProtection, function(req, res, next) {
   let time; // TODO Log time and req
   const NOW = new Date().getTime();
 

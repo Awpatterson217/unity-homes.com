@@ -19,8 +19,10 @@
   "dependencies": {
     "body-parser": "^1.17.2",
     "connect-redis": "^3.3.0",
+    "csurf": "^1.9.0",
     "ejs": "^2.5.7",
     "express": "^4.15.4",
+    "express-limiter": "^1.6.1",
     "express-session": "^1.15.5",
     "express-validator": "^4.1.1",
     "helmet": "^3.8.1",
