@@ -1,4 +1,4 @@
-"use strict";
+//"use strict";
 // VENDOR
 const express    = require('express');
 const moment     = require('moment');
