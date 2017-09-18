@@ -1,9 +1,10 @@
 "use strict";
 // VENDOR
-const express = require('express');
-const moment  = require('moment');
-const safe    = require('safe-regex');
-const csrf    = require('csurf');
+const express    = require('express');
+const moment     = require('moment');
+const safe       = require('safe-regex');
+const bodyParser = require('body-parser');
+const csrf       = require('csurf');
 // LOCAL
 const { findUser }        = require('../api/authenticate');
 const { sanitize }        = require('../resources/js/sanitize');
@@ -12,12 +13,15 @@ const { isPassFormatted } = require('../resources/js/sanitize');
 // {sessionKey: Math.random().toString(36).slice(2)}
 const csrfProtection = csrf({ cookie: true });
 const router         = express.Router();
+const parser         = bodyParser.urlencoded({
+  extended: true
+});
 
 router.get('/login', csrfProtection,function(req, res) {
   res.render('login', { csrfToken: req.csrfToken() });
 });
   
-router.post('/login', csrfProtection, function(req, res, next) {
+router.post('/login', parser, csrfProtection, function(req, res, next) {
   let time; // TODO Log time and req
   const NOW = new Date().getTime();
 

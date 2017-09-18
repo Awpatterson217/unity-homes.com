@@ -11,7 +11,9 @@ const ejs        = require('ejs');
 const client  = redis.createClient();
 const app     = express();
 const limiter = require('express-limiter')(app, client);
-
+const parser  = bodyParser.urlencoded({
+  extended: true
+});
 // Limit requests to 100 per hour per ip address.
 limiter({
   lookup: ['connection.remoteAddress'],
@@ -64,9 +66,7 @@ app.use(bodyParser.json({
   strict: true,
   limit: 100
 }));
-app.use(bodyParser.urlencoded({
-  extended: true
-})); 
+app.use(parser); 
 // Static
 app.use('/bootstrap', express.static(__dirname + '/public/vendor/bootstrap-4.0.0-alpha.6-dist/'));
 app.use('/vue', express.static(__dirname + '/public/vendor/vue/'));
