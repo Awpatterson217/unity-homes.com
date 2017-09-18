@@ -59,15 +59,11 @@ router.post('/login', csrfProtection, function(req, res, next) {
   });
 
 });
-router.use(csrf());
-router.use(function (request, response, next) {
- response.locals.csrftoken = request.csrfToken();
- next();
-});
+
 // handle csrf errors specifically
 router.use(function(err, req, res, next) {
     if (err.code !== 'EBADCSRFTOKEN') return next(err);
-    res.status(403).json({"error": "session has expired or tampered with"});
+    res.status(403).json({"ERROR": "session has expired or tampered with"});
 });
 
 /*
