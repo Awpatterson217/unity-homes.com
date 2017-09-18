@@ -2,7 +2,6 @@
 // VENDOR
 const express = require('express');
 const moment  = require('moment');
-const safe    = require('safe-regex');
 const csrf    = require('csurf');
 // LOCAL
 const { findNewUser }     = require('../api/authenticate');
@@ -21,15 +20,6 @@ router.get('/register', function(req, res) {
 router.post('/register', function(req, res, next) {
   let time; // TODO Log time and req
   const NOW = new Date().getTime();
-
-  if(!safe(req.body.code))
-    return res.render('register', { invalid: true });
-  if(!safe(req.body.email))
-    return res.render('register', { invalid: true });
-  if(!safe(req.body.password))
-    return res.render('register', { invalid: true });
-  if(!safe(req.body.confirmPassword))
-    return res.render('register', { invalid: true });
 
   let safeCode = sanitize(req.body.code, function(error, code) {
     if(error) // TODO Log error

@@ -2,7 +2,6 @@
 // VENDOR
 const express    = require('express');
 const moment     = require('moment');
-const safe       = require('safe-regex');
 const bodyParser = require('body-parser');
 const csrf       = require('csurf');
 // LOCAL
@@ -24,11 +23,6 @@ router.get('/login', function(req, res) {
 router.post('/login', function(req, res, next) {
   let time; // TODO Log time and req
   const NOW = new Date().getTime();
-
-  if(!safe(req.body.email))
-    return res.render('login', { invalid: true });
-  if(!safe(req.body.password))
-    return res.render('login', { invalid: true });
 
   let safeEmail = sanitize(req.body.email, function(error, email) {
     if(error) // TODO Log error
