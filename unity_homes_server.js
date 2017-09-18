@@ -76,11 +76,6 @@ app.use('/css', express.static(__dirname + '/public/resources/css/'));
 app.use('/js', express.static(__dirname + '/public/resources/js/'));
 app.use('/images', express.static(__dirname + '/public/resources/images/'));
 
-app.use(csrf());
-app.use(function (request, response, next) {
- response.locals.csrftoken = request.csrfToken();
- next();
-});
 // Routes
 for(let route in routes){
   app.use(routes[route]);
