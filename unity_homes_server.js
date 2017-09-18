@@ -61,7 +61,6 @@ app.use(
     }
   })
 );
-app.use(csrf());
 app.use(bodyParser.json({
   strict: true,
   limit: 100
@@ -76,6 +75,8 @@ app.use('/jquery', express.static(__dirname + '/public/vendor/jquery/'));
 app.use('/css', express.static(__dirname + '/public/resources/css/'));
 app.use('/js', express.static(__dirname + '/public/resources/js/'));
 app.use('/images', express.static(__dirname + '/public/resources/images/'));
+
+app.use(csrf());
 // Routes
 for(let route in routes){
   app.use(routes[route]);

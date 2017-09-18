@@ -4,7 +4,6 @@ const express = require('express');
 const moment  = require('moment');
 const safe    = require('safe-regex');
 const csrf    = require('csurf');
-
 // LOCAL
 const { findUser }        = require('../api/authenticate');
 const { sanitize }        = require('../resources/js/sanitize');
