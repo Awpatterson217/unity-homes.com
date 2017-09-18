@@ -4,7 +4,7 @@ const assert      = require('assert');
 const safe        = require('safe-regex')
 
 // DB URLs
-const registeredUsersURL     = 'mongodb://127.0.0.10:27017/registeredUsers';
+const registeredUsersURL   = 'mongodb://127.0.0.10:27017/registeredUsers';
 const unRegisteredUsersURL = 'mongodb://127.0.0.10:27017/unRegisteredUsers';
 
 // Create temporary user 
