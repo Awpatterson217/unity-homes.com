@@ -10,7 +10,7 @@ const { sanitize }        = require('../resources/js/sanitize');
 const { isPassFormatted } = require('../resources/js/sanitize');
 
 // {sessionKey: Math.random().toString(36).slice(2)}
-const csrfProtection = csrf();
+const csrfProtection = csrf({sessionKey: Math.random().toString(36).slice(2)});
 const router         = express.Router();
 
 router.get('/login', csrfProtection,function(req, res) {
