@@ -11,20 +11,18 @@ const { sanitize }        = require('../resources/js/sanitize');
 const { isPassFormatted } = require('../resources/js/sanitize');
 
 // {sessionKey: Math.random().toString(36).slice(2)}
-const csrfOptions = {
-  sessionKey: 'sessionid'
-}
-const csrfProtection = csrf();
+
+const csrfProtection = csrf({ sessionKey:'sessionid' });
 const router         = express.Router();
 const parseForm      = bodyParser.urlencoded({ extended: false });
 
-router.use(csrf(csrfOptions))
+//router.use(csrf({ sessionKey:'sessionid' }))
 
-router.get('/login', function(req, res) {
+router.get('/login', csrfProtection, function(req, res) {
   res.render('login', { csrfToken: req.csrfToken() });
 });
   
-router.post('/login', function(req, res, next) {
+router.post('/login',parseForm, csrfProtection, function(req, res, next) {
   let time; // TODO Log time and req
   const NOW = new Date().getTime();
 
