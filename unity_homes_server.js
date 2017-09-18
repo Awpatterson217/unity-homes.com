@@ -12,7 +12,7 @@ const ejs        = require('ejs');
 const port    = 3000;
 const host    = '127.0.0.4';
 const app     = express();
-const routes  = require('./routes');
+const routes  = require('./local/routes');
 const defaultGetOptions = {
   root: __dirname + '/public/',
   dotfiles: 'deny',
@@ -37,7 +37,8 @@ app.use(helmet());
 app.use(
   session({
     store: new RedisStore(redisOptions),
-    secret: 'keyboard cat',
+    secret: 'some secret',
+    cookie: {secure: true}
   })
 );
 app.use(bodyParser.json({

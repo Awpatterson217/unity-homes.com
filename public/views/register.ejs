@@ -6,41 +6,55 @@
 
       <% include ../includes/nav %>
 
-      <% include ../includes/inactiveModal %>
-
       <br />
 
+      <% if (!(typeof invalid == 'undefined')) { %>
+        <% if (invalid) { %>
+          <div class="alert alert-danger" role="alert">
+            <h4 class="alert-heading text-center">Invalid Registration!</h4>
+          </div>      
+      <% } %>
+      <% } %>
+
+      <% if (!(typeof match == 'undefined')) { %>
+        <% if (match) { %>
+          <div class="alert alert-danger" role="alert">
+            <h4 class="alert-heading text-center">Mismatched Passwords!</h4>
+          </div>      
+      <% } %>
+      <% } %>
+
       <div id='register'>
-        <form class="container" action="/registerUser" method="post" id="needs-validation" novalidate>
+        <form class="container" action="/register" method="post" novalidate>
           <h2 class="form-signin-heading">
             Register
           </h2>
           <div class="row">              
             <div class="col-md-12 mb-2">
               <label for="code" class="sr-only">Registration Code</label>              
-              <input type="text" class="form-control" id="code" placeholder="Registration Code" required autofocus>
+              <input type="text" class="form-control" name="code" id="code" placeholder="Registration Code" required autofocus>
             </div>
           </div>
           <div class="row">              
             <div class="col-md-12 mb-2">
               <label for="email" class="sr-only">Email</label>              
-              <input type="text" class="form-control" id="email" placeholder="Email" required>
+              <input type="text" class="form-control" name="email" id="email" placeholder="Email" required>
             </div>
           </div>
           <div class="row">
             <div class="col-md-12 mb-2">
               <label for="password" class="sr-only">Password</label>         
-              <input type="password" class="form-control" id="password" placeholder="Password" required>
+              <input type="password" class="form-control" name="password" id="password" placeholder="Password" required>
             </div>
           </div>
           <div class="row">  
             <div class="col-md-12 mb-2">
               <label for="confirmPassword" class="sr-only">Confirm Password</label>              
-              <input type="password" class="form-control" id="confirmPassword"  placeholder="Confirm Password" required>
+              <input type="password" class="form-control" name="confirmPassword" id="confirmPassword"  placeholder="Confirm Password" required>
             </div>
           </div>
           <div class="text-center">
-            <button class="btn btn-default" data-toggle="modal" data-target="#inactiveModal" type="submit">Submit</button>
+            <button class="btn btn-default" type="submit">Submit</button>
           </div>
         </form>
       </div>
@@ -50,22 +64,7 @@
     <% include ../includes/footer %>
 
     <% include ../includes/scripts %>
-        <script>
-      // VALIDATION
-      (function() {
-        "use strict";
-        window.addEventListener("load", function() {
-          var form = document.getElementById("needs-validation");
-          form.addEventListener("submit", function(event) {
-            if (form.checkValidity() == false) {
-              event.preventDefault();
-              event.stopPropagation();
-            }
-            form.classList.add("was-validated");
-          }, false);
-        }, false);
-      }());
-    </script>
+
     <script src='/js/passwordPopover.js'></script>
   </body>
 </html>
