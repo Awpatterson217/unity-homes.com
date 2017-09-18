@@ -54,7 +54,7 @@ app.use(
     secret: 'ssshhhhh',
     saveUninitialized: false,
     resave: false,
-    key: 'sessionid',
+    key: '_csrf',
     cookie: {
       //secure: true,
       httpOnly: true,
