@@ -10,7 +10,7 @@ const { register }        = require('../api/new');
 const { sanitize }        = require('../resources/js/sanitize');
 const { isPassFormatted } = require('../resources/js/sanitize');
 
-const csrfProtection = csrf();
+const csrfProtection = csrf({ cookie: true });
 const router         = express.Router();
 
 router.get('/register', csrfProtection, function(req, res) {
@@ -91,11 +91,12 @@ router.post('/register', csrfProtection, function(req, res, next) {
   });
 });
 
-router.use(csrf());
-router.use(function (request, response, next) {
- response.locals.csrftoken = request.csrfToken();
- next();
-});
+//router.use(csrf());
+//router.use(function (request, response, next) {
+// response.locals.csrftoken = request.csrfToken();
+// next();
+//});
+
 // handle csrf errors specifically
 router.use(function(err, req, res, next) {
     if (err.code !== 'EBADCSRFTOKEN') return next(err);
