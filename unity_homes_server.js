@@ -63,6 +63,7 @@ app.use(
   })
 );
 
+app.use(parser); 
 // Static
 app.use('/bootstrap', express.static(__dirname + '/public/vendor/bootstrap-4.0.0-alpha.6-dist/'));
 app.use('/vue', express.static(__dirname + '/public/vendor/vue/'));
