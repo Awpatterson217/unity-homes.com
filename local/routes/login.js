@@ -10,19 +10,18 @@ const { findUser }        = require('../api/authenticate');
 const { sanitize }        = require('../resources/js/sanitize');
 const { isPassFormatted } = require('../resources/js/sanitize');
 
-// {sessionKey: Math.random().toString(36).slice(2)}
-
-const csrfProtection = csrf({ sessionKey:'sessionid' });
+//const csrfProtection = csrf();
 const router         = express.Router();
-const parseForm      = bodyParser.urlencoded({ extended: false });
+//const parseForm      = bodyParser.urlencoded({ extended: false });
 
 //router.use(csrf({ sessionKey:'sessionid' }))
+// { csrfToken: req.csrfToken() }
 
-router.get('/login', csrfProtection, function(req, res) {
-  res.render('login', { csrfToken: req.csrfToken() });
+router.get('/login', function(req, res) {
+  res.render('login');
 });
   
-router.post('/login',parseForm, csrfProtection, function(req, res, next) {
+router.post('/login', function(req, res, next) {
   let time; // TODO Log time and req
   const NOW = new Date().getTime();
 
@@ -66,10 +65,10 @@ router.post('/login',parseForm, csrfProtection, function(req, res, next) {
 });
 
 // handle csrf errors specifically
-router.use(function(err, req, res, next) {
-    if (err.code !== 'EBADCSRFTOKEN') return next(err);
-    res.status(403).send("ERROR: session has expired or been tampered with");
-});
+//router.use(function(err, req, res, next) {
+//    if (err.code !== 'EBADCSRFTOKEN') return next(err);
+//    res.status(403).send("ERROR: session has expired or been tampered with");
+//});
 
 /*
 router.get('/logout',function(req,res){

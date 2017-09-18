@@ -10,14 +10,14 @@ const { register }        = require('../api/new');
 const { sanitize }        = require('../resources/js/sanitize');
 const { isPassFormatted } = require('../resources/js/sanitize');
 
-const csrfProtection = csrf();
+//const csrfProtection = csrf();
 const router         = express.Router();
 
-router.get('/register', csrfProtection, function(req, res) {
+router.get('/register', function(req, res) {
   res.render('register', { csrfToken: req.csrfToken() });
 });
 
-router.post('/register', csrfProtection, function(req, res, next) {
+router.post('/register', function(req, res, next) {
   let time; // TODO Log time and req
   const NOW = new Date().getTime();
 
@@ -98,9 +98,9 @@ router.post('/register', csrfProtection, function(req, res, next) {
 //});
 
 // handle csrf errors specifically
-router.use(function(err, req, res, next) {
-    if (err.code !== 'EBADCSRFTOKEN') return next(err);
-    res.status(403).send("ERROR: session has expired or been tampered with");
-});
+//router.use(function(err, req, res, next) {
+//    if (err.code !== 'EBADCSRFTOKEN') return next(err);
+//    res.status(403).send("ERROR: session has expired or been tampered with");
+//});
   
 module.exports = router;
