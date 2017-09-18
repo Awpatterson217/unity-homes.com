@@ -14,9 +14,11 @@ const { isPassFormatted } = require('../resources/js/sanitize');
 const csrfOptions = {
   sessionKey: 'sessionid'
 }
-const csrfProtection = csrf(csrfOptions);
+const csrfProtection = csrf();
 const router         = express.Router();
 const parseForm      = bodyParser.urlencoded({ extended: false });
+
+app.use(csrf(csrfOptions))
 
 router.get('/login', csrfProtection,function(req, res) {
   res.render('login', { csrfToken: req.csrfToken() });
