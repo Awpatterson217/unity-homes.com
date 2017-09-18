@@ -46,8 +46,8 @@ app.set('views', path.join(__dirname, 'public', 'views'));
 /**
  * Middleware
  */
-//app.use(helmet());
-//app.use(helmet.hidePoweredBy());
+app.use(helmet());
+app.use(helmet.hidePoweredBy());
 app.use(
   session({
     store: new RedisStore(redisOptions),
@@ -63,7 +63,6 @@ app.use(
   })
 );
 
-app.use(parser); 
 // Static
 app.use('/bootstrap', express.static(__dirname + '/public/vendor/bootstrap-4.0.0-alpha.6-dist/'));
 app.use('/vue', express.static(__dirname + '/public/vendor/vue/'));
