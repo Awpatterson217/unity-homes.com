@@ -46,8 +46,8 @@ app.set('views', path.join(__dirname, 'public', 'views'));
 /**
  * Middleware
  */
-app.use(helmet());
-app.use(helmet.hidePoweredBy());
+//app.use(helmet());
+//app.use(helmet.hidePoweredBy());
 app.use(
   session({
     store: new RedisStore(redisOptions),
