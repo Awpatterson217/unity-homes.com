@@ -1,7 +1,9 @@
 const validator = require('validator');
 const safe      = require('safe-regex');
 
-const passExp = /^(?=.*\d)(?=.*[a-zA-Z])[a-zA-Z0-9]{8,20}$/;
+const passExpl = /[a-z]{1}/;
+const passExpL = /[A-Z]{1}/;
+const passExpn = /[0-9]{1}/;
 
 let sanitize = function (input, callback) {
   // Is input a string?
@@ -26,7 +28,11 @@ let isPassFormatted = function(password){
   // 1 uppercase
   // 1 lowercase
   // 1 number
-  if(!(validator.matches(password, passExp))) // TODO: SAFE REGEXP
+  if(!(validator.matches(password, safe(passExpl)))) // TODO: SAFE REGEXP
+    return false;
+  if(!(validator.matches(password, safe(passExpL)))) // TODO: SAFE REGEXP
+    return false;
+  if(!(validator.matches(password, safe(passExpn)))) // TODO: SAFE REGEXP
     return false;
   return true;
 }

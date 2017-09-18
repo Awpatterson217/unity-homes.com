@@ -62,7 +62,7 @@ app.use(
     }
   })
 );
-
+// Body-Parser
 app.use(parser); 
 // Static
 app.use('/bootstrap', express.static(__dirname + '/public/vendor/bootstrap-4.0.0-alpha.6-dist/'));
@@ -71,7 +71,6 @@ app.use('/jquery', express.static(__dirname + '/public/vendor/jquery/'));
 app.use('/css', express.static(__dirname + '/public/resources/css/'));
 app.use('/js', express.static(__dirname + '/public/resources/js/'));
 app.use('/images', express.static(__dirname + '/public/resources/images/'));
-
 // Routes
 for(let route in routes){
   app.use(routes[route]);

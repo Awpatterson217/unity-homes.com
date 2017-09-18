@@ -11,10 +11,11 @@ const { sanitize }        = require('../resources/js/sanitize');
 const { isPassFormatted } = require('../resources/js/sanitize');
 
 //const csrfProtection = csrf();
-const router         = express.Router();
+//{ csrfToken: req.csrfToken() }
+const router = express.Router();
 
 router.get('/register', function(req, res) {
-  res.render('register', { csrfToken: req.csrfToken() });
+  res.render('register');
 });
 
 router.post('/register', function(req, res, next) {
