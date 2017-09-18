@@ -51,10 +51,10 @@ app.use(helmet.hidePoweredBy());
 app.use(
   session({
     store: new RedisStore(redisOptions),
-    secret: 'ssshhhhh',
+    secret: 'secret',
     saveUninitialized: false,
     resave: false,
-    key: '_csrf',
+    key: 'sessionid',
     cookie: {
       //secure: true,
       httpOnly: true,
@@ -62,10 +62,7 @@ app.use(
     }
   })
 );
-app.use(bodyParser.json({
-  strict: true,
-  limit: 100
-}));
+
 app.use(parser); 
 // Static
 app.use('/bootstrap', express.static(__dirname + '/public/vendor/bootstrap-4.0.0-alpha.6-dist/'));
