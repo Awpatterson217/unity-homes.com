@@ -1,7 +1,8 @@
 "use strict";
 const MongoClient = require('mongodb').MongoClient;
 const assert      = require('assert');
-const {sanitize}  = require('../../resources/js/sanitize');
+
+const {sanitize} = require('../../resources/js/sanitize');
 
 const DB   = 'mongodb://127.0.0.1:27017/unity';
 
@@ -14,7 +15,7 @@ let deleteRegUser = function (email, callback) {
   if (!safeEmail)
     return callback(new Error('Unsafe Input'));
   MongoClient.connect(DB, function(err, db) {
-    if(err)
+    if(err) // TODO Log error
       return callback(new Error('Could not connect to DB'));
     const collection = db.collection('registeredUsers');
     collection.deleteOne({'email': safeEmail}, function(err, user) {
@@ -35,7 +36,7 @@ let deleteUnregUser = function (email, callback) {
   if (!safeEmail)
     return callback(new Error('Unsafe Input'));
   MongoClient.connect(DB, function(err, db) {
-    if(err)
+    if(err) // TODO Log error
       return callback(new Error('Could not connect to DB'));
     const collection = db.collection('unregisteredUsers');
     collection.deleteMany({'email': safeEmail}, function(err, response) {

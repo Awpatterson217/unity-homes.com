@@ -1,7 +1,8 @@
 "use strict";
 const MongoClient = require('mongodb').MongoClient;
 const assert      = require('assert');
-const {sanitize}  = require('../../resources/js/sanitize');
+
+const {sanitize} = require('../../resources/js/sanitize');
 
 const DB   = 'mongodb://127.0.0.1:27017/unity';
 
@@ -14,7 +15,7 @@ let updateRegisteredUser = function (email, callback) {
   if (!safeEmail)
     return callback(new Error('Unsafe Input'));
   MongoClient.connect(DB, function(err, db) {
-    if(err)
+    if(err) // TODO Log error
       return callback(new Error('Could not connect to DB'));
     const collection = db.collection('registeredUsers');
     collection.updateOne({'email': safeEmail},{
@@ -25,7 +26,7 @@ let updateRegisteredUser = function (email, callback) {
       db.close();
       if(err)
         return callback(new Error('Deletion Failed for: ' + safeEmail));
-      return callback(null, newUser);
+      return callback(null, user);
     });
   });
 };
@@ -39,7 +40,7 @@ let updateUnregisteredUser = function (email, callback) {
   if (!safeEmail)
     return callback(new Error('Unsafe Input'));
   MongoClient.connect(DB, function(err, db) {
-    if(err)
+    if(err) // TODO Log error
       return callback(new Error('Could not connect to DB'));
     const collection = db.collection('unregisteredUsers');
     collection.updateOne({'email': safeEmail},{

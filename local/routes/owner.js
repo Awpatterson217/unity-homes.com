@@ -87,6 +87,8 @@ router.post('/owner/delete', function(req, res, next) {
   });
 });
 
+// TODO CSRF 
+
 // handle csrf errors specifically
 //router.use(function(err, req, res, next) {
 //    if (err.code !== 'EBADCSRFTOKEN') return next(err);

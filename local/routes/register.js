@@ -53,21 +53,24 @@ router.post('/register', function(req, res, next) {
     return res.render('register', { invalid: true });
   if(!safeConfirmPassword)
     return res.render('register', { invalid: true });
-  // Do the passwords match?
+
   if(safePassword !== safeConfirmPassword)
     return res.render('register', { match: true });
   
-  findUnregUser(safeCode, function(error, unRegUser) {
-    if(error)
+  findUnregUser(safeEmail, function(error, unRegUser) {
+    if(error) // TODO Log error
       return res.render('register', {
         invalid: true 
       });
+    // TODO Check reg code
     if(unRegUser.email !== safeEmail)
       return res.render('register', {
         invalid: true 
       });
   
     // return createRegUser(unRegUser, cbFunction(){ res.render('registered'); });
+
+    // TODO hash  
 
     // Temporary
     return res.render('registered', {
@@ -80,6 +83,8 @@ router.post('/register', function(req, res, next) {
 
   });
 });
+
+// TODO CSRF
 
 //router.use(csrf());
 //router.use(function (request, response, next) {

@@ -42,8 +42,9 @@ router.post('/login', function(req, res, next) {
     return res.render('login', { invalid: true });
 
   findRegUser(safeEmail, function(error, user) {
-    if(error)
+    if(error) // TODO Log error
       return res.render('login', { invalid: true });
+    // TODO hash  
     if(user.password !== safePassword)
       return res.render('login', { invalid: true });
     if(user.type === 'owner')
@@ -53,6 +54,8 @@ router.post('/login', function(req, res, next) {
   });
 
 });
+
+// TODO CSRF
 
 // handle csrf errors specifically
 //router.use(function(err, req, res, next) {

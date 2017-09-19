@@ -1,7 +1,8 @@
 "use strict";
 const MongoClient = require('mongodb').MongoClient;
 const assert      = require('assert');
-const {sanitize}  = require('../../resources/js/sanitize');
+
+const {sanitize} = require('../../resources/js/sanitize');
 
 const DB   = 'mongodb://127.0.0.1:27017/unity';
 
@@ -14,7 +15,7 @@ let findRegUser = function (email, callback) {
   if (!safeEmail)
     return callback(new Error('Unsafe Input'));
   MongoClient.connect(DB, function(err, db) {
-    if(err)
+    if(err) // TODO Log error
       return callback(new Error('Could not connect to DB'));
     const collection = db.collection('registeredUsers');
     collection.find({'email': safeEmail}).toArray(function(err, user) {
@@ -28,23 +29,25 @@ let findRegUser = function (email, callback) {
   });
 };
 
-let findUnregUser = function (code, callback) {
-  let safeCode = sanitize(code, function(error, code) {
-    if(error)
+let findUnregUser = function (email, callback) {
+  let safeEmail = sanitize(email, function(error, email) {
+    if(error) // TODO Log error
       return false;
-    return code;
+    return email;
   });
-  if (!safeCode)
+  if (!safeEmail)
     return callback(new Error('Unsafe Input!'));
   MongoClient.connect(DB, function(err, db) {
-    if(err)
+    if(err) // TODO Log error
       return callback(new Error('Could not connect to DB'));
     const collection = db.collection('unregisteredUsers');
-    collection.find({'code': safeCode}).toArray(function(err, user) {
+    collection.find({'email': safeEmail}).toArray(function(err, unRegUser) {
       db.close();
       if(err)
         return callback(new Error('Could not find ' + safeEmail));
-      return callback(null, user[0]);
+      if(!unRegUser.length)
+        return callback(new Error('Could not find ' + safeEmail));
+      return callback(null, unRegUser[0]);
     });
   });
 };
