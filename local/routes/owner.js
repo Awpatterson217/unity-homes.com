@@ -4,9 +4,9 @@ const moment     = require('moment');
 const bodyParser = require('body-parser');
 const csrf       = require('csurf');
 
-const {create}                 = require('../api/add');
-const {removeUnregisteredUser} = require('../api/remove');
-const {sanitize}               = require('../resources/js/sanitize');
+const {createUnregUser} = require('../api/tenants/create');
+const {deleteUnregUser} = require('../api/tenants/delete');
+const {sanitize}        = require('../resources/js/sanitize');
 
 //const csrfProtection = csrf();
 const router  = express.Router();
@@ -40,7 +40,7 @@ router.post('/owner/add', function(req, res, next) {
       insertSuccess: false,
       time: moment(NOW).format('LLL')
     });
-  create(safeEmail, safeCode, function(error, newUser) {
+  createUnregUser(safeEmail, safeCode, function(error, newUser) {
     if(error)
       return res.render('owner', {
         insertSuccess: false,
@@ -69,7 +69,7 @@ router.post('/owner/delete', function(req, res, next) {
       deleteSuccess: false,
       time: moment(NOW).format('LLL')
     });
-  removeUnregisteredUser(safeEmail, function(error, response) {
+  deleteUnregUser(safeEmail, function(error, response) {
     if(error)
       return res.render('owner', {
         deleteSuccess: false,
@@ -85,8 +85,8 @@ router.post('/owner/delete', function(req, res, next) {
       time: moment(NOW).format('LLL')
     });
   });
-
 });
+
 // handle csrf errors specifically
 //router.use(function(err, req, res, next) {
 //    if (err.code !== 'EBADCSRFTOKEN') return next(err);

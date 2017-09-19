@@ -3,10 +3,10 @@ const express = require('express');
 const moment  = require('moment');
 const csrf    = require('csurf');
 
-const { findNewUser }     = require('../api/authenticate');
-const { register }        = require('../api/add');
-const { sanitize }        = require('../resources/js/sanitize');
-const { isPassFormatted } = require('../resources/js/sanitize');
+const {findUnregUser}   = require('../api/tenants/read');
+const {createRegUser}   = require('../api/tenants/create');
+const {sanitize}        = require('../resources/js/sanitize');
+const {isPassFormatted} = require('../resources/js/sanitize');
 
 //const csrfProtection = csrf();
 //{ csrfToken: req.csrfToken() }
@@ -57,17 +57,17 @@ router.post('/register', function(req, res, next) {
   if(safePassword !== safeConfirmPassword)
     return res.render('register', { match: true });
   
-  findNewUser(safeCode, function(error, newUser) {
+  findUnregUser(safeCode, function(error, unRegUser) {
     if(error)
       return res.render('register', {
         invalid: true 
       });
-    if(newUser.email !== safeEmail)
+    if(unRegUser.email !== safeEmail)
       return res.render('register', {
         invalid: true 
       });
   
-    // return register(newUser, cbFunction(){ res.render('registered'); });
+    // return createRegUser(unRegUser, cbFunction(){ res.render('registered'); });
 
     // Temporary
     return res.render('registered', {

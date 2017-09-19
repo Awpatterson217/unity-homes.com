@@ -4,9 +4,9 @@ const moment     = require('moment');
 const bodyParser = require('body-parser');
 const csrf       = require('csurf');
 
-const { findUser }        = require('../api/authenticate');
-const { sanitize }        = require('../resources/js/sanitize');
-const { isPassFormatted } = require('../resources/js/sanitize');
+const {findRegUser}     = require('../api/tenants/read');
+const {sanitize}        = require('../resources/js/sanitize');
+const {isPassFormatted} = require('../resources/js/sanitize');
 
 //const csrfProtection = csrf();
 const router         = express.Router();
@@ -41,7 +41,7 @@ router.post('/login', function(req, res, next) {
   if(!safePassword)
     return res.render('login', { invalid: true });
 
-  findUser(safeEmail, function(error, user) {
+  findRegUser(safeEmail, function(error, user) {
     if(error)
       return res.render('login', { invalid: true });
     if(user.password !== safePassword)
