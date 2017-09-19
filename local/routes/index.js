@@ -5,6 +5,7 @@ const apply      = require('./apply.js');
 const contact    = require('./contact.js');
 const register   = require('./register.js');
 const login      = require('./login.js');
+const owner      = require('./owner.js');
 
 module.exports = {
 home:       home,
@@ -13,4 +14,5 @@ apply:      apply,
 contact:    contact,
 register:   register,
 login:      login,
+owner:      owner
 }

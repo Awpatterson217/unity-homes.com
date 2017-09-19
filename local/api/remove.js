@@ -5,8 +5,8 @@ const {sanitize} = require('../resources/js/sanitize')
 
 const db   = 'mongodb://127.0.0.1:27017/unity';
 
-let findUser = function (email, callback) {
-  let safeEmail = sanitize(email, function(error, email) {
+let removeRegisteredUser = function (email, callback) {
+  let safeEmail = sanitize(email, function(error, response) {
     if(error) // TODO Log error
       return false;
     return email;
@@ -17,39 +17,37 @@ let findUser = function (email, callback) {
     if(err)
       return callback(new Error('Could not connect to DB'));
     const collection = db.collection('registeredUsers');
-    collection.find({'email': safeEmail}).toArray(function(err, user) {
+    collection.deleteOne({'email': safeEmail}, function(err, user) {
       if(err)
-        return callback(new Error('Could not find ' + safeEmail));
+        return callback(new Error('Deletion Failed for: ' + safeEmail));
       db.close();
-      return callback(null, user[0]);
+      return callback(null, newUser);
     });
   });
 };
 
-let findNewUser = function (code, callback) {
-  let safeCode = sanitize(code, function(error, code) {
-    if(error)
+let removeUnregisteredUser = function (email, callback) {
+  let safeEmail = sanitize(email, function(error, response) {
+    if(error) // TODO Log error
       return false;
-    return code;
+    return email;
   });
-
-  if (!safeCode)
-    return callback(new Error('Unsafe Input!'));
-
+  if (!safeEmail)
+    return callback(new Error('Unsafe Input'));
   MongoClient.connect(db, function(err, db) {
     if(err)
       return callback(new Error('Could not connect to DB'));
     const collection = db.collection('unregisteredUsers');
-    collection.find({'code': safeCode}).toArray(function(err, user) {
+    collection.deleteMany({'email': safeEmail}, function(err, response) {
       if(err)
-        return callback(new Error('Could not find ' + safeEmail));
+        return callback(new Error('Deletion Failed for: ' + safeEmail));
       db.close();
-      return callback(null, user[0]);
+      return callback(null, response);
     });
   });
 };
 
 module.exports = {
-  findUser: findUser,
-  findNewUser: findNewUser
+  removeRegisteredUser: removeRegisteredUser,
+  removeUnregisteredUser: removeUnregisteredUser
 }

@@ -1,10 +1,9 @@
 "use strict";
-// VENDOR
 const express    = require('express');
 const moment     = require('moment');
 const bodyParser = require('body-parser');
 const csrf       = require('csurf');
-// LOCAL
+
 const { findUser }        = require('../api/authenticate');
 const { sanitize }        = require('../resources/js/sanitize');
 const { isPassFormatted } = require('../resources/js/sanitize');
@@ -45,13 +44,10 @@ router.post('/login', function(req, res, next) {
   findUser(safeEmail, function(error, user) {
     if(error)
       return res.render('login', { invalid: true });
-    
     if(user.password !== safePassword)
       return res.render('login', { invalid: true });
-    
     if(user.type === 'owner')
       return res.render('owner', {time: moment(NOW).format('LLL')});
-    
     if(user.type === 'tenant')
       return res.render('tenant', {time: moment(NOW).format('LLL')});
   });

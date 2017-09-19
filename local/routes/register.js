@@ -1,11 +1,10 @@
 "use strict";
-// VENDOR
 const express = require('express');
 const moment  = require('moment');
 const csrf    = require('csurf');
-// LOCAL
+
 const { findNewUser }     = require('../api/authenticate');
-const { register }        = require('../api/new');
+const { register }        = require('../api/add');
 const { sanitize }        = require('../resources/js/sanitize');
 const { isPassFormatted } = require('../resources/js/sanitize');
 
