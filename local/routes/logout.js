@@ -7,7 +7,7 @@ const router = express.Router();
 router.get('/logout', function(req, res) {
   let time; // TODO Log time and req
   const NOW = new Date().getTime();
-  res.render('home');
+  res.redirect('/home');
 
 /*
   req.session.destroy(function(err){
