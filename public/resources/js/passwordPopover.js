@@ -14,6 +14,5 @@ const options = {
   };
 
 $(window).on('load', function(){
-    $('#mytext').popover();
     $('#password').popover(options);
 });
