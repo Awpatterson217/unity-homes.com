@@ -12,7 +12,7 @@ const client  = redis.createClient();
 const app     = express();
 const limiter = require('express-limiter')(app, client);
 const parser  = bodyParser.urlencoded({
-  extended: true
+  extended: false
 });
 
 // 100 per hour per IP
@@ -41,7 +41,13 @@ const redisOptions = {
 }
 
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'public', 'views'));
+app.set('views', [
+  path.join(__dirname, 'public', 'views'),
+  path.join(__dirname, 'public', 'dashboard_admin'),
+  path.join(__dirname, 'public', 'dashboard_admin', 'unregUsers'),
+  path.join(__dirname, 'public', 'dashboard_admin', 'regUsers'),
+  path.join(__dirname, 'public', 'dashboard_tenant')
+]);
 
 app.use(helmet());
 app.use(helmet.hidePoweredBy());
@@ -78,4 +84,19 @@ const server = app.listen(port, host, () => {
   const port = server.address().port;
   console.log(`Server running at http://${host}:${port}`);
 });
-  
+
+//        TODO
+// bcrypt.js (passwords)
+// Redis sessions / CSRF
+// Read 'session secret' from private file
+// SSL / TSL
+// Better input validation
+// API for applicants
+// API for properties
+// Vue.js dashboard app
+// Billing system
+// Logs
+// Graphics, design, favicon, etc.
+// Grunt.js or Webpack
+// Refactor code / tweek performance
+// Break it

@@ -1,29 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-  <% include ../includes/head %>
+  <% include ../../includes/head %>
   <body>
     <div class="container">
 
     <br />      
     <br />
-    <a href="/login">Back</a>
+    <a href="/admin">Back</a>
     <br />
 
-    <h2>Welcome Owner</h2>
-    <br />
-    <h4>
-      Time: <%= time %>
-    </h4>
-
-      <% if (!(typeof insertSuccess == 'undefined')) { %>
-        <% if (!insertSuccess) { %>
+      <% if (!(typeof createSuccess == 'undefined')) { %>
+        <% if (!createSuccess) { %>
           <div class="alert alert-danger" role="alert">
-            <h4 class="alert-heading text-center">Insertion Unsuccessful!</h4>
+            <h4 class="alert-heading text-center">Creation Unsuccessful!</h4>
           </div>      
         <% } %>
-        <% if (insertSuccess) { %>
+        <% if (createSuccess) { %>
           <div class="alert alert-success" role="alert">
-            <h4 class="alert-heading text-center">Insertion Successful!</h4>
+            <h4 class="alert-heading text-center">Creation Successful!</h4>
           </div>      
         <% } %>
       <% } %>
@@ -42,8 +36,8 @@
       <% } %>
 
       <div class="form-group form-signin">
-        <form action="/owner/add" method="post">
-          <h2 class="form-signin-heading">Add Tenant Account</h2>
+        <form action="/unregUsers/create" method="post">
+          <h2 class="form-signin-heading">Add Unregistered Account</h2>
           <label for="email" class="sr-only">Email</label>
           <input type="email" name="email" class="form-control form-control-warning" placeholder="Email" required autofocus>
           <label for="code" class="sr-only">Code</label>
@@ -53,14 +47,14 @@
       </div>
 
       <div class="form-group form-signin">
-        <form action="/owner/delete" method="post">
-          <h2 class="form-signin-heading">Delete Tenant Account</h2>
+        <form action="/unregUsers/delete" method="post">
+          <h2 class="form-signin-heading">Delete Unregistered Account</h2>
           <label for="email" class="sr-only">Email</label>
           <input type="email" name="email" class="form-control form-control-warning" placeholder="Email" required autofocus>
           <button class="btn btn-md btn-default btn-block" type="submit">Submit</button>
         </form>
       </div>
 
-    <% include ../includes/scripts %>
+    <% include ../../includes/scripts %>
   </body>
 </html>

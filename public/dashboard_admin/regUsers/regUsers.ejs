@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <% include ../../includes/head %>
+  <body>
+    <div class="container">
+
+    <br />      
+    <br />
+    <a href="/admin">Back</a>
+    <br />
+
+      <% if (!(typeof createSuccess == 'undefined')) { %>
+        <% if (!createSuccess) { %>
+          <div class="alert alert-danger" role="alert">
+            <h4 class="alert-heading text-center">Creation Unsuccessful!</h4>
+          </div>      
+        <% } %>
+        <% if (createSuccess) { %>
+          <div class="alert alert-success" role="alert">
+            <h4 class="alert-heading text-center">Creation Successful!</h4>
+          </div>      
+        <% } %>
+      <% } %>
+
+      <% if (!(typeof deleteSuccess == 'undefined')) { %>
+        <% if (!deleteSuccess) { %>
+          <div class="alert alert-danger" role="alert">
+            <h4 class="alert-heading text-center">Deletion Unsuccessful!</h4>
+          </div>      
+        <% } %>
+        <% if (deleteSuccess) { %>
+          <div class="alert alert-success" role="alert">
+            <h4 class="alert-heading text-center">Deletion Successful!</h4>
+          </div>      
+        <% } %>
+      <% } %>
+
+      <% if (!(typeof match == 'undefined')) { %>
+        <% if (!match) { %>
+          <div class="alert alert-danger" role="alert">
+            <h4 class="alert-heading text-center">Mismatched Passwords!</h4>
+          </div>      
+      <% } %>
+      <% } %>
+
+      <div class="form-group form-signin">
+        <form action="/regUsers/create" method="post">
+          <h2 class="form-signin-heading">Create Registered Account</h2>
+          <label for="email" class="sr-only">Email</label>              
+          <input type="text" class="form-control form-control-warning" name="email" placeholder="Email" required>
+          <label for="password" class="sr-only">Password</label>         
+          <input type="password" class="form-control form-control-warning"  name="password" placeholder="Password" required>
+          <label for="passwordTwo" class="sr-only">Confirm Password</label>              
+          <input type="password" class="form-control form-control-warning"  name="passwordTwo" placeholder="Confirm Password" required>
+          <button class="btn btn-md btn-default btn-block" type="submit">Submit</button>
+        </form>
+      </div>
+
+      <div class="form-group form-signin">
+        <form action="/regUsers/delete" method="post">
+          <h2 class="form-signin-heading">Delete Registered Account</h2>
+          <label for="email" class="sr-only">Email</label>
+          <input type="email" name="email" class="form-control form-control-warning" placeholder="Email" required>
+          <button class="btn btn-md btn-default btn-block" type="submit">Submit</button>
+        </form>
+      </div>
+
+    <% include ../../includes/scripts %>
+  </body>
+</html>

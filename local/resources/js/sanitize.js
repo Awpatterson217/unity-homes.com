@@ -1,3 +1,4 @@
+"use strict";
 const validator = require('validator');
 const safe      = require('safe-regex');
 
@@ -5,18 +6,21 @@ const passExpl = /(?=.*[a-z])/;
 const passExpL = /(?=.*[A-Z])/;
 const passExpn = /(?=.*[0-9])/;
 
-let sanitize = function (input, callback) {
-  if(typeof input !== 'string')
-    return callback(new Error('Not a string'));
-  let trimmed = validator.trim(input);
-  if(validator.isEmpty(trimmed))
-    return callback(new Error('Empty'));
-  // Replace <, >, &, ', " and / with HTML entities.
-  let escaped = validator.escape(trimmed);
-  return callback(null, escaped);
+let sanitize = function (input) {
+  let response;
+  let trimmed;
+  if(typeof input === 'string'){
+    trimmed = validator.trim(input);
+    if(!validator.isEmpty(trimmed)){
+      return response = validator.escape(trimmed);
+    }
+  }
+  return false;
 };
 
-let isPassFormatted = function(password){
+let passFormat = function(password){
+  if(!password)
+    return false;
   // Is password 8-20 characters
   if(!(validator.isLength(password, {min: 8, max: 20})))
     return false;
@@ -43,5 +47,5 @@ let isPassFormatted = function(password){
 
 module.exports = {
   sanitize: sanitize,
-  isPassFormatted: isPassFormatted
+  passFormat: passFormat
 }

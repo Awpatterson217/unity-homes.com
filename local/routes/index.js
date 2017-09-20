@@ -5,14 +5,22 @@ const apply      = require('./apply.js');
 const contact    = require('./contact.js');
 const register   = require('./register.js');
 const login      = require('./login.js');
-const owner      = require('./owner.js');
+const logout     = require('./logout.js');
+const admin      = require('./dashboard_admin/admin.js');
+const unregUsers = require('./dashboard_admin/unregUsers/unregUsers.js');
+const regUsers   = require('./dashboard_admin/regUsers/regUsers.js');
+const tenant     = require('./dashboard_tenant/tenant.js');
 
 module.exports = {
-home:       home,
-properties: properties,
-apply:      apply,
-contact:    contact,
-register:   register,
-login:      login,
-owner:      owner
+  home:       home,
+  properties: properties,
+  apply:      apply,
+  contact:    contact,
+  register:   register,
+  login:      login,
+  logout:     logout,
+  admin:      admin,
+  unregUsers: unregUsers,
+  regUsers:   regUsers,
+  tenant:     tenant
 }

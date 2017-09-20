@@ -5,8 +5,11 @@ const csrf    = require('csurf');
 
 const {findUnregUser}   = require('../api/tenants/read');
 const {createRegUser}   = require('../api/tenants/create');
-const {sanitize}        = require('../resources/js/sanitize');
-const {isPassFormatted} = require('../resources/js/sanitize');
+
+const {checkEmail}     = require('../resources/js/check');
+const {checkCode}      = require('../resources/js/check');
+const {checkPass}      = require('../resources/js/check');
+const {checkPassTwo}   = require('../resources/js/check');
 
 //const csrfProtection = csrf();
 //{ csrfToken: req.csrfToken() }
@@ -16,71 +19,41 @@ router.get('/register', function(req, res) {
   res.render('register');
 });
 
-router.post('/register', function(req, res, next) {
+router.post('/register', checkCode, checkEmail, checkPass, checkPassTwo, function(req, res, next) {
   let time; // TODO Log time and req
   const NOW = new Date().getTime();
 
-  let safeCode = sanitize(req.body.code, function(error, code) {
-    if(error) // TODO Log error
-      return false;
-    return code;
-  });
-  let safeEmail = sanitize(req.body.email, function(error, email) {
-    if(error) // TODO Log error
-      return false;
-    return email;
-  });
-  let safePassword = sanitize(req.body.password, function(error, password) {
-    if(error) // TODO Log error
-      return false;
-    if(!isPassFormatted(password))
-      return false;
-    return password;
-  });
-  let safeConfirmPassword = sanitize(req.body.confirmPassword, function(error, password) {
-    if(error) // TODO Log error
-      return false;
-    if(!isPassFormatted(password))
-      return false;
-    return password;
-  });
+  const code        = req.body.code;
+  const email       = req.body.email;
+  const password    = req.body.password;
+  const passwordTwo = req.body.passwordTwo;
 
-  if(!safeCode)
-    return res.render('register', { invalid: true });
-  if(!safeEmail)
-    return res.render('register', { invalid: true });
-  if(!safePassword)
-    return res.render('register', { invalid: true });
-  if(!safeConfirmPassword)
-    return res.render('register', { invalid: true });
+  if(!code || !email || !password || !passwordTwo)
+    return res.render('register', {invalid: true});
 
-  if(safePassword !== safeConfirmPassword)
-    return res.render('register', { match: true });
+  if(password !== passwordTwo)
+    return res.render('register', {match: false});
   
-  findUnregUser(safeEmail, function(error, unRegUser) {
+  findUnregUser(email, function(error, unRegUser) {
+
     if(error) // TODO Log error
-      return res.render('register', {
-        invalid: true 
-      });
-    // TODO Check reg code
-    if(unRegUser.email !== safeEmail)
-      return res.render('register', {
-        invalid: true 
-      });
-  
-    // return createRegUser(unRegUser, cbFunction(){ res.render('registered'); });
+      return res.render('register', {invalid: true});
 
-    // TODO hash  
+    if(unRegUser.code !== code)
+      return res.render('register', {invalid: true});
 
-    // Temporary
-    return res.render('registered', {
-      time: moment(NOW).format('LLL'),
-      code: safeCode,
-      email: safeEmail,
-      type: newUser.type,
-      password: safePassword
+    createRegUser(email, password, function(error, regUser) {
+
+      if(error)
+        return res.render('register', {invalid: true});
+              
+      return res.render('registered', {
+        time: moment(NOW).format('LLL'),
+        email: email,
+        type: regUser.type,
+        password: password
+      });
     });
-
   });
 });
 

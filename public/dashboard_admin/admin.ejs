@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <% include ../includes/head %>
+  <body>
+    <div class="container">
+
+      <br />
+      <a href="/logout">Logout</a>
+      <br />
+
+      <h2>Welcome, Admin.</h2>
+      <br />
+      <h4>
+        Time: <%= time %>
+      </h4>
+
+      <br />
+      <a href="/unregUsers">Add/Remove Unregistered Users</a>
+      <br />
+
+      <br />
+        <a href="/regUsers">Add/Remove Registered Users</a>
+      <br />
+
+    </div>
+
+    <% include ../includes/scripts %>
+  </body>
+</html>

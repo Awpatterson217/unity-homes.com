@@ -1,48 +1,48 @@
 "use strict";
 const MongoClient = require('mongodb').MongoClient;
-const assert      = require('assert');
 
-const {sanitize} = require('../../resources/js/sanitize');
+const {safeEmail} = require('../../resources/js/safe');
 
-const DB   = 'mongodb://127.0.0.1:27017/unity';
+const DB = 'mongodb://127.0.0.1:27017/unity';
 
 let deleteRegUser = function (email, callback) {
-  let safeEmail = sanitize(email, function(error, response) {
-    if(error) // TODO Log error
-      return false;
-    return email;
-  });
-  if (!safeEmail)
+
+  let thisEmail = safeEmail(email);
+  if(!thisEmail)
     return callback(new Error('Unsafe Input'));
+
   MongoClient.connect(DB, function(err, db) {
     if(err) // TODO Log error
       return callback(new Error('Could not connect to DB'));
     const collection = db.collection('registeredUsers');
-    collection.deleteOne({'email': safeEmail}, function(err, user) {
+    collection.deleteMany({
+      'email': thisEmail,
+      'type': 'tenant'
+    }, function(err, response) {
       db.close();      
       if(err)
-        return callback(new Error('Deletion Failed for: ' + safeEmail));
-      return callback(null, newUser);
+        return callback(new Error('Deletion Failed for: ' + thisEmail));
+      return callback(null, response);
     });
   });
 };
 
 let deleteUnregUser = function (email, callback) {
-  let safeEmail = sanitize(email, function(error, response) {
-    if(error) // TODO Log error
-      return false;
-    return email;
-  });
-  if (!safeEmail)
+
+  let thisEmail = safeEmail(email);
+  if(!thisEmail)
     return callback(new Error('Unsafe Input'));
+    
   MongoClient.connect(DB, function(err, db) {
     if(err) // TODO Log error
       return callback(new Error('Could not connect to DB'));
     const collection = db.collection('unregisteredUsers');
-    collection.deleteMany({'email': safeEmail}, function(err, response) {
+    collection.deleteMany({
+      'email': thisEmail
+    }, function(err, response) {
       db.close();
       if(err)
-        return callback(new Error('Deletion Failed for: ' + safeEmail));
+        return callback(new Error('Deletion Failed for: ' + thisEmail));
       return callback(null, response);
     });
   });

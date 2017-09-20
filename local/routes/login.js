@@ -4,12 +4,12 @@ const moment     = require('moment');
 const bodyParser = require('body-parser');
 const csrf       = require('csurf');
 
-const {findRegUser}     = require('../api/tenants/read');
-const {sanitize}        = require('../resources/js/sanitize');
-const {isPassFormatted} = require('../resources/js/sanitize');
+const {findRegUser} = require('../api/tenants/read');
+const {checkEmail}  = require('../resources/js/check');
+const {checkPass}   = require('../resources/js/check');
 
 //const csrfProtection = csrf();
-const router         = express.Router();
+const router = express.Router();
 //const parseForm      = bodyParser.urlencoded({ extended: false });
 
 //router.use(csrf({ sessionKey:'sessionid' }))
@@ -19,42 +19,35 @@ router.get('/login', function(req, res) {
   res.render('login');
 });
   
-router.post('/login', function(req, res, next) {
+router.post('/login', checkEmail, checkPass, function(req, res, next) {
   let time; // TODO Log time and req
   const NOW = new Date().getTime();
+  
+  const email    = req.body.email;
+  const password = req.body.password;
 
-  let safeEmail = sanitize(req.body.email, function(error, email) {
-    if(error) // TODO Log error
-      return false;
-    return email;
-  });
-  let safePassword = sanitize(req.body.password, function(error, password) {
-    if(error) // TODO Log error
-      return false;
-    if(!isPassFormatted(password))
-      return false;
-    return password;
-  });
-
-  if(!safeEmail)
+  if(!email)
     return res.render('login', { invalid: true });
-  if(!safePassword)
+  if(!password)
     return res.render('login', { invalid: true });
 
-  findRegUser(safeEmail, function(error, user) {
+  findRegUser(email, function(error, regUser) {
     if(error) // TODO Log error
       return res.render('login', { invalid: true });
     // TODO hash  
-    if(user.password !== safePassword)
+    if(regUser.password !== password)
       return res.render('login', { invalid: true });
-    if(user.type === 'owner')
-      return res.render('owner', {time: moment(NOW).format('LLL')});
-    if(user.type === 'tenant')
+    if(regUser.type === 'admin')
+      return res.render('admin', {time: moment(NOW).format('LLL')});
+    if(regUser.type === 'tenant')
       return res.render('tenant', {time: moment(NOW).format('LLL')});
   });
 
 });
 
+/*
+res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
+*/
 // TODO CSRF
 
 // handle csrf errors specifically
@@ -62,17 +55,5 @@ router.post('/login', function(req, res, next) {
 //    if (err.code !== 'EBADCSRFTOKEN') return next(err);
 //    res.status(403).send("ERROR: session has expired or been tampered with");
 //});
-
-/*
-router.get('/logout',function(req,res){
-  req.session.destroy(function(err){
-      if(err){
-          console.log(err);
-      } else {
-          res.redirect('/home');
-      }
-  });
-});
-*/
 
 module.exports = router;
