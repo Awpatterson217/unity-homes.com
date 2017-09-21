@@ -1,8 +1,8 @@
 "use strict";
 const validator = require('validator');
 
-const {sanitize}   = require('./sanitize');
-const {passFormat} = require('./sanitize');
+const {sanitize}     = require('./sanitize');
+const {isPassFormat} = require('./sanitize');
 
 let checkEmail = function(req, res, next){
   let email = sanitize(req.body.email);
@@ -10,7 +10,7 @@ let checkEmail = function(req, res, next){
     req.body.email = email;
     return next();
   }
-  req.body.email = false;
+  req.body.email = '';
   return next();
 }
 
@@ -20,27 +20,27 @@ let checkCode = function(req, res, next){
     req.body.code = code;
     return next();
   }
-  req.body.code = false;
+  req.body.code = '';
   return next();
 }
 
 let checkPass = function(req, res, next){
   let pass = sanitize(req.body.password);
-  if(passFormat(pass)){
+  if(isPassFormat(pass)){
     req.body.password = pass;
     return next();
   }
-  req.body.password = false;
+  req.body.password = '';
   return next();
 }
 
 let checkPassTwo = function(req, res, next){
   let pass = sanitize(req.body.passwordTwo);
-  if(passFormat(pass)){
+  if(isPassFormat(pass)){
     req.body.passwordTwo = pass;
     return next();
   }
-  req.body.passwordTwo = false;
+  req.body.passwordTwo = '';
   return next();
 }
 

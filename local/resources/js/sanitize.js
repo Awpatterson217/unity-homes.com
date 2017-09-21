@@ -15,10 +15,10 @@ let sanitize = function (input) {
       return response = validator.escape(trimmed);
     }
   }
-  return false;
+  return '';
 };
 
-let passFormat = function(password){
+let isPassFormat = function(password){
   if(!password)
     return false;
   // Is password 8-20 characters
@@ -47,5 +47,5 @@ let passFormat = function(password){
 
 module.exports = {
   sanitize: sanitize,
-  passFormat: passFormat
+  isPassFormat: isPassFormat
 }

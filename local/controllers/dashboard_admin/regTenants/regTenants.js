@@ -2,9 +2,7 @@
 const express    = require('express');
 const moment     = require('moment');
 
-const {createRegUser} = require('../../../api/tenants/create');
-const {deleteRegUser} = require('../../../api/tenants/delete');
-
+const registeredTenant = require('../../../models/tenant/registeredTenant');
 const {checkEmail}     = require('../../../resources/js/check');
 const {checkPass}      = require('../../../resources/js/check');
 const {checkPassTwo}   = require('../../../resources/js/check');
@@ -21,7 +19,7 @@ router.post('/regUsers/create', checkEmail, checkPass, checkPassTwo, function(re
   const password    = req.body.password;
   const passwordTwo = req.body.passwordTwo;
 
-  if(!email)
+  if(email === '' || password === '' || passwordTwo === '')
     return res.render('regUsers', {
       createSuccess: false
     });
@@ -40,11 +38,15 @@ router.post('/regUsers/create', checkEmail, checkPass, checkPassTwo, function(re
       match: false 
     });
 
-  createRegUser(email, password, function(error, regUser) {
-    if(error)
+  registeredTenant.setValue('email', email);
+  registeredTenant.hash(password);
+  registeredTenant.setValue('timestamp',  Math.floor(Date.now() / 1000).toString());
+  registeredTenant.create(function(error, user){
+    if(error !== null){
       return res.render('regUsers', {
         createSuccess: false
       });
+    }
     return res.render('regUsers', {
       createSuccess: true,
     });
@@ -55,17 +57,20 @@ router.post('/regUsers/delete', checkEmail, function(req, res, next) {
 
   const email = req.body.email;
 
-  if(!email)
+  if(email === '')
     return res.render('regUsers', {
       deleteSuccess: false
     });
-    
-  deleteRegUser(email, function(error, response) {
-    if(error)
+
+  registeredTenant.delete({
+    'email': email,
+    'type': 'tenant'
+  }, function(error, numOfDeletes) {
+    if(error !== null)
       return res.render('regUsers', {
         deleteSuccess: false
       });
-    if(!response.deletedCount)
+    if(!numOfDeletes)
       return res.render('regUsers', {
         deleteSuccess: false
       });

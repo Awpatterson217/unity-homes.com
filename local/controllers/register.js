@@ -3,13 +3,12 @@ const express = require('express');
 const moment  = require('moment');
 const csrf    = require('csurf');
 
-const {findUnregUser}   = require('../api/tenants/read');
-const {createRegUser}   = require('../api/tenants/create');
-
-const {checkEmail}     = require('../resources/js/check');
-const {checkCode}      = require('../resources/js/check');
-const {checkPass}      = require('../resources/js/check');
-const {checkPassTwo}   = require('../resources/js/check');
+const registeredTenant   = require('../models/tenant/registeredTenant');
+const unregisteredTenant = require('../models/tenant/unregisteredTenant');
+const {checkEmail}       = require('../resources/js/check');
+const {checkCode}        = require('../resources/js/check');
+const {checkPass}        = require('../resources/js/check');
+const {checkPassTwo}     = require('../resources/js/check');
 
 //const csrfProtection = csrf();
 //{ csrfToken: req.csrfToken() }
@@ -28,33 +27,35 @@ router.post('/register', checkCode, checkEmail, checkPass, checkPassTwo, functio
   const password    = req.body.password;
   const passwordTwo = req.body.passwordTwo;
 
-  if(!code || !email || !password || !passwordTwo)
+  if(code === '' || email === '' || password === '' || passwordTwo === '')
     return res.render('register', {invalid: true});
 
   if(password !== passwordTwo)
     return res.render('register', {match: false});
-  
-  findUnregUser(email, function(error, unRegUser) {
 
-    if(error) // TODO Log error
+  unregisteredTenant.find({'email': email, 'code': code}, function(error, user, numOfUsers){
+    if(error !== null)
       return res.render('register', {invalid: true});
-
-    if(unRegUser.code !== code)
-      return res.render('register', {invalid: true});
-
-    createRegUser(email, password, function(error, regUser) {
-
-      if(error)
-        return res.render('register', {invalid: true});
-              
-      return res.render('registered', {
-        time: moment(NOW).format('LLL'),
-        email: email,
-        type: regUser.type,
-        password: password
+    if(numOfUsers === 1){
+      registeredTenant.setValue('email', email);
+      registeredTenant.hash(password);
+      registeredTenant.setValue('timestamp', Math.floor(Date.now() / 1000).toString());
+      registeredTenant.create(function(error, user){
+        if(error !== null){
+          return res.render('register', {invalid: true});
+        }
+        return res.render('registered', {
+          time: moment(NOW).format('LLL'),
+          email:    email,
+          type:     user.type,
+          password: password
+        });
       });
-    });
+    }else{
+      return res.render('register', {invalid: true});
+    }
   });
+
 });
 
 // TODO CSRF

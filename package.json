@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Awpatterson217/unity-homes.com#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.17.2",
     "connect-redis": "^3.3.0",
     "csurf": "^1.9.0",

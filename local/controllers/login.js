@@ -4,9 +4,9 @@ const moment     = require('moment');
 const bodyParser = require('body-parser');
 const csrf       = require('csurf');
 
-const {findRegUser} = require('../api/tenants/read');
-const {checkEmail}  = require('../resources/js/check');
-const {checkPass}   = require('../resources/js/check');
+const registeredTenant = require('../models/tenant/registeredTenant');
+const {checkEmail}     = require('../resources/js/check');
+const {checkPass}      = require('../resources/js/check');
 
 //const csrfProtection = csrf();
 const router = express.Router();
@@ -20,26 +20,21 @@ router.get('/login', function(req, res) {
 });
   
 router.post('/login', checkEmail, checkPass, function(req, res, next) {
-  let time; // TODO Log time and req
+  let time;
   const NOW = new Date().getTime();
   
   const email    = req.body.email;
   const password = req.body.password;
 
-  if(!email)
-    return res.render('login', { invalid: true });
-  if(!password)
+  if(email === '' || password === '')
     return res.render('login', { invalid: true });
 
-  findRegUser(email, function(error, regUser) {
-    if(error) // TODO Log error
-      return res.render('login', { invalid: true });
-    // TODO hash  
-    if(regUser.password !== password)
-      return res.render('login', { invalid: true });
-    if(regUser.type === 'admin')
+  registeredTenant.authenticate(email, password, function(error, user){
+    if(error !== null)
+      return res.render('login', {invalid: true});
+    if(user.type === 'admin')
       return res.render('admin', {time: moment(NOW).format('LLL')});
-    if(regUser.type === 'tenant')
+    if(user.type === 'tenant')
       return res.render('tenant', {time: moment(NOW).format('LLL')});
   });
 
