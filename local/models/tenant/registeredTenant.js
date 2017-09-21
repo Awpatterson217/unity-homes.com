@@ -97,10 +97,13 @@ let registeredTenant = {
     });
   },
   setValue: function(key, value){
+    if(typeof key !== 'string')
+      return false;
     if(typeof value !== 'string')
-      return false;  
-    if(registeredTenant[key].f(value)){
-      registeredTenant[key].value = value;
+      return false;      
+    let safeValue = registeredTenant[key].f(value);  
+    if(safeValue.safe){
+      registeredTenant[key].value = safeValue.val;
       return true;
     }
     return false;
