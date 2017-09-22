@@ -2,6 +2,7 @@ const {_create}   = require('../../api/create');
 const {_delete}   = require('../../api/delete');
 const {_count}    = require('../../api/read');
 const {_find}     = require('../../api/read');
+const {_all}      = require('../../api/read');
 const {safeEmail} = require('../../resources/js/safe');
 const {safeNum}   = require('../../resources/js/safe');
 const {safeBool}  = require('../../resources/js/safe');
@@ -18,7 +19,7 @@ let unregisteredTenant = {
     f: function(code){
       return safeNum(code);
     }
-  },  
+  },
   timestamp: {
     value: '',
     f: function(num){
@@ -37,7 +38,7 @@ let unregisteredTenant = {
   getObject: function(){
     let object = {}
     let keys = [];
-    Object.keys(registeredTenant).forEach(function(val, i, arr){
+    Object.keys(unregisteredTenant).forEach(function(val, i, arr){
       if(typeof unregisteredTenant[val] !== 'function'){
         keys.push(val);
       }
@@ -47,37 +48,37 @@ let unregisteredTenant = {
     }
     return object;
   },
-  create: function(filter, callback){
-    if (filter === undefined) {
-      filter = unregisteredTenant.getObject();
-    }    _count('unregisteredUsers', {
+  create: function(callback){   
+    _count('unregisteredUsers', {
       'email': unregisteredTenant.email.value
     }, function(error, count) {
-      if(error !== null && error.err)
+      if(error !== null)
         return callback({err: true, msg: error.msg});
-      if(count)  
+      if(!count){
+        _create('unregisteredUsers', unregisteredTenant.getObject(), function(error, user) {
+          if(error !== null)
+            return callback({err: true, msg: error.msg});
+          return callback(null, user)
+        });
+      }else{
         return callback({err: true, msg: 'Dupicate Email'});
-    });
-    _create('unregisteredUsers', filter, function(error, numOfInserts) {
-      if(error !== null && error.err)
-        return callback({err: true, msg: error.msg});
-      return callback(null, numOfInserts)
+      }
     });
   },
   delete: function(filter, callback){
     _delete('unregisteredUsers', filter, function(error, numOfDeletes) {
-      if(error !== null && error.err)
+      if(error !== null)
         return callback({err: true, msg: error.msg});
       return callback(null, numOfDeletes)
     });
   },
-  all: function(filter, callback){
-    _all('unregisteredUsers', filter, function(error, usersArray) {
-      if(error !== null && error.err)
-        return callback({err: true, msg: error.msg});
-      if(!usersArray.length)
-        return callback({err: true, msg: 'Nothing Found'});
-      return callback(null, numOfDeletes)
+  all: async function(callback){
+    _all('unregisteredUsers', function(error, users) {
+      if(error !== null)
+        return Promise.reject(error.msg);
+      if(!users.length)
+        return Promise.reject('Nothing Found');
+      return Promise.resolve(users);
     });
   },
   find: function(filter, callback){

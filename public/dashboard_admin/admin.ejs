@@ -14,6 +14,14 @@
         Time: <%= time %>
       </h4>
 
+      <div id="app">
+        <ol>
+          <li v-for="user in users">
+            {{ user.email }}
+          </li>
+        </ol>
+      </div>
+
       <br />
       <a href="/unregUsers">Add/Remove Unregistered Users</a>
       <br />
@@ -25,5 +33,12 @@
     </div>
 
     <% include ../includes/scripts %>
+    <script src="/vue/vue.min.js"></script>
+    <script>
+      var app = new Vue({
+        el: '#app',
+        <%= users %>
+      })
+    </script>
   </body>
 </html>

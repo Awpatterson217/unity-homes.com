@@ -33,24 +33,34 @@ let _count = function (userCollection, filter, callback) {
   });
 };
 
-let _all = function (userCollection, filter, callback) {
-  let all = [];
-  MongoClient.connect(DB, function(error, db) {
-    if(error) // TODO Log error
-      return callback({err: true, msg: 'Connection Failed'});  
-    const collection = db.collection(userCollection);
-    const cursor = collection.find(filter);
-    cursor.each(function(error, item) {
-        if(error)
-          return callback({err: true, msg: 'Search Failed'});
-        if(item === null) {
+let _all = async function (userCollection) {
+  let users = await MongoClient
+          .connect(DB)
+          .then()
+          .collection(userCollection)
+          .find()
+          .toArray()
+          .then(function(users){
+            return resolve(users);
+          }).catch(function(error) {
+            console.log(error);
+          }).finally(function(){
             db.close();
-            return callback(null, all);
-        }
-        all.push(item);
+          });
+  return users;
+};
+
+/*
+  MongoClient.connect(DB).then(function(error, db) {
+    const collection = db.collection(userCollection);
+    const cursor = collection.find();
+    cursor.toArray(function(error, item) {
+
     });
   });
-};
+    const cursor = db.collection(userCollection).find().toArray();
+
+  */
 
 module.exports = {
   _find:  _find,

@@ -42,7 +42,6 @@ router.post('/unregUsers/create', checkEmail, checkCode, function(req, res, next
   */
   unregisteredTenant.create(function(error, user){
     if(error !== null){
-      console.log(error.msg);
       return res.render('unregUsers', {
         createSuccess: false
       });
@@ -59,13 +58,15 @@ router.post('/unregUsers/delete', function(req, res, next) {
 
   const email = req.body.email;
 
-  if(!email)
+  if(email === '')
     return res.render('unregUsers', {
-      createSuccess: false
+      deleteSuccess: false
     });
 
   unregisteredTenant.delete({'email': email}, function(error, numOfDeletes){
-    if(error === null)
+    console.log(error);
+    console.log(numOfDeletes);
+    if(error !== null)
       return res.render('unregUsers', {
         deleteSuccess: false
       });
