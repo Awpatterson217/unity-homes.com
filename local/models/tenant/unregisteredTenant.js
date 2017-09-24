@@ -72,14 +72,13 @@ let unregisteredTenant = {
       return callback(null, numOfDeletes)
     });
   },
-  all: async function(callback){
-    _all('unregisteredUsers', function(error, users) {
-      if(error !== null)
-        return Promise.reject(error.msg);
-      if(!users.length)
-        return Promise.reject('Nothing Found');
-      return Promise.resolve(users);
+  all: async function(){
+    const users = await _all('unregisteredUsers').then(function(users) {
+      return users;
+    }, function(error) {
+      return error;
     });
+    return users;
   },
   find: function(filter, callback){
     _find('unregisteredUsers', filter, function(error, user, numFound) {

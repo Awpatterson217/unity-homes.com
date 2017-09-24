@@ -33,21 +33,13 @@ let _count = function (userCollection, filter, callback) {
   });
 };
 
-let _all = async function (userCollection) {
-  let users = await MongoClient
-          .connect(DB)
-          .then()
-          .collection(userCollection)
-          .find()
-          .toArray()
-          .then(function(users){
-            return resolve(users);
-          }).catch(function(error) {
-            console.log(error);
-          }).finally(function(){
-            db.close();
-          });
-  return users;
+let _all = function (userCollection) {
+    return MongoClient.connect(DB).then(function(db) {
+      let collection = db.collection(userCollection);
+      return collection.find().toArray();
+    }).then(function(items) {
+      return items;
+    });
 };
 
 /*

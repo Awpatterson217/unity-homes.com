@@ -2,7 +2,13 @@
 <html lang="en">
   <% include ../includes/head %>
   <body>
-    <div class="container">
+    <style>
+    .row {
+          margin-top: 30px;
+          margin-bottom: 30px
+    }
+    </style>
+    <div class="container" id="app">
 
       <br />
       <a href="/logout">Logout</a>
@@ -10,34 +16,84 @@
 
       <h2>Welcome, Admin.</h2>
       <br />
-      <h4>
-        Time: <%= time %>
-      </h4>
 
-      <div id="app">
-        <ol>
-          <li v-for="user in users">
-            {{ user.email }}
-          </li>
-        </ol>
+      <div class="row">
+
+        <div class="col">
+          <br />
+          <a href="/unregUsers">Add/Remove Unregistered Users</a>
+          <br />
+
+          <br />
+            <a href="/regUsers">Add/Remove Registered Users</a>
+          <br />
+        </div>
       </div>
 
-      <br />
-      <a href="/unregUsers">Add/Remove Unregistered Users</a>
-      <br />
+      <div class="row">
+        <div class="col">
+        </div>
+        <hr>
+      </div>
 
-      <br />
-        <a href="/regUsers">Add/Remove Registered Users</a>
-      <br />
+      <div class="row">
+
+        <div class="col-3">
+          <h4>Unregistered Tenants:</h4>
+        </div>
+
+        <div class="col-3">
+          <ul>
+            <li v-for="unregisteredTenant in unregisteredTenants">
+              {{ unregisteredTenant.email }}
+            </li>
+          </ol>
+        </div>
+
+        <div class="col-3">
+          <ul>
+            <li v-for="unregisteredTenant in unregisteredTenants">
+              {{ unregisteredTenant.code }}
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="row">
+
+        <div class="col-3">
+          <h4>Registered Tenants:</h4>
+        </div>
+
+        <div class="col-3">
+          <ul>
+
+          </ul>
+        </div>
+
+        <div class="col-3">
+          <ul>
+
+          </ul>
+        </div>
+
+      </div>
+
 
     </div>
+
+    <br />
 
     <% include ../includes/scripts %>
     <script src="/vue/vue.min.js"></script>
     <script>
-      var app = new Vue({
+      const app4 = new Vue({
         el: '#app',
-        <%= users %>
+        data: {
+          unregisteredTenants: 
+            <%- JSON.stringify(unregisteredTenants) %>
+        }
       })
     </script>
   </body>
