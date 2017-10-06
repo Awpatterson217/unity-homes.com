@@ -1,4 +1,5 @@
 "use strict";
+
 const validator = require('validator');
 const safe      = require('safe-regex');
 

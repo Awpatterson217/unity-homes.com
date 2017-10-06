@@ -1,4 +1,6 @@
-var bcrypt = require('bcryptjs');
+"use strict";
+
+const bcrypt = require('bcryptjs');
 
 const {_create}   = require('../../api/create');
 const {_delete}   = require('../../api/delete');
@@ -8,12 +10,14 @@ const {safeEmail} = require('../../resources/js/safe');
 const {safeNum}   = require('../../resources/js/safe');
 const {safeBool}  = require('../../resources/js/safe');
 const {safePass}  = require('../../resources/js/safe');
+const {newErr}    = require('../../resources/js/error');
+const {customErr} = require('../../resources/js/error');
 
 let registeredTenant = {
   email: {
     value: '',
-    f: function(val){
-      return safeEmail(val);
+    safe: function(email){
+      return safeEmail(email);
     }
   },
   type: {
@@ -24,109 +28,127 @@ let registeredTenant = {
   },
   rent: {
     value: '',
-    f: function(val){
-      return safeNum(val);
+    safe: function(num){
+      return safeNum(num);
     }
   },
   leaseStart: {
     value: '',
-    f: function(val){
-      return safeNum(val);
+    safe: function(num){
+      return safeNum(num);
     }
   },
   leaseEnd: {
     value: '',
-    f: function(val){
-      return safeNum(val);
+    safe: function(num){
+      return safeNum(num);
     }
   },      
   pet: {
     value: '',
-    f: function(val){
-      return safeBool(val);
+    safe: function(bool){
+      return safeBool(bool);
     }      
   },
   street: {
     value: '',
-    f: function(val){
-      return safeStr(val);
+    safe: function(str){
+      return safeStr(str);
     }        
   },
   city: {
     value: '',
-    f: function(val){
-      return safeStr(val);
+    safe: function(str){
+      return safeStr(str);
     }
   },
   state: {
     value: '',
-    f: function(val){
-      return safeStr(val);
+    safe: function(str){
+      return safeStr(str);
     }
   },
   zip: {
     value: '',
-    f: function(val){
-      return safeNum(val);
+    safe: function(num){
+      return safeNum(num);
     }
   },
   phone: {
     value: '',
-    f: function(val){
-      return safeNum(val);
+    safe: function(num){
+      return safeNum(num);
     }
   },
   timestamp: {
     value: '',
-    f: function(val){
-      return safeNum(val);
+    safe: function(num){
+      return safeNum(num);
     }
   },
   authenticate: function(email, password, callback){
     let thisEmail    = safeEmail(email);
     let thisPassword = safePass(password);
+    let hashedPassword;
+
     if(!thisEmail.safe)
-      return callback({err: true, msg: 'Invalid Email'});
+      return callback(customErr('Invalid Email'));
+
     if(!thisPassword.safe)
-      return callback({err: true, msg: 'Invalid Password'});
+      return callback(customErr('Invalid Password'));
+
     _find('registeredUsers', {'email': thisEmail.val}, function(error, user) {
-      let hashedPassword = 'hash' + thisPassword.val;
+      hashedPassword = 'hash';
+      hashedPassword += thisPassword.val;
+      
       if(user.password !== hashedPassword)
-        return callback({err: true, msg: 'Incorrect Password'});
+        return callback(customErr('Incorrect Password'));
+
       return callback(null, user);
     });
   },
-  setValue: function(key, value){
+  set: function(key, val){
+    let safeValue;
+
     if(typeof key !== 'string')
       return false;
-    if(typeof value !== 'string')
-      return false;      
-    let safeValue = registeredTenant[key].f(value);  
+    if(typeof val !== 'string')
+      return false;
+
+    safeValue = registeredTenant[key].safe(val);
+
     if(safeValue.safe){
       registeredTenant[key].value = safeValue.val;
       return true;
     }
+
     return false;
   },
   hash: function(password){
       let safePassword = safePass(password);
+
       if(safePassword.safe){
-        registeredTenant.password.value = "hash" + safePassword.val;
+        registeredTenant.password.value = "hash";
+        registeredTenant.password.value += safePassword.val;
         return true;
       }
+
       return false;
   },
   getObject: function(){
     let object = {}
-    let keys = [];
+    let keys   = [];
+
     Object.keys(registeredTenant).forEach(function(val, i, arr){
-      if(typeof registeredTenant[val] !== 'function'){
+      if(typeof registeredTenant[val] !== 'function')
         keys.push(val);
-      }
+
     });
+
     for(let i = 0; i < keys.length - 1; i++){
       object[keys[i]] = registeredTenant[keys[i]].value;
     }
+
     return object;
   },
   create: function(callback){
@@ -134,44 +156,49 @@ let registeredTenant = {
       'email': registeredTenant.email.value
     }, function(error, count) {
       if(error !== null)
-        return callback({err: true, msg: error.msg});
+        return callback(newErr(error));
+
       if(!count){
         _create('registeredUsers', registeredTenant.getObject(), function(error, user) {
           if(error !== null)
-            return callback({err: true, msg: error.msg});
+            return callback(newErr(error));
+
           return callback(null, user)
         });
       }else{
-        return callback({err: true, msg: 'Dupicate Email'});
+        return callback(customErr('Duplicate Email'));
       }
     });
   },
   delete: function(filter, callback){
     _delete('registeredUsers', filter, function(error, numOfDeletes) {
       if(error !== null)
-        return callback({err: true, msg: error.msg});
+        return callback(newErr(error));
+
       return callback(null, numOfDeletes)
     });
   },
   all: function(filter, callback){
-    if (filter === undefined) {
+    if (filter === undefined)
       filter = registeredTenant.getObject();
-    }
+    
     _all('registeredUsers', filter, function(error, usersArray) {
       if(error !== null)
-        return callback({err: true, msg: error.msg});
+        return callback(newErr(error));
       if(!usersArray.length)
-        return callback({err: true, msg: 'Nothing Found'});
-      return callback(null, numOfDeletes)
+        return callback(customErr('Nothing Found'));
+
+      return callback(null, usersArray)
     });
   },
   find: function(filter, callback){
-    if (filter === undefined) {
+    if (filter === undefined)
       filter = registeredTenant.getObject();
-    }
+
     _find('registeredUsers', filter, function(error, user, numFound) {
       if(error !== null)
-        return callback({err: true, msg: error.msg});
+        return callback(newErr(error));
+
       return callback(null, user, numFound);
     });
   }

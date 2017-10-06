@@ -1,7 +1,8 @@
 "use strict";
+
 const validator = require('validator');
 
-const {sanitize}   = require('./sanitize');
+const {sanitize}     = require('./sanitize');
 const {isPassFormat} = require('./sanitize');
 
 let safeEmail = function(email){
@@ -14,6 +15,7 @@ let safeEmail = function(email){
   safeEmail.safe = false;
   return safeEmail;
 }
+
 let safeCode = function(code){
   let safeCode = {};
   safeCode.val = sanitize(code);
@@ -24,6 +26,7 @@ let safeCode = function(code){
   safeCode.safe = false;
   return safeCode;
 }
+
 let safePass = function(password){
   let safePass = {};
   safePass.val = sanitize(password);
@@ -38,6 +41,7 @@ let safePass = function(password){
   safePass.safe = false;
   return safePass;
 }
+
 let safeNum = function(num){
   let safeNum = {};
   safeNum.val = sanitize(num);
@@ -52,6 +56,7 @@ let safeNum = function(num){
   safeNum.safe = false;
   return safeNum;
 }
+
 let safeBool = function(boolean){
   let safeBool = {};
   safeBool.val = sanitize(boolean);
@@ -66,6 +71,7 @@ let safeBool = function(boolean){
   safeBool.safe = false;
   return safeBool;
 }
+
 let safeStr = function(str){
   let safeStr = {};
   safeStr.val = sanitize(str);
@@ -79,9 +85,9 @@ let safeStr = function(str){
 
 module.exports = {
   safeEmail: safeEmail,
-  safeCode:  safeCode,
-  safePass:  safePass,
-  safeNum:   safeNum,
-  safeBool:  safeBool,
-  safeStr:   safeStr
+  safeCode : safeCode,
+  safePass : safePass,
+  safeNum  : safeNum,
+  safeBool : safeBool,
+  safeStr  : safeStr
 }

@@ -1,4 +1,5 @@
 "use strict";
+
 const express = require('express');
 const moment  = require('moment');
 
@@ -17,9 +18,9 @@ router.post('/unregUsers/create', checkEmail, checkCode, function(req, res, next
   const email = req.body.email;
   const code  = req.body.code;
 
-  unregisteredTenant.setValue('email', email);
-  unregisteredTenant.setValue('code', code);
-  unregisteredTenant.setValue('timestamp',  Math.floor(Date.now() / 1000).toString());
+  unregisteredTenant.set('email', email);
+  unregisteredTenant.set('code', code);
+  unregisteredTenant.set('timestamp',  Math.floor(Date.now() / 1000).toString());
 
   if(!email)
     return res.render('unregUsers', {
