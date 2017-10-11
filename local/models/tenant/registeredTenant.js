@@ -100,14 +100,19 @@ let registeredTenant = {
     _find('registeredUsers', {'email': thisEmail.val}, function(error, user) {
       hashedPassword = 'hash';
       hashedPassword += thisPassword.val;
-      
+      //bcrypt.compare("B4c0/\/", hash).then((res) => {
+      //  if(res)
+      //    return callback(null, user);
+      //  if(!res)
+      //    return callback(customErr('Incorrect Password'));
+      //});
       if(user.password !== hashedPassword)
         return callback(customErr('Incorrect Password'));
 
       return callback(null, user);
     });
   },
-  set: function(key, val){
+  setVal: function(key, val){
     let safeValue;
 
     if(typeof key !== 'string')
@@ -128,6 +133,11 @@ let registeredTenant = {
       let safePassword = safePass(password);
 
       if(safePassword.safe){
+        //bcrypt.genSalt(11, function(err, salt) {
+        //  bcrypt.hash("B4c0/\/", salt, function(err, hash) {
+        //    registeredTenant.password.value = hash;
+        //  });
+        //});   
         registeredTenant.password.value = "hash";
         registeredTenant.password.value += safePassword.val;
         return true;

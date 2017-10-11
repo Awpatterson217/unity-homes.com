@@ -30,7 +30,7 @@ let unregisteredTenant = {
       return safeNum(num);
     }
   },
-  set: function(key, val){
+  setVal: function(key, val){
     let safeValue;
 
     if(typeof key !== 'string')

@@ -18,9 +18,9 @@ router.post('/unregUsers/create', checkEmail, checkCode, function(req, res, next
   const email = req.body.email;
   const code  = req.body.code;
 
-  unregisteredTenant.set('email', email);
-  unregisteredTenant.set('code', code);
-  unregisteredTenant.set('timestamp',  Math.floor(Date.now() / 1000).toString());
+  unregisteredTenant.setVal('email', email);
+  unregisteredTenant.setVal('code', code);
+  unregisteredTenant.setVal('timestamp',  Math.floor(Date.now() / 1000).toString());
 
   if(!email)
     return res.render('unregUsers', {

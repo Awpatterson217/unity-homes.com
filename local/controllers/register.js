@@ -37,9 +37,9 @@ router.post('/register', checkCode, checkEmail, checkPass, checkPassTwo, functio
     if(error !== null)
       return res.render('register', {invalid: true});
     if(numOfUsers === 1){
-      registeredTenant.setValue('email', email);
+      registeredTenant.setVal('email', email);
       registeredTenant.hash(password);
-      registeredTenant.setValue('timestamp', Math.floor(Date.now() / 1000).toString());
+      registeredTenant.setVal('timestamp', Math.floor(Date.now() / 1000).toString());
       registeredTenant.create(function(error, user){
         if(error !== null){
           return res.render('register', {invalid: true});
