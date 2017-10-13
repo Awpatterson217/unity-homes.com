@@ -12,15 +12,10 @@ const {checkPassTwo}     = require('../../resources/js/check');
 const router = express.Router();
 
 router.get('/admin', function(req, res) {
-  let time; // TODO Log time and req
   const NOW = new Date().getTime();
+  let time; // TODO Log time and req
   let unregisteredTenants = [];
-
-  /*
-  return res.render('admin', {
-    time: moment(NOW).format('LLL')
-  });
-  */
+  let registeredTenants   = [];
 
   unregisteredTenant.all()
   .then(function(tenants){
@@ -38,15 +33,41 @@ router.get('/admin', function(req, res) {
       unregisteredTenants[index].code  = tenant.code;
     });
 
-    return res.render('admin', {
-      time: moment(NOW).format('LLL'),
-      unregisteredTenants: unregisteredTenants,
+  })  
+  .then(function(tenants){
+
+    registeredTenant.all()
+    .then(function(tenants){
+      for(let x = 0; x < tenants.length; x++){
+        let thisTenant = {
+          email: '',
+          type : '',
+        };
+
+        registeredTenants.push(thisTenant);
+      }
+
+      tenants.forEach(function(tenant, index){
+        registeredTenants[index].email = tenant.email;
+        registeredTenants[index].type  = tenant.type;
+      });
+
+      return res.render('admin', {
+        time: moment(NOW).format('LLL'),
+        unregisteredTenants: unregisteredTenants,
+        registeredTenants  : registeredTenants
+      });
+      
+    })
+    .catch(function(error){
+      console.log(error);
     });
-  })
+
+  })  
   .catch(function(error){
     console.log(error);
   });
-  
+
 });
 
 module.exports = router;

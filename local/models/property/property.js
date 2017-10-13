@@ -1,7 +1,5 @@
 "use strict";
 
-const bcrypt = require('bcryptjs');
-
 const {_create}   = require('../../api/create');
 const {_delete}   = require('../../api/delete');
 const {_count}    = require('../../api/read');
@@ -11,30 +9,20 @@ const {safeEmail} = require('../../resources/js/safe');
 const {safeNum}   = require('../../resources/js/safe');
 const {safeBool}  = require('../../resources/js/safe');
 const {safePass}  = require('../../resources/js/safe');
-const {safeStr}   = require('../../resources/js/safe');
 const {newErr}    = require('../../resources/js/error');
 const {customErr} = require('../../resources/js/error');
 
-let registeredTenant = {
-  email: {
-    value: '',
-    safe: function(email){
-      return safeEmail(email);
-    }
-  },
+let property = {
   type: {
-    value: 'tenant',
-  },  
-  password: {
     value: '',
-  },
+  },  
   rent: {
     value: '',
     safe: function(num){
       return safeNum(num);
     }
   },
-  leaseStart: {
+  sqft: {
     value: '',
     safe: function(num){
       return safeNum(num);
@@ -88,28 +76,6 @@ let registeredTenant = {
       return safeNum(num);
     }
   },
-  authenticate: function(email, password, callback){
-    let thisEmail    = safeEmail(email);
-    let thisPassword = safePass(password);
-
-    if(!thisEmail.safe)
-      return callback(customErr('Invalid Email'));
-
-    if(!thisPassword.safe)
-      return callback(customErr('Invalid Password'));
-
-    _find('registeredUsers', {
-      'email': thisEmail.val
-    }, function(error, user) {
-      bcrypt.compare("B4c0/\/", user.password).then((res) => {
-        if(res)
-          return callback(null, user);
-
-        if(!res)
-          return callback(customErr('Incorrect Password'));
-      });
-    });
-  },
   setVal: function(key, val){
     let safeValue;
 
@@ -127,57 +93,43 @@ let registeredTenant = {
 
     return false;
   },
-  hash: async function(password){
-      let safePassword = safePass(password);
-      if(safePassword.safe){
-        try{
-           let salt = await bcrypt.genSalt(13);
-           let hash = await bcrypt.hash("B4c0/\/", salt);
-           registeredTenant.password.value = hash;
-        } catch(err) {
-          // TODO: Handle error
-          console.log(err);
-        }
-        return true;
-      }
-      return false;
-  },
   getObject: function(){
     let object = {}
     let keys   = [];
 
-    Object.keys(registeredTenant).forEach(function(val, i, arr){
-      if(typeof registeredTenant[val] !== 'function')
+    Object.keys(property).forEach(function(val, i, arr){
+      if(typeof property[val] !== 'function')
         keys.push(val);
+
     });
 
-    for(let i = 0; i < keys.length; i++){
-      object[keys[i]] = registeredTenant[keys[i]].value;
+    for(let i = 0; i < keys.length - 1; i++){
+      object[keys[i]] = property[keys[i]].value;
     }
 
     return object;
   },
   create: function(callback){
-    _count('registeredUsers', {
-      'email': registeredTenant.email.value
+    _count('properties', {
+      'street': property.street.value
     }, function(error, count) {
       if(error !== null)
         return callback(newErr(error));
 
       if(!count){
-        _create('registeredUsers', registeredTenant.getObject(), function(error, user) {
+        _create('properties', property.getObject(), function(error, prop) {
           if(error !== null)
             return callback(newErr(error));
 
-          return callback(null, user)
+          return callback(null, prop)
         });
       }else{
-        return callback(customErr('Duplicate Email'));
+        return callback(customErr('Duplicate Property'));
       }
     });
   },
   delete: function(filter, callback){
-    _delete('registeredUsers', filter, function(error, numOfDeletes) {
+    _delete('properties', filter, function(error, numOfDeletes) {
       if(error !== null)
         return callback(newErr(error));
 
@@ -185,25 +137,25 @@ let registeredTenant = {
     });
   },
   all: async function(){
-    const users = await _all('registeredUsers').then(function(users) {
-      return users;
+    const props = await _all('properties').then(function(props) {
+      return props;
     }, function(error) {
         return callback(newErr(error));
     });
       
-    return users;
+    return props;
   },
   find: function(filter, callback){
     if (filter === undefined)
-      filter = registeredTenant.getObject();
+      filter = property.getObject();
 
-    _find('registeredUsers', filter, function(error, user, numFound) {
+    _find('properties', filter, function(error, prop, numFound) {
       if(error !== null)
         return callback(newErr(error));
 
-      return callback(null, user, numFound);
+      return callback(null, prop, numFound);
     });
   }
 }
 
-module.exports = registeredTenant;
+module.exports = property;

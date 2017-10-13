@@ -44,9 +44,9 @@
       <% } %>
 
       <div id="register">
-        <form class="container" action="/regUsers/create" method="post">
+        <form class="container" action="/adminUsers/create" method="post">
           <h2 class="form-signin-heading">
-            Create Registered Account
+            Create Administrator Account
           </h2>
           <div class="row">              
             <div class="col-md-12 mb-2">
@@ -71,8 +71,8 @@
       </div>
 
       <div class="form-group form-signin">
-        <form action="/regUsers/delete" method="post">
-          <h2 class="form-signin-heading">Delete Registered Account</h2>
+        <form action="/adminUsers/delete" method="post">
+          <h2 class="form-signin-heading">Delete Administrator Account</h2>
           <label for="email" class="sr-only">Email</label>
           <input type="email" name="email" class="form-control form-control-warning" placeholder="Email" required>
           <button class="btn btn-md btn-default btn-block" type="submit">Submit</button>

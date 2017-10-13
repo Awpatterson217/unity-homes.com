@@ -4,12 +4,12 @@ const express = require('express');
 const safe    = require('safe-regex');
 const csurf   = require('csurf');
 
-const { sanitize }  = require('../resources/js/sanitize');
+const {sanitize} = require('../resources/js/sanitize');
 
 const router = express.Router();
 
 router.get('/apply', function(req, res) {
-  res.render('apply');
+  return res.render('apply');
 });
 
 router.post('/apply', function(req, res, next) {

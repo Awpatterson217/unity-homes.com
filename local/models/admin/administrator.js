@@ -8,14 +8,13 @@ const {_count}    = require('../../api/read');
 const {_find}     = require('../../api/read');
 const {_all}      = require('../../api/read');
 const {safeEmail} = require('../../resources/js/safe');
-const {safeNum}   = require('../../resources/js/safe');
-const {safeBool}  = require('../../resources/js/safe');
-const {safePass}  = require('../../resources/js/safe');
 const {safeStr}   = require('../../resources/js/safe');
+const {safeNum}   = require('../../resources/js/safe');
+const {safePass}  = require('../../resources/js/safe');
 const {newErr}    = require('../../resources/js/error');
 const {customErr} = require('../../resources/js/error');
 
-let registeredTenant = {
+let administrator = {
   email: {
     value: '',
     safe: function(email){
@@ -23,64 +22,10 @@ let registeredTenant = {
     }
   },
   type: {
-    value: 'tenant',
+    value: 'admin',
   },  
   password: {
     value: '',
-  },
-  rent: {
-    value: '',
-    safe: function(num){
-      return safeNum(num);
-    }
-  },
-  leaseStart: {
-    value: '',
-    safe: function(num){
-      return safeNum(num);
-    }
-  },
-  leaseEnd: {
-    value: '',
-    safe: function(num){
-      return safeNum(num);
-    }
-  },      
-  pet: {
-    value: '',
-    safe: function(bool){
-      return safeBool(bool);
-    }      
-  },
-  street: {
-    value: '',
-    safe: function(str){
-      return safeStr(str);
-    }        
-  },
-  city: {
-    value: '',
-    safe: function(str){
-      return safeStr(str);
-    }
-  },
-  state: {
-    value: '',
-    safe: function(str){
-      return safeStr(str);
-    }
-  },
-  zip: {
-    value: '',
-    safe: function(num){
-      return safeNum(num);
-    }
-  },
-  phone: {
-    value: '',
-    safe: function(num){
-      return safeNum(num);
-    }
   },
   timestamp: {
     value: '',
@@ -98,9 +43,7 @@ let registeredTenant = {
     if(!thisPassword.safe)
       return callback(customErr('Invalid Password'));
 
-    _find('registeredUsers', {
-      'email': thisEmail.val
-    }, function(error, user) {
+    _find('registeredUsers', {'email': thisEmail.val}, function(error, user) {
       bcrypt.compare("B4c0/\/", user.password).then((res) => {
         if(res)
           return callback(null, user);
@@ -115,13 +58,14 @@ let registeredTenant = {
 
     if(typeof key !== 'string')
       return false;
+
     if(typeof val !== 'string')
       return false;
 
-    safeValue = registeredTenant[key].safe(val);
+    safeValue = administrator[key].safe(val);
 
     if(safeValue.safe){
-      registeredTenant[key].value = safeValue.val;
+      administrator[key].value = safeValue.val;
       return true;
     }
 
@@ -133,7 +77,7 @@ let registeredTenant = {
         try{
            let salt = await bcrypt.genSalt(13);
            let hash = await bcrypt.hash("B4c0/\/", salt);
-           registeredTenant.password.value = hash;
+           administrator.password.value = hash;
         } catch(err) {
           // TODO: Handle error
           console.log(err);
@@ -146,26 +90,26 @@ let registeredTenant = {
     let object = {}
     let keys   = [];
 
-    Object.keys(registeredTenant).forEach(function(val, i, arr){
-      if(typeof registeredTenant[val] !== 'function')
+    Object.keys(administrator).forEach(function(val, i, arr){
+      if(typeof administrator[val] !== 'function')
         keys.push(val);
     });
 
     for(let i = 0; i < keys.length; i++){
-      object[keys[i]] = registeredTenant[keys[i]].value;
+      object[keys[i]] = administrator[keys[i]].value;
     }
 
     return object;
   },
   create: function(callback){
     _count('registeredUsers', {
-      'email': registeredTenant.email.value
+      'email': administrator.email.value
     }, function(error, count) {
       if(error !== null)
         return callback(newErr(error));
 
       if(!count){
-        _create('registeredUsers', registeredTenant.getObject(), function(error, user) {
+        _create('registeredUsers', administrator.getObject(), function(error, user) {
           if(error !== null)
             return callback(newErr(error));
 
@@ -195,7 +139,7 @@ let registeredTenant = {
   },
   find: function(filter, callback){
     if (filter === undefined)
-      filter = registeredTenant.getObject();
+      filter = administrator.getObject();
 
     _find('registeredUsers', filter, function(error, user, numFound) {
       if(error !== null)
@@ -206,4 +150,4 @@ let registeredTenant = {
   }
 }
 
-module.exports = registeredTenant;
+module.exports = administrator;

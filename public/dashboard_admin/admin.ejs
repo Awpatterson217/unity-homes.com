@@ -21,12 +21,17 @@
 
         <div class="col">
           <br />
+          <a href="/adminUsers">Add/Remove Administrators</a>
+          <br />
+
+          <br />
           <a href="/unregUsers">Add/Remove Unregistered Users</a>
           <br />
 
           <br />
             <a href="/regUsers">Add/Remove Registered Users</a>
           <br />
+
         </div>
       </div>
 
@@ -39,7 +44,7 @@
       <div class="row">
 
         <div class="col-3">
-          <h4>Unregistered Tenants:</h4>
+          <h4>Unregistered Accounts:</h4>
         </div>
 
         <div class="col-3">
@@ -47,7 +52,7 @@
             <li v-for="unregisteredTenant in unregisteredTenants">
               {{ unregisteredTenant.email }}
             </li>
-          </ol>
+          </ul>
         </div>
 
         <div class="col-3">
@@ -63,18 +68,22 @@
       <div class="row">
 
         <div class="col-3">
-          <h4>Registered Tenants:</h4>
+          <h4>Registered Accounts:</h4>
         </div>
 
         <div class="col-3">
           <ul>
-
+            <li v-for="registeredTenant in registeredTenants">
+              {{ registeredTenant.email }}
+            </li>
           </ul>
         </div>
 
         <div class="col-3">
           <ul>
-
+            <li v-for="registeredTenant in registeredTenants">
+              {{ registeredTenant.type }}
+            </li>
           </ul>
         </div>
 
@@ -91,8 +100,8 @@
       const app4 = new Vue({
         el: '#app',
         data: {
-          unregisteredTenants: 
-            <%- JSON.stringify(unregisteredTenants) %>
+          unregisteredTenants: <%- JSON.stringify(unregisteredTenants) %>,
+          registeredTenants: <%- JSON.stringify(registeredTenants) %>
         }
       })
     </script>

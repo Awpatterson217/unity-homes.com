@@ -20,14 +20,11 @@ let unregisteredTenant = {
   },
   code: {
     value: '',
-    safe: function(code){
-      return safeNum(code);
-    }
   },
   timestamp: {
     value: '',
-    safe: function(num){
-      return safeNum(num);
+    safe: function(str){
+      return safeNum(str);
     }
   },
   setVal: function(key, val){
@@ -57,7 +54,7 @@ let unregisteredTenant = {
       }
     });
 
-    for(let i = 0; i < keys.length - 1; i++){
+    for(let i = 0; i < keys.length; i++){
       object[keys[i]] = unregisteredTenant[keys[i]].value;
     }
 
@@ -71,6 +68,7 @@ let unregisteredTenant = {
         return callback(newErr(error));
 
       if(!count){
+        unregisteredTenant.code.value = Math.floor(Math.random() * 10000000000).toString();
         _create('unregisteredUsers', unregisteredTenant.getObject(), function(error, user) {
           if(error !== null)
             return callback(newErr(error));

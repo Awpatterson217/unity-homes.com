@@ -17,7 +17,7 @@ const router = express.Router();
 // { csrfToken: req.csrfToken() }
 
 router.get('/login', function(req, res) {
-  res.render('login');
+  return res.render('login');
 });
   
 router.post('/login', checkEmail, checkPass, function(req, res, next) {
@@ -34,9 +34,9 @@ router.post('/login', checkEmail, checkPass, function(req, res, next) {
     if(error !== null)
       return res.render('login', {invalid: true});
     if(user.type === 'admin')
-      return res.render('admin', {time: moment(NOW).format('LLL')});
+      return res.redirect('/admin');
     if(user.type === 'tenant')
-      return res.render('tenant', {time: moment(NOW).format('LLL')});
+      return res.redirect('/tenant');
   });
 
 });

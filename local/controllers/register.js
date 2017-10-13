@@ -16,12 +16,13 @@ const {checkPassTwo}     = require('../resources/js/check');
 const router = express.Router();
 
 router.get('/register', function(req, res) {
-  res.render('register');
+  return res.render('register');
 });
 
 router.post('/register', checkCode, checkEmail, checkPass, checkPassTwo, function(req, res, next) {
   let time; // TODO Log time and req
-  const NOW = new Date().getTime();
+  const now       = new Date().getTime();
+  const timestamp = Math.floor(Date.now() / 1000).toString()
 
   const code        = req.body.code;
   const email       = req.body.email;
@@ -29,31 +30,56 @@ router.post('/register', checkCode, checkEmail, checkPass, checkPassTwo, functio
   const passwordTwo = req.body.passwordTwo;
 
   if(code === '' || email === '' || password === '' || passwordTwo === '')
-    return res.render('register', {invalid: true});
+    return res.render('register', {
+      invalid: true
+    });
 
   if(password !== passwordTwo)
-    return res.render('register', {match: false});
+    return res.render('register', {
+      match: false
+    });
 
-  unregisteredTenant.find({'email': email, 'code': code}, function(error, user, numOfUsers){
+  unregisteredTenant.find({
+    'email': email,
+    'code': code
+  }, function(error, user, numOfUsers){
     if(error !== null)
-      return res.render('register', {invalid: true});
-    if(numOfUsers === 1){
-      registeredTenant.setVal('email', email);
-      registeredTenant.hash(password);
-      registeredTenant.setVal('timestamp', Math.floor(Date.now() / 1000).toString());
-      registeredTenant.create(function(error, user){
-        if(error !== null){
-          return res.render('register', {invalid: true});
-        }
-        return res.render('registered', {
-          time: moment(NOW).format('LLL'),
-          email:    email,
-          type:     user.type,
-          password: password
-        });
+      return res.render('register', {
+        invalid: true
       });
+
+    if(numOfUsers === 1){
+      registeredTenant.hash(password).then(function(success){
+        if(!success)
+          return res.render('register', {
+            invalid: true
+          });
+
+        registeredTenant.setVal('email', email);
+        registeredTenant.setVal('timestamp', timestamp);
+
+        registeredTenant.create(function(error, user){
+          if(error !== null){
+            return res.render('register', {
+              invalid: true
+            });
+          }
+          return res.render('registered', {
+            time    : moment(now).format('LLL'),
+            email   : email,
+            type    : user.type,
+            password: password
+          });
+        });
+      }).catch(function(error){
+        // TODO: Log error
+        console.log(error);
+      });
+
     }else{
-      return res.render('register', {invalid: true});
+      return res.render('register', {
+        invalid: true
+      });
     }
   });
 
