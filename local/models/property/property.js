@@ -15,30 +15,9 @@ const {customErr} = require('../../resources/js/error');
 let property = {
   type: {
     value: '',
-  },  
-  rent: {
-    value: '',
-    safe: function(num){
-      return safeNum(num);
+    safe: function(str){
+      return safeStr(str);
     }
-  },
-  sqft: {
-    value: '',
-    safe: function(num){
-      return safeNum(num);
-    }
-  },
-  leaseEnd: {
-    value: '',
-    safe: function(num){
-      return safeNum(num);
-    }
-  },      
-  pet: {
-    value: '',
-    safe: function(bool){
-      return safeBool(bool);
-    }      
   },
   street: {
     value: '',
@@ -64,11 +43,53 @@ let property = {
       return safeNum(num);
     }
   },
-  phone: {
+  rent: {
     value: '',
     safe: function(num){
       return safeNum(num);
     }
+  },
+  rented: {
+    value: '',
+    safe: function(bool){
+      return safeBool(bool);
+    }        
+  },
+  occupants: {
+    value: '',
+    safe: function(str){
+      return safeStr(str);
+    }
+  },
+  sqft: {
+    value: '',
+    safe: function(num){
+      return safeNum(num);
+    }
+  },
+  washer: {
+    value: '',
+    safe: function(bool){
+      return safeBool(bool);
+    }        
+  },
+  dryer: {
+    value: '',
+    safe: function(bool){
+      return safeBool(bool);
+    }        
+  },
+  garage: {
+    value: '',
+    safe: function(bool){
+      return safeBool(bool);
+    }        
+  },
+  images: {
+    value: '',
+    safe: function(str){
+      return safeStr(str);
+    }        
   },
   timestamp: {
     value: '',
@@ -81,13 +102,15 @@ let property = {
 
     if(typeof key !== 'string')
       return false;
+
     if(typeof val !== 'string')
       return false;
 
-    safeValue = registeredTenant[key].safe(val);
+    safeValue = property[key].safe(val);
 
     if(safeValue.safe){
-      registeredTenant[key].value = safeValue.val;
+      property[key].value = safeValue.val;
+      
       return true;
     }
 
@@ -100,7 +123,6 @@ let property = {
     Object.keys(property).forEach(function(val, i, arr){
       if(typeof property[val] !== 'function')
         keys.push(val);
-
     });
 
     for(let i = 0; i < keys.length - 1; i++){
@@ -140,7 +162,7 @@ let property = {
     const props = await _all('properties').then(function(props) {
       return props;
     }, function(error) {
-        return callback(newErr(error));
+      return callback(newErr(error));
     });
       
     return props;

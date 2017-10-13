@@ -67,7 +67,6 @@ router.post('/register', checkCode, checkEmail, checkPass, checkPassTwo, functio
           return res.render('registered', {
             time    : moment(now).format('LLL'),
             email   : email,
-            type    : user.type,
             password: password
           });
         });

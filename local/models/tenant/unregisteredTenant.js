@@ -32,6 +32,7 @@ let unregisteredTenant = {
 
     if(typeof key !== 'string')
       return false;
+
     if(typeof val !== 'string')
       return false;
 
@@ -39,6 +40,7 @@ let unregisteredTenant = {
     
     if(safeValue.safe){
       unregisteredTenant[key].value = safeValue.val;
+      
       return true;
     }
 

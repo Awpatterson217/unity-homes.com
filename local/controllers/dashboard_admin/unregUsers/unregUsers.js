@@ -6,7 +6,7 @@ const moment  = require('moment');
 const unregisteredTenant = require('../../../models/tenant/unregisteredTenant');
 const {checkEmail}       = require('../../../resources/js/check');
 
-const router  = express.Router();
+const router = express.Router();
 
 router.get('/unregUsers', function(req, res) {
   return res.render('unregUsers');

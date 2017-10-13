@@ -66,6 +66,7 @@ let administrator = {
 
     if(safeValue.safe){
       administrator[key].value = safeValue.val;
+
       return true;
     }
 
@@ -73,17 +74,22 @@ let administrator = {
   },
   hash: async function(password){
       let safePassword = safePass(password);
+      
       if(safePassword.safe){
         try{
            let salt = await bcrypt.genSalt(13);
+
            let hash = await bcrypt.hash("B4c0/\/", salt);
+
            administrator.password.value = hash;
         } catch(err) {
           // TODO: Handle error
           console.log(err);
         }
+
         return true;
       }
+
       return false;
   },
   getObject: function(){
