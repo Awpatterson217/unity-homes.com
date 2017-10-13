@@ -21,6 +21,24 @@ let administrator = {
       return safeEmail(email);
     }
   },
+  firstName: {
+    value: '',
+    safe : function(str){
+      return safeStr(str);
+    }
+  },
+  middleName: {
+    value: '',
+    safe : function(str){
+      return safeStr(str);
+    }
+  },
+  lastName: {
+    value: '',
+    safe : function(str){
+      return safeStr(str);
+    }
+  },
   type: {
     value: 'admin',
   },  
@@ -33,7 +51,7 @@ let administrator = {
       return safeNum(num);
     }
   },
-  authenticate: function(email, password, callback){
+  authenticate: async function(email, password, callback){
     let thisEmail    = safeEmail(email);
     let thisPassword = safePass(password);
 
@@ -43,15 +61,22 @@ let administrator = {
     if(!thisPassword.safe)
       return callback(customErr('Invalid Password'));
 
-    _find('registeredUsers', {'email': thisEmail.val}, function(error, user) {
-      bcrypt.compare("B4c0/\/", user.password).then((res) => {
-        if(res)
-          return callback(null, user);
+      try{
+        let user = await _find('registeredUsers', {'email': thisEmail.val});
 
-        if(!res)
-          return callback(customErr('Incorrect Password'));
-      });
-    });
+        if(!user)
+          return callback(customErr('Invalid Email'));
+
+        let validPW = await bcrypt.compare(thisPassword.val, user.password);
+
+        if(!validPW)
+          return callback(customErr('Invalid Email'));
+
+        return callback(null, user);
+      } catch(err) {
+        // TODO: Handle error
+        console.log(err);
+      }
   },
   setVal: function(key, val){
     let safeValue;
@@ -79,7 +104,7 @@ let administrator = {
         try{
            let salt = await bcrypt.genSalt(13);
 
-           let hash = await bcrypt.hash("B4c0/\/", salt);
+           let hash = await bcrypt.hash(safePassword.val, salt);
 
            administrator.password.value = hash;
         } catch(err) {
@@ -143,16 +168,21 @@ let administrator = {
       
     return users;
   },
-  find: function(filter, callback){
+  find: async function(filter, callback){
     if (filter === undefined)
-      filter = administrator.getObject();
+      filter = registeredTenant.getObject();
 
-    _find('registeredUsers', filter, function(error, user, numFound) {
-      if(error !== null)
-        return callback(newErr(error));
+    try{
+      let user = await _find('registeredUsers', filter);
 
-      return callback(null, user, numFound);
-    });
+      if(!user)
+        return callback(customErr('Nothing Found'));
+
+      return callback(null, user);
+    } catch(err) {
+      // TODO: Handle error
+      console.log(err);
+    }
   }
 }
 

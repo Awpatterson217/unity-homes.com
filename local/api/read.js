@@ -6,23 +6,25 @@ const {customErr} = require('../resources/js/error');
 
 const DB = 'mongodb://127.0.0.1:27017/unity';
 
-let _find = function (userCollection, filter, callback) {
-  MongoClient.connect(DB, function(error, db) {
-    if(error) // TODO Log error
-      return callback(customErr('Connection Failed'));
+let _find = function (userCollection, filter) {
+  return new Promise((resolve, reject) => {
+    MongoClient.connect(DB, function(error, db) {
+      if(error) // TODO Log error
+        return reject(customErr('Connection Failed'));
 
-    const collection = db.collection(userCollection);
+      const collection = db.collection(userCollection);
 
-    collection.find(filter).toArray(function(error, users) {
-      db.close();
+      collection.find(filter).toArray(function(error, users) {
+        db.close();
 
-      if(error)
-        return callback(customErr('Search Failed'));
+        if(error)
+          return reject(customErr('Search Failed'));
 
-      if(!users.length)
-        return callback(customErr('Nothing Found'));
+        if(!users.length)
+          return resolve(false);
 
-      return callback(null, users[0], users.length);
+        return resolve(users[0]);
+      });
     });
   });
 };

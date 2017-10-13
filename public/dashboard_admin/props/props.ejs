@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <% include ../../includes/head %>
+  <body>
+    <div class="container">
+
+    <br />      
+    <br />
+    <a href="/admin">Back</a>
+    <br />
+
+      <% if (!(typeof createSuccess == 'undefined')) { %>
+        <% if (!uploadSuccess) { %>
+          <div class="alert alert-danger" role="alert">
+            <h4 class="alert-heading text-center">Upload Unsuccessful!</h4>
+          </div>      
+        <% } %>
+        <% if (uploadSuccess) { %>
+          <div class="alert alert-success" role="alert">
+            <h4 class="alert-heading text-center">Upload Successful!</h4>
+          </div>      
+        <% } %>
+      <% } %>
+
+      <% if (!(typeof deleteSuccess == 'undefined')) { %>
+        <% if (!deleteSuccess) { %>
+          <div class="alert alert-danger" role="alert">
+            <h4 class="alert-heading text-center">Deletion Unsuccessful!</h4>
+          </div>      
+        <% } %>
+        <% if (deleteSuccess) { %>
+          <div class="alert alert-success" role="alert">
+            <h4 class="alert-heading text-center">Deletion Successful!</h4>
+          </div>      
+        <% } %>
+      <% } %>
+
+      <div id="register">
+        <form class="container" action="/props/upload" method="post">
+          <h2 class="form-signin-heading">
+            Upload Property
+          </h2>
+          <div class="row">              
+            <div class="col-md-12 mb-2">
+              <label for="streetAddr" class="sr-only">Street Address</label>              
+              <input type="text" class="form-control" name="streetAddr" placeholder="123 N Fake rd" required>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 mb-2">
+
+            </div>
+          </div>
+          <button class="btn btn-md btn-default btn-block" type="submit">Upload</button>
+        </form>
+      </div>
+
+      <div class="form-group form-signin">
+        <form action="/props/delete" method="post">
+          <h2 class="form-signin-heading">Property</h2>
+          <label for="id" class="sr-only">ID</label>
+          <input type="text" name="id" class="form-control form-control-warning" placeholder="ID" required>
+          <button class="btn btn-md btn-default btn-block" type="submit">Submit</button>
+        </form>
+      </div>
+
+    </div>
+    
+    <% include ../../includes/scripts %>
+  </body>
+</html>

@@ -1,10 +1,10 @@
 "use strict";
 
 const express = require('express');
-const moment  = require('moment');
 
 const registeredTenant = require('../../../models/tenant/registeredTenant');
 const {checkEmail}     = require('../../../resources/js/check');
+const {checkNames}     = require('../../../resources/js/check');
 const {checkPass}      = require('../../../resources/js/check');
 const {checkPassTwo}   = require('../../../resources/js/check');
 
@@ -14,12 +14,15 @@ router.get('/regUsers', function(req, res) {
   return res.render('regUsers');
 });
 
-router.post('/regUsers/create', checkEmail, checkPass, checkPassTwo, function(req, res, next) {
+router.post('/regUsers/create', checkNames, checkEmail, checkPass, checkPassTwo, function(req, res, next) {
   const email       = req.body.email;
+  const firstName   = req.body.firstName;
+  const middleName  = req.body.middleName;
+  const lastName    = req.body.lastName;
   const password    = req.body.password;
   const passwordTwo = req.body.passwordTwo;
 
-  if(email === '' || password === '' || passwordTwo === '')
+  if(email === '' || password === '' || passwordTwo === '' || firstName === '' || lastName === '')
     return res.render('regUsers', {
       createSuccess: false
     });
@@ -39,8 +42,11 @@ router.post('/regUsers/create', checkEmail, checkPass, checkPassTwo, function(re
       createSuccess: false,
       match        : false 
     });
-
+  
   registeredTenant.setVal('email', email);
+  registeredTenant.setVal('firstName', firstName);
+  registeredTenant.setVal('middleName', middleName);
+  registeredTenant.setVal('lastName', lastName);
   registeredTenant.hash(password);
   registeredTenant.setVal('timestamp',  Math.floor(Date.now() / 1000).toString());
   registeredTenant.create(function(error, user){

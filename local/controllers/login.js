@@ -35,6 +35,11 @@ router.post('/login', checkEmail, checkPass, function(req, res, next) {
       return res.render('login', {
         invalid: true
       });
+
+    req.session.firstName = user.firstName;
+    req.session.lastName  = user.lastName;
+    req.session.userAuth  = true;
+
     if(user.type === 'admin')
       return res.redirect('/admin');
     if(user.type === 'tenant')

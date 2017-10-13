@@ -8,6 +8,8 @@ const {_all}      = require('../../api/read');
 const {safeEmail} = require('../../resources/js/safe');
 const {safeNum}   = require('../../resources/js/safe');
 const {safeBool}  = require('../../resources/js/safe');
+const {safeCode}  = require('../../resources/js/safe');
+const {safeStr}   = require('../../resources/js/safe');
 const {newErr}    = require('../../resources/js/error');
 const {customErr} = require('../../resources/js/error');
 
@@ -18,6 +20,24 @@ let unregisteredTenant = {
       return safeEmail(email);
     }
   },
+  firstName: {
+    value: '',
+    safe : function(str){
+      return safeStr(str);
+    }
+  },
+  middleName: {
+    value: '',
+    safe : function(str){
+      return safeStr(str);
+    }
+  },
+  lastName: {
+    value: '',
+    safe : function(str){
+      return safeStr(str);
+    }
+  },
   code: {
     value: '',
   },
@@ -26,6 +46,31 @@ let unregisteredTenant = {
     safe : function(str){
       return safeNum(str);
     }
+  },
+  authenticate: async function(email, code, callback){
+    let thisEmail = safeEmail(email);
+    let thisCode  = safeCode(code);
+
+    if(!thisEmail.safe)
+      return callback(customErr('Invalid Email'));
+
+    if(!thisCode.safe)
+      return callback(customErr('Invalid Code'));
+
+      try{
+        let user = await _find('unregisteredUsers', {
+          'email': thisEmail.val,
+          'code' : thisCode.val
+        });
+
+        if(!user)
+          return callback(customErr('Invalid Email'));
+
+        return callback(null, user);
+      } catch(err) {
+        // TODO: Handle error
+        console.log(err);
+      }
   },
   setVal: function(key, val){
     let safeValue;

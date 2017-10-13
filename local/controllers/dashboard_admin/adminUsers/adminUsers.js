@@ -5,6 +5,7 @@ const moment  = require('moment');
 
 const administrator  = require('../../../models/admin/administrator');
 const {checkEmail}   = require('../../../resources/js/check');
+const {checkNames}   = require('../../../resources/js/check');
 const {checkPass}    = require('../../../resources/js/check');
 const {checkPassTwo} = require('../../../resources/js/check');
 
@@ -14,12 +15,15 @@ router.get('/adminUsers', function(req, res) {
   return res.render('adminUsers');
 });
 
-router.post('/adminUsers/create', checkEmail, checkPass, checkPassTwo, function(req, res, next) {
+router.post('/adminUsers/create', checkNames, checkEmail, checkPass, checkPassTwo, function(req, res, next) {
   const email       = req.body.email;
+  const firstName   = req.body.firstName;
+  const middleName  = req.body.middleName;
+  const lastName    = req.body.lastName;
   const password    = req.body.password;
   const passwordTwo = req.body.passwordTwo;
 
-  if(email === '' || password === '' || passwordTwo === '')
+  if(email === '' || password === '' || passwordTwo === '' || firstName === '' || lastName === '')
     return res.render('adminUsers', {
       createSuccess: false
     });
@@ -45,6 +49,9 @@ router.post('/adminUsers/create', checkEmail, checkPass, checkPassTwo, function(
       });
 
     administrator.setVal('email', email);
+    administrator.setVal('firstName', firstName);
+    administrator.setVal('middleName', middleName);
+    administrator.setVal('lastName', lastName);
     administrator.setVal('timestamp', Math.floor(Date.now() / 1000).toString());
 
     administrator.create(function(error, user){

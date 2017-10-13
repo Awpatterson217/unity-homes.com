@@ -21,9 +21,7 @@ router.get('/register', function(req, res) {
 
 router.post('/register', checkCode, checkEmail, checkPass, checkPassTwo, function(req, res, next) {
   // TODO Log time and req
-  const now       = new Date().getTime();
-  const timestamp = Math.floor(Date.now() / 1000).toString()
-
+  const now         = new Date().getTime();
   const code        = req.body.code;
   const email       = req.body.email;
   const password    = req.body.password;
@@ -39,47 +37,42 @@ router.post('/register', checkCode, checkEmail, checkPass, checkPassTwo, functio
       match: false
     });
 
-  unregisteredTenant.find({
-    'email': email,
-    'code' : code
-  }, function(error, user, numOfUsers){
+  unregisteredTenant.authenticate(email, code, function(error, user){
     if(error !== null)
       return res.render('register', {
         invalid: true
       });
+    
+    registeredTenant.hash(password).then(function(success){
+      if(!success)
+        return res.render('register', {
+          invalid: true
+        });
 
-    if(numOfUsers === 1){
-      registeredTenant.hash(password).then(function(success){
-        if(!success)
+      registeredTenant.setVal('email', email);
+      registeredTenant.setVal('firstName', user.firstName);
+      registeredTenant.setVal('middleName', user.middleName);
+      registeredTenant.setVal('lastName', user.lastName);
+      registeredTenant.setVal('timestamp',  Math.floor(Date.now() / 1000).toString());
+      registeredTenant.create(function(error, user){
+        if(error !== null){
           return res.render('register', {
             invalid: true
           });
-
-        registeredTenant.setVal('email', email);
-        registeredTenant.setVal('timestamp', timestamp);
-
-        registeredTenant.create(function(error, user){
-          if(error !== null){
-            return res.render('register', {
-              invalid: true
-            });
-          }
-          return res.render('registered', {
-            time    : moment(now).format('LLL'),
-            email   : email,
-            password: password
-          });
+        }
+        return res.render('registered', {
+          time    : moment(now).format('LLL'),
+          email   : email,
+          password: password
         });
-      }).catch(function(error){
-        // TODO: Log error
-        console.log(error);
       });
-
-    }else{
+    }).catch(function(error){
+      // TODO: Log error
+      console.log(error);
       return res.render('register', {
         invalid: true
       });
-    }
+    });
   });
 });
 

@@ -11,6 +11,7 @@ const admin      = require('./dashboard_admin/admin.js');
 const adminUsers = require('./dashboard_admin/adminUsers/adminUsers.js');
 const unregUsers = require('./dashboard_admin/unregUsers/unregUsers.js');
 const regUsers   = require('./dashboard_admin/regUsers/regUsers.js');
+const props      = require('./dashboard_admin/props/props.js');
 const tenant     = require('./dashboard_tenant/tenant.js');
 
 module.exports = {
@@ -25,5 +26,6 @@ module.exports = {
   unregUsers: unregUsers,
   adminUsers: adminUsers,
   regUsers  : regUsers,
+  props     : props,
   tenant    : tenant
 }

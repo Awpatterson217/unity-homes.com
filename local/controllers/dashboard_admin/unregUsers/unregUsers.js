@@ -1,9 +1,9 @@
 "use strict";
 
 const express = require('express');
-const moment  = require('moment');
 
 const unregisteredTenant = require('../../../models/tenant/unregisteredTenant');
+const {checkNames}       = require('../../../resources/js/check');
 const {checkEmail}       = require('../../../resources/js/check');
 
 const router = express.Router();
@@ -12,17 +12,22 @@ router.get('/unregUsers', function(req, res) {
   return res.render('unregUsers');
 });
 
-router.post('/unregUsers/create', checkEmail, function(req, res, next) {
-  const email = req.body.email;
+router.post('/unregUsers/create', checkNames, checkEmail, function(req, res, next) {
+  const email       = req.body.email;
+  const firstName   = req.body.firstName;
+  const middleName  = req.body.middleName;
+  const lastName    = req.body.lastName;
 
-  unregisteredTenant.setVal('email', email);
-  unregisteredTenant.setVal('timestamp',  Math.floor(Date.now() / 1000).toString());
-
-  if(!email)
+  if(email === '' || firstName === '' || lastName === '')
     return res.render('unregUsers', {
       createSuccess: false
     });
 
+  unregisteredTenant.setVal('email', email);
+  unregisteredTenant.setVal('firstName', firstName);
+  unregisteredTenant.setVal('middleName', middleName);
+  unregisteredTenant.setVal('lastName', lastName);
+  unregisteredTenant.setVal('timestamp',  Math.floor(Date.now() / 1000).toString());
   unregisteredTenant.create(function(error, user){
     if(error !== null){
       return res.render('unregUsers', {

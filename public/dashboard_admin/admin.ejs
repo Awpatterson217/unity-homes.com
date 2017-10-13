@@ -14,11 +14,10 @@
       <a href="/logout">Logout</a>
       <br />
 
-      <h2>Welcome, Admin.</h2>
+      <h2>Welcome, <%- fullName %>.</h2>
       <br />
 
       <div class="row">
-
         <div class="col">
           <br />
           <a href="/adminUsers">Add/Remove Administrators</a>
@@ -32,17 +31,16 @@
             <a href="/regUsers">Add/Remove Registered Users</a>
           <br />
 
+          <br />
+            <a href="/props">Add/Remove Properties</a>
+          <br />
+
         </div>
       </div>
 
-      <div class="row">
-        <div class="col">
-        </div>
-        <hr>
-      </div>
+      <hr />
 
       <div class="row">
-
         <div class="col-3">
           <h4>Unregistered Accounts:</h4>
         </div>
@@ -62,11 +60,11 @@
             </li>
           </ul>
         </div>
-
       </div>
 
-      <div class="row">
+      <hr />
 
+      <div class="row">
         <div class="col-3">
           <h4>Registered Accounts:</h4>
         </div>
@@ -86,9 +84,31 @@
             </li>
           </ul>
         </div>
-
       </div>
 
+      <hr />
+
+      <div class="row">
+        <div class="col-3">
+          <h4>Properties:</h4>
+        </div>
+
+        <div class="col-3">
+          <ul>
+            <li v-for="property in properties">
+              {{ property.streetAddr }}
+            </li>
+          </ul>
+        </div>
+
+        <div class="col-3">
+          <ul>
+            <li v-for="property in properties">
+              {{ property.rented }}
+            </li>
+          </ul>
+        </div>
+      </div>
 
     </div>
 
@@ -97,11 +117,12 @@
     <% include ../includes/scripts %>
     <script src="/vue/vue.min.js"></script>
     <script>
-      const app4 = new Vue({
+      const app = new Vue({
         el: '#app',
         data: {
           unregisteredTenants: <%- JSON.stringify(unregisteredTenants) %>,
-          registeredTenants  : <%- JSON.stringify(registeredTenants) %>
+          registeredTenants  : <%- JSON.stringify(registeredTenants) %>,
+          properties         : <%- JSON.stringify(properties) %>
         }
       });
     </script>
