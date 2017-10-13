@@ -19,7 +19,7 @@ const parser  = bodyParser.urlencoded({
 // 100 per hour per IP
 limiter({
   lookup: ['connection.remoteAddress'],
-  total: 100,
+  total : 100,
   expire: 1000 * 60 * 60
 })
 
@@ -29,16 +29,16 @@ const routes  = require('./local/controllers');
 const defaultGetOptions = {
   root: __dirname + '/public/',
   dotfiles: 'deny',
-  headers: {
+  headers : {
       'x-timestamp': Date.now(),
       'x-sent': true
   }
 }
 const redisOptions = {
-  host: 'localhost',
-  port: 6379,
+  host  : 'localhost',
+  port  : 6379,
   client: client,
-  ttl: 260
+  ttl   : 260
 }
 
 app.set('view engine', 'ejs');
@@ -55,15 +55,15 @@ app.use(helmet());
 app.use(helmet.hidePoweredBy());
 app.use(
   session({
-    store: new RedisStore(redisOptions),
-    secret: 'secret',
+    store            : new RedisStore(redisOptions),
+    secret           : 'secret',
     saveUninitialized: false,
-    resave: false,
-    key: 'sessionid',
-    cookie: {
+    resave           : false,
+    key              : 'sessionid',
+    cookie           : {
       //secure: true,
       httpOnly: true,
-      expires: new Date( Date.now() + 60 * 60 * 1000 )
+      expires : new Date( Date.now() + 60 * 60 * 1000 )
     }
   })
 );
@@ -71,11 +71,11 @@ app.use(
 app.use(parser); 
 
 app.use('/bootstrap', express.static(__dirname + '/public/vendor/bootstrap-4.0.0-alpha.6-dist/'));
-app.use('/vue', express.static(__dirname + '/public/vendor/vue/'));
-app.use('/jquery', express.static(__dirname + '/public/vendor/jquery/'));
-app.use('/css', express.static(__dirname + '/public/resources/css/'));
-app.use('/js', express.static(__dirname + '/public/resources/js/'));
-app.use('/images', express.static(__dirname + '/public/resources/images/'));
+app.use('/vue'      , express.static(__dirname + '/public/vendor/vue/'));
+app.use('/jquery'   , express.static(__dirname + '/public/vendor/jquery/'));
+app.use('/css'      , express.static(__dirname + '/public/resources/css/'));
+app.use('/js'       , express.static(__dirname + '/public/resources/js/'));
+app.use('/images'   , express.static(__dirname + '/public/resources/images/'));
 
 for(let route in routes){
   app.use(routes[route]);
@@ -88,11 +88,9 @@ const server = app.listen(port, host, () => {
 });
 
 //        TODO
-// bcrypt.js (passwords)
 // Redis sessions / CSRF
 // Read 'session secret' from private file
 // SSL / TSL
-// Better input validation
 // API for applicants
 // API for properties
 // Vue.js dashboard app
@@ -100,5 +98,3 @@ const server = app.listen(port, host, () => {
 // Logs
 // Graphics, design, favicon, etc.
 // Grunt.js or Webpack
-// Refactor code / tweek performance
-// Break it

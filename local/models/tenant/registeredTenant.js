@@ -18,7 +18,7 @@ const {customErr} = require('../../resources/js/error');
 let registeredTenant = {
   email: {
     value: '',
-    safe: function(email){
+    safe : function(email){
       return safeEmail(email);
     }
   },
@@ -30,61 +30,61 @@ let registeredTenant = {
   },
   rent: {
     value: '',
-    safe: function(num){
+    safe : function(num){
       return safeNum(num);
     }
   },
   leaseStart: {
     value: '',
-    safe: function(num){
+    safe : function(num){
       return safeNum(num);
     }
   },
   leaseEnd: {
     value: '',
-    safe: function(num){
+    safe : function(num){
       return safeNum(num);
     }
   },      
   pet: {
     value: '',
-    safe: function(bool){
+    safe : function(bool){
       return safeBool(bool);
     }      
   },
   street: {
     value: '',
-    safe: function(str){
+    safe : function(str){
       return safeStr(str);
     }        
   },
   city: {
     value: '',
-    safe: function(str){
+    safe : function(str){
       return safeStr(str);
     }
   },
   state: {
     value: '',
-    safe: function(str){
+    safe : function(str){
       return safeStr(str);
     }
   },
   zip: {
     value: '',
-    safe: function(num){
+    safe : function(num){
       return safeNum(num);
     }
   },
   phone: {
     value: '',
-    safe: function(num){
+    safe : function(num){
       return safeNum(num);
     }
   },
   timestamp: {
     value: '',
-    safe: function(num){
+    safe : function(num){
       return safeNum(num);
     }
   },
@@ -115,6 +115,7 @@ let registeredTenant = {
 
     if(typeof key !== 'string')
       return false;
+
     if(typeof val !== 'string')
       return false;
 
@@ -122,6 +123,7 @@ let registeredTenant = {
 
     if(safeValue.safe){
       registeredTenant[key].value = safeValue.val;
+
       return true;
     }
 
@@ -129,17 +131,22 @@ let registeredTenant = {
   },
   hash: async function(password){
       let safePassword = safePass(password);
+
       if(safePassword.safe){
         try{
            let salt = await bcrypt.genSalt(13);
+
            let hash = await bcrypt.hash("B4c0/\/", salt);
+
            registeredTenant.password.value = hash;
         } catch(err) {
           // TODO: Handle error
           console.log(err);
         }
+
         return true;
       }
+      
       return false;
   },
   getObject: function(){

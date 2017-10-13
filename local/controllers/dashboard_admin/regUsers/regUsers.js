@@ -37,7 +37,7 @@ router.post('/regUsers/create', checkEmail, checkPass, checkPassTwo, function(re
   if(password !== passwordTwo)
     return res.render('regUsers', {
       createSuccess: false,
-      match: false 
+      match        : false 
     });
 
   registeredTenant.setVal('email', email);
@@ -88,7 +88,7 @@ router.post('/regUsers/delete', checkEmail, function(req, res, next) {
 
   registeredTenant.delete({
     'email': email,
-    'type': 'tenant'
+    'type' : 'tenant'
   }, function(error, numOfDeletes) {
     if(error !== null)
       return res.render('regUsers', {

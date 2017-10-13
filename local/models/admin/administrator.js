@@ -17,7 +17,7 @@ const {customErr} = require('../../resources/js/error');
 let administrator = {
   email: {
     value: '',
-    safe: function(email){
+    safe : function(email){
       return safeEmail(email);
     }
   },
@@ -29,7 +29,7 @@ let administrator = {
   },
   timestamp: {
     value: '',
-    safe: function(num){
+    safe : function(num){
       return safeNum(num);
     }
   },

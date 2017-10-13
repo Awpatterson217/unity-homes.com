@@ -46,8 +46,8 @@ let checkPassTwo = function(req, res, next){
 }
 
 module.exports = {
-  checkEmail:   checkEmail,
-  checkCode:    checkCode,
-  checkPass:    checkPass,
+  checkEmail  : checkEmail,
+  checkCode   : checkCode,
+  checkPass   : checkPass,
   checkPassTwo: checkPassTwo,
 }

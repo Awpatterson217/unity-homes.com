@@ -6,7 +6,7 @@ const moment  = require('moment');
 const router = express.Router();
 
 router.get('/logout', function(req, res) {
-  let time; // TODO Log time and req
+  // TODO Log time and req
   const NOW = new Date().getTime();
   return res.redirect('/home');
 

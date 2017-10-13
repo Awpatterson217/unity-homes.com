@@ -47,6 +47,6 @@ let isPassFormat = function(password){
 }
 
 module.exports = {
-  sanitize: sanitize,
+  sanitize    : sanitize,
   isPassFormat: isPassFormat
 }

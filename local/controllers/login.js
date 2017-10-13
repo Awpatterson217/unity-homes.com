@@ -32,7 +32,9 @@ router.post('/login', checkEmail, checkPass, function(req, res, next) {
 
   registeredTenant.authenticate(email, password, function(error, user){
     if(error !== null)
-      return res.render('login', {invalid: true});
+      return res.render('login', {
+        invalid: true
+      });
     if(user.type === 'admin')
       return res.redirect('/admin');
     if(user.type === 'tenant')

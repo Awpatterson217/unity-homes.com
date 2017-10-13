@@ -15,85 +15,85 @@ const {customErr} = require('../../resources/js/error');
 let property = {
   type: {
     value: '',
-    safe: function(str){
+    safe : function(str){
       return safeStr(str);
     }
   },
   street: {
     value: '',
-    safe: function(str){
+    safe : function(str){
       return safeStr(str);
     }        
   },
   city: {
     value: '',
-    safe: function(str){
+    safe : function(str){
       return safeStr(str);
     }
   },
   state: {
     value: '',
-    safe: function(str){
+    safe : function(str){
       return safeStr(str);
     }
   },
   zip: {
     value: '',
-    safe: function(num){
+    safe : function(num){
       return safeNum(num);
     }
   },
   rent: {
     value: '',
-    safe: function(num){
+    safe : function(num){
       return safeNum(num);
     }
   },
   rented: {
     value: '',
-    safe: function(bool){
+    safe : function(bool){
       return safeBool(bool);
     }        
   },
   occupants: {
     value: '',
-    safe: function(str){
+    safe : function(str){
       return safeStr(str);
     }
   },
   sqft: {
     value: '',
-    safe: function(num){
+    safe : function(num){
       return safeNum(num);
     }
   },
   washer: {
     value: '',
-    safe: function(bool){
+    safe : function(bool){
       return safeBool(bool);
     }        
   },
   dryer: {
     value: '',
-    safe: function(bool){
+    safe : function(bool){
       return safeBool(bool);
     }        
   },
   garage: {
     value: '',
-    safe: function(bool){
+    safe : function(bool){
       return safeBool(bool);
     }        
   },
   images: {
     value: '',
-    safe: function(str){
+    safe : function(str){
       return safeStr(str);
     }        
   },
   timestamp: {
     value: '',
-    safe: function(num){
+    safe : function(num){
       return safeNum(num);
     }
   },

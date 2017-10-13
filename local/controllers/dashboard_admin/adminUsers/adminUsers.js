@@ -35,7 +35,7 @@ router.post('/adminUsers/create', checkEmail, checkPass, checkPassTwo, function(
   if(password !== passwordTwo)
     return res.render('adminUsers', {
       createSuccess: false,
-      match: false 
+      match        : false 
     });
 
   administrator.hash(password).then(function(success){
@@ -72,7 +72,7 @@ router.post('/adminUsers/delete', checkEmail, function(req, res, next) {
 
   administrator.delete({
     'email': email,
-    'type': 'admin'
+    'type' : 'admin'
   }, function(error, numOfDeletes) {
     if(error !== null)
       return res.render('adminUsers', {

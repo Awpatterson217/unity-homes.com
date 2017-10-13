@@ -14,7 +14,7 @@ const {customErr} = require('../../resources/js/error');
 let unregisteredTenant = {
   email: {
     value: '',
-    safe: function(email){
+    safe : function(email){
       return safeEmail(email);
     }
   },
@@ -23,7 +23,7 @@ let unregisteredTenant = {
   },
   timestamp: {
     value: '',
-    safe: function(str){
+    safe : function(str){
       return safeNum(str);
     }
   },

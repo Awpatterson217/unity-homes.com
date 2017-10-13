@@ -20,7 +20,7 @@ router.get('/register', function(req, res) {
 });
 
 router.post('/register', checkCode, checkEmail, checkPass, checkPassTwo, function(req, res, next) {
-  let time; // TODO Log time and req
+  // TODO Log time and req
   const now       = new Date().getTime();
   const timestamp = Math.floor(Date.now() / 1000).toString()
 
@@ -41,7 +41,7 @@ router.post('/register', checkCode, checkEmail, checkPass, checkPassTwo, functio
 
   unregisteredTenant.find({
     'email': email,
-    'code': code
+    'code' : code
   }, function(error, user, numOfUsers){
     if(error !== null)
       return res.render('register', {
@@ -81,7 +81,6 @@ router.post('/register', checkCode, checkEmail, checkPass, checkPassTwo, functio
       });
     }
   });
-
 });
 
 // TODO CSRF
