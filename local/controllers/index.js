@@ -1,4 +1,5 @@
 "use strict";
+
 const home         = require('./home.js');
 const properties   = require('./properties.js');
 const apply        = require('./apply.js');

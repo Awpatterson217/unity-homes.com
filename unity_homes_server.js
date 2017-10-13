@@ -1,4 +1,5 @@
 "use strict";
+
 const express    = require('express');
 const bodyParser = require('body-parser');
 const path       = require('path');
@@ -7,26 +8,6 @@ const redis      = require("redis");
 const session    = require('express-session');
 const RedisStore = require('connect-redis')(session);
 const ejs        = require('ejs');
-
-/*
-let registeredTenant = require('./local/models/tenant/registeredTenant');
-registeredTenant.setValue('email', 'tenant@unity-homes.com');
-registeredTenant.hash('Password1');
-registeredTenant.setValue('rent', '1100');
-registeredTenant.setValue('timestamp', Math.floor(Date.now() / 1000).toString());
-
-registeredTenant.create(function(error, numOfInserts){
-  if(error !== null)
-    console.log(error.msg);
-  console.log(numOfInserts + ' users successfully inserted.');
-});
-
-registeredTenant.authenticate('tenant@unity-homes.com', 'Password1', function(error, user){
-  if(error !== null)
-    console.log(error.msg);
-    console.log(user);
-});
-*/
 
 const client  = redis.createClient();
 const app     = express();

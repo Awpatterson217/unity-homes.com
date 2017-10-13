@@ -1,3 +1,5 @@
+"use strict"
+
 const currentPage = window.location.pathname.slice(1);    
 
 let addActive = function(){

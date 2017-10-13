@@ -1,4 +1,5 @@
 "use strict";
+
 const express = require('express');
 const moment  = require('moment');
 
@@ -45,8 +46,6 @@ router.get('/admin', function(req, res) {
   .catch(function(error){
     console.log(error);
   });
-  
-
   
 });
 

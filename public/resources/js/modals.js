@@ -1,3 +1,5 @@
+"use strict"
+
 $('.modal-dialog').draggable();
 
 $('#imagesModal').on('shown.bs.modal', function(e){

@@ -1,9 +1,9 @@
 "use strict";
-// VENDOR
+
 const express = require('express');
 const safe    = require('safe-regex');
 const csurf   = require('csurf');
-// LOCAL
+
 const { sanitize }  = require('../resources/js/sanitize');
 
 const router = express.Router();
