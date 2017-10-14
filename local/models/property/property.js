@@ -43,6 +43,12 @@ let property = {
       return safeNum(num);
     }
   },
+  stories: {
+    value: '',
+    safe : function(num){
+      return safeNum(num);
+    }
+  },
   rent: {
     value: '',
     safe : function(num){
@@ -80,6 +86,18 @@ let property = {
     }        
   },
   garage: {
+    value: '',
+    safe : function(bool){
+      return safeBool(bool);
+    }        
+  },
+  basement: {
+    value: '',
+    safe : function(bool){
+      return safeBool(bool);
+    }        
+  },
+  fence: {
     value: '',
     safe : function(bool){
       return safeBool(bool);

@@ -54,6 +54,7 @@ app.set('views', [
   path.join(__dirname, 'public', 'dashboard_admin', 'adminUsers'),
   path.join(__dirname, 'public', 'dashboard_admin', 'regUsers'),
   path.join(__dirname, 'public', 'dashboard_admin', 'props'),
+  path.join(__dirname, 'public', 'dashboard_admin', 'propImages'),
   path.join(__dirname, 'public', 'dashboard_tenant')
 ]);
 

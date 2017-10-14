@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <% include ../includes/dashboardHead %>
+  <body>
+    <div>
+
+    <br />      
+    <br />
+    <a href="/admin">Back</a>
+    <br />
+
+      <% if (!(typeof createSuccess == 'undefined')) { %>
+        <% if (!uploadSuccess) { %>
+          <div class="alert alert-danger" role="alert">
+            <h4 class="alert-heading text-center">Upload Unsuccessful!</h4>
+          </div>      
+        <% } %>
+        <% if (uploadSuccess) { %>
+          <div class="alert alert-success" role="alert">
+            <h4 class="alert-heading text-center">Upload Successful!</h4>
+          </div>      
+        <% } %>
+      <% } %>
+
+      <% if (!(typeof deleteSuccess == 'undefined')) { %>
+        <% if (!deleteSuccess) { %>
+          <div class="alert alert-danger" role="alert">
+            <h4 class="alert-heading text-center">Deletion Unsuccessful!</h4>
+          </div>      
+        <% } %>
+        <% if (deleteSuccess) { %>
+          <div class="alert alert-success" role="alert">
+            <h4 class="alert-heading text-center">Deletion Successful!</h4>
+          </div>      
+        <% } %>
+      <% } %>
+
+      <div id="form">
+        <form class="container" action="/props/upload" method="post">
+          <h2 class="form-signin-heading">
+            Upload Property Image
+          </h2>
+          <div class="row">              
+            <div class="col-md-12 mb-3 mt-2">
+              <label for="id" class="sr-only">ID</label>
+              <input type="text" class="form-control" name="id" placeholder="ID" required>      
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 mb-4">
+              <label for="image" class="sr-only">Upload</label>              
+              <input type="file" name="image" accept="image/*" required>
+            </div>
+          </div>
+          <button class="btn btn-md btn-default btn-block" type="submit">Submit</button>
+        </form>
+      </div>
+
+      <div id="form">
+        <form class="container" action="/props/delete" method="post">
+          <h2 class="form-signin-heading">
+            Delete Property Image
+          </h2>
+          <div class="row">              
+            <div class="col-md-12 mb-2  mt-2">
+              <label for="id" class="sr-only">ID</label>              
+              <input type="text" class="form-control" name="id" placeholder="ID" required>
+            </div>
+          </div>          
+          <button class="btn btn-md btn-default btn-block" type="submit">Submit</button>
+        </form>
+      </div>
+    </div>
+    
+    <% include ../../includes/scripts %>
+  </body>
+</html>

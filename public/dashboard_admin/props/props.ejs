@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-  <% include ../../includes/head %>
+  <% include ../includes/dashboardHead %>
   <body>
-    <div class="container">
+    <div>
 
     <br />      
     <br />
@@ -10,14 +10,14 @@
     <br />
 
       <% if (!(typeof createSuccess == 'undefined')) { %>
-        <% if (!uploadSuccess) { %>
+        <% if (!createSuccess) { %>
           <div class="alert alert-danger" role="alert">
-            <h4 class="alert-heading text-center">Upload Unsuccessful!</h4>
+            <h4 class="alert-heading text-center">Creation Unsuccessful!</h4>
           </div>      
         <% } %>
-        <% if (uploadSuccess) { %>
+        <% if (createSuccess) { %>
           <div class="alert alert-success" role="alert">
-            <h4 class="alert-heading text-center">Upload Successful!</h4>
+            <h4 class="alert-heading text-center">Creation Successful!</h4>
           </div>      
         <% } %>
       <% } %>
@@ -35,35 +35,127 @@
         <% } %>
       <% } %>
 
-      <div id="register">
-        <form class="container" action="/props/upload" method="post">
+    <div id="dashboardProps">
+        <form class="container" action="/regUsers/create" method="post">
           <h2 class="form-signin-heading">
-            Upload Property
+            Add Property
           </h2>
           <div class="row">              
-            <div class="col-md-12 mb-2">
-              <label for="streetAddr" class="sr-only">Street Address</label>              
-              <input type="text" class="form-control" name="streetAddr" placeholder="123 N Fake rd" required>
+            <div class="col-md-8 mb-2 mt-5">
+              <div class="row">              
+                <div class="col-md-12 mb-2 form-inline">
+                  <label for="street" class="col-sm-3 col-form-label">Street:</label>              
+                  <input type="text" class="form-control" name="street" placeholder="123 N Main Street" required>
+                </div>
+              </div>
+              <div class="row">              
+                <div class="col-md-12 mb-2 form-inline">
+                  <label for="city" class="col-sm-3 col-form-label">City:</label>              
+                  <input type="text" class="form-control" name="city" placeholder="City" required>
+                </div>
+              </div>
+              <div class="row">              
+                <div class="col-md-12 mb-2 form-inline">
+                  <label for="zipCode" class="col-sm-3 col-form-label">Zip:</label>              
+                  <input type="text" class="form-control" name="zipCode" placeholder="61880">
+                </div>
+              </div>
+              <div class="row">              
+                <div class="col-md-12 mb-2 form-inline">
+                  <label for="state" class="col-sm-3 col-form-label">State:</label>              
+                  <input type="text" class="form-control" name="state" placeholder="Illinois">
+                </div>
+              </div>
+              <div class="row">              
+                <div class="col-md-12 mb-2 form-inline">
+                  <label for="type" class="col-sm-3 col-form-label">Type:</label>              
+                  <input type="text" class="form-control" name="type" placeholder="Ranch" required>
+                </div>
+              </div>
+              <div class="row">              
+                <div class="col-md-12 mb-2 form-inline">
+                  <label for="sqft" class="col-sm-3 col-form-label">Sq ft:</label>              
+                  <input type="text" class="form-control" name="sqft" placeholder="1658" required>
+                </div>
+              </div>
+              <div class="row">              
+                <div class="col-md-12 mb-2 form-inline">
+                  <label for="stories" class="col-sm-3 col-form-label">Stories:</label>              
+                  <input type="text" class="form-control" name="stories" placeholder="2" required>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 mb-2 mt-5">
+              <div class="row">              
+                <div class="col-md-12 mb-2">
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" name="washer" value="true"> Washer
+                    </label>
+                  </div>
+                </div>
+                <div class="col-md-12 mb-2">
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" name="dryer" value="true"> Dryer
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="row">              
+                <div class="col-md-12 mb-2">
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" name="garage" value="true"> Garage
+                    </label>
+                  </div>
+                </div>
+                <div class="col-md-12 mb-2">
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" name="basement" value="true"> Basement
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="row">              
+                <div class="col-md-12 mb-2">
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" name="fence" value="true"> Fence
+                    </label>
+                  </div>
+                </div>
+                <div class="col-md-12 mb-2">
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" name="occupied" value="true"> Occupied
+                    </label>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-          <div class="row">
-            <div class="col-md-12 mb-2">
-
-            </div>
+          <div class="text-center">
+            <button class="btn btn-default" type="submit">Submit</button>
           </div>
-          <button class="btn btn-md btn-default btn-block" type="submit">Upload</button>
         </form>
       </div>
 
-      <div class="form-group form-signin">
-        <form action="/props/delete" method="post">
-          <h2 class="form-signin-heading">Property</h2>
-          <label for="id" class="sr-only">ID</label>
-          <input type="text" name="id" class="form-control form-control-warning" placeholder="ID" required>
+      <div id="form">
+        <form class="container" action="/props/delete" method="post">
+          <h2 class="form-signin-heading">
+            Delete Property
+          </h2>
+          <div class="row">              
+            <div class="col-md-12 mb-2  mt-3">
+              <label for="id" class="sr-only">ID</label>              
+              <input type="text" class="form-control" name="id" placeholder="ID" required>
+            </div>
+          </div>          
           <button class="btn btn-md btn-default btn-block" type="submit">Submit</button>
         </form>
       </div>
-
     </div>
     
     <% include ../../includes/scripts %>

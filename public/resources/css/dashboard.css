@@ -1,0 +1,33 @@
+/* Small devices (landscape phones, 576px and up)
+ * @media (min-width: 576px) { ... }
+ */
+
+/* Medium devices (tablets, 768px and up)
+ * @media (min-width: 768px) { ... }
+ */
+ 
+/* Large devices (desktops, 992px and up)
+ * @media (min-width: 992px) { ... }
+ */
+
+/* Extra large devices (large desktops, 1200px and up)
+ * @media (min-width: 1200px) { ... }
+ */
+
+body { 
+    padding: 30px;
+}
+#form {
+    padding: 15px;
+    max-width: 450px;
+    margin: 0 auto;
+}
+#dashboardProps {
+    padding: 1px;
+    max-width: 50%;
+    margin: 0 auto;
+    margin-bottom: 5em;
+}
+.inline-label {
+    margin-right: 1em;
+}

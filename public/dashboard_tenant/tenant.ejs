@@ -1,19 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
-  <% include ../includes/head %>
+  <% include ../includes/dashboardHead %>
   <body>
-    <div class="container">
+    <div>
 
-      <br />
       <a href="/logout">Logout</a>
+
+      <h2>
+        Welcome, <%- fullName %>.
+      </h2>
+
       <br />
 
-      <h2>Welcome, <%- fullName %>.</h2>
-      <br />
       <h4>
         Time: <%= time %>
       </h4>
-      
     </div>
   
     <% include ../includes/scripts %>

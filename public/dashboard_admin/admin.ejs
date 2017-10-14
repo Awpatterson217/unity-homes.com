@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-  <% include ../includes/head %>
+  <% include ../includes/dashboardHead %>
   <body>
     <style>
     .row {
@@ -8,14 +8,13 @@
           margin-bottom: 30px
     }
     </style>
-    <div class="container" id="app">
+    <div id="app">
 
-      <br />
       <a href="/logout">Logout</a>
+      
       <br />
 
       <h2>Welcome, <%- fullName %>.</h2>
-      <br />
 
       <div class="row">
         <div class="col">
@@ -33,6 +32,10 @@
 
           <br />
             <a href="/props">Add/Remove Properties</a>
+          <br />
+
+          <br />
+            <a href="/propImages">Add/Remove Property Images</a>
           <br />
 
         </div>
