@@ -5,6 +5,7 @@ const formidable = require('formidable');
 
 const property       = require('../../../models/property/property');
 const {checkEmail}   = require('../../../resources/js/check');
+const {checkImage}   = require('../../../resources/js/check');
 
 const router = express.Router();
 

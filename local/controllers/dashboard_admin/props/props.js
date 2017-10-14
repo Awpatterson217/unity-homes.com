@@ -2,7 +2,10 @@
 
 const express = require('express');
 
-const property = require('../../../models/property/property');
+const property      = require('../../../models/property/property');
+const {checkProps}  = require('../../../resources/js/check');
+const {checkPropId} = require('../../../resources/js/check');
+const {notEmpty}    = require('../../../resources/js/sanitize');
 
 const router = express.Router();
 
@@ -10,39 +13,65 @@ router.get('/props', function(req, res) {
   return res.render('props');
 });
 
-// Need checkStreetAddr, checkImage
-router.post('/props/add', function(req, res, next) {
+router.post('/props/add', checkProps, function(req, res, next) {
+  const timestamp = Math.floor(Date.now() / 1000).toString();
+  let washer   = notEmpty(req.body.washer)
+    ? 'true' 
+    : 'false';
+  let dryer    = notEmpty(req.body.dryer)
+    ? 'true' 
+    : 'false';
+  let garage   = notEmpty(req.body.garage)
+    ? 'true' 
+    : 'false';
+  let basement = notEmpty(req.body.basement)
+    ? 'true' 
+    : 'false';
+  let fence    = notEmpty(req.body.fence)
+    ? 'true' 
+    : 'false';
+  let occupied = notEmpty(req.body.occupied)
+    ? 'true' 
+    : 'false';
 
-
-  // Create ID = streetAddr + num (num = number of images at this address + 1)
-  
-    // Each property will have an array of its images with the name ID
-//    property.setVal('id', req.body.id);
-
-//    property.create(function(error, image){
-//      if(error !== null)
-//        return res.render('regUsers', {
-//          uploadSuccess: false
-//        });
-
-//      return res.render('regUsers', {
-//        uploadSuccess: true,
-//      });
-//    });
-
-  const success = false;
-
-  if(!success)
+  if(!notEmpty(req.body.street))
     return res.render('props', {
       createSuccess: false
     });
- 
+
+    // Create id = streetAddr + num (num = number of images at this address + 1)
+    // property.setVal('id', id);
+
+  property.setVal('street'   , req.body.street);
+  property.setVal('city'     , req.body.city);
+  property.setVal('zip'      , req.body.zip);
+  property.setVal('state'    , req.body.state);
+  property.setVal('type'     , req.body.type);
+  property.setVal('sqft'     , req.body.sqft);
+  property.setVal('stories'  , req.body.stories);
+  property.setVal('washer'   , washer);
+  property.setVal('dryer'    , dryer);
+  property.setVal('garage'   , garage);
+  property.setVal('basement' , basement);
+  property.setVal('fence'    , fence);
+  property.setVal('occupied' , occupied);
+  property.setVal('timestamp', timestamp);
+
+
+  property.create(function(error, prop){
+    if(error !== null)
+      return res.render('props', {
+        createSuccess: false
+      });
+    
+    return res.render('props', {
+      createSuccess: true,
+    });
+  });
 });
 
-// Need validation middleware for string
-router.post('/props/delete', function(req, res, next) {
-  //const id = req.body.id;
-  const id = '';
+router.post('/props/delete', checkPropId, function(req, res, next) {
+  const id = req.body.id;
 
   if(id === '')
     return res.render('props', {

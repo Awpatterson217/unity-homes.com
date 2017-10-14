@@ -46,7 +46,14 @@ let isPassFormat = function(password){
   return true;
 }
 
+let notEmpty = function(str){
+  if(str === '')
+    return false;
+  return true;
+}
+
 module.exports = {
   sanitize    : sanitize,
-  isPassFormat: isPassFormat
+  isPassFormat: isPassFormat,
+  notEmpty    : notEmpty
 }

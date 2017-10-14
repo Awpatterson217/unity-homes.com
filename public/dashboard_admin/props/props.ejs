@@ -36,7 +36,7 @@
       <% } %>
 
     <div id="dashboardProps">
-        <form class="container" action="/regUsers/create" method="post">
+        <form class="container" action="/props/add" method="post">
           <h2 class="form-signin-heading">
             Add Property
           </h2>
@@ -51,13 +51,13 @@
               <div class="row">              
                 <div class="col-md-12 mb-2 form-inline">
                   <label for="city" class="col-sm-3 col-form-label">City:</label>              
-                  <input type="text" class="form-control" name="city" placeholder="City" required>
+                  <input type="text" class="form-control" name="city" placeholder="City">
                 </div>
               </div>
               <div class="row">              
                 <div class="col-md-12 mb-2 form-inline">
-                  <label for="zipCode" class="col-sm-3 col-form-label">Zip:</label>              
-                  <input type="text" class="form-control" name="zipCode" placeholder="61880">
+                  <label for="zip" class="col-sm-3 col-form-label">Zip:</label>              
+                  <input type="text" class="form-control" name="zip" placeholder="61880">
                 </div>
               </div>
               <div class="row">              
@@ -69,19 +69,25 @@
               <div class="row">              
                 <div class="col-md-12 mb-2 form-inline">
                   <label for="type" class="col-sm-3 col-form-label">Type:</label>              
-                  <input type="text" class="form-control" name="type" placeholder="Ranch" required>
+                  <input type="text" class="form-control" name="type" placeholder="Ranch">
                 </div>
               </div>
               <div class="row">              
                 <div class="col-md-12 mb-2 form-inline">
                   <label for="sqft" class="col-sm-3 col-form-label">Sq ft:</label>              
-                  <input type="text" class="form-control" name="sqft" placeholder="1658" required>
+                  <input type="text" class="form-control" name="sqft" placeholder="1658">
                 </div>
               </div>
-              <div class="row">              
+              <div class="row">            
                 <div class="col-md-12 mb-2 form-inline">
                   <label for="stories" class="col-sm-3 col-form-label">Stories:</label>              
-                  <input type="text" class="form-control" name="stories" placeholder="2" required>
+                  <input type="text" class="form-control" name="stories" placeholder="2">
+                </div>
+              </div>
+              <div class="row">            
+                <div class="col-md-12 mb-2 form-inline">
+                  <label for="mainImage" class="col-sm-3 col-form-label">Main Image:</label>              
+                  <input type="text" class="form-control" name="mainImage" placeholder="Image Name">
                 </div>
               </div>
             </div>

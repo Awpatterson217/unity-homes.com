@@ -8,11 +8,21 @@ const {_all}      = require('../../api/read');
 const {safeEmail} = require('../../resources/js/safe');
 const {safeNum}   = require('../../resources/js/safe');
 const {safeBool}  = require('../../resources/js/safe');
+const {safeStr}   = require('../../resources/js/safe');
 const {safePass}  = require('../../resources/js/safe');
 const {newErr}    = require('../../resources/js/error');
 const {customErr} = require('../../resources/js/error');
 
 let property = {
+  id: {
+    value: '',
+  },
+  mainImage: {
+    value: '',
+    safe : function(str){
+      return safeStr(str);
+    }
+  },
   type: {
     value: '',
     safe : function(str){
@@ -55,7 +65,7 @@ let property = {
       return safeNum(num);
     }
   },
-  rented: {
+  occupied: {
     value: '',
     safe : function(bool){
       return safeBool(bool);
@@ -153,10 +163,19 @@ let property = {
     _count('properties', {
       'street': property.street.value
     }, function(error, count) {
+
       if(error !== null)
         return callback(newErr(error));
 
       if(!count){
+        let newStreet = ''
+        let copiedStreet = property.street.value;
+        for(let i = 0; i < copiedStreet.length; i++) {
+          if(copiedStreet[i] === ' ')
+            continue;
+          newStreet += copiedStreet[i];
+        }
+        property.id.value = newStreet.toLowerCase();
         _create('properties', property.getObject(), function(error, prop) {
           if(error !== null)
             return callback(newErr(error));

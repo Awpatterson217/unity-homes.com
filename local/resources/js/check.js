@@ -4,6 +4,9 @@ const validator = require('validator');
 
 const {sanitize}     = require('./sanitize');
 const {isPassFormat} = require('./sanitize');
+const {safeBool}     = require('./safe');
+const {safeStr}      = require('./safe');
+const {safeNum}      = require('./safe');
 
 let checkEmail = function(req, res, next){
   let email = sanitize(req.body.email);
@@ -68,10 +71,59 @@ let checkPassTwo = function(req, res, next){
   return next();
 }
 
+let checkImage = function(req, res, next){
+  let image = sanitize(req.body.image);
+  if(validator.isDataURI(image)){
+    req.body.image = image;
+    return next();
+  }
+  req.body.image = '';
+  return next();
+}
+
+let checkProps = function(req, res, next){
+  let property = {};
+  let stories  = safeNum(req.body.stories);
+
+  property.stories = (stories.length === 1)
+  ? stories
+  : '';
+
+  property.mainImage = safeStr(req.body.mainImage);
+  property.street    = safeStr(req.body.street);
+  property.city      = safeStr(req.body.city);
+  property.zip       = safeNum(req.body.zip);
+  property.state     = safeStr(req.body.state);
+  property.type      = safeStr(req.body.type);
+  property.sqft      = safeNum(req.body.sqft);
+  property.washer    = safeBool(req.body.washer);
+  property.dryer     = safeBool(req.body.dryer);
+  property.garage    = safeBool(req.body.garage);
+  property.basement  = safeBool(req.body.basement);
+  property.fence     = safeBool(req.body.fence);
+  property.occupied  = safeBool(req.body.occupied);
+
+  for(let prop in property){
+    if(property.hasOwnProperty(prop)){
+      req.body[prop] = property[prop].val;
+    }
+  }
+
+  return next();
+}
+
+let checkPropId = function(req, res, next){
+  let id = sanitize(req.body.id);
+  req.body.id = id;
+  return next();
+}
+
 module.exports = {
-  checkEmail  : checkEmail,
-  checkNames  : checkNames,
-  checkCode   : checkCode,
-  checkPass   : checkPass,
-  checkPassTwo: checkPassTwo,
+  checkEmail   : checkEmail,
+  checkNames   : checkNames,
+  checkCode    : checkCode,
+  checkPass    : checkPass,
+  checkPassTwo : checkPassTwo,
+  checkProps   : checkProps,
+  checkPropId  : checkPropId
 }
