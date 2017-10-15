@@ -3,18 +3,28 @@
 const express    = require('express');
 const formidable = require('formidable');
 
-const property       = require('../../../models/property/property');
-const {checkEmail}   = require('../../../resources/js/check');
-const {checkImage}   = require('../../../resources/js/check');
+const property     = require('../../../models/property/property');
+const {checkEmail} = require('../../../resources/js/middleware');
+const {checkImage} = require('../../../resources/js/middleware');
+const {checkAuth}  = require('../../../resources/js/middleware');
+const {isEmpty}    = require('../../../resources/js/functions');
 
 const router = express.Router();
 
-router.get('/propImages', function(req, res) {
-  return res.render('propImages');
+router.get('/propImages', checkAuth, function(req, res) {
+  const now = new Date().getTime();
+  // TODO Log time and req
+
+  let fullName = req.session.firstName + ' ' + req.session.lastName;
+
+    return res.render('propImages', {
+      fullName: fullName
+    });
 });
 
 // Need checkStreetAddr, checkImage
-router.post('/propImages/upload', function(req, res, next) {
+router.post('/propImages/upload', checkAuth, function(req, res, next) {
+  let fullName = req.session.firstName + ' ' + req.session.lastName;
 
 //  const form = new formidable.IncomingForm();
 //  form.type = 'multipart';
@@ -62,7 +72,9 @@ router.post('/propImages/upload', function(req, res, next) {
 });
 
 // Need validation middleware for string
-router.post('/propImages/delete', function(req, res, next) {
+router.post('/propImages/delete', checkAuth, function(req, res, next) {
+    let fullName = req.session.firstName + ' ' + req.session.lastName;
+
   //const id = req.body.id;
   const id = '';
 
@@ -71,8 +83,8 @@ router.post('/propImages/delete', function(req, res, next) {
       deleteSuccess: false
     });
 
-  property.delete({
-    'id': id,
+  property.deleteImage({
+    'name': id,
   }, function(error, numOfDeletes) {
     if(error !== null)
       return res.render('propImages', {

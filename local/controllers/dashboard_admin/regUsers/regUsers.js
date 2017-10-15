@@ -3,18 +3,29 @@
 const express = require('express');
 
 const registeredTenant = require('../../../models/tenant/registeredTenant');
-const {checkEmail}     = require('../../../resources/js/check');
-const {checkNames}     = require('../../../resources/js/check');
-const {checkPass}      = require('../../../resources/js/check');
-const {checkPassTwo}   = require('../../../resources/js/check');
+const {checkEmail}     = require('../../../resources/js/middleware');
+const {checkNames}     = require('../../../resources/js/middleware');
+const {checkPass}      = require('../../../resources/js/middleware');
+const {checkPassTwo}   = require('../../../resources/js/middleware');
+const {checkAuth}      = require('../../../resources/js/middleware');
+const {isEmpty}        = require('../../../resources/js/functions');
 
 const router = express.Router();
 
-router.get('/regUsers', function(req, res) {
-  return res.render('regUsers');
+router.get('/regUsers', checkAuth, function(req, res) {
+    const now = new Date().getTime();
+  // TODO Log time and req
+
+  let firstName = req.session.firstName;
+  let lastName  = req.session.lastName;
+  let fullName  = firstName + ' ' + lastName;
+  
+  return res.render('regUsers', {
+    fullName: fullName
+  });
 });
 
-router.post('/regUsers/create', checkNames, checkEmail, checkPass, checkPassTwo, function(req, res, next) {
+router.post('/regUsers/create', checkAuth, checkNames, checkEmail, checkPass, checkPassTwo, function(req, res, next) {
   const email       = req.body.email;
   const firstName   = req.body.firstName;
   const middleName  = req.body.middleName;
@@ -22,7 +33,7 @@ router.post('/regUsers/create', checkNames, checkEmail, checkPass, checkPassTwo,
   const password    = req.body.password;
   const passwordTwo = req.body.passwordTwo;
 
-  if(email === '' || password === '' || passwordTwo === '' || firstName === '' || lastName === '')
+  if(isEmpty(email, password, passwordTwo, firstName, lastName))
     return res.render('regUsers', {
       createSuccess: false
     });
@@ -84,7 +95,7 @@ router.post('/regUsers/create', checkNames, checkEmail, checkPass, checkPassTwo,
   });
 });
 
-router.post('/regUsers/delete', checkEmail, function(req, res, next) {
+router.post('/regUsers/delete', checkAuth, checkEmail, function(req, res, next) {
   const email = req.body.email;
 
   if(email === '')

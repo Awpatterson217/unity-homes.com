@@ -1,13 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
   <% include ../includes/dashboardHead %>
-  <body>
+  <body class="container-fluid">
     <div>
 
-    <br />      
-    <br />
-    <a href="/admin">Back</a>
-    <br />
+      <% include ../includes/dashboardNav %>
+
+      <div class="row">
+        <div class="col-2">
+          <ul class="nav nav-fill flex-column nav-pills">
+            <li class="nav-item">
+              <a class="nav-link side-link active" id="upload-property-image-tab" data-toggle="pill" href="#upload-property-image">Upload Image</a>
+            </li>
+            <div class="dropdown-divider"></div>
+            <li class="nav-item">
+              <a class="nav-link side-link" id="delete-property-image-tab" data-toggle="pill" href="#delete-property-image">Delete Image</a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-9">
+          <div class="tab-content" id="v-pills-tabContent">
+            <div class="tab-pane show active fade" id="upload-property-image">
+
+              <div id="form">
+                <form class="container" action="/propImages/upload" method="post">
+                  <div class="row">              
+                    <div class="col-md-12 mb-3 mt-2">
+                      <label for="id" class="sr-only">ID</label>
+                      <input type="text" class="form-control" name="id" placeholder="ID" required>      
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12 mb-4">
+                      <label for="image" class="sr-only">Upload</label>              
+                      <input type="file" name="image" accept="image/*" required>
+                    </div>
+                  </div>
+                  <button class="btn btn-md btn-default submit-button-center" type="submit">Submit</button>
+                </form>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="delete-property-image">
+
+              <div id="form">
+                <form class="container" action="/propImages/delete" method="post">
+                  <div class="row">              
+                    <div class="col-md-12 mb-2  mt-2">
+                      <label for="id" class="sr-only">ID</label>              
+                      <input type="text" class="form-control" name="id" placeholder="ID" required>
+                    </div>
+                  </div>          
+                  <button class="btn btn-md btn-default submit-button-center" type="submit">Submit</button>
+                </form>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
 
       <% if (!(typeof createSuccess == 'undefined')) { %>
         <% if (!uploadSuccess) { %>
@@ -35,41 +85,6 @@
         <% } %>
       <% } %>
 
-      <div id="form">
-        <form class="container" action="/props/upload" method="post">
-          <h2 class="form-signin-heading">
-            Upload Property Image
-          </h2>
-          <div class="row">              
-            <div class="col-md-12 mb-3 mt-2">
-              <label for="id" class="sr-only">ID</label>
-              <input type="text" class="form-control" name="id" placeholder="ID" required>      
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-12 mb-4">
-              <label for="image" class="sr-only">Upload</label>              
-              <input type="file" name="image" accept="image/*" required>
-            </div>
-          </div>
-          <button class="btn btn-md btn-default btn-block" type="submit">Submit</button>
-        </form>
-      </div>
-
-      <div id="form">
-        <form class="container" action="/props/delete" method="post">
-          <h2 class="form-signin-heading">
-            Delete Property Image
-          </h2>
-          <div class="row">              
-            <div class="col-md-12 mb-2  mt-2">
-              <label for="id" class="sr-only">ID</label>              
-              <input type="text" class="form-control" name="id" placeholder="ID" required>
-            </div>
-          </div>          
-          <button class="btn btn-md btn-default btn-block" type="submit">Submit</button>
-        </form>
-      </div>
     </div>
     
     <% include ../../includes/scripts %>

@@ -1,13 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
   <% include ../includes/dashboardHead %>
-  <body>
+  <body class="container-fluid">
     <div>
 
-    <br />      
-    <br />
-    <a href="/admin">Back</a>
-    <br />
+      <% include ../includes/dashboardNav %>
 
       <% if (!(typeof createSuccess == 'undefined')) { %>
         <% if (!createSuccess) { %>

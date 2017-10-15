@@ -4,6 +4,8 @@ const express = require('express');
 
 const router = express.Router();
 
+const {isEmpty} = require('../resources/js/functions');
+
 router.get('/contact', function(req, res) {
   return res.render('contact');
 });

@@ -6,10 +6,11 @@ const csrf    = require('csurf');
 
 const registeredTenant   = require('../models/tenant/registeredTenant');
 const unregisteredTenant = require('../models/tenant/unregisteredTenant');
-const {checkEmail}       = require('../resources/js/check');
-const {checkCode}        = require('../resources/js/check');
-const {checkPass}        = require('../resources/js/check');
-const {checkPassTwo}     = require('../resources/js/check');
+const {checkEmail}       = require('../resources/js/middleware');
+const {checkCode}        = require('../resources/js/middleware');
+const {checkPass}        = require('../resources/js/middleware');
+const {checkPassTwo}     = require('../resources/js/middleware');
+const {isEmpty}          = require('../resources/js/functions');
 
 //const csrfProtection = csrf();
 //{ csrfToken: req.csrfToken() }
@@ -27,7 +28,7 @@ router.post('/register', checkCode, checkEmail, checkPass, checkPassTwo, functio
   const password    = req.body.password;
   const passwordTwo = req.body.passwordTwo;
 
-  if(code === '' || email === '' || password === '' || passwordTwo === '')
+  if(isEmpty(code, email, password, passwordTwo))
     return res.render('register', {
       invalid: true
     });
@@ -49,11 +50,11 @@ router.post('/register', checkCode, checkEmail, checkPass, checkPassTwo, functio
           invalid: true
         });
 
-      registeredTenant.setVal('email', email);
-      registeredTenant.setVal('firstName', user.firstName);
+      registeredTenant.setVal('email'     , email);
+      registeredTenant.setVal('firstName' , user.firstName);
       registeredTenant.setVal('middleName', user.middleName);
-      registeredTenant.setVal('lastName', user.lastName);
-      registeredTenant.setVal('timestamp',  Math.floor(Date.now() / 1000).toString());
+      registeredTenant.setVal('lastName'  , user.lastName);
+      registeredTenant.setVal('timestamp' ,  Math.floor(Date.now() / 1000).toString());
       registeredTenant.create(function(error, user){
         if(error !== null){
           return res.render('register', {

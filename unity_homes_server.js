@@ -3,6 +3,7 @@
 const express    = require('express');
 const bodyParser = require('body-parser');
 const path       = require('path');
+const fs         = require('fs');
 const helmet     = require('helmet');
 //const redis      = require("redis");
 const session    = require('express-session');
@@ -50,7 +51,7 @@ app.set('view engine', 'ejs');
 app.set('views', [
   path.join(__dirname, 'public', 'views'),
   path.join(__dirname, 'public', 'dashboard_admin'),
-  path.join(__dirname, 'public', 'dashboard_admin', 'unregUsers'),
+  path.join(__dirname, 'public', 'dashboard_admin', 'users'),
   path.join(__dirname, 'public', 'dashboard_admin', 'adminUsers'),
   path.join(__dirname, 'public', 'dashboard_admin', 'regUsers'),
   path.join(__dirname, 'public', 'dashboard_admin', 'props'),
@@ -119,3 +120,8 @@ const server = app.listen(port, host, () => {
 // Logs
 // Graphics, design, favicon, etc.
 // Grunt.js or Webpack
+
+// db.createCollection("propertyImages");
+// db.createCollection("properties");
+// db.createCollection("registeredUsers");
+// db.createCollection("unregisteredUsers");

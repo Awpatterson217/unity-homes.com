@@ -8,6 +8,7 @@ const {_all}      = require('../../api/read');
 const {safeEmail} = require('../../resources/js/safe');
 const {safeNum}   = require('../../resources/js/safe');
 const {safeBool}  = require('../../resources/js/safe');
+const {safeYear}  = require('../../resources/js/safe');
 const {safeStr}   = require('../../resources/js/safe');
 const {safePass}  = require('../../resources/js/safe');
 const {newErr}    = require('../../resources/js/error');
@@ -83,6 +84,12 @@ let property = {
       return safeNum(num);
     }
   },
+  year: {
+    value: '',
+    safe : function(num){
+      return safeYear(num);
+    }
+  },
   washer: {
     value: '',
     safe : function(bool){
@@ -111,12 +118,6 @@ let property = {
     value: '',
     safe : function(bool){
       return safeBool(bool);
-    }        
-  },
-  images: {
-    value: '',
-    safe : function(str){
-      return safeStr(str);
     }        
   },
   timestamp: {

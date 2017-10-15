@@ -1,133 +1,211 @@
 <!DOCTYPE html>
 <html lang="en">
-  <% include ../includes/dashboardHead %>
-  <body>
-    <style>
-    .row {
-          margin-top: 30px;
-          margin-bottom: 30px
-    }
-    </style>
+<% include ../includes/dashboardHead %>
+
+  <body class="container-fluid">
     <div id="app">
 
-      <a href="/logout">Logout</a>
-      
-      <br />
-
-      <h2>Welcome, <%- fullName %>.</h2>
+      <% include ../includes/dashboardNav %>
 
       <div class="row">
-        <div class="col">
-          <br />
-          <a href="/adminUsers">Add/Remove Administrators</a>
-          <br />
-
-          <br />
-          <a href="/unregUsers">Add/Remove Unregistered Users</a>
-          <br />
-
-          <br />
-            <a href="/regUsers">Add/Remove Registered Users</a>
-          <br />
-
-          <br />
-            <a href="/props">Add/Remove Properties</a>
-          <br />
-
-          <br />
-            <a href="/propImages">Add/Remove Property Images</a>
-          <br />
-
-        </div>
-      </div>
-
-      <hr />
-
-      <div class="row">
-        <div class="col-3">
-          <h4>Unregistered Accounts:</h4>
-        </div>
-
-        <div class="col-3">
-          <ul>
-            <li v-for="unregisteredTenant in unregisteredTenants">
-              {{ unregisteredTenant.email }}
+        <div class="col-2">
+          <ul class="nav nav-fill flex-column nav-pills">
+            <li class="nav-item">
+              <a class="nav-link side-link active" id="administrators-tab" data-toggle="pill" href="#administrators">Administrators</a>
+            </li>
+            <div class="dropdown-divider"></div>
+            <li class="nav-item">
+              <a class="nav-link side-link" id="registered-users-tab" data-toggle="pill" href="#registered-users">Registered Users</a>
+            </li>
+            <div class="dropdown-divider"></div>
+            <li class="nav-item">
+              <a class="nav-link side-link" id="unregistered-users-tab" data-toggle="pill" href="#unregistered-users">Unregistered Users</a>
+            </li>
+            <div class="dropdown-divider"></div>
+            <li class="nav-item">
+              <a class="nav-link side-link" id="properties-tab" data-toggle="pill" href="#properties">Properties</a>
             </li>
           </ul>
         </div>
+        <div class="col-10">
+          <div class="tab-content" id="v-pills-tabContent">
+            <div class="tab-pane fade show active" id="administrators">
 
-        <div class="col-3">
-          <ul>
-            <li v-for="unregisteredTenant in unregisteredTenants">
-              {{ unregisteredTenant.code }}
-            </li>
-          </ul>
-        </div>
-      </div>
+              <div class="row margin-top-10 bottom-border">
+                <div class="col-4 table-header">
+                  <span class='table-header-text'>Name</span>
+                </div>
+                <div class="col-4 table-header">
+                  <span class='table-header-text'>Email</span>
+                </div>
+                <div class="col-4 table-header">
+                  <span class='table-header-text'>Account Type</span>
+                </div>
+              </div>
 
-      <hr />
+            </div>
+            <div class="tab-pane fade" id="registered-users">
 
-      <div class="row">
-        <div class="col-3">
-          <h4>Registered Accounts:</h4>
-        </div>
+              <div class="row margin-top-10 bottom-border">
+                <div class="col-4 table-header">
+                  <span class='table-header-text'>Name</span>
+                </div>
+                <div class="col-4 table-header">
+                  <span class='table-header-text'>Email</span>
+                </div>
+                <div class="col-4 table-header">
+                  <span class='table-header-text'>Account Type</span>
+                </div>
+              </div>
 
-        <div class="col-3">
-          <ul>
-            <li v-for="registeredTenant in registeredTenants">
-              {{ registeredTenant.email }}
-            </li>
-          </ul>
-        </div>
+              <div class="row">
+                <div class="col-4">
+                  <div v-for="registeredTenant in registeredTenants">
+                    {{ registeredTenant.firstName }}
+                    {{ registeredTenant.middleName }}
+                    {{ registeredTenant.lastName }}
+                  </div>
+                </div>
 
-        <div class="col-3">
-          <ul>
-            <li v-for="registeredTenant in registeredTenants">
-              {{ registeredTenant.type }}
-            </li>
-          </ul>
-        </div>
-      </div>
+                <div class="col-4">
+                  <div v-for="registeredTenant in registeredTenants">
+                    {{ registeredTenant.email }}
+                  </div>
+                </div>
 
-      <hr />
+                <div class="col-4">
+                  <div v-for="registeredTenant in registeredTenants">
+                    {{ registeredTenant.type }}
+                  </div>
+                </div>
+              </div>
 
-      <div class="row">
-        <div class="col-3">
-          <h4>Properties:</h4>
-        </div>
+            </div>
+            <div class="tab-pane fade" id="unregistered-users">
 
-        <div class="col-3">
-          <ul>
-            <li v-for="property in properties">
-              {{ property.streetAddr }}
-            </li>
-          </ul>
-        </div>
+              <div class="row margin-top-10 bottom-border">
+                <div class="col-4 table-header">
+                  <span class='table-header-text'>Name</span>
+                </div>
+                <div class="col-4 table-header">
+                  <span class='table-header-text'>Email</span>
+                </div>
+                <div class="col-4 table-header">
+                  <span class='table-header-text'>Registration Code</span>
+                </div>
+              </div>
 
-        <div class="col-3">
-          <ul>
-            <li v-for="property in properties">
-              {{ property.rented }}
-            </li>
-          </ul>
+              <div class="row">
+                <div class="col-4">
+                  <div v-for="unregisteredTenant in unregisteredTenants">
+                    {{ unregisteredTenant.firstName }}
+                    {{ unregisteredTenant.middleName }}
+                    {{ unregisteredTenant.lastName }}
+                  </div>
+                </div>
+
+                <div class="col-4">
+                  <div v-for="unregisteredTenant in unregisteredTenants">
+                    {{ unregisteredTenant.email }}
+                  </div>
+                </div>
+
+                <div class="col-4">
+                  <div v-for="unregisteredTenant in unregisteredTenants">
+                    {{ unregisteredTenant.code }}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="properties">
+
+              <div class="row margin-top-10 bottom-border">
+                <div class="col-1 table-header">
+                  <span class='table-header-text'>ID</span>
+                </div>
+                <div class="col-2 table-header">
+                  <span class='table-header-text'>Main Image</span>
+                </div>
+                <div class="col-2 table-header">
+                  <span class='table-header-text'>Address</span>
+                </div>
+                <div class="col-1 table-header">
+                  <span class='table-header-text'>Square Foot</span>
+                </div>
+                <div class="col-2 table-header">
+                  <span class='table-header-text'>Basement/Garage/Fence</span>
+                </div>
+                <div class="col-2 table-header">
+                  <span class='table-header-text'>Washer/Dryer</span>
+                </div>     
+                <div class="col-1 table-header">
+                  <span class='table-header-text'>Type</span>
+                </div>
+                <div class="col-1 table-header">
+                  <span class='table-header-text'>Occupied</span>
+                </div>
+              </div>
+
+              <div class="row" v-for="property in properties">
+                <div class="col-1 table-text">
+                  {{ property.id }}
+                </div>
+                <div class="col-2 center-image">
+                  <img class="center-image" v-bind:src=imgName(property.mainImage) />
+                </div>
+                <div class="col-2 table-text">
+                  {{ property.street }} <br />
+                  {{ property.city }}, {{ property.state }}  {{ property.zip }} 
+                </div>
+                <div class="col-1 table-text">
+                  {{ property.sqft }}
+                </div>
+                <div class="col-2 table-text">
+                  {{ property.basement }} / {{ property.garage }} / {{ property.fence }}
+                </div>
+                <div class="col-2 table-text">
+                  {{ property.washer }} / {{ property.dryer }}
+                </div>
+                <div class="col-1 table-text">
+                  {{ property.type }}
+                </div>
+                <div class="col-1 table-text">
+                  {{ property.occupied }}
+                </div>
+              </div>
+
+            </div>
+
+            <div class="tab-pane fade" id="v-pills-home">
+
+            </div>
+          </div>
         </div>
       </div>
 
     </div>
 
-    <br />
+    <% include ../includes/dashboardScripts %>
 
-    <% include ../includes/scripts %>
     <script src="/vue/vue.min.js"></script>
+
     <script>
       const app = new Vue({
         el: '#app',
         data: {
+          selected:[],
           unregisteredTenants: <%- JSON.stringify(unregisteredTenants) %>,
-          registeredTenants  : <%- JSON.stringify(registeredTenants) %>,
-          properties         : <%- JSON.stringify(properties) %>
+          registeredTenants: <%- JSON.stringify(registeredTenants) %>,
+          properties: <%- JSON.stringify(properties) %>
+        },
+        methods: {
+          imgName: function (prop) {
+            var imgPath = 'images/properties/' + prop;
+            return imgPath;
+          }
         }
       });
     </script>
   </body>
+
 </html>

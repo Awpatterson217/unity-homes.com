@@ -3,46 +3,56 @@
 const express = require('express');
 
 const property      = require('../../../models/property/property');
-const {checkProps}  = require('../../../resources/js/check');
-const {checkPropId} = require('../../../resources/js/check');
-const {notEmpty}    = require('../../../resources/js/sanitize');
+const {checkProps}  = require('../../../resources/js/middleware');
+const {checkPropId} = require('../../../resources/js/middleware');
+const {isEmpty}     = require('../../../resources/js/functions');
+const {checkAuth}   = require('../../../resources/js/middleware');
 
 const router = express.Router();
 
-router.get('/props', function(req, res) {
-  return res.render('props');
+router.get('/props', checkAuth, function(req, res) {
+  const now = new Date().getTime();
+  // TODO Log time and req
+
+  let fullName = req.session.firstName + ' ' + req.session.lastName;
+
+  return res.render('props', {
+    fullName: fullName
+  });
 });
 
-router.post('/props/add', checkProps, function(req, res, next) {
+router.post('/props/add', checkAuth, checkProps, function(req, res, next) {
   const timestamp = Math.floor(Date.now() / 1000).toString();
-  let washer   = notEmpty(req.body.washer)
-    ? 'true' 
-    : 'false';
-  let dryer    = notEmpty(req.body.dryer)
-    ? 'true' 
-    : 'false';
-  let garage   = notEmpty(req.body.garage)
-    ? 'true' 
-    : 'false';
-  let basement = notEmpty(req.body.basement)
-    ? 'true' 
-    : 'false';
-  let fence    = notEmpty(req.body.fence)
-    ? 'true' 
-    : 'false';
-  let occupied = notEmpty(req.body.occupied)
-    ? 'true' 
-    : 'false';
 
-  if(!notEmpty(req.body.street))
+  let fullName = req.session.firstName + ' ' + req.session.lastName;
+
+  let washer   = isEmpty(req.body.washer)
+    ? 'false' 
+    : 'true';
+  let dryer    = isEmpty(req.body.dryer)
+    ? 'false' 
+    : 'true';
+  let garage   = isEmpty(req.body.garage)
+    ? 'false' 
+    : 'true';
+  let basement = isEmpty(req.body.basement)
+    ? 'false' 
+    : 'true';
+  let fence    = isEmpty(req.body.fence)
+    ? 'false' 
+    : 'true';
+  let occupied = isEmpty(req.body.occupied)
+    ? 'false' 
+    : 'true';
+
+  if(isEmpty(req.body.street))
     return res.render('props', {
+      fullName     : fullName,
       createSuccess: false
     });
 
-    // Create id = streetAddr + num (num = number of images at this address + 1)
-    // property.setVal('id', id);
-
   property.setVal('street'   , req.body.street);
+  property.setVal('mainImage', req.body.mainImage);
   property.setVal('city'     , req.body.city);
   property.setVal('zip'      , req.body.zip);
   property.setVal('state'    , req.body.state);
@@ -57,24 +67,28 @@ router.post('/props/add', checkProps, function(req, res, next) {
   property.setVal('occupied' , occupied);
   property.setVal('timestamp', timestamp);
 
-
   property.create(function(error, prop){
     if(error !== null)
       return res.render('props', {
+        fullName     : fullName,
         createSuccess: false
       });
     
     return res.render('props', {
+      fullName     : fullName,
       createSuccess: true,
     });
   });
 });
 
-router.post('/props/delete', checkPropId, function(req, res, next) {
+router.post('/props/delete', checkAuth, checkPropId, function(req, res, next) {
+  let fullName = req.session.firstName + ' ' + req.session.lastName;
+
   const id = req.body.id;
 
   if(id === '')
     return res.render('props', {
+      fullName     : fullName,
       deleteSuccess: false
     });
 
@@ -83,15 +97,18 @@ router.post('/props/delete', checkPropId, function(req, res, next) {
   }, function(error, numOfDeletes) {
     if(error !== null)
       return res.render('props', {
+        fullName     : fullName,
         deleteSuccess: false
       });
 
     if(!numOfDeletes)
       return res.render('props', {
+        fullName     : fullName,
         deleteSuccess: false
       });
 
-    return res.render('props', { 
+    return res.render('props', {
+      fullName     : fullName,
       deleteSuccess: true
     });
   });

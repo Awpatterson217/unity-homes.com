@@ -2,8 +2,8 @@
 
 const validator = require('validator');
 
-const {sanitize}     = require('./sanitize');
-const {isPassFormat} = require('./sanitize');
+const {sanitize}     = require('./safe');
+const {isPassFormat} = require('./safe');
 const {safeBool}     = require('./safe');
 const {safeStr}      = require('./safe');
 const {safeNum}      = require('./safe');
@@ -118,12 +118,25 @@ let checkPropId = function(req, res, next){
   return next();
 }
 
+let checkAuth = function(req, res, next){
+  if(!req.session.userAuth){
+    let responseText = '<h1>No Access!</h1>';
+    responseText += '<hr>';
+    responseText += '<br /> You may need to <a href=\'/login\'>login again.</a>';
+
+    return res.send(responseText);
+  }else{
+    return next();
+  }
+}
+
 module.exports = {
-  checkEmail   : checkEmail,
-  checkNames   : checkNames,
-  checkCode    : checkCode,
-  checkPass    : checkPass,
-  checkPassTwo : checkPassTwo,
-  checkProps   : checkProps,
-  checkPropId  : checkPropId
+  checkEmail  : checkEmail,
+  checkNames  : checkNames,
+  checkCode   : checkCode,
+  checkPass   : checkPass,
+  checkPassTwo: checkPassTwo,
+  checkProps  : checkProps,
+  checkPropId : checkPropId,
+  checkAuth   : checkAuth
 }

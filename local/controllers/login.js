@@ -6,8 +6,9 @@ const bodyParser = require('body-parser');
 const csrf       = require('csurf');
 
 const registeredTenant = require('../models/tenant/registeredTenant');
-const {checkEmail}     = require('../resources/js/check');
-const {checkPass}      = require('../resources/js/check');
+const {checkEmail}     = require('../resources/js/middleware');
+const {checkPass}      = require('../resources/js/middleware');
+const {isEmpty}        = require('../resources/js/functions');
 
 //const csrfProtection = csrf();
 const router = express.Router();
@@ -27,7 +28,7 @@ router.post('/login', checkEmail, checkPass, function(req, res, next) {
   const email    = req.body.email;
   const password = req.body.password;
 
-  if(email === '' || password === '')
+  if(isEmpty(email, password))
     return res.render('login', { invalid: true });
 
   registeredTenant.authenticate(email, password, function(error, user){

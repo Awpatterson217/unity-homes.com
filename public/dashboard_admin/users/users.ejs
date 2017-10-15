@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <% include ../includes/dashboardHead %>
+  <body class="container-fluid">
+    <div>
+
+      <% include ../../includes/dashboardNav %>
+
+      <div class="row">
+        <div class="col-2">
+          <ul class="nav nav-fill flex-column nav-pills">
+            <li class="nav-item">
+              <a class="nav-link side-link active" id="add-registered-user-tab" data-toggle="pill" href="#add-registered-user">Add Registered</a>
+            </li>
+            <div class="dropdown-divider"></div>
+            <li class="nav-item">
+              <a class="nav-link side-link" id="add-unregistered-user-tab" data-toggle="pill" href="#add-unregistered-user">Add Unregistered</a>
+            </li>
+            <div class="dropdown-divider"></div>
+            <li class="nav-item">
+              <a class="nav-link side-link" id="delete-registered-user-tab" data-toggle="pill" href="#delete-registered-user">Delete Registered</a>
+            </li>
+            <div class="dropdown-divider"></div>
+            <li class="nav-item">
+              <a class="nav-link side-link" id="delete-unregistered-user-tab" data-toggle="pill" href="#delete-unregistered-user">Delete Unregistered</a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-9">
+          <div class="tab-content" id="v-pills-tabContent">
+            <div class="tab-pane fade show active" id="add-registered-user">
+
+              <div id="form">
+                <form class="container" action="/regUsers/add" method="post">
+                  <div class="row">              
+                    <div class="col-md-12 mb-2">
+                      <label for="email" class="sr-only">Email</label>              
+                      <input type="text" class="form-control" name="email" placeholder="Email" required>
+                    </div>
+                  </div>
+                  <div class="row">              
+                    <div class="col-md-12 mb-2">
+                      <label for="firstName" class="sr-only">First Name</label>              
+                      <input type="text" class="form-control" name="firstName" placeholder="First Name" required>
+                    </div>
+                  </div>
+                  <div class="row">              
+                    <div class="col-md-12 mb-2">
+                      <label for="middleName" class="sr-only">Middle Name</label>              
+                      <input type="text" class="form-control" name="middleName" placeholder="Middle Name">
+                    </div>
+                  </div>
+                  <div class="row">              
+                    <div class="col-md-12 mb-2">
+                      <label for="lastName" class="sr-only">Last Name</label>              
+                      <input type="text" class="form-control" name="lastName" placeholder="Last Name" required>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12 mb-2">
+                      <label for="password" class="sr-only">Password</label>         
+                      <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                    </div>
+                  </div>
+                  <div class="row">  
+                    <div class="col-md-12 mb-2">
+                      <label for="passwordTwo" class="sr-only">Confirm Password</label>              
+                      <input type="password" class="form-control" name="passwordTwo" placeholder="Confirm Password" required>
+                    </div>
+                  </div>
+                  <button class="btn btn-md btn-default submit-button-center" type="submit">Submit</button>
+                </form>
+              </div>
+
+            </div>
+            <div class="tab-pane fade" id="delete-registered-user">
+
+              <div id="form">
+                <form class="container" action="/regUsers/delete" method="post">
+                  <div class="row">              
+                    <div class="col-md-12 mb-2">
+                      <label for="email" class="sr-only">Email</label>              
+                      <input type="email" class="form-control" name="email" placeholder="Email" required>
+                    </div>
+                  </div>          
+                  <button class="btn btn-md btn-default submit-button-center" type="submit">Submit</button>
+                </form>
+              </div>
+
+            </div>
+            <div class="tab-pane fade" id="add-unregistered-user">
+
+              <div id="form">
+                <form class="container" action="/unregUsers/add" method="post">
+                  <div class="row">              
+                    <div class="col-md-12 mb-2">
+                      <label for="email" class="sr-only">Email</label>              
+                      <input type="text" class="form-control" name="email" placeholder="Email" required>
+                    </div>
+                  </div>
+                  <div class="row">              
+                    <div class="col-md-12 mb-2">
+                      <label for="firstName" class="sr-only">First Name</label>              
+                      <input type="text" class="form-control" name="firstName" placeholder="First Name" required>
+                    </div>
+                  </div>
+                  <div class="row">              
+                    <div class="col-md-12 mb-2">
+                      <label for="middleName" class="sr-only">Middle Name</label>              
+                      <input type="text" class="form-control" name="middleName" placeholder="Middle Name">
+                    </div>
+                  </div>
+                  <div class="row">              
+                    <div class="col-md-12 mb-2">
+                      <label for="lastName" class="sr-only">Last Name</label>              
+                      <input type="text" class="form-control" name="lastName" placeholder="Last Name" required>
+                    </div>
+                  </div>
+                  <button class="btn btn-md btn-default submit-button-center" type="submit">Submit</button>
+                </form>
+              </div>
+
+            </div>
+            <div class="tab-pane fade" id="delete-unregistered-user">
+
+              <div id="form">
+                <form class="container" action="/unregUsers/delete" method="post">
+                  <div class="row">              
+                    <div class="col-md-12 mb-2">
+                      <label for="email" class="sr-only">Email</label>              
+                      <input type="text" class="form-control" name="email" placeholder="Email" required>
+                    </div>
+                  </div>          
+                  <button class="btn btn-md btn-default submit-button-center" type="submit">Submit</button>
+                </form>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <% if (!(typeof createSuccess == 'undefined')) { %>
+        <% if (!createSuccess) { %>
+          <div class="alert alert-danger" role="alert">
+            <h4 class="alert-heading text-center">Creation Unsuccessful!</h4>
+          </div>      
+        <% } %>
+        <% if (createSuccess) { %>
+          <div class="alert alert-success" role="alert">
+            <h4 class="alert-heading text-center">Creation Successful!</h4>
+          </div>      
+        <% } %>
+      <% } %>
+
+      <% if (!(typeof deleteSuccess == 'undefined')) { %>
+        <% if (!deleteSuccess) { %>
+          <div class="alert alert-danger" role="alert">
+            <h4 class="alert-heading text-center">Deletion Unsuccessful!</h4>
+          </div>      
+        <% } %>
+        <% if (deleteSuccess) { %>
+          <div class="alert alert-success" role="alert">
+            <h4 class="alert-heading text-center">Deletion Successful!</h4>
+          </div>      
+        <% } %>
+      <% } %>
+
+    <% include ../../includes/scripts %>
+  </body>
+</html>

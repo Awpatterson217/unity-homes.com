@@ -4,18 +4,29 @@ const express = require('express');
 const moment  = require('moment');
 
 const administrator  = require('../../../models/admin/administrator');
-const {checkEmail}   = require('../../../resources/js/check');
-const {checkNames}   = require('../../../resources/js/check');
-const {checkPass}    = require('../../../resources/js/check');
-const {checkPassTwo} = require('../../../resources/js/check');
+const {checkEmail}   = require('../../../resources/js/middleware');
+const {checkNames}   = require('../../../resources/js/middleware');
+const {checkPass}    = require('../../../resources/js/middleware');
+const {checkPassTwo} = require('../../../resources/js/middleware');
+const {checkAuth}    = require('../../../resources/js/middleware');
+const {isEmpty}      = require('../../../resources/js/functions');
 
 const router = express.Router();
 
-router.get('/adminUsers', function(req, res) {
-  return res.render('adminUsers');
+router.get('/adminUsers', checkAuth, function(req, res) {
+  const now = new Date().getTime();
+  // TODO Log time and req
+
+  let fullName = req.session.firstName + ' ' + req.session.lastName;
+
+  return res.render('adminUsers', {
+    fullName: fullName
+  });
 });
 
-router.post('/adminUsers/create', checkNames, checkEmail, checkPass, checkPassTwo, function(req, res, next) {
+router.post('/adminUsers/create', checkAuth, checkNames, checkEmail, checkPass, checkPassTwo, function(req, res, next) {
+  let fullName = req.session.firstName + ' ' + req.session.lastName;
+
   const email       = req.body.email;
   const firstName   = req.body.firstName;
   const middleName  = req.body.middleName;
@@ -23,21 +34,25 @@ router.post('/adminUsers/create', checkNames, checkEmail, checkPass, checkPassTw
   const password    = req.body.password;
   const passwordTwo = req.body.passwordTwo;
 
-  if(email === '' || password === '' || passwordTwo === '' || firstName === '' || lastName === '')
+  if(isEmpty(email, password, passwordTwo, firstName, lastName))
     return res.render('adminUsers', {
+      fullName     : fullName,
       createSuccess: false
     });
   if(!password)
     return res.render('adminUsers', {
+      fullName     : fullName,
       createSuccess: false
     });
   if(!passwordTwo)
     return res.render('adminUsers', {
+      fullName     : fullName,
       createSuccess: false
     });
 
   if(password !== passwordTwo)
     return res.render('adminUsers', {
+      fullName     : fullName,
       createSuccess: false,
       match        : false 
     });
@@ -45,6 +60,7 @@ router.post('/adminUsers/create', checkNames, checkEmail, checkPass, checkPassTw
   administrator.hash(password).then(function(success){
     if(!success)
       return res.render('adminUsers', {
+        fullName     : fullName,
         createSuccess: false
       });
 
@@ -57,10 +73,12 @@ router.post('/adminUsers/create', checkNames, checkEmail, checkPass, checkPassTw
     administrator.create(function(error, user){
       if(error !== null){
         return res.render('adminUsers', {
+          fullName     : fullName,
           createSuccess: false
         });
       }
       return res.render('adminUsers', {
+        fullName     : fullName,
         createSuccess: true,
       });
     });
@@ -69,11 +87,14 @@ router.post('/adminUsers/create', checkNames, checkEmail, checkPass, checkPassTw
   });
 });
 
-router.post('/adminUsers/delete', checkEmail, function(req, res, next) {
+router.post('/adminUsers/delete', checkAuth, checkEmail, function(req, res, next) {
+  let fullName = req.session.firstName + ' ' + req.session.lastName;
+
   const email = req.body.email;
 
   if(email === '')
     return res.render('adminUsers', {
+      fullName     : fullName,
       deleteSuccess: false
     });
 
@@ -83,15 +104,18 @@ router.post('/adminUsers/delete', checkEmail, function(req, res, next) {
   }, function(error, numOfDeletes) {
     if(error !== null)
       return res.render('adminUsers', {
+        fullName     : fullName,
         deleteSuccess: false
       });
 
     if(!numOfDeletes)
       return res.render('adminUsers', {
+        fullName     : fullName,
         deleteSuccess: false
       });
 
-    return res.render('adminUsers', { 
+    return res.render('adminUsers', {
+      fullName     : fullName,
       deleteSuccess: true
     });
   });

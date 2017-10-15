@@ -9,8 +9,7 @@ const login      = require('./login.js');
 const logout     = require('./logout.js');
 const admin      = require('./dashboard_admin/admin.js');
 const adminUsers = require('./dashboard_admin/adminUsers/adminUsers.js');
-const unregUsers = require('./dashboard_admin/unregUsers/unregUsers.js');
-const regUsers   = require('./dashboard_admin/regUsers/regUsers.js');
+const users      = require('./dashboard_admin/users/users.js');
 const props      = require('./dashboard_admin/props/props.js');
 const propImages = require('./dashboard_admin/propImages/propImages.js');
 const tenant     = require('./dashboard_tenant/tenant.js');
@@ -24,9 +23,8 @@ module.exports = {
   login     : login,
   logout    : logout,
   admin     : admin,
-  unregUsers: unregUsers,
+  users     : users,
   adminUsers: adminUsers,
-  regUsers  : regUsers,
   props     : props,
   propImages: propImages,
   tenant    : tenant
