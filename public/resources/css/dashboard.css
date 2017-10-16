@@ -16,9 +16,6 @@
 body{
     padding: 15px;
 }
-.center-text {
-    text-align: center;
-}
 .right-text {
     text-align: right;
 }
@@ -32,18 +29,18 @@ body{
     margin-right: auto;
 }
 .table-header-text{
+    text-align: center;
     font-size: 13px;
     font-weight: bold;
 }
 .table-text {
-    text-align: center;
     font-size: 13px;
 }
 .table-header{
     text-align: center;
     padding: 5px;
 }
-#form {
+.divForm {
     padding: 5px;
     max-width: 400px;
 }
@@ -79,6 +76,7 @@ body{
    background-color: maroon !important;
    color: white;
 }
+
 .nav>li>a.active,
 .nav>li>a:hover,
 .nav>li>a:focus {
@@ -157,7 +155,7 @@ body{
 }
 .thick-hr {
     border: none;
-    height: 2px;
+    height: 1px;
     /* Set the hr color */
     color: black; /* old IE */
     background-color: #333; /* Modern Browsers */

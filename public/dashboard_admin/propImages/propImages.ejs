@@ -22,18 +22,18 @@
           <div class="tab-content" id="v-pills-tabContent">
             <div class="tab-pane show active fade" id="upload-property-image">
 
-              <div id="form">
-                <form class="container" action="/propImages/upload" method="post">
+              <div id="divForm">
+                <form class="container mt-5 ml-5" action="/propImages/upload" method="post">
                   <div class="row">              
-                    <div class="col-md-12 mb-3 mt-2">
-                      <label for="id" class="sr-only">ID</label>
+                    <div class="col-md-8 mb-2">
                       <input type="text" class="form-control" name="id" placeholder="ID" required>      
                     </div>
                   </div>
                   <div class="row">
-                    <div class="col-md-12 mb-4">
-                      <label for="image" class="sr-only">Upload</label>              
-                      <input type="file" name="image" accept="image/*" required>
+                    <div class="col">
+                      <label class="btn btn-primary">
+                          Browse <input type="file" name="image" accept="image/*" required hidden>
+                      </label>
                     </div>
                   </div>
                   <button class="btn btn-md btn-default submit-button-center" type="submit">Submit</button>
@@ -42,11 +42,10 @@
             </div>
             <div class="tab-pane fade" id="delete-property-image">
 
-              <div id="form">
-                <form class="container" action="/propImages/delete" method="post">
+              <div id="divForm">
+                <form class="container mt-5 ml-5" action="/propImages/delete" method="post">
                   <div class="row">              
-                    <div class="col-md-12 mb-2  mt-2">
-                      <label for="id" class="sr-only">ID</label>              
+                    <div class="col-md-8 mb-2">
                       <input type="text" class="form-control" name="id" placeholder="ID" required>
                     </div>
                   </div>          

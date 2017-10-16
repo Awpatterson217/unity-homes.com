@@ -20,6 +20,12 @@ let unregisteredTenant = {
       return safeEmail(email);
     }
   },
+  phone: {
+    value: '',
+    safe : function(email){
+      return safeEmail(email);
+    }
+  },
   firstName: {
     value: '',
     safe : function(str){

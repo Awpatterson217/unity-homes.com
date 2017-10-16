@@ -13,9 +13,17 @@
 /* Extra large devices (large desktops, 1200px and up)
  * @media (min-width: 1200px) { ... }
  */
-
+.submit-button-center{
+    display: block;
+    margin: 3em auto;
+    padding: 10px 60px;
+}
+.apply{
+    margin: 0 auto;
+    padding: 20px 140px;
+}
 body { 
-    padding-top: 65px; 
+    padding-top: 60px; 
 }
 #register {
     max-width: 330px;
@@ -33,4 +41,11 @@ nav .right {
 }
 .popover   {
     font-style: italic;
+}
+.thick-hr {
+    border: none;
+    height: 1px;
+    /* Set the hr color */
+    color: black; /* old IE */
+    background-color: #333; /* Modern Browsers */
 }

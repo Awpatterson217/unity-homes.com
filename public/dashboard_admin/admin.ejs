@@ -31,154 +31,142 @@
           <div class="tab-content" id="v-pills-tabContent">
             <div class="tab-pane fade show active" id="administrators">
 
-              <div class="row margin-top-10 bottom-border">
-                <div class="col-4 table-header">
-                  <span class='table-header-text'>Name</span>
-                </div>
-                <div class="col-4 table-header">
-                  <span class='table-header-text'>Email</span>
-                </div>
-                <div class="col-4 table-header">
-                  <span class='table-header-text'>Account Type</span>
-                </div>
+              <div class="table-responsive">
+                <table class="table table-striped ">
+                  <thead class="table-header-text">
+                    <tr>
+                      <th class="text-center">Name</th>
+                      <th class="text-center">Email</th>
+                      <th class="text-center">Account Type</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+
+                  </tbody>
+                </table>
               </div>
 
             </div>
             <div class="tab-pane fade" id="registered-users">
 
-              <div class="row margin-top-10 bottom-border">
-                <div class="col-4 table-header">
-                  <span class='table-header-text'>Name</span>
-                </div>
-                <div class="col-4 table-header">
-                  <span class='table-header-text'>Email</span>
-                </div>
-                <div class="col-4 table-header">
-                  <span class='table-header-text'>Account Type</span>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col-4">
-                  <div v-for="registeredTenant in registeredTenants">
-                    {{ registeredTenant.firstName }}
-                    {{ registeredTenant.middleName }}
-                    {{ registeredTenant.lastName }}
-                  </div>
-                </div>
-
-                <div class="col-4">
-                  <div v-for="registeredTenant in registeredTenants">
-                    {{ registeredTenant.email }}
-                  </div>
-                </div>
-
-                <div class="col-4">
-                  <div v-for="registeredTenant in registeredTenants">
-                    {{ registeredTenant.type }}
-                  </div>
-                </div>
+              <div class="table-responsive">
+                <table class="table table-striped ">
+                  <thead class="table-header-text">
+                    <tr>
+                      <th class="text-center">Name</th>
+                      <th class="text-center">Email</th>
+                      <th class="text-center">Account Type</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="table-text" v-for="registeredTenant in registeredTenants">
+                      <td>                  
+                        {{ registeredTenant.firstName }}
+                        {{ registeredTenant.middleName }}
+                        {{ registeredTenant.lastName }}
+                      </td>
+                      <td>
+                        {{ registeredTenant.email }}
+                      </td>
+                      <td>
+                        {{ registeredTenant.type }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
 
             </div>
             <div class="tab-pane fade" id="unregistered-users">
 
-              <div class="row margin-top-10 bottom-border">
-                <div class="col-4 table-header">
-                  <span class='table-header-text'>Name</span>
-                </div>
-                <div class="col-4 table-header">
-                  <span class='table-header-text'>Email</span>
-                </div>
-                <div class="col-4 table-header">
-                  <span class='table-header-text'>Registration Code</span>
-                </div>
+              <div class="table-responsive">
+                <table class="table table-striped ">
+                  <thead class="table-header-text">
+                    <tr>
+                      <th class="text-center">Name</th>
+                      <th class="text-center">Email</th>
+                      <th class="text-center">Registration Code</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="table-text" v-for="unregisteredTenant in unregisteredTenants">
+                      <td>                  
+                        {{ unregisteredTenant.firstName }}
+                        {{ unregisteredTenant.middleName }}
+                        {{ unregisteredTenant.lastName }}
+                      </td>
+                      <td>
+                        {{ unregisteredTenant.email }}
+                      </td>
+                      <td>
+                        {{ unregisteredTenant.code }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
 
-              <div class="row">
-                <div class="col-4">
-                  <div v-for="unregisteredTenant in unregisteredTenants">
-                    {{ unregisteredTenant.firstName }}
-                    {{ unregisteredTenant.middleName }}
-                    {{ unregisteredTenant.lastName }}
-                  </div>
-                </div>
-
-                <div class="col-4">
-                  <div v-for="unregisteredTenant in unregisteredTenants">
-                    {{ unregisteredTenant.email }}
-                  </div>
-                </div>
-
-                <div class="col-4">
-                  <div v-for="unregisteredTenant in unregisteredTenants">
-                    {{ unregisteredTenant.code }}
-                  </div>
-                </div>
-              </div>
             </div>
             <div class="tab-pane fade" id="properties">
 
-              <div class="row margin-top-10 bottom-border">
-                <div class="col-1 table-header">
-                  <span class='table-header-text'>ID</span>
-                </div>
-                <div class="col-2 table-header">
-                  <span class='table-header-text'>Main Image</span>
-                </div>
-                <div class="col-2 table-header">
-                  <span class='table-header-text'>Address</span>
-                </div>
-                <div class="col-1 table-header">
-                  <span class='table-header-text'>Square Foot</span>
-                </div>
-                <div class="col-2 table-header">
-                  <span class='table-header-text'>Basement/Garage/Fence</span>
-                </div>
-                <div class="col-2 table-header">
-                  <span class='table-header-text'>Washer/Dryer</span>
-                </div>     
-                <div class="col-1 table-header">
-                  <span class='table-header-text'>Type</span>
-                </div>
-                <div class="col-1 table-header">
-                  <span class='table-header-text'>Occupied</span>
-                </div>
+              <div class="table-responsive">
+                <table class="table table-striped ">
+                  <thead class="table-header-text">
+                    <tr>
+                      <th class="text-center">ID</th>
+                      <th class="text-center">Main Image</th>
+                      <th class="text-center">Address</th>
+                      <th class="text-center">Sq Ft</th>
+                      <th class="text-center">Year</th>
+                      <th class="text-center">Fence</th>
+                      <th class="text-center">Basement/Garage</th>
+                      <th class="text-center">Washer/Dryer</th>
+                      <th class="text-center">Type</th>
+                      <th class="text-center">Occupied</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="table-text" v-for="property in properties">
+                      <td>                  
+                        {{ property.id }}
+                      </td>
+                      <td>
+                        <img class="center-image" v-bind:src=imgName(property.mainImage) />
+                      </td>
+                      <td>
+                        {{ property.street }} <br />
+                        {{ property.city }}, {{ property.state }}  {{ property.zip }} 
+                      </td>
+                      <td>
+                        {{ property.sqft }}
+                      </td>
+                      <td>
+                        {{ property.year }}
+                      </td>
+                      <td>
+                        {{ property.fence }}
+                      </td>
+                      <td>
+                        {{ property.basement }} / {{ property.garage }}
+                      </td>
+                      <td>
+                        {{ property.washer }} / {{ property.dryer }}
+                      </td>
+                      <td>
+                        {{ property.type }}
+                      </td>
+                      <td>
+                        {{ property.occupied }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
-
-              <div class="row" v-for="property in properties">
-                <div class="col-1 table-text">
-                  {{ property.id }}
-                </div>
-                <div class="col-2 center-image">
-                  <img class="center-image" v-bind:src=imgName(property.mainImage) />
-                </div>
-                <div class="col-2 table-text">
-                  {{ property.street }} <br />
-                  {{ property.city }}, {{ property.state }}  {{ property.zip }} 
-                </div>
-                <div class="col-1 table-text">
-                  {{ property.sqft }}
-                </div>
-                <div class="col-2 table-text">
-                  {{ property.basement }} / {{ property.garage }} / {{ property.fence }}
-                </div>
-                <div class="col-2 table-text">
-                  {{ property.washer }} / {{ property.dryer }}
-                </div>
-                <div class="col-1 table-text">
-                  {{ property.type }}
-                </div>
-                <div class="col-1 table-text">
-                  {{ property.occupied }}
-                </div>
-              </div>
-
-            </div>
 
             <div class="tab-pane fade" id="v-pills-home">
 
             </div>
+
           </div>
         </div>
       </div>

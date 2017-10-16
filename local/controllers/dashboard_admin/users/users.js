@@ -5,6 +5,7 @@ const express = require('express');
 const unregisteredTenant = require('../../../models/tenant/unregisteredTenant');
 const registeredTenant = require('../../../models/tenant/registeredTenant');
 const {checkEmail}     = require('../../../resources/js/middleware');
+const {checkPhone}     = require('../../../resources/js/middleware');
 const {checkNames}     = require('../../../resources/js/middleware');
 const {checkPass}      = require('../../../resources/js/middleware');
 const {checkPassTwo}   = require('../../../resources/js/middleware');
@@ -24,13 +25,14 @@ router.get('/users', checkAuth, function(req, res) {
   });
 });
 
-router.post('/unregUsers/add', checkAuth, checkNames, checkEmail, function(req, res, next) {
+router.post('/unregUsers/add', checkAuth, checkNames, checkEmail, checkPhone, function(req, res, next) {
   let fullName = req.session.firstName + ' ' + req.session.lastName;
 
-  const email       = req.body.email;
-  const firstName   = req.body.firstName;
-  const middleName  = req.body.middleName;
-  const lastName    = req.body.lastName;
+  const email      = req.body.email;
+  const firstName  = req.body.firstName;
+  const middleName = req.body.middleName;
+  const lastName   = req.body.lastName;
+  const phone      = req.body.phone;
 
   if(email === '' || firstName === '' || lastName === '')
     return res.render('users', {
@@ -39,6 +41,7 @@ router.post('/unregUsers/add', checkAuth, checkNames, checkEmail, function(req, 
     });
 
   unregisteredTenant.setVal('email', email);
+  unregisteredTenant.setVal('phone', phone);
   unregisteredTenant.setVal('firstName', firstName);
   unregisteredTenant.setVal('middleName', middleName);
   unregisteredTenant.setVal('lastName', lastName);
@@ -90,10 +93,11 @@ router.post('/unregUsers/delete', checkAuth, function(req, res, next) {
     });
   });
 });
-router.post('/regUsers/add', checkAuth, checkNames, checkEmail, checkPass, checkPassTwo, function(req, res, next) {
+router.post('/regUsers/add', checkAuth, checkNames, checkEmail, checkPass, checkPassTwo, checkPhone, function(req, res, next) {
   let fullName = req.session.firstName + ' ' + req.session.lastName;
 
   const email       = req.body.email;
+  const phone       = req.body.phone;
   const firstName   = req.body.firstName;
   const middleName  = req.body.middleName;
   const lastName    = req.body.lastName;
@@ -126,6 +130,7 @@ router.post('/regUsers/add', checkAuth, checkNames, checkEmail, checkPass, check
     });
   
   registeredTenant.setVal('email', email);
+  unregisteredTenant.setVal('phone', phone);
   registeredTenant.setVal('firstName', firstName);
   registeredTenant.setVal('middleName', middleName);
   registeredTenant.setVal('lastName', lastName);

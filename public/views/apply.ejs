@@ -6,98 +6,466 @@
 
       <% include ../includes/nav %>
 
-      <br />
-    
-      <div class="row ">
-        <div class="col-md-12 text-center">
-          <h3>Application For Rental</h3>
+      <ul class="nav nav-tabs">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#personal">Personal</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#employment">Employment</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#roommates">Roommates</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#pets">Pets</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#references">References</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#vehicles">Vehicles</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#history">History</a>
+        </li>
+      </ul>
+
+      <div class="tab-content" id="nav-tabContent">
+
+        <div class="tab-pane fade show active" id="personal">
+
+          <div id="form-group">
+            <form class="container apply" action="" method="post">
+              <h5 class="form-signin-heading mt-2">
+              Applicant Information
+              </h5>
+              <div class="row">              
+                <div class="col-md-6 mb-2">
+                  <input type="text" class="form-control" name="email" placeholder="Email" required>
+                </div>
+                <div class="col-md-6 mb-2">
+                  <input type="tel" class="form-control" name="phone" placeholder="Phone" required>
+                </div>
+              </div>
+              <div class="row">              
+                <div class="col-md-4 mb-2">
+                  <input type="text" class="form-control" name="firstName" placeholder="First Name" required>
+                </div>           
+                <div class="col-md-4 mb-2">
+                  <input type="text" class="form-control" name="middleName" placeholder="Middle Name" required>
+                </div>             
+                <div class="col-md-4 mb-2">
+                  <input type="text" class="form-control" name="lastName" placeholder="Last Name" required>
+                </div>
+              </div>
+              <div class="row">              
+                <div class="col-md-6 mb-2">
+                  <input type="text" class="form-control" name="dob" placeholder="DOB" required>
+                </div>
+                <div class="col-md-6 mb-2">
+                  <input type="tel" class="form-control" name="ssn" placeholder="#SSN" required>
+                </div>
+              </div>
+              <h5 class="form-signin-heading mt-2">
+              Current Address
+              </h5>
+              <div class="row">              
+                <div class="col-md-7 mb-1">
+                  <input type="text" class="form-control" name="currentStreet" placeholder="Street" required>
+                </div>
+                <div class="col-md-5 mb-1">
+                  <input type="text" class="form-control" name="currentCity" placeholder="City" required>
+                </div>
+              </div>
+              <div class="row">              
+                <div class="col-md-5 mb-1">
+                  <input type="text" class="form-control" name="currentZip" placeholder="Zip Code" required>
+                </div>
+                <div class="col-md-4 mb-1">
+                  <input type="text" class="form-control" name="currentState" placeholder="State" required>
+                </div>
+                <div class="col-md-3 mb-2">
+                  <input type="text" class="form-control" name="currentTimeLived" placeholder="Length of Time" required>
+                </div>
+              </div>
+              <hr class="thick-hr" />
+              <h5 class="form-signin-heading mt-2">
+              Current Landlord
+              </h5>
+              <div class="row">              
+                <div class="col-md-6 mb-2">
+                  <input type="text" class="form-control" name="currentLandlordFName" placeholder="First Name">
+                </div>                       
+                <div class="col-md-6 mb-2">
+                  <input type="text" class="form-control" name="currentLandlordLName" placeholder="Last Name">
+                </div>
+              </div>
+              <div class="row">              
+                <div class="col-md-6 mb-2">
+                  <input type="tel" class="form-control" name="currentLandlordPhone" placeholder="Phone">
+                </div>
+              </div>
+              <hr class="thick-hr" />
+              <h5 class="form-signin-heading mt-2">
+              Previous Address
+              </h5>
+              <div class="row">              
+                <div class="col-md-7 mb-1">
+                  <input type="text" class="form-control" name="previousStreet" placeholder="Street">
+                </div>
+                <div class="col-md-5 mb-1">
+                  <input type="text" class="form-control" name="previousCity" placeholder="City">
+                </div>
+              </div>
+              <div class="row">              
+                <div class="col-md-5 mb-1">
+                  <input type="text" class="form-control" name="previousZip" placeholder="Zip Code">
+                </div>
+                <div class="col-md-4 mb-1">
+                  <input type="text" class="form-control" name="previousState" placeholder="State">
+                </div>
+                <div class="col-md-3 mb-2">
+                  <input type="text" class="form-control" name="previousTimeLived" placeholder="Length of Time">
+                </div>
+              </div>
+              <h5 class="form-signin-heading mt-2">
+              Previous Landlord
+              </h5>
+              <div class="row">              
+                <div class="col-md-6 mb-2">
+                  <input type="text" class="form-control" name="previousLandlordFirstName" placeholder="First Name">
+                </div>                 
+                <div class="col-md-6 mb-2">
+                  <input type="text" class="form-control" name="previousLandlordLName" placeholder="Last Name">
+                </div>
+              </div>
+              <div class="row">              
+                <div class="col-md-6 mb-2">
+                  <input type="tel" class="form-control" name="previousLandlordPhone" placeholder="Phone">
+                </div>
+              </div>
+            </form>
+          </div>
+
+        </div>
+        <div class="tab-pane fade" id="employment">
+
+          <div id="form-group">
+            <form class="container apply" action="" method="post">
+              <h5 class="form-signin-heading mt-2">
+                Applicant Monthly Income
+              </h5>
+              <div class="row">              
+                <div class="col-md-8 mb-2">
+                  <input type="text" class="form-control" name="monthlyIncome" placeholder="Monthly Income" required>
+                </div>
+              </div>
+              <hr class="thick-hr" />
+              <h5 class="form-signin-heading mt-2">
+                Current Employer
+              </h5>
+              <div class="row">              
+                <div class="col-md-6 mb-2">
+                  <input type="text" class="form-control" name="currentEmployer" placeholder="Business Name" required>
+                </div>
+                <div class="col-md-6 mb-2">
+                  <input type="tel" class="form-control" name="currentEmployerPhone" placeholder="Phone" required>
+                </div>
+              </div>
+              <div class="row">              
+                <div class="col-md-7 mb-1">
+                  <input type="text" class="form-control" name="currentEmployerStreet" placeholder="Street" required>
+                </div>
+                <div class="col-md-5 mb-1">
+                  <input type="text" class="form-control" name="currentEmployerCity" placeholder="City" required>
+                </div>
+              </div>
+              <div class="row">              
+                <div class="col-md-6 mb-1">
+                  <input type="text" class="form-control" name="currentEmployerZip" placeholder="Zip Code" required>
+                </div>
+                <div class="col-md-6 mb-1">
+                  <input type="text" class="form-control" name="currentEmployerState" placeholder="State" required>
+                </div>
+              </div>
+              <div class="row">              
+                <div class="col-md-4 mb-2">
+                  <input type="text" class="form-control" name="currentPosition" placeholder="Position" required>
+                </div>                      
+                <div class="col-md-4 mb-2">
+                  <input type="text" class="form-control" name="currentEmpPeriod" placeholder="Employment Period" required>
+                </div>
+              </div>
+              <h5 class="form-signin-heading mt-2">
+                Current Supervisor
+              </h5>
+              <div class="row">              
+                <div class="col-md-4 mb-2">
+                  <input type="text" class="form-control" name="currentSupervisorFName" placeholder="First Name" required>
+                </div>                      
+                <div class="col-md-4 mb-2">
+                  <input type="text" class="form-control" name="currentSupervisorLName" placeholder="Last Name" required>
+                </div>
+              </div>
+              <hr class="thick-hr" />
+              <h5 class="form-signin-heading mt-2">
+                Previous Employer
+              </h5>
+              <div class="row">              
+                <div class="col-md-6 mb-2">
+                  <input type="text" class="form-control" name="previousEmployer" placeholder="Business Name">
+                </div>
+                <div class="col-md-6 mb-2">
+                  <input type="tel" class="form-control" name="previousEmployerPhone" placeholder="Phone">
+                </div>
+              </div>
+              <div class="row">              
+                <div class="col-md-7 mb-1">
+                  <input type="text" class="form-control" name="previousEmployerStreet" placeholder="Street">
+                </div>
+                <div class="col-md-5 mb-1">
+                  <input type="text" class="form-control" name="previousEmployerCity" placeholder="City">
+                </div>
+              </div>
+              <div class="row">              
+                <div class="col-md-6 mb-1">
+                  <input type="text" class="form-control" name="previousEmployerZip" placeholder="Zip Code">
+                </div>
+                <div class="col-md-6 mb-1">
+                  <input type="text" class="form-control" name="previousEmployerState" placeholder="State">
+                </div>
+              </div>
+              <div class="row">              
+                <div class="col-md-4 mb-2">
+                  <input type="text" class="form-control" name="previousPosition" placeholder="Title">
+                </div>                      
+                <div class="col-md-4 mb-2">
+                  <input type="text" class="form-control" name="previousEmpPeriod" placeholder="Employment Period">
+                </div>
+              </div>
+              <h5 class="form-signin-heading mt-2">
+                Previous Supervisor
+              </h5>
+              <div class="row">              
+                <div class="col-md-4 mb-2">
+                  <input type="text" class="form-control" name="previousSupervisorFName" placeholder="First Name">
+                </div>                      
+                <div class="col-md-4 mb-2">
+                  <input type="text" class="form-control" name="previousSupervisorLName" placeholder="Last Name">
+                </div>
+              </div>
+            </form>
+          </div>
+
+        </div>
+        <div class="tab-pane fade" id="roommates">
+
+         
+          <div id="form-group">
+            <form class="container apply" action="" method="post">
+              <h5 class="form-signin-heading mt-2">
+              First Roommate
+              </h5>
+              <div class="row">              
+                <div class="col-md-6 mb-2">
+                  <input type="text" class="form-control" name="firstRoommateFName" placeholder="First Name">
+                </div>                 
+                <div class="col-md-6 mb-2">
+                  <input type="text" class="form-control" name="firstRoommateLName" placeholder="Last Name">
+                </div>
+              </div>
+              <div class="row">              
+                <div class="col-md-8 mb-2">
+                  <input type="text" class="form-control" name="firstRelationship" placeholder="Relationship to Applicant">
+                </div>
+              </div>
+              <hr class="thick-hr" />
+              <h5 class="form-signin-heading mt-2">
+              Second Roommate
+              </h5>
+              <div class="row">              
+                <div class="col-md-6 mb-2">
+                  <input type="text" class="form-control" name="secondRoommateFName" placeholder="First Name">
+                </div>                 
+                <div class="col-md-6 mb-2">
+                  <input type="text" class="form-control" name="secondRoommateFName" placeholder="Last Name">
+                </div>
+              </div>
+              <div class="row">              
+                <div class="col-md-8 mb-2">
+                  <input type="text" class="form-control" name="secondRelationship" placeholder="Relationship to Applicant">
+                </div>
+              </div>
+              <hr class="thick-hr" />
+              <h5 class="form-signin-heading mt-2">
+              Third Roommate
+              </h5>
+              <div class="row">              
+                <div class="col-md-6 mb-2">
+                  <input type="text" class="form-control" name="thirdRoommateFName" placeholder="First Name">
+                </div>                 
+                <div class="col-md-6 mb-2">
+                  <input type="text" class="form-control" name="thirdRoommateLName" placeholder="Last Name">
+                </div>
+              </div>
+              <div class="row">              
+                <div class="col-md-8 mb-2">
+                  <input type="text" class="form-control" name="thirdRelationship" placeholder="Relationship to Applicant">
+                </div>
+              </div>
+              <hr class="thick-hr" />
+              <h5 class="form-signin-heading mt-2">
+              Fourth Roommate
+              </h5>
+              <div class="row">              
+                <div class="col-md-6 mb-2">
+                  <input type="text" class="form-control" name="fourthRoommateFName" placeholder="First Name">
+                </div>                 
+                <div class="col-md-6 mb-2">
+                  <input type="text" class="form-control" name="fourthRoommateLName" placeholder="Last Name">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-8 mb-2">
+                  <input type="text" class="form-control" name="fourthRelationship" placeholder="Relationship to Applicant">
+                </div>
+              </div>
+            </form>
+          </div>
+
+        </div>
+        <div class="tab-pane fade" id="pets">
+
+          <div id="form-group">
+            <form class="container apply" action="" method="post">
+              <h5 class="form-signin-heading mt-2">
+                First Pet
+              </h5>
+              <div class="row">              
+                <div class="col-md-6 mb-2">
+                  <input type="text" class="form-control" name="firstPetName" placeholder="Pet Name">
+                </div>                      
+                <div class="col-md-6 mb-2">
+                  <input type="text" class="form-control" name="firstPetGender" placeholder="Pet Gender">
+                </div>
+              </div>
+              <div class="row">              
+                <div class="col-md-6 mb-2">
+                  <input type="text" class="form-control" name="firstPetBreed" placeholder="Breed">
+                </div>                      
+                <div class="col-md-6 mb-2">
+                  <input type="text" class="form-control" name="firstPetWeight" placeholder="Weight">
+                </div>
+              </div>
+              <div class="row">              
+                <div class="col-md-6 mb-2">
+                  <input type="text" class="form-control" name="firstPetAge" placeholder="Age">
+                </div>                      
+                <div class="col-md-6 mb-2">
+                  <input type="text" class="form-control" name="firstPetSpayed" placeholder="Spayed/Neutered">
+                </div>
+              </div>
+              <hr class="thick-hr" />
+              <h5 class="form-signin-heading mt-2">
+                Second Pet
+              </h5>
+              <div class="row">              
+                <div class="col-md-6 mb-2">
+                  <input type="text" class="form-control" name="secondPetName" placeholder="Pet Name">
+                </div>                      
+                <div class="col-md-6 mb-2">
+                  <input type="text" class="form-control" name="secondPetGender" placeholder="Pet Gender">
+                </div>
+              </div>
+              <div class="row">              
+                <div class="col-md-6 mb-2">
+                  <input type="text" class="form-control" name="secondPetBreed" placeholder="Breed">
+                </div>                      
+                <div class="col-md-6 mb-2">
+                  <input type="text" class="form-control" name="secondPetWeight" placeholder="Weight">
+                </div>
+              </div>
+              <div class="row">              
+                <div class="col-md-6 mb-2">
+                  <input type="text" class="form-control" name="secondPetAge" placeholder="Age">
+                </div>                      
+                <div class="col-md-6 mb-2">
+                  <input type="text" class="form-control" name="secondPetSpayed" placeholder="Spayed/Neutered">
+                </div>
+              </div>
+            </form>
+          </div>
+
+        </div>
+        <div class="tab-pane fade" id="references">
+
+          <div id="form-group">
+            <form class="container apply" action="" method="post">
+              <h5 class="form-signin-heading mt-2">
+              First Reference
+              </h5>
+              <div class="row">              
+                <div class="col-md-6 mb-2">
+                  <input type="text" class="form-control" name="firstReferenceFName" placeholder="First Name" required>
+                </div>                 
+                <div class="col-md-6 mb-2">
+                  <input type="text" class="form-control" name="firstReferenceLName" placeholder="Last Name" required>
+                </div>
+              </div>
+              <div class="row">              
+                <div class="col-md-4 mb-2">
+                  <input type="text" class="form-control" name="firstReferenceRel" placeholder="Relationship to Applicant" required>
+                </div>
+                <div class="col-md-4 mb-2">
+                  <input type="text" class="form-control" name="firstReferenceYears" placeholder="Years Known" required>
+                </div>
+                <div class="col-md-4 mb-2">
+                  <input type="text" class="form-control" name="firstReferencePhone" placeholder="Phone" required>
+                </div>
+              </div>
+              <hr class="thick-hr" />
+              <h5 class="form-signin-heading mt-2">
+              Second Reference
+              </h5>
+              <div class="row">              
+                <div class="col-md-6 mb-2">
+                  <input type="text" class="form-control" name="secondReferenceFName" placeholder="First Name" required>
+                </div>                 
+                <div class="col-md-6 mb-2">
+                  <input type="text" class="form-control" name="secondReferenceLName" placeholder="Last Name" required>
+                </div>
+              </div>
+              <div class="row">              
+                <div class="col-md-4 mb-2">
+                  <input type="text" class="form-control" name="secondReferenceRel" placeholder="Relationship to Applicant" required>
+                </div>
+                <div class="col-md-4 mb-2">
+                  <input type="text" class="form-control" name="secondReferenceYears" placeholder="Years Known" required>
+                </div>
+                <div class="col-md-4 mb-2">
+                  <input type="text" class="form-control" name="secondReferencePhone" placeholder="Phone" required>
+                </div>
+              </div>
+            </form>
+          </div>
+          
+        </div>
+        <div class="tab-pane fade" id="vehicles">
+
+          
+        </div>
+        <div class="tab-pane fade" id="history">
+
+          
+        </div>
+        <div class="tab-pane fade" id="submit">
+
+            <button class="btn btn-md btn-default submit-button-center" type="submit">Submit</button>
+
         </div>
       </div>
 
-      <br />
-      <br />
-
-      <div class="form-group row">
-        <label for="example-text-input" class="col-2 col-form-label">Text</label>
-        <div class="col-10">
-          <input class="form-control" type="text" value="Artisanal kale" id="example-text-input">
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="example-search-input" class="col-2 col-form-label">Search</label>
-        <div class="col-10">
-          <input class="form-control" type="search" value="How do I shoot web" id="example-search-input">
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="example-email-input" class="col-2 col-form-label">Email</label>
-        <div class="col-10">
-          <input class="form-control" type="email" value="bootstrap@example.com" id="example-email-input">
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="example-url-input" class="col-2 col-form-label">URL</label>
-        <div class="col-10">
-          <input class="form-control" type="url" value="https://getbootstrap.com" id="example-url-input">
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="example-tel-input" class="col-2 col-form-label">Telephone</label>
-        <div class="col-10">
-          <input class="form-control" type="tel" value="1-(555)-555-5555" id="example-tel-input">
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="example-password-input" class="col-2 col-form-label">Password</label>
-        <div class="col-10">
-          <input class="form-control" type="password" value="hunter2" id="example-password-input">
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="example-number-input" class="col-2 col-form-label">Number</label>
-        <div class="col-10">
-          <input class="form-control" type="number" value="42" id="example-number-input">
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="example-datetime-local-input" class="col-2 col-form-label">Date and time</label>
-        <div class="col-10">
-          <input class="form-control" type="datetime-local" value="2011-08-19T13:45:00" id="example-datetime-local-input">
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="example-date-input" class="col-2 col-form-label">Date</label>
-        <div class="col-10">
-          <input class="form-control" type="date" value="2011-08-19" id="example-date-input">
-        </div>
-      </div>
-      <div class="form-group row has-warning">
-        <label for="example-month-input" class="col-2 col-form-label">Month</label>
-        <div class="col-10">
-          <input class="form-control" type="month" value="2011-08" id="example-month-input">
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="example-week-input" class="col-2 col-form-label">Week</label>
-        <div class="col-10">
-          <input class="form-control" type="week" value="2011-W33" id="example-week-input">
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="example-time-input" class="col-2 col-form-label">Time</label>
-        <div class="col-10">
-          <input class="form-control" type="time" value="13:45:00" id="example-time-input">
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="example-color-input" class="col-2 col-form-label">Color</label>
-        <div class="col-10">
-          <input class="form-control" type="color" value="#563d7c" id="example-color-input">
-        </div>
-      </div>
-        <br />
-
-      </div>
+    </div>
 
     <% include ../includes/footer %>
     

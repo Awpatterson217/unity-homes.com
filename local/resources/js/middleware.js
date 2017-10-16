@@ -51,6 +51,16 @@ let checkCode = function(req, res, next){
   return next();
 }
 
+let checkPhone = function(req, res, next){
+  let phone = sanitize(req.body.phone);
+  if(validator.isNumeric(phone)){
+    req.body.phone = phone;
+    return next();
+  }
+  req.body.phone = '';
+  return next();
+}
+
 let checkPass = function(req, res, next){
   let pass = sanitize(req.body.password);
   if(isPassFormat(pass)){
@@ -83,11 +93,6 @@ let checkImage = function(req, res, next){
 
 let checkProps = function(req, res, next){
   let property = {};
-  let stories  = safeNum(req.body.stories);
-
-  property.stories = (stories.length === 1)
-  ? stories
-  : '';
 
   property.mainImage = safeStr(req.body.mainImage);
   property.street    = safeStr(req.body.street);
@@ -101,6 +106,7 @@ let checkProps = function(req, res, next){
   property.garage    = safeBool(req.body.garage);
   property.basement  = safeBool(req.body.basement);
   property.fence     = safeBool(req.body.fence);
+  property.stories   = safeNum(req.body.stories);
   property.occupied  = safeBool(req.body.occupied);
 
   for(let prop in property){
@@ -132,11 +138,13 @@ let checkAuth = function(req, res, next){
 
 module.exports = {
   checkEmail  : checkEmail,
+  checkPhone  : checkPhone,
   checkNames  : checkNames,
   checkCode   : checkCode,
   checkPass   : checkPass,
   checkPassTwo: checkPassTwo,
   checkProps  : checkProps,
   checkPropId : checkPropId,
-  checkAuth   : checkAuth
+  checkAuth   : checkAuth,
+  checkImage  : checkImage
 }

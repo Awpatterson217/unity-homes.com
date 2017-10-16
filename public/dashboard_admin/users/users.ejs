@@ -30,41 +30,38 @@
           <div class="tab-content" id="v-pills-tabContent">
             <div class="tab-pane fade show active" id="add-registered-user">
 
-              <div id="form">
+              <div id="form-group">
                 <form class="container" action="/regUsers/add" method="post">
                   <div class="row">              
-                    <div class="col-md-12 mb-2">
-                      <label for="email" class="sr-only">Email</label>              
+                    <div class="col-md-6 mb-2">
                       <input type="text" class="form-control" name="email" placeholder="Email" required>
                     </div>
-                  </div>
-                  <div class="row">              
-                    <div class="col-md-12 mb-2">
-                      <label for="firstName" class="sr-only">First Name</label>              
-                      <input type="text" class="form-control" name="firstName" placeholder="First Name" required>
+                    <div class="col-md-6 mb-2">
+                      <input type="tel" class="form-control" name="phone" placeholder="Phone">
                     </div>
                   </div>
                   <div class="row">              
                     <div class="col-md-12 mb-2">
-                      <label for="middleName" class="sr-only">Middle Name</label>              
+                      <input type="text" v-model="message" class="form-control" name="firstName" placeholder="First Name" required>
+                    </div>
+                  </div>
+                  <div class="row">              
+                    <div class="col-md-12 mb-2">
                       <input type="text" class="form-control" name="middleName" placeholder="Middle Name">
                     </div>
                   </div>
                   <div class="row">              
                     <div class="col-md-12 mb-2">
-                      <label for="lastName" class="sr-only">Last Name</label>              
                       <input type="text" class="form-control" name="lastName" placeholder="Last Name" required>
                     </div>
                   </div>
                   <div class="row">
                     <div class="col-md-12 mb-2">
-                      <label for="password" class="sr-only">Password</label>         
                       <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
                     </div>
                   </div>
                   <div class="row">  
                     <div class="col-md-12 mb-2">
-                      <label for="passwordTwo" class="sr-only">Confirm Password</label>              
                       <input type="password" class="form-control" name="passwordTwo" placeholder="Confirm Password" required>
                     </div>
                   </div>
@@ -76,10 +73,9 @@
             <div class="tab-pane fade" id="delete-registered-user">
 
               <div id="form">
-                <form class="container" action="/regUsers/delete" method="post">
+                <form class="container mt-5 ml-5" action="/regUsers/delete" method="post">
                   <div class="row">              
-                    <div class="col-md-12 mb-2">
-                      <label for="email" class="sr-only">Email</label>              
+                    <div class="col-md-8 mb-2">
                       <input type="email" class="form-control" name="email" placeholder="Email" required>
                     </div>
                   </div>          
@@ -90,29 +86,28 @@
             </div>
             <div class="tab-pane fade" id="add-unregistered-user">
 
-              <div id="form">
+              <div  id="app" id="divForm">
                 <form class="container" action="/unregUsers/add" method="post">
                   <div class="row">              
-                    <div class="col-md-12 mb-2">
-                      <label for="email" class="sr-only">Email</label>              
+                    <div class="col-md-6 mb-2">
                       <input type="text" class="form-control" name="email" placeholder="Email" required>
+                    </div>
+                    <div class="col-md-6 mb-2">
+                      <input type="tel" class="form-control" name="phone" placeholder="Phone">
                     </div>
                   </div>
                   <div class="row">              
                     <div class="col-md-12 mb-2">
-                      <label for="firstName" class="sr-only">First Name</label>              
                       <input type="text" class="form-control" name="firstName" placeholder="First Name" required>
                     </div>
                   </div>
                   <div class="row">              
                     <div class="col-md-12 mb-2">
-                      <label for="middleName" class="sr-only">Middle Name</label>              
                       <input type="text" class="form-control" name="middleName" placeholder="Middle Name">
                     </div>
                   </div>
                   <div class="row">              
                     <div class="col-md-12 mb-2">
-                      <label for="lastName" class="sr-only">Last Name</label>              
                       <input type="text" class="form-control" name="lastName" placeholder="Last Name" required>
                     </div>
                   </div>
@@ -124,10 +119,9 @@
             <div class="tab-pane fade" id="delete-unregistered-user">
 
               <div id="form">
-                <form class="container" action="/unregUsers/delete" method="post">
+                <form class="container mt-5 ml-5" action="/unregUsers/delete" method="post">
                   <div class="row">              
-                    <div class="col-md-12 mb-2">
-                      <label for="email" class="sr-only">Email</label>              
+                    <div class="col-md-8 mb-2">
                       <input type="text" class="form-control" name="email" placeholder="Email" required>
                     </div>
                   </div>          
@@ -167,5 +161,13 @@
       <% } %>
 
     <% include ../../includes/scripts %>
+    <script>
+      var app = new Vue({
+        el: '#app',
+        data: {
+          message: 'Hello Vue!'
+        }
+      });
+    </script>
   </body>
 </html>
