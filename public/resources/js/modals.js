@@ -7,3 +7,9 @@ $('#imagesModal').on('shown.bs.modal', function(e){
     $(this).blur();
   });
 });
+
+$('#settingsModal').on('shown.bs.modal', function(e){
+  $('.settingsButton').one('focus', function(e){
+    $(this).blur();
+  });
+});
