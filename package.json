@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Awpatterson217/unity-homes.com#readme",
   "dependencies": {
+    "angular": "^1.6.6",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.17.2",
     "connect-redis": "^3.3.0",
