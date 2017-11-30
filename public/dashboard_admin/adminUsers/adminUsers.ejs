@@ -1,44 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
   <% include ../includes/dashboardHead %>
+
   <body class="container-fluid">
-    <div>
+    <% include ../includes/dashboardNav %>
 
-      <% include ../includes/dashboardNav %>
-
-      <% if (!(typeof createSuccess == 'undefined')) { %>
-        <% if (!createSuccess) { %>
-          <div class="alert alert-danger" role="alert">
-            <h4 class="alert-heading text-center">Creation Unsuccessful!</h4>
-          </div>      
-        <% } %>
-        <% if (createSuccess) { %>
-          <div class="alert alert-success" role="alert">
-            <h4 class="alert-heading text-center">Creation Successful!</h4>
-          </div>      
-        <% } %>
+    <% if (!(typeof createSuccess == 'undefined')) { %>
+      <% if (!createSuccess) { %>
+        <div class="alert alert-danger" role="alert">
+          <h4 class="alert-heading text-center">Creation Unsuccessful!</h4>
+        </div>      
       <% } %>
-
-      <% if (!(typeof deleteSuccess == 'undefined')) { %>
-        <% if (!deleteSuccess) { %>
-          <div class="alert alert-danger" role="alert">
-            <h4 class="alert-heading text-center">Deletion Unsuccessful!</h4>
-          </div>      
-        <% } %>
-        <% if (deleteSuccess) { %>
-          <div class="alert alert-success" role="alert">
-            <h4 class="alert-heading text-center">Deletion Successful!</h4>
-          </div>      
-        <% } %>
+      <% if (createSuccess) { %>
+        <div class="alert alert-success" role="alert">
+          <h4 class="alert-heading text-center">Creation Successful!</h4>
+        </div>      
       <% } %>
+    <% } %>
 
-      <% if (!(typeof match == 'undefined')) { %>
-        <% if (!match) { %>
-          <div class="alert alert-danger" role="alert">
-            <h4 class="alert-heading text-center">Mismatched Passwords!</h4>
-          </div>      
-        <% } %>
+    <% if (!(typeof deleteSuccess == 'undefined')) { %>
+      <% if (!deleteSuccess) { %>
+        <div class="alert alert-danger" role="alert">
+          <h4 class="alert-heading text-center">Deletion Unsuccessful!</h4>
+        </div>      
       <% } %>
+      <% if (deleteSuccess) { %>
+        <div class="alert alert-success" role="alert">
+          <h4 class="alert-heading text-center">Deletion Successful!</h4>
+        </div>      
+      <% } %>
+    <% } %>
+
+    <% if (!(typeof match == 'undefined')) { %>
+      <% if (!match) { %>
+        <div class="alert alert-danger" role="alert">
+          <h4 class="alert-heading text-center">Mismatched Passwords!</h4>
+        </div>      
+      <% } %>
+    <% } %>
 
       <div id="form">
         <form class="container" action="/adminUsers/create" method="post">
@@ -99,8 +98,10 @@
           <button class="btn btn-md btn-default btn-block" type="submit">Submit</button>
         </form>
       </div>
-    </div>
     
-    <% include ../../includes/scripts %>
+    <!-- END NG -->
+    </div>
+
+    <% include ../../includes/dashboardScripts %>
   </body>
 </html>

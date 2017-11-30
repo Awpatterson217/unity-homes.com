@@ -3,12 +3,11 @@
 <% include ../includes/dashboardHead %>
 
   <body class="container-fluid">
+
     <% include ../includes/dashboardNav %>
 
-      <div class="row" ng-controller="dashboardCtrl">
-
+      <div class="row">
         <div class="col-2">
-
           <ul class="nav nav-fill flex-column nav-pills">
             <li class="nav-item">
               <a class="nav-link side-link active" id="administrators-tab" data-toggle="pill" href="#administrators">Administrators</a>
@@ -25,14 +24,9 @@
             <li class="nav-item">
               <a class="nav-link side-link" id="properties-tab" data-toggle="pill" href="#properties">Properties</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link side-link" data-toggle="pill" href="#test">{{ data.test }}</a>
-            </li>
           </ul>
-
-        </div> <!-- END COL -->
+        </div>
         <div class="col-10">
-
           <div class="tab-content" id="v-pills-tabContent">
             <div class="tab-pane fade show active" id="administrators">
 
@@ -46,11 +40,12 @@
                     </tr>
                   </thead>
                   <tbody>
+
                   </tbody>
                 </table>
-              </div> <!-- END TABLE -->
+              </div>
 
-            </div> <!-- END ADMIN -->
+            </div>
             <div class="tab-pane fade" id="registered-users">
 
               <div class="table-responsive">
@@ -63,8 +58,8 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr class="table-text" ng-repeat="registeredTenant in registeredTenants">
-                      <td>                
+                    <tr class="table-text" v-for="registeredTenant in registeredTenants">
+                      <td>                  
                         {{ registeredTenant.firstName }}
                         {{ registeredTenant.middleName }}
                         {{ registeredTenant.lastName }}
@@ -78,9 +73,9 @@
                     </tr>
                   </tbody>
                 </table>
-              </div> <!-- END TABLE -->
+              </div>
 
-            </div> <!-- END REG -->
+            </div>
             <div class="tab-pane fade" id="unregistered-users">
 
               <div class="table-responsive">
@@ -93,7 +88,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr class="table-text" ng-repeat="unregisteredTenant in unregisteredTenants">
+                    <tr class="table-text" v-for="unregisteredTenant in unregisteredTenants">
                       <td>                  
                         {{ unregisteredTenant.firstName }}
                         {{ unregisteredTenant.middleName }}
@@ -108,9 +103,9 @@
                     </tr>
                   </tbody>
                 </table>
-              </div> <!-- END TABLE -->
+              </div>
 
-            </div> <!-- END UNREG -->
+            </div>
             <div class="tab-pane fade" id="properties">
 
               <div class="table-responsive">
@@ -130,7 +125,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr class="table-text" ng-repeat="property in properties">
+                    <tr class="table-text" v-for="property in properties">
                       <td>                  
                         {{ property.id }}
                       </td>
@@ -165,13 +160,18 @@
                     </tr>
                   </tbody>
                 </table>
-              </div> <!-- END TABLE -->
+              </div>
 
-            </div> <!-- END PROP -->
-          </div> <!-- END TAB CONTENT -->
-        </div> <!-- END COL -->
-      </div> <!-- END ROW -->
-    </div> <!-- END NG -->
+            <div class="tab-pane fade" id="v-pills-home">
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    <!-- END NG -->
+    </div>
 
     <% include ../includes/dashboardScripts %>
   </body>
