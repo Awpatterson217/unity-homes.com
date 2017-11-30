@@ -2,11 +2,11 @@
 
 const bcrypt = require('bcryptjs');
 
-const {_create}   = require('../../api/create');
-const {_delete}   = require('../../api/delete');
-const {_count}    = require('../../api/read');
-const {_find}     = require('../../api/read');
-const {_all}      = require('../../api/read');
+const {_create}   = require('../../mongodb/create');
+const {_delete}   = require('../../mongodb/delete');
+const {_count}    = require('../../mongodb/read');
+const {_find}     = require('../../mongodb/read');
+const {_all}      = require('../../mongodb/read');
 const {safeEmail} = require('../../resources/js/safe');
 const {safeNum}   = require('../../resources/js/safe');
 const {safeBool}  = require('../../resources/js/safe');
