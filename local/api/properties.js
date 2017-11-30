@@ -9,31 +9,31 @@ let {getImages} = require('../resources/js/functions');
 
 const router = express.Router();
 
-router.get('/properties', function(req, res) {
-  //return res.render('apply');
-});
-
-router.post('/properties', function(req, res, next) {
+router.get('/properties/all', function(req, res) {
   let time; // TODO Log time and req
   const NOW = new Date().getTime();
-  
-  //return res.render('apply');
 
+  property.all()
+  .then( props => {
+    for(let i = 0; i < props.length; i++){
+      getImages(props[i].id).then( images => {
+        props[i].images = images;
+      }).catch( error => {
+        // LOG/HANDLE ERROR
+        console.log(error);
+        return res.send('500');
+      });
+    }
+    return res.send(JSON.stringify(props, null, 5));
+  }).catch( error => {
+    // LOG/HANDLE ERROR
+    console.log(error);
+    return res.send('500');
+  });
 });
 
-let getProps = async function(fullName, callback){
-  try{
-    let properties = await property.all();
+router.post('/properties/all', function(req, res, next) {
 
-    for(let i = 0; i < properties.length; i++){
-      let theseImages = await getImages(properties[i].id);
-      properties[i].images = theseImages;
-    }
-
-    return callback(null, properties);
-  }catch(error){
-    return callback(error);
-  }
-}
+});
 
 module.exports = router;

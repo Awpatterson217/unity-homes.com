@@ -8,26 +8,22 @@ let unregisteredTenant = require('../models/tenant/unregisteredTenant');
 
 const router = express.Router();
 
-router.get('/unregisteredTenants', function(req, res) {
-  // return res.render('');
-});
-
-router.post('/unregisteredTenants', function(req, res, next) {
+router.get('/unregisteredTenants/all', function(req, res) {
   let time; // TODO Log time and req
   const NOW = new Date().getTime();
 
-    // return res.render('');
-
+  unregisteredTenant.all()
+  .then( unregTenants => {
+    return res.send(JSON.stringify(unregTenants, null, 2));
+  }).catch( error => {
+    // LOG/HANDLE ERROR
+    console.log(error);
+    return res.send('500');
+  });
 });
 
-let getRegTenants = async function(fullName, callback){
-  try{
-    let unregisteredTenants = await unregisteredTenant.all();
+router.post('/unregisteredTenants/all', function(req, res, next) {
 
-    return callback(null, unregisteredTenants);
-  }catch(error){
-    return callback(error);
-  }
-}
+});
 
 module.exports = router;

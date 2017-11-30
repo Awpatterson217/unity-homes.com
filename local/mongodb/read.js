@@ -56,18 +56,6 @@ let _all = function (userCollection) {
     });
 };
 
-/*
-  MongoClient.connect(DB).then(function(error, db) {
-    const collection = db.collection(userCollection);
-    const cursor = collection.find();
-    cursor.toArray(function(error, item) {
-
-    });
-  });
-    const cursor = db.collection(userCollection).find().toArray();
-
-  */
-
 module.exports = {
   _find : _find,
   _count: _count,

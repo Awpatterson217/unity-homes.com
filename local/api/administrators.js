@@ -8,28 +8,32 @@ let registeredTenant = require('../models/tenant/registeredTenant');
 
 const router = express.Router();
 
-router.get('/administrators', function(req, res) {
-  // return res.render('administrators');
-});
-
-router.post('/administrators', function(req, res, next) {
+router.get('/administrators/all', function(req, res) {
   let time; // TODO Log time and req
   const NOW = new Date().getTime();
-  
-  // return res.render('administrators');
+
+    registeredTenant.all()
+    .then( regTenants => {
+      const admins = regTenants.filter( regTenant => {
+        (regTenant.type === 'admin')
+          return regTenant;
+      });
+
+      if(admins.length)
+        return res.send(JSON.stringify(admins, null, 2));
+    }).catch( error => {
+      // LOG/HANDLE ERROR
+      console.log(error);
+      return res.send('500');
+    });
+});
+
+router.post('/administrators/all', function(req, res, next) {
 
 });
 
-let getAdmins = async function(fullName, callback){
-  try{
-    let registeredTenants = await registeredTenant.all();
+let returnAdmins = async function(){
 
-    // TODO sort for admins
-    let admins = [];
-    return callback(null, admins);
-  }catch(error){
-    return callback(error);
-  }
 }
 
 module.exports = router;

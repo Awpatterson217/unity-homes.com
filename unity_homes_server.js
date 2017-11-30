@@ -5,13 +5,13 @@ const bodyParser = require('body-parser');
 const path       = require('path');
 const fs         = require('fs');
 const helmet     = require('helmet');
-//const redis      = require("redis");
+const redis      = require("redis");
 const session    = require('express-session');
-//const RedisStore = require('connect-redis')(session);
+const RedisStore = require('connect-redis')(session);
 const ejs        = require('ejs');
 
 //const client  = redis.createClient();
-const app     = express();
+const app = express();
 //const limiter = require('express-limiter')(app, client);
 const urlEncParser  = bodyParser.urlencoded({
   extended: false
@@ -43,7 +43,7 @@ const defaultGetOptions = {
 const redisOptions = {
   host  : 'localhost',
   port  : 6379,
-//  client: client,
+  //client: client,
   ttl   : 260
 }
 
@@ -72,7 +72,6 @@ app.use(session({
   }
 }))
 
-// Needs tested with Redis
 /*
 app.use(
   session({
@@ -89,20 +88,21 @@ app.use(
   })
 );
 */
+
 app.use(urlEncParser); 
 app.use(jsonParser); 
 
-app.use('/bootstrap' , express.static(__dirname + '/public/vendor/bootstrap-4.0.0-alpha.6-dist/'));
-app.use('/jquery'    , express.static(__dirname + '/public/vendor/jquery/'));
-app.use('/angularjs' , express.static(__dirname + '/public/vendor/angularjs/'));
-app.use('/css'       , express.static(__dirname + '/public/resources/css/'));
-app.use('/js'        , express.static(__dirname + '/public/resources/js/'));
-app.use('/js'        , express.static(__dirname + '/public/resources/js/ngAdmin'));
-app.use('/js'        , express.static(__dirname + '/public/resources/js/ngTenant'));
-app.use('/images'    , express.static(__dirname + '/public/resources/images/'));
+app.use('/bootstrap', express.static(__dirname + '/public/vendor/bootstrap-4.0.0-alpha.6-dist/'));
+app.use('/jquery'   , express.static(__dirname + '/public/vendor/jquery/'));
+app.use('/angularjs', express.static(__dirname + '/public/vendor/angularjs/'));
+app.use('/css'      , express.static(__dirname + '/public/resources/css/'));
+app.use('/js'       , express.static(__dirname + '/public/resources/js/'));
+app.use('/js'       , express.static(__dirname + '/public/resources/js/ngAdmin'));
+app.use('/js'       , express.static(__dirname + '/public/resources/js/ngTenant'));
+app.use('/images'   , express.static(__dirname + '/public/resources/images/'));
 
-for(let route in routes){
-  app.use(routes[route]);
+for(let routeKeys in routes){
+  app.use(routes[routeKeys]);
 }
 
 const server = app.listen(port, host, () => {
@@ -115,15 +115,7 @@ const server = app.listen(port, host, () => {
 // Redis sessions / CSRF
 // Read 'session secret' from private file
 // SSL / TSL
-// API for applicants
-// API for properties
-// Vue.js dashboard app
 // Billing system
 // Logs
 // Graphics, design, favicon, etc.
 // Grunt.js or Webpack
-
-// db.createCollection("propertyImages");
-// db.createCollection("properties");
-// db.createCollection("registeredUsers");
-// db.createCollection("unregisteredUsers");
