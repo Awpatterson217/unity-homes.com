@@ -15,6 +15,14 @@
             <li class="nav-item">
               <a class="nav-link side-link" id="delete-property-tab" data-toggle="pill" href="#delete-property">Delete Property</a>
             </li>
+            <div class="dropdown-divider"></div>
+            <li class="nav-item">
+              <a class="nav-link side-link" id="upload-property-image-tab" data-toggle="pill" href="#upload-property-image">Upload Image</a>
+            </li>
+            <div class="dropdown-divider"></div>
+            <li class="nav-item">
+              <a class="nav-link side-link" id="delete-property-image-tab" data-toggle="pill" href="#delete-property-image">Delete Image</a>
+            </li>
           </ul>
         </div>
         <div class="col-9">
@@ -22,7 +30,7 @@
             <div class="tab-pane show active fade" id="add-property">
 
               <div id="form-group">
-                <form class="container" action="/props/add" method="post">
+                <form class="container" action="http://127.0.0.4:5050/api/property/create" method="post">
                   <div class="row">
                     <div class="col-md-9">
                       <div class="row">              
@@ -164,7 +172,7 @@
             <div class="tab-pane fade" id="delete-property">
 
               <div id="form">
-                <form class="container mt-5 ml-5" action="/props/delete" method="post">
+                <form class="container mt-5 ml-5" action="http://127.0.0.4:5050/api/property/delete" method="post">
                   <div class="row">              
                     <div class="col-md-8 mb-2 mt-3">
                       <input type="text" class="form-control" name="id" placeholder="ID" required>
@@ -173,41 +181,51 @@
                   <button class="btn btn-md btn-default submit-button-center" type="submit">Submit</button>
                 </form>
               </div>
+
+            </div>
+            <div class="tab-pane fade" id="upload-property-image">
+
+              <div id="divForm">
+                <form class="container mt-5 ml-5" action="http://127.0.0.4:5050/api/property/images/create" method="post">
+                  <div class="row">              
+                    <div class="col-md-8 mb-2">
+                      <input type="text" class="form-control" name="id" placeholder="" required>      
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col">
+                      <label class="btn btn-primary">
+                          Browse <input type="file" name="image" accept="image/*" required hidden>
+                      </label>
+                    </div>
+                  </div>
+                  <button class="btn btn-md btn-default submit-button-center" type="submit">Submit</button>
+                </form>
+              </div>
+
+            </div>
+            <div class="tab-pane fade" id="delete-property-image">
+
+              <div id="divForm">
+                <form class="container mt-5 ml-5" action="http://127.0.0.4:5050/api/property/images/delete" method="post">
+                  <div class="row">              
+                    <div class="col-md-8 mb-2">
+                      <input type="text" class="form-control" name="id" placeholder="ID" required>
+                    </div>
+                  </div>
+                  <button class="btn btn-md btn-default submit-button-center" type="submit">Submit</button>
+                </form>
+              </div>
+              
             </div>
 
           </div>
         </div>
       </div>
-
-      <% if (!(typeof createSuccess == 'undefined')) { %>
-        <% if (!createSuccess) { %>
-          <div class="alert alert-danger" role="alert">
-            <h4 class="alert-heading text-center">Creation Unsuccessful!</h4>
-          </div>      
-        <% } %>
-        <% if (createSuccess) { %>
-          <div class="alert alert-success" role="alert">
-            <h4 class="alert-heading text-center">Creation Successful!</h4>
-          </div>      
-        <% } %>
-      <% } %>
-
-      <% if (!(typeof deleteSuccess == 'undefined')) { %>
-        <% if (!deleteSuccess) { %>
-          <div class="alert alert-danger" role="alert">
-            <h4 class="alert-heading text-center">Deletion Unsuccessful!</h4>
-          </div>      
-        <% } %>
-        <% if (deleteSuccess) { %>
-          <div class="alert alert-success" role="alert">
-            <h4 class="alert-heading text-center">Deletion Successful!</h4>
-          </div>      
-        <% } %>
-      <% } %>
         
     <!-- END NG -->
     </div>
 
-    <% include ../../includes/scripts %>
+    <% include ../../includes/dashboardScripts %>
   </body>
 </html>

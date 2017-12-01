@@ -11,20 +11,20 @@ const {isEmpty}    = require('../../../resources/js/functions');
 
 const router = express.Router();
 
-router.get('/propImages', checkAuth, function(req, res) {
+router.get('/billing', checkAuth, function(req, res) {
   const now = new Date().getTime();
   // TODO Log time and req
 
-  let fullName = req.session.firstName + ' ' + req.session.lastName;
+  const fullName = req.session.firstName + ' ' + req.session.lastName;
 
-    return res.render('propImages', {
+    return res.render('billing', {
       fullName: fullName
     });
 });
 
 // Need checkStreetAddr, checkImage
-router.post('/propImages/upload', checkAuth, function(req, res, next) {
-  let fullName = req.session.firstName + ' ' + req.session.lastName;
+router.post('/billing', checkAuth, function(req, res, next) {
+  const fullName = req.session.firstName + ' ' + req.session.lastName;
 
 //  const form = new formidable.IncomingForm();
 //  form.type = 'multipart';
@@ -65,7 +65,7 @@ router.post('/propImages/upload', checkAuth, function(req, res, next) {
   const success = false;
 
   if(!success)
-    return res.render('props', {
+    return res.render('billing', {
       uploadSuccess: false
     });
  
@@ -73,7 +73,7 @@ router.post('/propImages/upload', checkAuth, function(req, res, next) {
 
 // Need validation middleware for string
 router.post('/propImages/delete', checkAuth, function(req, res, next) {
-    let fullName = req.session.firstName + ' ' + req.session.lastName;
+  const fullName = req.session.firstName + ' ' + req.session.lastName;
 
   //const id = req.body.id;
   const id = '';

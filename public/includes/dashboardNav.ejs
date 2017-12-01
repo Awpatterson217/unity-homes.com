@@ -1,35 +1,38 @@
 
-      <div class="row margin-bottom-10">
-        <div class="col-9">
-          <h2>
-            Welcome, <%- fullName %>.
-          </h2>
+      <div class="row">
+        <div class="col-4">
+          <a href="/admin" class="btn btn-outline-primary corner-link">Back</a>           
+        </div>
+        <div class="col-5">
+          <h3>
+            <%- fullName %>
+          </h3>
         </div>
         <div class="col-3 corner-button-container">
           <a href="#" data-toggle="modal" data-target="#settingsModal" class="btn btn-outline-primary corner-link settingsButton">Settings</a>
           <a href="/logout" class="btn btn-outline-primary corner-link">Logout</a>           
         </div>
-      </div>
+      </div><!-- END COL -->
 
       <hr class="thick-hr margin-top-10" />
 
       <div class="nav nav-pills nav-fill">
         <div class="nav-item">
-          <a class="nav-link main-link" href="/admin">Dashboard</a>
+          <a class="nav-link main-link" href="/dashboard">Dashboard</a>
         </div>
         <div class="nav-item">
           <a class="nav-link main-link" href="/users">Users</a>
         </div>
         <div class="nav-item">
-          <a class="nav-link main-link" href="/props">Properties</a>
+          <a class="nav-link main-link" href="/properties">Properties</a>
         </div>
         <div class="nav-item">
-          <a class="nav-link main-link" href="/propImages">Billing</a>
+          <a class="nav-link main-link" href="/billing">Billing</a>
         </div>
       </div>
 
       <% include ../includes/settingsModal %>    
 
-      <hr class="thick-hr" />
+      <hr class="thick-hr margin-bottom-40" />
 
       <div ng-app="ngAdmin">

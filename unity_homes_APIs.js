@@ -12,8 +12,10 @@ const session    = require('express-session');
 //const client  = redis.createClient();
 const app = express();
 //const limiter = require('express-limiter')(app, client);
-
-const jsonParser  = bodyParser.json();
+const urlEncParser = bodyParser.urlencoded({
+  extended: false
+});
+const jsonParser = bodyParser.json();
 
 // 100 per hour per IP
 //limiter({
@@ -22,9 +24,9 @@ const jsonParser  = bodyParser.json();
 //  expire: 1000 * 60 * 60
 //})
 
-const port     = 5050;
-const host     = '127.0.0.4';
-const APIs     = require('./local/api');
+const port = 5050;
+const host = '127.0.0.4';
+const APIs = require('./local/api');
 
 const defaultGetOptions = {
   root: __dirname + '/public/',
@@ -39,9 +41,10 @@ app.use(helmet());
 app.use(helmet.hidePoweredBy());
 
 app.use(jsonParser); 
+app.use(urlEncParser); 
 
 for(let apiKey in APIs){
-  app.use(APIs[apiKey]);
+  app.use('/api', APIs[apiKey]);
 }
 
 const server = app.listen(port, host, () => {

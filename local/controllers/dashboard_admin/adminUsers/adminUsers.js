@@ -25,7 +25,7 @@ router.get('/adminUsers', checkAuth, function(req, res) {
 });
 
 router.post('/adminUsers/create', checkAuth, checkNames, checkEmail, checkPass, checkPassTwo, function(req, res, next) {
-  let fullName = req.session.firstName + ' ' + req.session.lastName;
+  const fullName = req.session.firstName + ' ' + req.session.lastName;
 
   const email       = req.body.email;
   const firstName   = req.body.firstName;
@@ -88,7 +88,7 @@ router.post('/adminUsers/create', checkAuth, checkNames, checkEmail, checkPass, 
 });
 
 router.post('/adminUsers/delete', checkAuth, checkEmail, function(req, res, next) {
-  let fullName = req.session.firstName + ' ' + req.session.lastName;
+  const fullName = req.session.firstName + ' ' + req.session.lastName;
 
   const email = req.body.email;
 

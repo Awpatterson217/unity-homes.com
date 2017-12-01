@@ -30,7 +30,7 @@
             <div class="tab-pane fade show active" id="add-registered-user">
 
               <div id="form-group">
-                <form class="container" action="/regUsers/add" method="post">
+                <form class="container" action="http://127.0.0.4:5050/api/registeredUser/create" method="post">
                   <div class="row">              
                     <div class="col-md-6 mb-2">
                       <input type="text" class="form-control" name="email" placeholder="Email" required>
@@ -41,7 +41,7 @@
                   </div>
                   <div class="row">              
                     <div class="col-md-12 mb-2">
-                      <input type="text" v-model="message" class="form-control" name="firstName" placeholder="First Name" required>
+                      <input type="text" class="form-control" name="firstName" placeholder="First Name" required>
                     </div>
                   </div>
                   <div class="row">              
@@ -72,7 +72,7 @@
             <div class="tab-pane fade" id="delete-registered-user">
 
               <div id="form">
-                <form class="container mt-5 ml-5" action="/regUsers/delete" method="post">
+                <form class="container mt-5 ml-5" action="http://127.0.0.4:5050/api/registeredUser/delete" method="post">
                   <div class="row">              
                     <div class="col-md-8 mb-2">
                       <input type="email" class="form-control" name="email" placeholder="Email" required>
@@ -86,7 +86,7 @@
             <div class="tab-pane fade" id="add-unregistered-user">
 
               <div  id="app" id="divForm">
-                <form class="container" action="/unregUsers/add" method="post">
+                <form class="container" action="http://127.0.0.4:5050/api/unregisteredUser/create" method="post">
                   <div class="row">              
                     <div class="col-md-6 mb-2">
                       <input type="text" class="form-control" name="email" placeholder="Email" required>
@@ -118,7 +118,7 @@
             <div class="tab-pane fade" id="delete-unregistered-user">
 
               <div id="form">
-                <form class="container mt-5 ml-5" action="/unregUsers/delete" method="post">
+                <form class="container mt-5 ml-5" action="http://127.0.0.4:5050/api/unregisteredUser/delete" method="post">
                   <div class="row">              
                     <div class="col-md-8 mb-2">
                       <input type="text" class="form-control" name="email" placeholder="Email" required>
@@ -132,36 +132,10 @@
           </div>
         </div>
       </div>
-
-      <% if (!(typeof createSuccess == 'undefined')) { %>
-        <% if (!createSuccess) { %>
-          <div class="alert alert-danger" role="alert">
-            <h4 class="alert-heading text-center">Creation Unsuccessful!</h4>
-          </div>      
-        <% } %>
-        <% if (createSuccess) { %>
-          <div class="alert alert-success" role="alert">
-            <h4 class="alert-heading text-center">Creation Successful!</h4>
-          </div>      
-        <% } %>
-      <% } %>
-
-      <% if (!(typeof deleteSuccess == 'undefined')) { %>
-        <% if (!deleteSuccess) { %>
-          <div class="alert alert-danger" role="alert">
-            <h4 class="alert-heading text-center">Deletion Unsuccessful!</h4>
-          </div>      
-        <% } %>
-        <% if (deleteSuccess) { %>
-          <div class="alert alert-success" role="alert">
-            <h4 class="alert-heading text-center">Deletion Successful!</h4>
-          </div>      
-        <% } %>
-      <% } %>
       
     <!-- END NG -->
     </div>
 
-    <% include ../../includes/scripts %>
+    <% include ../../includes/dashboardScripts %>
   </body>
 </html>

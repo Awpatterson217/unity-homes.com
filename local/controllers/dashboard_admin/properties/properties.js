@@ -10,21 +10,21 @@ const {checkAuth}   = require('../../../resources/js/middleware');
 
 const router = express.Router();
 
-router.get('/props', checkAuth, function(req, res) {
+router.get('/properties', checkAuth, function(req, res) {
   const now = new Date().getTime();
   // TODO Log time and req
 
   let fullName = req.session.firstName + ' ' + req.session.lastName;
 
-  return res.render('props', {
+  return res.render('properties', {
     fullName: fullName
   });
 });
 
-router.post('/props/add', checkAuth, checkProps, function(req, res, next) {
+router.post('/properties/add', checkAuth, checkProps, function(req, res, next) {
   const timestamp = Math.floor(Date.now() / 1000).toString();
 
-  let fullName = req.session.firstName + ' ' + req.session.lastName;
+  const fullName = req.session.firstName + ' ' + req.session.lastName;
 
   let washer   = isEmpty(req.body.washer)
     ? 'false' 
@@ -46,7 +46,7 @@ router.post('/props/add', checkAuth, checkProps, function(req, res, next) {
     : 'true';
 
   if(isEmpty(req.body.street))
-    return res.render('props', {
+    return res.render('properties', {
       fullName     : fullName,
       createSuccess: false
     });
@@ -69,25 +69,25 @@ router.post('/props/add', checkAuth, checkProps, function(req, res, next) {
 
   property.create(function(error, prop){
     if(error !== null)
-      return res.render('props', {
+      return res.render('properties', {
         fullName     : fullName,
         createSuccess: false
       });
     
-    return res.render('props', {
+    return res.render('properties', {
       fullName     : fullName,
       createSuccess: true,
     });
   });
 });
 
-router.post('/props/delete', checkAuth, checkPropId, function(req, res, next) {
-  let fullName = req.session.firstName + ' ' + req.session.lastName;
+router.post('/properties/delete', checkAuth, checkPropId, function(req, res, next) {
+  const fullName = req.session.firstName + ' ' + req.session.lastName;
 
   const id = req.body.id;
 
   if(id === '')
-    return res.render('props', {
+    return res.render('properties', {
       fullName     : fullName,
       deleteSuccess: false
     });
@@ -96,18 +96,18 @@ router.post('/props/delete', checkAuth, checkPropId, function(req, res, next) {
     'id': id,
   }, function(error, numOfDeletes) {
     if(error !== null)
-      return res.render('props', {
+      return res.render('properties', {
         fullName     : fullName,
         deleteSuccess: false
       });
 
     if(!numOfDeletes)
-      return res.render('props', {
+      return res.render('properties', {
         fullName     : fullName,
         deleteSuccess: false
       });
 
-    return res.render('props', {
+    return res.render('properties', {
       fullName     : fullName,
       deleteSuccess: true
     });

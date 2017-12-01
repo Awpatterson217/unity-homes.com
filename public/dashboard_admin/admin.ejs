@@ -3,172 +3,39 @@
 <% include ../includes/dashboardHead %>
 
   <body class="container-fluid">
-    <% include ../includes/dashboardNav %>
+  <% include ../includes/settingsModal %>    
+
+    <div class="row margin-bottom-10">
+      <div class="col-9">
+        <h2>
+          Welcome, <%- fullName %>.
+        </h2>
+      </div> <!-- END COL -->
+      <div class="col-3 corner-button-container">
+        <a href="#" data-toggle="modal" data-target="#settingsModal" class="btn btn-outline-primary corner-link settingsButton">Settings</a>
+        <a href="/logout" class="btn btn-outline-primary corner-link">Logout</a>           
+      </div> <!-- END COL -->
+    </div> <!-- END ROW -->
+
+    <hr class="thick-hr margin-top-10" />
+
+    <div class="row margin-top-40">
+      <div class="col-12">
+        <div class="nav nav-pills nav-fill">
+          <div class="nav-item">
+            <a class="nav-link home-link" href="/dashboard">Dashboard</a>
+          </div>
+        </div> <!-- END NAV -->
+      </div> <!-- END COL -->
+    </div> <!-- END ROW -->
+
+    <div ng-app="ngAdmin">
 
       <div class="row" ng-controller="dashboardCtrl">
 
-        <div class="col-2">
+        <div class="col-12">
 
-          <ul class="nav nav-fill flex-column nav-pills">
-            <li class="nav-item">
-              <a class="nav-link side-link active" id="administrators-tab" data-toggle="pill" href="#administrators">Administrators</a>
-            </li>
-            <div class="dropdown-divider"></div>
-            <li class="nav-item">
-              <a class="nav-link side-link" id="registered-users-tab" data-toggle="pill" href="#registered-users">Registered Users</a>
-            </li>
-            <div class="dropdown-divider"></div>
-            <li class="nav-item">
-              <a class="nav-link side-link" id="unregistered-users-tab" data-toggle="pill" href="#unregistered-users">Unregistered Users</a>
-            </li>
-            <div class="dropdown-divider"></div>
-            <li class="nav-item">
-              <a class="nav-link side-link" id="properties-tab" data-toggle="pill" href="#properties">Properties</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link side-link" data-toggle="pill" href="#test">{{ data.test }}</a>
-            </li>
-          </ul>
 
-        </div> <!-- END COL -->
-        <div class="col-10">
-
-          <div class="tab-content" id="v-pills-tabContent">
-            <div class="tab-pane fade show active" id="administrators">
-
-              <div class="table-responsive">
-                <table class="table table-hover">
-                  <thead class="table-header-text thead-inverse">
-                    <tr>
-                      <th class="text-center">Name</th>
-                      <th class="text-center">Email</th>
-                      <th class="text-center">Account Type</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                  </tbody>
-                </table>
-              </div> <!-- END TABLE -->
-
-            </div> <!-- END ADMIN -->
-            <div class="tab-pane fade" id="registered-users">
-
-              <div class="table-responsive">
-                <table class="table table-hover">
-                  <thead class="table-header-text thead-inverse">
-                    <tr>
-                      <th class="text-center">Name</th>
-                      <th class="text-center">Email</th>
-                      <th class="text-center">Account Type</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr class="table-text" ng-repeat="registeredTenant in registeredTenants">
-                      <td>                
-                        {{ registeredTenant.firstName }}
-                        {{ registeredTenant.middleName }}
-                        {{ registeredTenant.lastName }}
-                      </td>
-                      <td>
-                        {{ registeredTenant.email }}
-                      </td>
-                      <td>
-                        {{ registeredTenant.type }}
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div> <!-- END TABLE -->
-
-            </div> <!-- END REG -->
-            <div class="tab-pane fade" id="unregistered-users">
-
-              <div class="table-responsive">
-                <table class="table table-hover">
-                  <thead class="table-header-text thead-inverse">
-                    <tr>
-                      <th class="text-center">Name</th>
-                      <th class="text-center">Email</th>
-                      <th class="text-center">Registration Code</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr class="table-text" ng-repeat="unregisteredTenant in unregisteredTenants">
-                      <td>                  
-                        {{ unregisteredTenant.firstName }}
-                        {{ unregisteredTenant.middleName }}
-                        {{ unregisteredTenant.lastName }}
-                      </td>
-                      <td>
-                        {{ unregisteredTenant.email }}
-                      </td>
-                      <td>
-                        {{ unregisteredTenant.code }}
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div> <!-- END TABLE -->
-
-            </div> <!-- END UNREG -->
-            <div class="tab-pane fade" id="properties">
-
-              <div class="table-responsive">
-                <table class="table table-hover">
-                  <thead class="table-header-text thead-inverse">
-                    <tr>
-                      <th class="text-center">ID</th>
-                      <th class="text-center">Main Image</th>
-                      <th class="text-center">Address</th>
-                      <th class="text-center">Sq Ft</th>
-                      <th class="text-center">Year</th>
-                      <th class="text-center">Fence</th>
-                      <th class="text-center">Basement/Garage</th>
-                      <th class="text-center">Washer/Dryer</th>
-                      <th class="text-center">Type</th>
-                      <th class="text-center">Occupied</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr class="table-text" ng-repeat="property in properties">
-                      <td>                  
-                        {{ property.id }}
-                      </td>
-                      <td>
-                        <img class="center-image" v-bind:src=imgName(property.mainImage) />
-                      </td>
-                      <td>
-                        {{ property.street }} <br />
-                        {{ property.city }}, {{ property.state }}  {{ property.zip }} 
-                      </td>
-                      <td>
-                        {{ property.sqft }}
-                      </td>
-                      <td>
-                        {{ property.year }}
-                      </td>
-                      <td>
-                        {{ property.fence }}
-                      </td>
-                      <td>
-                        {{ property.basement }} / {{ property.garage }}
-                      </td>
-                      <td>
-                        {{ property.washer }} / {{ property.dryer }}
-                      </td>
-                      <td>
-                        {{ property.type }}
-                      </td>
-                      <td>
-                        {{ property.occupied }}
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div> <!-- END TABLE -->
-
-            </div> <!-- END PROP -->
-          </div> <!-- END TAB CONTENT -->
         </div> <!-- END COL -->
       </div> <!-- END ROW -->
     </div> <!-- END NG -->

@@ -46,7 +46,6 @@ router.post('/login', checkEmail, checkPass, function(req, res, next) {
     if(user.type === 'tenant')
       return res.redirect('/tenant');
   });
-
 });
 
 /*

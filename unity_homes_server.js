@@ -28,10 +28,12 @@ const jsonParser  = bodyParser.json();
 // Temporary, will read from external file
 const secret   = 'temporarySecret';
 // In minutes
-const sessionT = 300000;
+const sessionT = 3000000;
 const port     = 3000;
 const host     = '127.0.0.4';
 const routes   = require('./local/controllers');
+const APIs     = require('./local/api');
+
 const defaultGetOptions = {
   root: __dirname + '/public/',
   dotfiles: 'deny',
@@ -51,11 +53,11 @@ app.set('view engine', 'ejs');
 app.set('views', [
   path.join(__dirname, 'public', 'views'),
   path.join(__dirname, 'public', 'dashboard_admin'),
+  path.join(__dirname, 'public', 'dashboard_admin', 'dashboard'),
   path.join(__dirname, 'public', 'dashboard_admin', 'users'),
   path.join(__dirname, 'public', 'dashboard_admin', 'adminUsers'),
-  path.join(__dirname, 'public', 'dashboard_admin', 'regUsers'),
-  path.join(__dirname, 'public', 'dashboard_admin', 'props'),
-  path.join(__dirname, 'public', 'dashboard_admin', 'propImages'),
+  path.join(__dirname, 'public', 'dashboard_admin', 'properties'),
+  path.join(__dirname, 'public', 'dashboard_admin', 'billing'),
   path.join(__dirname, 'public', 'dashboard_tenant')
 ]);
 
@@ -103,6 +105,10 @@ app.use('/images'   , express.static(__dirname + '/public/resources/images/'));
 
 for(let routeKeys in routes){
   app.use(routes[routeKeys]);
+}
+
+for(let apiKey in APIs){
+  app.use('/api', APIs[apiKey]);
 }
 
 const server = app.listen(port, host, () => {

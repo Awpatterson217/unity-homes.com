@@ -5,42 +5,8 @@
   <body class="container-fluid">
     <% include ../includes/dashboardNav %>
 
-    <% if (!(typeof createSuccess == 'undefined')) { %>
-      <% if (!createSuccess) { %>
-        <div class="alert alert-danger" role="alert">
-          <h4 class="alert-heading text-center">Creation Unsuccessful!</h4>
-        </div>      
-      <% } %>
-      <% if (createSuccess) { %>
-        <div class="alert alert-success" role="alert">
-          <h4 class="alert-heading text-center">Creation Successful!</h4>
-        </div>      
-      <% } %>
-    <% } %>
-
-    <% if (!(typeof deleteSuccess == 'undefined')) { %>
-      <% if (!deleteSuccess) { %>
-        <div class="alert alert-danger" role="alert">
-          <h4 class="alert-heading text-center">Deletion Unsuccessful!</h4>
-        </div>      
-      <% } %>
-      <% if (deleteSuccess) { %>
-        <div class="alert alert-success" role="alert">
-          <h4 class="alert-heading text-center">Deletion Successful!</h4>
-        </div>      
-      <% } %>
-    <% } %>
-
-    <% if (!(typeof match == 'undefined')) { %>
-      <% if (!match) { %>
-        <div class="alert alert-danger" role="alert">
-          <h4 class="alert-heading text-center">Mismatched Passwords!</h4>
-        </div>      
-      <% } %>
-    <% } %>
-
       <div id="form">
-        <form class="container" action="/adminUsers/create" method="post">
+        <form class="container" action="/api/administrator/create" method="post">
           <h2 class="form-signin-heading">
             Create Administrator Account
           </h2>
@@ -85,7 +51,7 @@
       </div>
 
       <div id="form">
-        <form class="container" action="/adminUsers/delete" method="post">
+        <form class="container" action="/api/administrator/delete" method="post">
           <h2 class="form-signin-heading">
             Delete Administrator Account
           </h2>

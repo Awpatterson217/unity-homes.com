@@ -61,7 +61,7 @@ router.post('/unregUsers/add', checkAuth, checkNames, checkEmail, checkPhone, fu
   });
 });
 
-router.post('/unregUsers/delete', checkAuth, function(req, res, next) {
+router.post('/unregUsers/delete', checkAuth, checkEmail, function(req, res, next) {
   let fullName = req.session.firstName + ' ' + req.session.lastName;
 
   const email = req.body.email;
@@ -130,7 +130,7 @@ router.post('/regUsers/add', checkAuth, checkNames, checkEmail, checkPass, check
     });
   
   registeredTenant.setVal('email', email);
-  unregisteredTenant.setVal('phone', phone);
+  registeredTenant.setVal('phone', phone);
   registeredTenant.setVal('firstName', firstName);
   registeredTenant.setVal('middleName', middleName);
   registeredTenant.setVal('lastName', lastName);

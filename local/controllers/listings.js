@@ -4,8 +4,8 @@ const express = require('express');
 
 const router = express.Router();
 
-router.get('/properties', function(req, res) {
-  return res.render('properties');
+router.get('/listings', function(req, res) {
+  return res.render('listings');
 });
 
 module.exports = router;
