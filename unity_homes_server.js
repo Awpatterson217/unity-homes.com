@@ -31,7 +31,7 @@ const secret   = 'temporarySecret';
 const sessionT = 3000000;
 const port     = 3000;
 const host     = '127.0.0.4';
-const routes   = require('./local/controllers');
+const routes   = require('./local/routes');
 const APIs     = require('./local/api');
 
 const defaultGetOptions = {
@@ -53,7 +53,7 @@ app.set('view engine', 'ejs');
 app.set('views', [
   path.join(__dirname, 'public', 'views'),
   path.join(__dirname, 'public', 'dashboard_admin'),
-  path.join(__dirname, 'public', 'dashboard_admin', 'dashboard'),
+  path.join(__dirname, 'public', 'dashboard_admin', 'data'),
   path.join(__dirname, 'public', 'dashboard_admin', 'users'),
   path.join(__dirname, 'public', 'dashboard_admin', 'adminUsers'),
   path.join(__dirname, 'public', 'dashboard_admin', 'properties'),
@@ -118,10 +118,10 @@ const server = app.listen(port, host, () => {
 });
 
 //        TODO
-// Redis sessions / CSRF
-// Read 'session secret' from private file
+// Redis sessions / CSRF - NEEDS TESTED
+// Read 'session secret' from private file / environmental variable
 // SSL / TSL
 // Billing system
 // Logs
 // Graphics, design, favicon, etc.
-// Grunt.js or Webpack
+// babel and Webpack

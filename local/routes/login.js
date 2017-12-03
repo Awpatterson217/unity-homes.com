@@ -24,9 +24,12 @@ router.get('/login', function(req, res) {
 router.post('/login', checkEmail, checkPass, function(req, res, next) {
   let time;
   const NOW = new Date().getTime();
-  
+
   const email    = req.body.email;
   const password = req.body.password;
+  const year     = 365 * 24 * 60 * 60 * 1000;
+  if (req.body.remember)
+    res.cookie('remember', email, { maxAge: year });
 
   if(isEmpty(email, password))
     return res.render('login', { invalid: true });

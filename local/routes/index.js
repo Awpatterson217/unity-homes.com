@@ -8,7 +8,7 @@ const register   = require('./register.js');
 const login      = require('./login.js');
 const logout     = require('./logout.js');
 const admin      = require('./dashboard_admin/admin.js');
-const dashboard  = require('./dashboard_admin/dashboard/dashboard.js');
+const data       = require('./dashboard_admin/data/data.js');
 const adminUsers = require('./dashboard_admin/adminUsers/adminUsers.js');
 const users      = require('./dashboard_admin/users/users.js');
 const properties = require('./dashboard_admin/properties/properties.js');
@@ -24,7 +24,7 @@ module.exports = {
   login     : login,
   logout    : logout,
   admin     : admin,
-  dashboard : dashboard,
+  data      : data,
   users     : users,
   adminUsers: adminUsers,
   properties: properties,
