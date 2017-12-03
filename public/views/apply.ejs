@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
   <% include ../includes/head %>
+
   <body>
     <div class="container">
-
       <% include ../includes/nav %>
 
       <ul class="nav nav-tabs">
@@ -146,10 +146,9 @@
               </div>
             </form>
           </div>
+        </div> <!-- END TAB -->
 
-        </div>
         <div class="tab-pane fade" id="employment">
-
           <div id="form-group">
             <form class="container apply" action="" method="post">
               <h5 class="form-signin-heading mt-2">
@@ -256,11 +255,9 @@
               </div>
             </form>
           </div>
+        </div> <!-- END TAB -->
 
-        </div>
         <div class="tab-pane fade" id="roommates">
-
-         
           <div id="form-group">
             <form class="container apply" action="" method="post">
               <h5 class="form-signin-heading mt-2">
@@ -332,10 +329,9 @@
               </div>
             </form>
           </div>
+        </div> <!-- END TAB -->
 
-        </div>
         <div class="tab-pane fade" id="pets">
-
           <div id="form-group">
             <form class="container apply" action="" method="post">
               <h5 class="form-signin-heading mt-2">
@@ -395,10 +391,9 @@
               </div>
             </form>
           </div>
+        </div> <!-- END TAB -->
 
-        </div>
         <div class="tab-pane fade" id="references">
-
           <div id="form-group">
             <form class="container apply" action="" method="post">
               <h5 class="form-signin-heading mt-2">
@@ -448,43 +443,22 @@
               </div>
             </form>
           </div>
-          
-        </div>
+        </div> <!-- END TAB -->
+
         <div class="tab-pane fade" id="vehicles">
+        </div> <!-- END TAB -->
 
-          
-        </div>
         <div class="tab-pane fade" id="history">
+        </div> <!-- END TAB -->
 
-          
-        </div>
         <div class="tab-pane fade" id="submit">
-
             <button class="btn btn-md btn-default submit-button-center" type="submit">Submit</button>
-
-        </div>
-      </div>
-
-    </div>
+        </div> <!-- END TAB -->
+      </div> <!-- END TABS -->
+    </div> <!-- END CONTAINER -->
 
     <% include ../includes/footer %>
     
     <% include ../includes/scripts %>
-    <script>
-      // VALIDATION
-      (function() {
-        "use strict";
-        window.addEventListener("load", function() {
-          var form = document.getElementById("needs-validation");
-          form.addEventListener("submit", function(event) {
-            if (form.checkValidity() == false) {
-              event.preventDefault();
-              event.stopPropagation();
-            }
-            form.classList.add("was-validated");
-          }, false);
-        }, false);
-      }());
-    </script>
   </body>
 </html>

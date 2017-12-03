@@ -12,7 +12,7 @@ router.get('/contact', function(req, res) {
 
 router.post('/contact/send', function(req, res) {
 
-  // Do contact stuff
+  // Do contact stuff - Need NodeMailer
 
   return res.render('contact', {
     success: success

@@ -2,17 +2,19 @@
       <div class="row">
         <div class="col-4">
           <a href="/admin" class="btn btn-outline-primary corner-link">Back</a>           
-        </div>
+        </div> <!-- END COL -->
+
         <div class="col-5">
           <h3 class="text-capitalize">
             <%- fullName %>
           </h3>
-        </div>
+        </div> <!-- END COL -->
+
         <div class="col-3 corner-button-container">
           <a href="#" data-toggle="modal" data-target="#settingsModal" class="btn btn-outline-primary corner-link settingsButton">Settings</a>
           <a href="/logout" class="btn btn-outline-primary corner-link">Logout</a>           
-        </div>
-      </div><!-- END COL -->
+        </div> <!-- END COL -->
+      </div> <!-- END ROW -->
 
       <hr class="thick-hr margin-top-10" />
 
@@ -29,7 +31,7 @@
         <div class="nav-item">
           <a class="nav-link main-link" href="/billing">Billing</a>
         </div>
-      </div>
+      </div> <!-- END NAV -->
 
       <% include ../includes/settingsModal %>    
 
