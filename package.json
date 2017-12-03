@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "NODE_ENV=development && nodemon",
     "windev": "set NODE_ENV=development && nodemon",
-    "live": "NODE_ENV=production && pm2 unity_homes_server.js"
+    "live": "NODE_ENV=production && pm2 restart unity_homes_server.js"
   },
   "repository": {
     "type": "git",
