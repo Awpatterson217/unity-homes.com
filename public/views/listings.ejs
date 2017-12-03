@@ -12,26 +12,30 @@
         <div class="col-md-12 text-center">
           <form class="container">
             <fieldset class="form-group">
-              <legend class="mb-3">Filter Listings</legend>
+              <legend class="mb-3">
+                Filter Listings
+              </legend>
               <div class="form-group">
                 <div class="row">
                     <label>
                       Rent (USD):
                     </label>
-                  <div class="col-md-5">
+                  <div class="col-md-5 col">
                     <input type="text" class="form-control" name="rentMin" placeholder="Minimum">
-                  </div>
+                  </div> <!-- END COL -->
                     <label>
                       -
                     </label>
-                  <div class="col-md-5">
+                  <div class="col-md-5 col">
                     <input type="text" class="form-control" name="rentMax" placeholder="Maximum">
-                  </div>
-                </div>
+                  </div> <!-- END COL -->
+                </div> <!-- END ROW -->
+
                 <div class="row">
                   <div class="col-md-4 mt-2">
                     <input type="text" class="form-control" name="city" placeholder="City">
-                  </div>
+                  </div> <!-- END COL -->
+
                   <div class="col-md-4 mt-2">
                     <select class="form-control">
                       <option selected disabled>Number of Rooms</option>
@@ -41,7 +45,8 @@
                       <option>4</option>
                       <option>5</option>
                     </select>
-                  </div>
+                  </div> <!-- END COL -->
+
                   <div class="col-md-4 mt-2">
                     <select class="form-control" name="type">
                       <option selected disabled>Type</option>
@@ -51,8 +56,8 @@
                       <option>Condominium</option>
                       <option>Apartment</option>
                     </select>
-                  </div>
-                </div>
+                  </div> <!-- END COL -->
+                </div> <!-- END ROW -->
               </div>
               <div class="form-check">
                 <label class="form-check-label mr-3">
@@ -77,6 +82,7 @@
                 </label>
               </div>
             </fieldset>
+
             <button type="submit" class="btn btn-default">Search</button>
           </form>        
         </div> <!-- END COL -->
