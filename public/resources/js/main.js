@@ -25,11 +25,13 @@ const getCookie = function(cname) {
 
 const autofillEmail = function(){
     const rememberedEmail = getCookie('remember');
-    let loginEmail = document.getElementById('login-email');
+    const loginEmail = document.getElementById('login-email');
+    const rememberMe = document.getElementById('remember');
     const loginPassword = document.getElementById('login-password');
 
     if(rememberedEmail !== ''){
       loginEmail.value = rememberedEmail;
+      rememberMe.checked = true;
       loginPassword.focus();
     }else{
       document.getElementById('login-email').focus();
