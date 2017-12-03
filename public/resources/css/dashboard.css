@@ -13,7 +13,8 @@
 /* Extra large devices (large desktops, 1200px and up)
  * @media (min-width: 1200px) { ... }
  */
-body{
+
+body {
     padding: 15px;
 }
 .right-text {
@@ -28,7 +29,7 @@ body{
     margin-left: auto;
     margin-right: auto;
 }
-.table-header-text{
+.table-header-text {
     text-align: center;
     font-size: 13px;
     font-weight: bold;
@@ -36,7 +37,7 @@ body{
 .table-text {
     font-size: 13px;
 }
-.table-header{
+.table-header {
     text-align: center;
     padding: 5px;
 }
@@ -44,27 +45,27 @@ body{
     padding: 5px;
     max-width: 400px;
 }
-.submit-button-center{
+.submit-button-center {
     display: block;
     margin: 0 auto;
     padding: 10px 60px;
 }
-.corner-button-container{
+.corner-button-container {
     display: inline-block;
 }
-.corner-button{
+.corner-button {
     height: 2em;
     font-size: 20px;
     font-weight: bold;
     padding: 0px 0px;
 }
-.corner-link{
+.corner-link {
     font-size: 15px;
     font-weight: bold;
     padding: 10px 40px;
     color: maroon;
 }
-.main-link{
+.main-link {
     font-size: 16px;
     font-weight: bold;
     padding: 0px;
@@ -72,7 +73,7 @@ body{
     margin-top: -5px;
     color: maroon;
 }
-.home-link{
+.home-link {
     font-size: 22px;
     font-weight: bold;
     padding: 1px;
@@ -90,84 +91,82 @@ body{
    background-color: maroon !important;
    color: white;
 }
-.big-link{
+.big-link {
     font-weight: bold;
     color: maroon;
 }
-.side-link{
+.side-link {
     font-size: 14px;
     font-weight: bold;
     padding: 13px;
     color: #050202;
 }
-.margin-bottom-50{
+.margin-bottom-50 {
     margin-bottom: 50px;
 }
-.margin-bottom-40{
+.margin-bottom-40 {
     margin-bottom: 40px;
 }
-.margin-bottom-30{
+.margin-bottom-30 {
     margin-bottom: 30px;
 }
-.margin-bottom-20{
+.margin-bottom-20 {
     margin-bottom: 20px;
 }
-.margin-bottom-10{
+.margin-bottom-10 {
     margin-bottom: 10px;
 }
-.margin-top-50{
+.margin-top-50 {
     margin-top: 50px;
 }
-.margin-top-40{
+.margin-top-40 {
     margin-top: 40px;
 }
-.margin-top-30{
+.margin-top-30 {
     margin-top: 30px;
 }
-.margin-top-20{
+.margin-top-20 {
     margin-top: 20px;
 }
-.margin-top-10{
+.margin-top-10 {
     margin-top: 10px;
 }
-.margin-right-50{
+.margin-right-50 {
     margin-right: 50px;
 }
-.margin-right-40{
+.margin-right-40 {
     margin-right: 40px;
 }
-.margin-right-30{
+.margin-right-30 {
     margin-right: 30px;
 }
-.margin-right-20{
+.margin-right-20 {
     margin-right: 20px;
 }
-.margin-right-10{
+.margin-right-10 {
     margin-right: 10px;
 }
-.margin-left-50{
+.margin-left-50 {
     margin-right: 50px;
 }
-.margin-left-40{
+.margin-left-40 { 
     margin-right: 40px;
 }
-.margin-left-30{
+.margin-left-30 {
     margin-right: 30px;
 }
-.margin-left-20{
+.margin-left-20 {
     margin-right: 20px;
 }
-.margin-left-10{
+.margin-left-10 {
     margin-right: 10px;
 }
 .thick-hr {
     border: none;
     height: 1px;
-    /* Set the hr color */
     color: black; /* old IE */
     background-color: #333; /* Modern Browsers */
 }
-
 .bottom-border {
     border-bottom: solid;
 }

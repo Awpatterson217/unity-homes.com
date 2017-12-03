@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
   <% include ../includes/head %>
+
   <body>
-          
       <% include ../includes/nav %>
 
     <div class="container">
@@ -34,23 +34,6 @@
     <% include ../includes/inactiveModal %>    
 
     <% include ../includes/footer %>
-
-    <script>
-      // VALIDATION
-      (function() {
-        "use strict";
-        window.addEventListener("load", function() {
-          var form = document.getElementById("needs-validation");
-          form.addEventListener("submit", function(event) {
-            if (form.checkValidity() === false) {
-              event.preventDefault();
-              event.stopPropagation();
-            }
-            form.classList.add("was-validated");
-          }, false);
-        }, false);
-      }());
-    </script>
 
     <% include ../includes/scripts %>
 
