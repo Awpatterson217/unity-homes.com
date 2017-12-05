@@ -19,6 +19,6 @@ let customErr = function(message){
 }
 
 module.exports = {
-  newErr   : newErr,
-  customErr: customErr
+  newErr,
+  customErr
 }

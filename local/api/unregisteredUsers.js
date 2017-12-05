@@ -12,7 +12,7 @@ const {checkAuth}        = require('../resources/js/middleware');
 
 const router = express.Router();
 
-router.get('/unregisteredUsers/read', function(req, res) {
+router.get('/unregisteredUsers/read', checkAuth, function(req, res) {
   let time; // TODO Log time and req
   const NOW = new Date().getTime();
 
@@ -26,12 +26,12 @@ router.get('/unregisteredUsers/read', function(req, res) {
   });
 });
 
-router.get('/unregisteredUser/read', function(req, res) {
+router.get('/unregisteredUser/read', checkAuth, function(req, res) {
   // TODO
   return res.status(500).send('Something went wrong!');
 });
 
-router.post('/unregisteredUser/create', checkNames, checkEmail, checkPhone, function(req, res, next) {
+router.post('/unregisteredUser/create', checkAuth, checkNames, checkEmail, checkPhone, function(req, res, next) {
   //const fullName = req.session.firstName + ' ' + req.session.lastName;
 
   const email      = req.body.email;
@@ -58,12 +58,12 @@ router.post('/unregisteredUser/create', checkNames, checkEmail, checkPhone, func
   });
 });
 
-router.post('/unregisteredUser/update', function(req, res, next) {
+router.post('/unregisteredUser/update', checkAuth, function(req, res, next) {
   // TODO
   return res.status(500).send('Something went wrong!');
 });
 
-router.post('/unregisteredUser/delete', checkEmail, function(req, res, next) {
+router.post('/unregisteredUser/delete', checkAuth, checkEmail, function(req, res, next) {
   //const fullName = req.session.firstName + ' ' + req.session.lastName;
 
   const email = req.body.email;

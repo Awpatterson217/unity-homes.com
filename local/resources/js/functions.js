@@ -94,8 +94,8 @@ let createImage = function(){
 }
 
 module.exports = {
-  isEmpty     : isEmpty,
-  getImages   : getImages,
-  adminData   : adminData,
-  propdata    : propdata
+  isEmpty,
+  getImages,
+  adminData,
+  propdata
 }

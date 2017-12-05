@@ -14,7 +14,7 @@ const {checkPassTwo}   = require('../resources/js/middleware');
 
 const router = express.Router();
 
-router.get('/administrators/read', function(req, res) {
+router.get('/administrators/read', checkAuth, function(req, res) {
   let time; // TODO Log time and req
   const NOW = new Date().getTime();
 
@@ -31,12 +31,12 @@ router.get('/administrators/read', function(req, res) {
     });
 });
 
-router.get('/administrator/read', function(req, res) {
+router.get('/administrator/read', checkAuth, function(req, res) {
   // TODO
   return res.status(500).send('Something went wrong!');
 });
 
-router.post('/administrator/create', checkNames, checkEmail, checkPass, checkPassTwo, function(req, res, next) {
+router.post('/administrator/create', checkAuth, checkNames, checkEmail, checkPass, checkPassTwo, function(req, res, next) {
   //const fullName = req.session.firstName + ' ' + req.session.lastName;
 
   const email       = req.body.email;
@@ -79,12 +79,12 @@ router.post('/administrator/create', checkNames, checkEmail, checkPass, checkPas
   });
 });
 
-router.post('/administrator/update', function(req, res, next) {
+router.post('/administrator/update', checkAuth, function(req, res, next) {
   // TODO
   return res.status(500).send('Something went wrong!');
 });
 
-router.post('/administrator/delete', checkEmail, function(req, res, next) {
+router.post('/administrator/delete', checkAuth, checkEmail, function(req, res, next) {
   //const fullName = req.session.firstName + ' ' + req.session.lastName;
 
   const email = req.body.email;

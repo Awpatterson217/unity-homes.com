@@ -13,7 +13,7 @@ const {checkAuth}   = require('../resources/js/middleware');
 
 const router = express.Router();
 
-router.get('/properties/read', function(req, res) {
+router.get('/properties/read', checkAuth, function(req, res) {
   let time; // TODO Log time and req
   const NOW = new Date().getTime();
 
@@ -36,12 +36,12 @@ router.get('/properties/read', function(req, res) {
   });
 });
 
-router.get('/property/read', function(req, res) {
+router.get('/property/read', checkAuth, function(req, res) {
   // TODO
   return res.status(500).send('Something went wrong!');
 });
 
-router.post('/property/create', checkProps, function(req, res, next) {
+router.post('/property/create', checkAuth, checkProps, function(req, res, next) {
   const timestamp = Math.floor(Date.now() / 1000).toString();
 
   //const fullName = req.session.firstName + ' ' + req.session.lastName;
@@ -92,12 +92,12 @@ router.post('/property/create', checkProps, function(req, res, next) {
   });
 });
 
-router.post('/property/update', function(req, res, next) {
+router.post('/property/update', checkAuth, function(req, res, next) {
   // TODO
   return res.status(500).send('Something went wrong!');
 });
 
-router.post('/property/delete', checkPropId, function(req, res, next) {
+router.post('/property/delete', checkAuth, checkPropId, function(req, res, next) {
   //const fullName = req.session.firstName + ' ' + req.session.lastName;
 
   const id = req.body.id;

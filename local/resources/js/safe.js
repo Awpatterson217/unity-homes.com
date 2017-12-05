@@ -144,12 +144,12 @@ let safeStr = function(str){
 }
 
 module.exports = {
-  sanitize    : sanitize,
-  isPassFormat: isPassFormat,
-  safeEmail   : safeEmail,
-  safeCode    : safeCode,
-  safePass    : safePass,
-  safeNum     : safeNum,
-  safeBool    : safeBool,
-  safeStr     : safeStr
+  sanitize,
+  isPassFormat,
+  safeEmail,
+  safeCode,
+  safePass,
+  safeNum,
+  safeBool,
+  safeStr
 }

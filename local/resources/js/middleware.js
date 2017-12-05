@@ -138,14 +138,14 @@ let checkAuth = function(req, res, next){
 }
 
 module.exports = {
-  checkEmail  : checkEmail,
-  checkPhone  : checkPhone,
-  checkNames  : checkNames,
-  checkCode   : checkCode,
-  checkPass   : checkPass,
-  checkPassTwo: checkPassTwo,
-  checkProps  : checkProps,
-  checkPropId : checkPropId,
-  checkAuth   : checkAuth,
-  checkImage  : checkImage
+  checkEmail,
+  checkPhone,
+  checkNames,
+  checkCode,
+  checkPass,
+  checkPassTwo,
+  checkProps,
+  checkPropId,
+  checkAuth,
+  checkImage
 }
