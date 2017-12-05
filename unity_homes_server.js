@@ -51,6 +51,9 @@ app.use(
     secret: SECRET,
   })
 );
+
+client.set("TEST", "Success", redis.print);
+
 /**
  * Rate limiter
  */
