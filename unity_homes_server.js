@@ -32,7 +32,7 @@ else
   console.log("HOST is undefined");
 
 if(typeof PORT !== 'undefined')
-  PORT = Number(PORT.trim());
+  PORT = PORT.trim();
 else
   console.log("PORT is undefined");
 
