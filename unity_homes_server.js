@@ -31,11 +31,6 @@ if(typeof HOST !== 'undefined')
 else
   console.log("HOST is undefined");
 
-if(typeof PORT !== 'undefined')
-  PORT = PORT.trim();
-else
-  console.log("PORT is undefined");
-
 /**
  * Storing sessions with redis
  */
