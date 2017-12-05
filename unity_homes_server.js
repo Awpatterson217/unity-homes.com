@@ -15,7 +15,7 @@ const app = express();
 const routes = require('./local/routes');
 const APIs   = require('./local/api');
 
-const ttl = 260;
+const ttl = 180;
 
 let PORT   = process.env.UNITY_PORT;
 let HOST   = process.env.UNITY_HOST;
