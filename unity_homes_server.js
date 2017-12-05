@@ -15,7 +15,7 @@ const app = express();
 const routes = require('./local/routes');
 const APIs   = require('./local/api');
 
-const ttl = 1000;
+const ttl = 260;
 
 let PORT   = process.env.UNITY_PORT;
 let HOST   = process.env.UNITY_HOST;
@@ -49,17 +49,17 @@ app.use(
   session({
     store : new RedisStore(redisOptions),
     secret: SECRET,
+    saveUninitialized: false,
+    resave: false
   })
 );
-
-client.set("TEST", "Success", redis.print);
 
 /**
  * Rate limiter
  */
 const limiter = require('express-limiter')(app, client);
 
-// 100 per hour per IP
+// 150 per hour per IP
 limiter({
   lookup: ['connection.remoteAddress'],
   total : 150,
