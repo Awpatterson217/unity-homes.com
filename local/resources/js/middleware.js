@@ -125,16 +125,10 @@ let checkPropId = function(req, res, next){
 }
 
 let checkAuth = function(req, res, next){
-  if(!req.session.userAuth){
-    let responseText = '<h1>No Access!</h1>';
-    responseText += '<form action=\'/login\'>';
-    responseText += '<hr>';
-    responseText += '<br /> You may need to <input type=\'submit\' value=\'login again.\' autofocus/>';
-    responseText += '</form>';
-    return res.send(responseText);
-  }else{
+  if(!req.session.userAuth)
+      return res.redirect('/login');
+  else
     return next();
-  }
 }
 
 module.exports = {

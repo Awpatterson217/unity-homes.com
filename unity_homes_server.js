@@ -15,6 +15,7 @@ const app = express();
 const routes = require('./local/routes');
 const APIs   = require('./local/api');
 
+// In seconds
 const ttl = 180;
 
 let PORT   = process.env.UNITY_PORT;
@@ -24,12 +25,12 @@ let SECRET = process.env.UNITY_SECRET;
 if(typeof SECRET !== 'undefined')
   SECRET = SECRET.trim();
 else
-  console.log("SECRET is undefined");
+  console.log("SECRET is undefined"); // TODO: LOG
 
 if(typeof HOST !== 'undefined')
   HOST = HOST.trim();
 else
-  console.log("HOST is undefined");
+  console.log("HOST is undefined"); // TODO: LOG
 
 /**
  * Storing sessions with redis
@@ -42,7 +43,7 @@ const redisOptions = {
 }
 
 client.on("error", function (err) {
-  console.log("Error " + err);
+  console.log("Error " + err); // TODO: LOG
 });
 
 app.use(
@@ -124,7 +125,7 @@ const server = app.listen(PORT, HOST, () => {
 });
 
 //        TODO
-// Redis sessions / CSRF - NEEDS TESTED
+// CSRF
 // SSL / TSL
 // Billing system
 // Logs
