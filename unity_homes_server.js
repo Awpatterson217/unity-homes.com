@@ -10,45 +10,80 @@ const session    = require('express-session');
 const RedisStore = require('connect-redis')(session);
 const ejs        = require('ejs');
 
-//const client  = redis.createClient();
 const app = express();
-//const limiter = require('express-limiter')(app, client);
-const urlEncParser  = bodyParser.urlencoded({
+
+const routes = require('./local/routes');
+const APIs   = require('./local/api');
+
+const sessionTime = 3000000;
+const port        = 3000;
+const host        = '127.0.0.4';
+
+const NODE_ENV = process.env.NODE_ENV.trim();
+const SECRET   = process.env.UNITY_SECRET
+  ? process.env.UNITY_SECRET.trim()
+  : 'temporary';
+
+if(typeof NODE_ENV === 'undefined')
+  console.log("UNDEFINED NODE_ENV");
+  // LOG / HANDLE ERROR - email?
+
+if(NODE_ENV === 'development'){
+  console.log('TRUWE');
+  app.use(session({
+    secret: SECRET,
+    cookie: {
+      unset   : 'destroy',
+      sameSite: true,
+      maxAge  : sessionTime
+    }
+  }))
+}
+if(NODE_ENV === 'production'){
+  //const client  = redis.createClient();
+  //const limiter = require('express-limiter')(app, client);
+
+  //const redisOptions = {
+  //  host  : 'localhost',
+  //  port  : 6379,
+  //  client: client,
+  //  ttl   : 260
+  //}
+
+  // 100 per hour per IP
+  //limiter({
+  //  lookup: ['connection.remoteAddress'],
+  //  total : 100,
+  //  expire: 1000 * 60 * 60
+  //})
+
+  //app.use(
+  //  session({
+  //    store            : new RedisStore(redisOptions),
+  //    secret           : secret,
+  //    saveUninitialized: false,
+  //    resave           : false,
+  //    key              : 'sessionid',
+  //    cookie           : {
+  //      //secure: true,
+  //      httpOnly: true,
+  //      expires : new Date( Date.now() + 60 * 60 * 1000 )
+  //    }
+  //  })
+  //);
+}
+
+/**
+ * Parsing
+ */
+const urlEncParser = bodyParser.urlencoded({
   extended: false
 });
-const jsonParser  = bodyParser.json();
+const jsonParser = bodyParser.json();
 
-// 100 per hour per IP
-//limiter({
-//  lookup: ['connection.remoteAddress'],
-//  total : 100,
-//  expire: 1000 * 60 * 60
-//})
-
-// Temporary, will read from external file
-const secret   = 'temporarySecret';
-// In minutes
-const sessionT = 3000000;
-const port     = 3000;
-const host     = '127.0.0.4';
-const routes   = require('./local/routes');
-const APIs     = require('./local/api');
-
-const defaultGetOptions = {
-  root: __dirname + '/public/',
-  dotfiles: 'deny',
-  headers : {
-      'x-timestamp': Date.now(),
-      'x-sent': true
-  }
-}
-const redisOptions = {
-  host  : 'localhost',
-  port  : 6379,
-  //client: client,
-  ttl   : 260
-}
-
+/**
+ * Views
+ */
 app.set('view engine', 'ejs');
 app.set('views', [
   path.join(__dirname, 'public', 'views'),
@@ -61,35 +96,11 @@ app.set('views', [
   path.join(__dirname, 'public', 'dashboard_tenant')
 ]);
 
+/**
+ * Middleware
+ */
 app.use(helmet());
 app.use(helmet.hidePoweredBy());
-
-// Temporary sessions
-app.use(session({
-  secret: secret,
-  cookie: {
-    unset   : 'destroy',
-    sameSite: true,
-    maxAge  : sessionT
-  }
-}))
-
-/*
-app.use(
-  session({
-    store            : new RedisStore(redisOptions),
-    secret           : secret,
-    saveUninitialized: false,
-    resave           : false,
-    key              : 'sessionid',
-    cookie           : {
-      //secure: true,
-      httpOnly: true,
-      expires : new Date( Date.now() + 60 * 60 * 1000 )
-    }
-  })
-);
-*/
 
 app.use(urlEncParser); 
 app.use(jsonParser); 
@@ -106,11 +117,13 @@ app.use('/images'   , express.static(__dirname + '/public/resources/images/'));
 for(let routeKeys in routes){
   app.use(routes[routeKeys]);
 }
-
 for(let apiKey in APIs){
   app.use('/api', APIs[apiKey]);
 }
 
+/**
+ * Server
+ */
 const server = app.listen(port, host, () => {
   const host = server.address().address;
   const port = server.address().port;
@@ -119,7 +132,6 @@ const server = app.listen(port, host, () => {
 
 //        TODO
 // Redis sessions / CSRF - NEEDS TESTED
-// Read 'session secret' from private file / environmental variable
 // SSL / TSL
 // Billing system
 // Logs
