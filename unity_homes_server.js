@@ -15,18 +15,23 @@ const app = express();
 const routes = require('./local/routes');
 const APIs   = require('./local/api');
 
-const sessionTime = 3000000;
+const sessionTime = 1000000;
+const ttl         = 1000;
 const port        = 3000;
 const host        = '127.0.0.4';
 
-const NODE_ENV = process.env.NODE_ENV.trim();
-const SECRET   = process.env.UNITY_SECRET
-  ? process.env.UNITY_SECRET.trim()
-  : 'temporary';
+let SECRET   = process.env.UNITY_SECRET;
+let NODE_ENV = process.env.NODE_ENV;
 
-if(typeof NODE_ENV === 'undefined')
-  console.log("UNDEFINED NODE_ENV");
-  // LOG / HANDLE ERROR - email?
+if(typeof NODE_ENV !== 'undefined')
+  NODE_ENV = NODE_ENV.trim();
+else
+  console.log("NODE_ENV is undefined");
+
+if(typeof SECRET !== 'undefined')
+  SECRET = SECRET.trim();
+else
+  console.log("NODE_ENV is undefined");
 
 if(NODE_ENV === 'development'){
   console.log('TRUWE');
@@ -39,38 +44,39 @@ if(NODE_ENV === 'development'){
     }
   }))
 }
-if(NODE_ENV === 'production'){
-  //const client  = redis.createClient();
-  //const limiter = require('express-limiter')(app, client);
 
-  //const redisOptions = {
-  //  host  : 'localhost',
-  //  port  : 6379,
-  //  client: client,
-  //  ttl   : 260
-  //}
+if(NODE_ENV === 'production'){
+  /**
+   * Storing sessions with redis
+   */
+  const client  = redis.createClient();
+
+  const redisOptions = {
+  client,
+  ttl
+  }
+
+  client.on("error", function (err) {
+    console.log("Error " + err);
+  });
+
+  app.use(
+    session({
+      store : new RedisStore(redisOptions),
+      secret: SECRET,
+    })
+  );
+  /**
+   * Rate limiter
+   */
+  const limiter = require('express-limiter')(app, client);
 
   // 100 per hour per IP
-  //limiter({
-  //  lookup: ['connection.remoteAddress'],
-  //  total : 100,
-  //  expire: 1000 * 60 * 60
-  //})
-
-  //app.use(
-  //  session({
-  //    store            : new RedisStore(redisOptions),
-  //    secret           : secret,
-  //    saveUninitialized: false,
-  //    resave           : false,
-  //    key              : 'sessionid',
-  //    cookie           : {
-  //      //secure: true,
-  //      httpOnly: true,
-  //      expires : new Date( Date.now() + 60 * 60 * 1000 )
-  //    }
-  //  })
-  //);
+  limiter({
+    lookup: ['connection.remoteAddress'],
+    total : 150,
+    expire: 1000 * 60 * 60
+  })
 }
 
 /**
@@ -137,3 +143,4 @@ const server = app.listen(port, host, () => {
 // Logs
 // Graphics, design, favicon, etc.
 // babel and Webpack
+// NGINX as a truted proxy? difference? see: proxy-addr
