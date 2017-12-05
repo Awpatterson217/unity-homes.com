@@ -21,10 +21,6 @@ let PORT   = process.env.UNITY_PORT;
 let HOST   = process.env.UNITY_HOST;
 let SECRET = process.env.UNITY_SECRET;
 
-console.log("PORT" + PORT);
-console.log("HOST" + PORT);
-console.log("SECRET" + PORT);
-
 if(typeof SECRET !== 'undefined')
   SECRET = SECRET.trim();
 else
