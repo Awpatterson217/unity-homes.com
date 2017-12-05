@@ -5,9 +5,7 @@ const bodyParser = require('body-parser');
 const path       = require('path');
 const fs         = require('fs');
 const helmet     = require('helmet');
-const redis      = require("redis");
 const session    = require('express-session');
-const RedisStore = require('connect-redis')(session);
 const ejs        = require('ejs');
 
 const app = express();
@@ -15,58 +13,20 @@ const app = express();
 const routes = require('./local/routes');
 const APIs   = require('./local/api');
 
-const ttl = 1000;
+const sessionTime = 1000000;
+const port        = 3000;
+const host        = '127.0.0.4';
 
-let PORT   = process.env.UNITY_PORT;
-let HOST   = process.env.UNITY_HOST;
-let SECRET = process.env.UNITY_SECRET;
+let SECRET = 'developmentSecret';
 
-if(typeof SECRET !== 'undefined')
-  SECRET = SECRET.trim();
-else
-  console.log("SECRET is undefined");
-
-if(typeof HOST !== 'undefined')
-  HOST = HOST.trim();
-else
-  console.log("HOST is undefined");
-
-if(typeof PORT !== 'undefined')
-  PORT = Number(PORT.trim());
-else
-  console.log("PORT is undefined");
-
-/**
- * Storing sessions with redis
- */
-const client = redis.createClient();
-
-const redisOptions = {
-  client,
-  ttl
-}
-
-client.on("error", function (err) {
-  console.log("Error " + err);
-});
-
-app.use(
-  session({
-    store : new RedisStore(redisOptions),
-    secret: SECRET,
-  })
-);
-/**
- * Rate limiter
- */
-const limiter = require('express-limiter')(app, client);
-
-// 100 per hour per IP
-limiter({
-  lookup: ['connection.remoteAddress'],
-  total : 150,
-  expire: 1000 * 60 * 60
-})
+app.use(session({
+  secret: SECRET,
+  cookie: {
+    unset   : 'destroy',
+    sameSite: true,
+    maxAge  : sessionTime
+  }
+}));
 
 /**
  * Parsing
@@ -119,17 +79,8 @@ for(let apiKey in APIs){
 /**
  * Server
  */
-const server = app.listen(PORT, HOST, () => {
+const server = app.listen(port, host, () => {
   const host = server.address().address;
   const port = server.address().port;
   console.log(`Server running at http://${host}:${port}`);
 });
-
-//        TODO
-// Redis sessions / CSRF - NEEDS TESTED
-// SSL / TSL
-// Billing system
-// Logs
-// Graphics, design, favicon, etc.
-// babel and Webpack
-// NGINX as a truted proxy? difference? see: proxy-addr

@@ -4,9 +4,8 @@
   "description": "A web application for a real estate business",
   "main": "unity_homes_server.js",
   "scripts": {
-    "dev": "export NODE_ENV=development && nodemon",
-    "windev": "set NODE_ENV=development && nodemon",
-    "live": "export NODE_ENV=production && pm2 restart unity_homes_server.js"
+    "dev": "nodemon dev_server.js",
+    "live": "pm2 restart unity_homes_server.js"
   },
   "repository": {
     "type": "git",
