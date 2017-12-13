@@ -5,7 +5,7 @@ const moment     = require('moment');
 const bodyParser = require('body-parser');
 const csrf       = require('csurf');
 
-const registeredTenant = require('../models/tenant/registeredTenant');
+const RegisteredTenant = require('../models/tenant/RegisteredTenant');
 const {checkEmail}     = require('../resources/js/middleware');
 const {checkPass}      = require('../resources/js/middleware');
 const {isEmpty}        = require('../resources/js/functions');
@@ -24,6 +24,7 @@ router.get('/login', function(req, res) {
 router.post('/login', checkEmail, checkPass, function(req, res, next) {
   let time;
   const NOW = new Date().getTime();
+  const registeredTenant = new RegisteredTenant();
 
   const email    = req.body.email;
   const password = req.body.password;

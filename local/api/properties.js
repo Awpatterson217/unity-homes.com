@@ -4,7 +4,7 @@ const path    = require('path');
 const fs      = require('fs');
 const express = require('express');
 
-const property      = require('../models/property/property');
+const Property      = require('../models/property/Property');
 const {getImages}   = require('../resources/js/functions');
 const {checkProps}  = require('../resources/js/middleware');
 const {checkPropId} = require('../resources/js/middleware');
@@ -16,6 +16,7 @@ const router = express.Router();
 router.get('/properties/read', checkAuth, function(req, res) {
   let time; // TODO Log time and req
   const NOW = new Date().getTime();
+  const property = new Property();
 
   property.all()
   .then( props => {
@@ -37,14 +38,15 @@ router.get('/properties/read', checkAuth, function(req, res) {
 });
 
 router.get('/property/read', checkAuth, function(req, res) {
+  const property = new Property();
   // TODO
   return res.status(500).send('Something went wrong!');
 });
 
 router.post('/property/create', checkAuth, checkProps, function(req, res, next) {
-  const timestamp = Math.floor(Date.now() / 1000).toString();
-
   //const fullName = req.session.firstName + ' ' + req.session.lastName;
+  const timestamp = Math.floor(Date.now() / 1000).toString();
+  const property = new Property();
 
   let washer   = isEmpty(req.body.washer)
     ? 'false' 
@@ -85,6 +87,8 @@ router.post('/property/create', checkAuth, checkProps, function(req, res, next) 
   property.setVal('timestamp', timestamp);
 
   property.create(function(error, prop){
+  const property = new Property();
+    
     if(error !== null)
       return res.status(500).send('Something went wrong!');
     
@@ -93,12 +97,14 @@ router.post('/property/create', checkAuth, checkProps, function(req, res, next) 
 });
 
 router.post('/property/update', checkAuth, function(req, res, next) {
+  const property = new Property();  
   // TODO
   return res.status(500).send('Something went wrong!');
 });
 
 router.post('/property/delete', checkAuth, checkPropId, function(req, res, next) {
   //const fullName = req.session.firstName + ' ' + req.session.lastName;
+  const property = new Property();
 
   const id = req.body.id;
   if(id === '')

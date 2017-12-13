@@ -14,119 +14,119 @@ const {safePass}  = require('../../resources/js/safe');
 const {newErr}    = require('../../resources/js/error');
 const {customErr} = require('../../resources/js/error');
 
-let property = {
-  id: {
+const Property = function(){
+  this.id = {
     value: '',
-  },
-  mainImage: {
-    value: '',
-    safe : function(str){
-      return safeStr(str);
-    }
-  },
-  type: {
+  }
+  this.mainImage = {
     value: '',
     safe : function(str){
       return safeStr(str);
     }
-  },
-  street: {
+  }
+  this.type = {
+    value: '',
+    safe : function(str){
+      return safeStr(str);
+    }
+  }
+  this.street = {
     value: '',
     safe : function(str){
       return safeStr(str);
     }        
-  },
-  city: {
+  }
+  this.city = {
     value: '',
     safe : function(str){
       return safeStr(str);
     }
-  },
-  state: {
+  }
+  this.state = {
     value: '',
     safe : function(str){
       return safeStr(str);
     }
-  },
-  zip: {
+  }
+  this.zip = {
     value: '',
     safe : function(num){
       return safeNum(num);
     }
-  },
-  stories: {
+  }
+  this.stories = {
     value: '',
     safe : function(num){
       return safeNum(num);
     }
-  },
-  rent: {
+  }
+  this.rent = {
     value: '',
     safe : function(num){
       return safeNum(num);
     }
-  },
-  occupied: {
+  }
+  this.occupied = {
     value: '',
     safe : function(bool){
       return safeBool(bool);
     }        
-  },
-  occupants: {
+  }
+  this.occupants = {
     value: '',
     safe : function(str){
       return safeStr(str);
     }
-  },
-  sqft: {
+  }
+  this.sqft = {
     value: '',
     safe : function(num){
       return safeNum(num);
     }
-  },
-  year: {
+  }
+  this.year = {
     value: '',
     safe : function(num){
       return safeYear(num);
     }
-  },
-  washer: {
+  }
+  this.washer = {
     value: '',
     safe : function(bool){
       return safeBool(bool);
     }        
-  },
-  dryer: {
+  }
+  this.dryer = {
     value: '',
     safe : function(bool){
       return safeBool(bool);
     }        
-  },
-  garage: {
+  }
+  this.garage = {
     value: '',
     safe : function(bool){
       return safeBool(bool);
     }        
-  },
-  basement: {
+  }
+  this.basement = {
     value: '',
     safe : function(bool){
       return safeBool(bool);
     }        
-  },
-  fence: {
+  }
+  this.fence = {
     value: '',
     safe : function(bool){
       return safeBool(bool);
     }        
-  },
-  timestamp: {
+  }
+  this.timestamp = {
     value: '',
     safe : function(num){
       return safeNum(num);
     }
-  },
-  setVal: function(key, val){
+  }
+  this.setVal = function(key, val){
     let safeValue;
 
     if(typeof key !== 'string')
@@ -135,34 +135,36 @@ let property = {
     if(typeof val !== 'string')
       return false;
 
-    safeValue = property[key].safe(val);
+    safeValue = this[key].safe(val);
 
     if(safeValue.safe){
-      property[key].value = safeValue.val;
+      this[key].value = safeValue.val;
       
       return true;
     }
 
     return false;
-  },
-  getObject: function(){
+  }
+  this.getObject = function(){
     let object = {}
     let keys   = [];
 
-    Object.keys(property).forEach(function(val, i, arr){
-      if(typeof property[val] !== 'function')
+    Object.keys(this).forEach(function(val, i, arr){
+      if(typeof this[val] !== 'function')
         keys.push(val);
-    });
+    }.bind(this));
 
     for(let i = 0; i < keys.length - 1; i++){
-      object[keys[i]] = property[keys[i]].value;
+      object[keys[i]] = this[keys[i]].value;
     }
 
     return object;
-  },
-  create: function(callback){
+  }
+  this.create = function(callback){
+    const dataObj = this.getObject();
+
     _count('properties', {
-      'street': property.street.value
+      'street': this.street.value
     }, function(error, count) {
 
       if(error !== null)
@@ -170,14 +172,14 @@ let property = {
 
       if(!count){
         let newStreet = ''
-        let copiedStreet = property.street.value;
+        let copiedStreet = this.street.value;
         for(let i = 0; i < copiedStreet.length; i++) {
           if(copiedStreet[i] === ' ')
             continue;
           newStreet += copiedStreet[i];
         }
-        property.id.value = newStreet.toLowerCase();
-        _create('properties', property.getObject(), function(error, prop) {
+        this.id.value = newStreet.toLowerCase();
+        _create('properties', dataObj, function(error, prop) {
           if(error !== null)
             return callback(newErr(error));
 
@@ -187,16 +189,16 @@ let property = {
         return callback(customErr('Duplicate Property'));
       }
     });
-  },
-  delete: function(filter, callback){
+  }
+  this.delete = function(filter, callback){
     _delete('properties', filter, function(error, numOfDeletes) {
       if(error !== null)
         return callback(newErr(error));
 
       return callback(null, numOfDeletes)
     });
-  },
-  all: async function(){
+  }
+  this.all = async function(){
     const props = await _all('properties').then(function(props) {
       return props;
     }, function(error) {
@@ -204,10 +206,10 @@ let property = {
     });
       
     return props;
-  },
-  find: function(filter, callback){
+  }
+  this.find = function(filter, callback){
     if (filter === undefined)
-      filter = property.getObject();
+      filter = this.getObject();
 
     _find('properties', filter, function(error, prop, numFound) {
       if(error !== null)
@@ -218,4 +220,4 @@ let property = {
   }
 }
 
-module.exports = property;
+module.exports = Property;

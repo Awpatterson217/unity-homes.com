@@ -15,98 +15,101 @@ const {safeStr}   = require('../../resources/js/safe');
 const {newErr}    = require('../../resources/js/error');
 const {customErr} = require('../../resources/js/error');
 
-let registeredTenant = {
-  email: {
+const RegisteredTenant = function(){
+  this.email = {
     value: '',
     safe : function(email){
       return safeEmail(email);
     }
-  },
-  firstName: {
+  }
+  this.phone = {
+    value: '',
+    safe : function(num){
+      return safeNum(num);
+    }
+  }
+  this.firstName = {
     value: '',
     safe : function(str){
       return safeStr(str);
     }
-  },
-  middleName: {
+  }
+  this.middleName = {
     value: '',
     safe : function(str){
       return safeStr(str);
     }
-  },
-  lastName: {
+  }
+  this.lastName = {
     value: '',
     safe : function(str){
       return safeStr(str);
     }
-  },
-  type: {
+  }
+  this.type = {
     value: 'tenant',
-  },  
-  password: {
+  }
+  this.password = {
     value: '',
-  },
-  rent: {
-    value: '',
-    safe : function(num){
-      return safeNum(num);
-    }
-  },
-  leaseStart: {
+  }
+  this.rent = {
     value: '',
     safe : function(num){
       return safeNum(num);
     }
-  },
-  leaseEnd: {
+  }
+  this.leaseStart = {
     value: '',
     safe : function(num){
       return safeNum(num);
     }
-  },      
-  pet: {
+  }
+  this.leaseEnd = {
+    value: '',
+    safe : function(num){
+      return safeNum(num);
+    }
+  }   
+  this.pet = {
     value: '',
     safe : function(bool){
       return safeBool(bool);
     }      
-  },
-  street: {
+  }
+  this.street = {
     value: '',
     safe : function(str){
       return safeStr(str);
     }        
-  },
-  city: {
+  }
+  this.city = {
     value: '',
     safe : function(str){
       return safeStr(str);
     }
-  },
-  state: {
+  }
+  this.state = {
     value: '',
     safe : function(str){
       return safeStr(str);
     }
-  },
-  zip: {
+  }
+  this.zip = {
     value: '',
     safe : function(num){
       return safeNum(num);
     }
-  },
-  phone: {
+  }
+  this.timestamp = {
     value: '',
     safe : function(num){
       return safeNum(num);
     }
-  },
-  timestamp: {
-    value: '',
-    safe : function(num){
-      return safeNum(num);
-    }
-  },
-  authenticate: async function(email, password, callback){
+  }
+  this.firstLogin = {
+    value: ''
+  }
+  this.authenticate = async function(email, password, callback){
     let thisEmail    = safeEmail(email);
     let thisPassword = safePass(password);
 
@@ -132,8 +135,8 @@ let registeredTenant = {
         // TODO: Handle error
         console.log(err);
       }
-  },
-  setVal: function(key, val){
+  }
+  this.setVal = function(key, val){
     let safeValue;
 
     if(typeof key !== 'string')
@@ -142,17 +145,17 @@ let registeredTenant = {
     if(typeof val !== 'string')
       return false;
 
-    safeValue = registeredTenant[key].safe(val);
+    safeValue = this[key].safe(val);
 
     if(safeValue.safe){
-      registeredTenant[key].value = safeValue.val;
+      this[key].value = safeValue.val;
 
       return true;
     }
 
     return false;
-  },
-  hash: async function(password){
+  }
+  this.hash = async function(password){
       let safePassword = safePass(password);
 
       if(safePassword.safe){
@@ -161,7 +164,7 @@ let registeredTenant = {
 
            let hash = await bcrypt.hash(safePassword.val, salt);
 
-           registeredTenant.password.value = hash;
+           this.password.value = hash;
         } catch(err) {
           // TODO: Handle error
           console.log(err);
@@ -171,31 +174,33 @@ let registeredTenant = {
       }
       
       return false;
-  },
-  getObject: function(){
+  }
+  this.getObject = function(){
     let object = {}
     let keys   = [];
-
-    Object.keys(registeredTenant).forEach(function(val, i, arr){
-      if(typeof registeredTenant[val] !== 'function')
+    
+    Object.keys(this).forEach(function(val, i, arr){
+      if(typeof this[val] !== 'function')
         keys.push(val);
-    });
+    }.bind(this));
 
     for(let i = 0; i < keys.length; i++){
-      object[keys[i]] = registeredTenant[keys[i]].value;
+      object[keys[i]] = this[keys[i]].value;
     }
 
     return object;
-  },
-  create: function(callback){
+  }
+  this.create = function(callback){
+    const dataObj = this.getObject();
+
     _count('registeredUsers', {
-      'email': registeredTenant.email.value
+      'email': this.email.value
     }, function(error, count) {
       if(error !== null)
         return callback(newErr(error));
 
       if(!count){
-        _create('registeredUsers', registeredTenant.getObject(), function(error, user) {
+        _create('registeredUsers', dataObj, function(error, user) {
           if(error !== null)
             return callback(newErr(error));
 
@@ -205,27 +210,28 @@ let registeredTenant = {
         return callback(customErr('Duplicate Email'));
       }
     });
-  },
-  delete: function(filter, callback){
+  }
+  this.delete = function(filter, callback){
     _delete('registeredUsers', filter, function(error, numOfDeletes) {
       if(error !== null)
         return callback(newErr(error));
 
       return callback(null, numOfDeletes)
     });
-  },
-  all: async function(){
+  }
+  this.all = async function(){
     const users = await _all('registeredUsers').then(function(users) {
       return users;
     }, function(error) {
-        return callback(newErr(error));
+      console.log(error);
+        return newErr(error);
     });
       
     return users;
-  },
-  find: async function(filter, callback){
+  }
+  this.find = async function(filter, callback){
     if (filter === undefined)
-      filter = registeredTenant.getObject();
+      filter = this.getObject();
 
     try{
       let user = await _find('registeredUsers', filter);
@@ -236,9 +242,10 @@ let registeredTenant = {
       return callback(null, user);
     } catch(err) {
       // TODO: Handle error
+      return callback(err);
       console.log(err);
     }
   }
 }
 
-module.exports = registeredTenant;
+module.exports = RegisteredTenant;

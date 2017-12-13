@@ -4,7 +4,7 @@ const path    = require('path');
 const fs      = require('fs');
 const express = require('express');
 
-const unregisteredTenant = require('../models/tenant/unregisteredTenant');
+const UnregisteredTenant = require('../models/tenant/UnregisteredTenant');
 const {checkEmail}       = require('../resources/js/middleware');
 const {checkPhone}       = require('../resources/js/middleware');
 const {checkNames}       = require('../resources/js/middleware');
@@ -15,6 +15,7 @@ const router = express.Router();
 router.get('/unregisteredUsers/read', checkAuth, function(req, res) {
   let time; // TODO Log time and req
   const NOW = new Date().getTime();
+  const unregisteredTenant = new UnregisteredTenant();
 
   unregisteredTenant.all()
   .then( unregTenants => {
@@ -27,12 +28,14 @@ router.get('/unregisteredUsers/read', checkAuth, function(req, res) {
 });
 
 router.get('/unregisteredUser/read', checkAuth, function(req, res) {
+  const unregisteredTenant = new UnregisteredTenant();
   // TODO
   return res.status(500).send('Something went wrong!');
 });
 
 router.post('/unregisteredUser/create', checkAuth, checkNames, checkEmail, checkPhone, function(req, res, next) {
   //const fullName = req.session.firstName + ' ' + req.session.lastName;
+  const unregisteredTenant = new UnregisteredTenant();
 
   const email      = req.body.email;
   const firstName  = req.body.firstName;
@@ -59,12 +62,14 @@ router.post('/unregisteredUser/create', checkAuth, checkNames, checkEmail, check
 });
 
 router.post('/unregisteredUser/update', checkAuth, function(req, res, next) {
+  const unregisteredTenant = new UnregisteredTenant();
   // TODO
   return res.status(500).send('Something went wrong!');
 });
 
 router.post('/unregisteredUser/delete', checkAuth, checkEmail, function(req, res, next) {
   //const fullName = req.session.firstName + ' ' + req.session.lastName;
+  const unregisteredTenant = new UnregisteredTenant();
 
   const email = req.body.email;
 

@@ -5,20 +5,21 @@ const fs      = require('fs');
 const express = require('express');
 const _filter = require('lodash/filter');
 
-const registeredTenant = require('../models/tenant/registeredTenant');
-const {checkEmail}     = require('../resources/js/middleware');
-const {checkAuth}      = require('../resources/js/middleware');
-const {checkNames}     = require('../resources/js/middleware');
-const {checkPass}      = require('../resources/js/middleware');
-const {checkPassTwo}   = require('../resources/js/middleware');
+const Administrator  = require('../models/admin/Administrator');
+const {checkEmail}   = require('../resources/js/middleware');
+const {checkAuth}    = require('../resources/js/middleware');
+const {checkNames}   = require('../resources/js/middleware');
+const {checkPass}    = require('../resources/js/middleware');
+const {checkPassTwo} = require('../resources/js/middleware');
 
 const router = express.Router();
 
 router.get('/administrators/read', checkAuth, function(req, res) {
   let time; // TODO Log time and req
   const NOW = new Date().getTime();
+  const administrator = new Administrator();
 
-    registeredTenant.all()
+    administrator.all()
     .then( regTenants => {
       const admins = _filter(regTenants, {type: 'admin'} );
 
@@ -32,12 +33,14 @@ router.get('/administrators/read', checkAuth, function(req, res) {
 });
 
 router.get('/administrator/read', checkAuth, function(req, res) {
+  const administrator = new Administrator();
   // TODO
   return res.status(500).send('Something went wrong!');
 });
 
 router.post('/administrator/create', checkAuth, checkNames, checkEmail, checkPass, checkPassTwo, function(req, res, next) {
   //const fullName = req.session.firstName + ' ' + req.session.lastName;
+  const administrator = new Administrator();
 
   const email       = req.body.email;
   const firstName   = req.body.firstName;
@@ -80,12 +83,14 @@ router.post('/administrator/create', checkAuth, checkNames, checkEmail, checkPas
 });
 
 router.post('/administrator/update', checkAuth, function(req, res, next) {
+  const administrator = new Administrator();
   // TODO
   return res.status(500).send('Something went wrong!');
 });
 
 router.post('/administrator/delete', checkAuth, checkEmail, function(req, res, next) {
   //const fullName = req.session.firstName + ' ' + req.session.lastName;
+  const administrator = new Administrator();
 
   const email = req.body.email;
 

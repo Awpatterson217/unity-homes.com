@@ -8,50 +8,84 @@ const {_count}    = require('../../mongodb/read');
 const {_find}     = require('../../mongodb/read');
 const {_all}      = require('../../mongodb/read');
 const {safeEmail} = require('../../resources/js/safe');
-const {safeStr}   = require('../../resources/js/safe');
 const {safeNum}   = require('../../resources/js/safe');
+const {safeBool}  = require('../../resources/js/safe');
 const {safePass}  = require('../../resources/js/safe');
+const {safeStr}   = require('../../resources/js/safe');
 const {newErr}    = require('../../resources/js/error');
 const {customErr} = require('../../resources/js/error');
 
-let administrator = {
-  email: {
+const Administrator = function(){
+  this.email = {
     value: '',
     safe : function(email){
       return safeEmail(email);
     }
-  },
-  firstName: {
-    value: '',
-    safe : function(str){
-      return safeStr(str);
-    }
-  },
-  middleName: {
-    value: '',
-    safe : function(str){
-      return safeStr(str);
-    }
-  },
-  lastName: {
-    value: '',
-    safe : function(str){
-      return safeStr(str);
-    }
-  },
-  type: {
-    value: 'admin',
-  },  
-  password: {
-    value: '',
-  },
-  timestamp: {
+  }
+  this.phone = {
     value: '',
     safe : function(num){
       return safeNum(num);
     }
-  },
-  authenticate: async function(email, password, callback){
+  }
+  this.firstName = {
+    value: '',
+    safe : function(str){
+      return safeStr(str);
+    }
+  }
+  this.middleName = {
+    value: '',
+    safe : function(str){
+      return safeStr(str);
+    }
+  }
+  this.lastName = {
+    value: '',
+    safe : function(str){
+      return safeStr(str);
+    }
+  }
+  this.type = {
+    value: 'admin',
+  }
+  this.password = {
+    value: '',
+  }  
+  this.street = {
+    value: '',
+    safe : function(str){
+      return safeStr(str);
+    }        
+  }
+  this.city = {
+    value: '',
+    safe : function(str){
+      return safeStr(str);
+    }
+  }
+  this.state = {
+    value: '',
+    safe : function(str){
+      return safeStr(str);
+    }
+  }
+  this.zip = {
+    value: '',
+    safe : function(num){
+      return safeNum(num);
+    }
+  }
+  this.timestamp = {
+    value: '',
+    safe : function(num){
+      return safeNum(num);
+    }
+  }
+  this.firstLogin = {
+    value: ''
+  }
+  this.authenticate = async function(email, password, callback){
     let thisEmail    = safeEmail(email);
     let thisPassword = safePass(password);
 
@@ -77,8 +111,8 @@ let administrator = {
         // TODO: Handle error
         console.log(err);
       }
-  },
-  setVal: function(key, val){
+  }
+  this.setVal = function(key, val){
     let safeValue;
 
     if(typeof key !== 'string')
@@ -87,26 +121,26 @@ let administrator = {
     if(typeof val !== 'string')
       return false;
 
-    safeValue = administrator[key].safe(val);
+    safeValue = this[key].safe(val);
 
     if(safeValue.safe){
-      administrator[key].value = safeValue.val;
+      this[key].value = safeValue.val;
 
       return true;
     }
 
     return false;
-  },
-  hash: async function(password){
+  }
+  this.hash = async function(password){
       let safePassword = safePass(password);
-      
+
       if(safePassword.safe){
         try{
            let salt = await bcrypt.genSalt(13);
 
            let hash = await bcrypt.hash(safePassword.val, salt);
 
-           administrator.password.value = hash;
+           this.password.value = hash;
         } catch(err) {
           // TODO: Handle error
           console.log(err);
@@ -114,33 +148,35 @@ let administrator = {
 
         return true;
       }
-
+      
       return false;
-  },
-  getObject: function(){
+  }
+  this.getObject = function(){
     let object = {}
     let keys   = [];
 
-    Object.keys(administrator).forEach(function(val, i, arr){
-      if(typeof administrator[val] !== 'function')
+    Object.keys(this).forEach(function(val, i, arr){
+      if(typeof this[val] !== 'function')
         keys.push(val);
-    });
+    }.bind(this));
 
     for(let i = 0; i < keys.length; i++){
-      object[keys[i]] = administrator[keys[i]].value;
+      object[keys[i]] = this[keys[i]].value;
     }
 
     return object;
-  },
-  create: function(callback){
+  }
+  this.create = function(callback){
+    const dataObj = this.getObject();
+
     _count('registeredUsers', {
-      'email': administrator.email.value
+      'email': this.email.value
     }, function(error, count) {
       if(error !== null)
         return callback(newErr(error));
 
       if(!count){
-        _create('registeredUsers', administrator.getObject(), function(error, user) {
+        _create('registeredUsers', dataObj, function(error, user) {
           if(error !== null)
             return callback(newErr(error));
 
@@ -150,27 +186,27 @@ let administrator = {
         return callback(customErr('Duplicate Email'));
       }
     });
-  },
-  delete: function(filter, callback){
+  }
+  this.delete = function(filter, callback){
     _delete('registeredUsers', filter, function(error, numOfDeletes) {
       if(error !== null)
         return callback(newErr(error));
 
       return callback(null, numOfDeletes)
     });
-  },
-  all: async function(){
+  }
+  this.all = async function(callback){
     const users = await _all('registeredUsers').then(function(users) {
       return users;
     }, function(error) {
-        return callback(newErr(error));
+        return newErr(error);
     });
       
     return users;
-  },
-  find: async function(filter, callback){
+  }
+  this.find = async function(filter, callback){
     if (filter === undefined)
-      filter = registeredTenant.getObject();
+      filter = this.getObject();
 
     try{
       let user = await _find('registeredUsers', filter);
@@ -181,9 +217,10 @@ let administrator = {
       return callback(null, user);
     } catch(err) {
       // TODO: Handle error
+      return callback(err);
       console.log(err);
     }
   }
 }
 
-module.exports = administrator;
+module.exports = Administrator;

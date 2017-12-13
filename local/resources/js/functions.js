@@ -1,11 +1,12 @@
 "use strict";
 
-const path = require('path');
-const fs   = require('fs');
+const path    = require('path');
+const fs      = require('fs');
+const _filter = require('lodash/filter');
 
-let property           = require('../../models/property/property');
-let registeredTenant   = require('../../models/tenant/registeredTenant');
-let unregisteredTenant = require('../../models/tenant/unregisteredTenant');
+let Property           = require('../../models/property/Property');
+let RegisteredTenant   = require('../../models/tenant/RegisteredTenant');
+let UnregisteredTenant = require('../../models/tenant/UnregisteredTenant');
 
 let isEmpty = function(...str){
   let params = [...str];
@@ -21,6 +22,8 @@ let isEmpty = function(...str){
 }
 
 let propdata = async function(){
+  const property = new Property();
+
   let data = {};
   try{
     let properties = await property.all();
@@ -40,6 +43,10 @@ let propdata = async function(){
 }
 
 let adminData = async function(fullName, callback){
+  const registeredTenant   = new RegisteredTenant();
+  const unregisteredTenant = new UnregisteredTenant();
+  const property           = new Property();
+
   let data = {};
   try{
     let unregisteredTenants = await unregisteredTenant.all();
@@ -56,7 +63,9 @@ let adminData = async function(fullName, callback){
     data.properties          = properties;
 
     return callback(null, data);
+    console.log(data);
   }catch(error){
+    console.log(error);
     return callback(error);
   }
 }
