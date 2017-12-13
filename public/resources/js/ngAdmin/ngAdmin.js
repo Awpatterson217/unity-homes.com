@@ -100,7 +100,6 @@ app.service('initialize', ['$q', 'getRequest', function ($q, getRequest) {
 
 app.controller('dashboardCtrl', ['$scope', 'initialize', function ($scope, initialize) {
   initialize().then( data => {
-    console.log(data);
     $scope.unregisteredUsers = data[0].data;
     $scope.registeredUsers = data[1].data;
     $scope.administrators = data[2].data;

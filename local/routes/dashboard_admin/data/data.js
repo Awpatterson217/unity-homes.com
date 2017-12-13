@@ -21,6 +21,10 @@ router.get('/data', checkAuth, function(req, res) {
       fullName: fullName
     });
   });
+
+  router.post('/data', checkAuth, function(req, res, next) {
+  
+  });
 });
 
 module.exports = router;

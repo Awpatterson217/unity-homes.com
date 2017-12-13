@@ -132,3 +132,10 @@ const server = app.listen(PORT, HOST, () => {
 // Graphics, design, favicon, etc.
 // babel and Webpack
 // NGINX as a truted proxy? difference? see: proxy-addr
+
+// login needs to request from API
+// Normalize all model functions to promises
+// need first time login set password prompt
+// save applications
+// vehicles and history for application
+// application API

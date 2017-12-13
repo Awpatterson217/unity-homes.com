@@ -5,7 +5,7 @@ const fs      = require('fs');
 const express = require('express');
 const _filter = require('lodash/filter');
 
-const Administrator  = require('../models/admin/Administrator');
+const Administrator  = require('../models/administrator/Administrator');
 const {checkEmail}   = require('../resources/js/middleware');
 const {checkAuth}    = require('../resources/js/middleware');
 const {checkNames}   = require('../resources/js/middleware');
