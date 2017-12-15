@@ -16,18 +16,18 @@ const billing    = require('./dashboard_admin/billing/billing.js');
 const tenant     = require('./dashboard_tenant/tenant.js');
 
 module.exports = {
-  home      : home,
-  listings  : listings,
-  apply     : apply,
-  contact   : contact,
-  register  : register,
-  login     : login,
-  logout    : logout,
-  admin     : admin,
-  data      : data,
-  users     : users,
-  adminUsers: adminUsers,
-  properties: properties,
-  billing   : billing,
-  tenant    : tenant
+  home,
+  listings,
+  apply,
+  contact,
+  register,
+  login,
+  logout,
+  admin,
+  data,
+  users,
+  adminUsers,
+  properties,
+  billing,
+  tenant
 }

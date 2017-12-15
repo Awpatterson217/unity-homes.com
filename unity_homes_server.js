@@ -15,7 +15,7 @@ const app = express();
 const routes = require('./local/routes');
 const APIs   = require('./local/api');
 
-// In seconds
+// Seconds
 const ttl = 180;
 
 let PORT   = process.env.UNITY_PORT;
@@ -36,7 +36,6 @@ else
  * Storing sessions with redis
  */
 const client = redis.createClient();
-
 const redisOptions = {
   client,
   ttl
@@ -59,7 +58,6 @@ app.use(
  * Rate limiter
  */
 const limiter = require('express-limiter')(app, client);
-
 // 150 per hour per IP
 limiter({
   lookup: ['connection.remoteAddress'],
@@ -138,4 +136,4 @@ const server = app.listen(PORT, HOST, () => {
 // need first time login set password prompt
 // save applications
 // vehicles and history for application
-// application API
+// application API  

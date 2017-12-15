@@ -126,16 +126,16 @@ const Application = function(){
       return safeStr(str);
     }
   }
-  this.previousZip = {
-    value: '',
-    safe : function(num){
-      return safeNum(num);
-    }
-  }
   this.previousState = {
     value: '',
     safe : function(str){
       return safeStr(str);
+    }
+  }
+  this.previousZip = {
+    value: '',
+    safe : function(num){
+      return safeNum(num);
     }
   }
   this.previousTimeLived = {
@@ -192,17 +192,17 @@ const Application = function(){
       return safeStr(str);
     }
   }
-  this.employerZip = {
-    value: '',
-    safe : function(num){
-      return safeNum(num);
-    }        
-  }
   this.employerState = {
     value: '',
     safe : function(str){
       return safeStr(str);
     }
+  }
+  this.employerZip = {
+    value: '',
+    safe : function(num){
+      return safeNum(num);
+    }        
   }
   this.position = {
     value: '',
@@ -252,17 +252,17 @@ const Application = function(){
       return safeStr(str);
     }
   }
-  this.previousEmployerZip = {
-    value: '',
-    safe : function(num){
-      return safeNum(num);
-    }        
-  }
   this.previousEmployerState = {
     value: '',
     safe : function(str){
       return safeStr(str);
     }
+  }
+  this.previousEmployerZip = {
+    value: '',
+    safe : function(num){
+      return safeNum(num);
+    }        
   }
   this.previousPosition = {
     value: '',
