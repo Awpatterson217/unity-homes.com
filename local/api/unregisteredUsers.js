@@ -13,8 +13,6 @@ const {checkAuth}        = require('../resources/js/middleware');
 const router = express.Router();
 
 router.get('/unregisteredUsers/read', checkAuth, function(req, res) {
-  let time; // TODO Log time and req
-  const NOW = new Date().getTime();
   const unregisteredTenant = new UnregisteredTenant();
 
   unregisteredTenant.all()
@@ -23,7 +21,7 @@ router.get('/unregisteredUsers/read', checkAuth, function(req, res) {
   }).catch( error => {
     // LOG/HANDLE ERROR
     console.log(error);
-    return res.status(500).send('Something went wrong!');
+    return res.status(500).send(error);
   });
 });
 
@@ -34,28 +32,17 @@ router.get('/unregisteredUser/read', checkAuth, function(req, res) {
 });
 
 router.post('/unregisteredUser/create', checkAuth, checkNames, checkEmail, checkPhone, function(req, res, next) {
-  //const fullName = req.session.firstName + ' ' + req.session.lastName;
   const unregisteredTenant = new UnregisteredTenant();
 
-  const email      = req.body.email;
-  const firstName  = req.body.firstName;
-  const middleName = req.body.middleName;
-  const lastName   = req.body.lastName;
-  const phone      = req.body.phone;
 
-  if(email === '' || firstName === '' || lastName === '')
-    return res.status(500).send('Something went wrong!');
-
-  unregisteredTenant.setVal('email', email);
-  unregisteredTenant.setVal('phone', phone);
-  unregisteredTenant.setVal('firstName', firstName);
-  unregisteredTenant.setVal('middleName', middleName);
-  unregisteredTenant.setVal('lastName', lastName);
-  unregisteredTenant.setVal('timestamp',  Math.floor(Date.now() / 1000).toString());
-  unregisteredTenant.create(function(error, user){
-
+  unregisteredTenant.fill(req, function(error, dataObj) {
     if(error !== null)
-      return res.status(500).send('Something went wrong!');
+      return res.status(500).send(error);
+  });
+
+  unregisteredTenant.create(function(error, user){
+    if(error !== null)
+      return res.status(500).send(error);
 
     return res.status(200).send('Success');
   });
@@ -68,7 +55,6 @@ router.post('/unregisteredUser/update', checkAuth, function(req, res, next) {
 });
 
 router.post('/unregisteredUser/delete', checkAuth, checkEmail, function(req, res, next) {
-  //const fullName = req.session.firstName + ' ' + req.session.lastName;
   const unregisteredTenant = new UnregisteredTenant();
 
   const email = req.body.email;
@@ -80,7 +66,7 @@ router.post('/unregisteredUser/delete', checkAuth, checkEmail, function(req, res
     'email': email
   }, function(error, numOfDeletes){
     if(error !== null)
-      return res.status(500).send('Something went wrong!');
+      return res.status(500).send(error);
 
     if(!numOfDeletes)
       return res.status(500).send('Something went wrong!');

@@ -118,7 +118,7 @@ let checkProps = function(req, res, next){
   return next();
 }
 
-let checkPropId = function(req, res, next){
+let checkId = function(req, res, next){
   let id = sanitize(req.body.id);
   req.body.id = id;
   return next();
@@ -249,7 +249,7 @@ module.exports = {
   checkPass,
   checkPassTwo,
   checkProps,
-  checkPropId,
+  checkId,
   checkAuth,
   checkImage,
   checkApp

@@ -17,8 +17,6 @@ const {isEmpty}        = require('../resources/js/functions');
 const router = express.Router();
 
 router.get('/registeredUsers/read', checkAuth, function(req, res) {
-  let time; // TODO Log time and req
-  const NOW = new Date().getTime();
   const registeredTenant = new RegisteredTenant();
 
   registeredTenant.all()
@@ -28,7 +26,7 @@ router.get('/registeredUsers/read', checkAuth, function(req, res) {
   }).catch( error => {
     // LOG/HANDLE ERROR
     console.log(error);
-    return res.status(500).send('Something went wrong!');
+    return res.status(500).send(error);
   });
 });
 
@@ -39,7 +37,6 @@ router.get('/registeredUser/read', checkAuth, function(req, res) {
 });
 
 router.post('/registeredUser/create', checkAuth, checkNames, checkEmail, checkPass, checkPassTwo, checkPhone, function(req, res, next) {
-  //const fullName = req.session.firstName + ' ' + req.session.lastName;
   const registeredTenant = new RegisteredTenant();
 
   const email       = req.body.email;
@@ -71,7 +68,7 @@ router.post('/registeredUser/create', checkAuth, checkNames, checkEmail, checkPa
   registeredTenant.setVal('timestamp',  Math.floor(Date.now() / 1000).toString());
   registeredTenant.create(function(error, user){
     if(error !== null)
-      return res.status(500).send('Something went wrong!');
+      return res.status(500).send(error);
 
     return res.status(200).send('Success');
   });
@@ -79,13 +76,11 @@ router.post('/registeredUser/create', checkAuth, checkNames, checkEmail, checkPa
 
 router.post('/registeredUser/update', checkAuth, function(req, res, next) {
   const registeredTenant = new RegisteredTenant();
-
   // TODO
   return res.status(500).send('Something went wrong!');
 });
 
 router.post('/registeredUser/delete', checkAuth, checkEmail, function(req, res, next) {
-  //const fullName = req.session.firstName + ' ' + req.session.lastName;
   const registeredTenant = new RegisteredTenant();
 
   const email = req.body.email;
@@ -98,7 +93,7 @@ router.post('/registeredUser/delete', checkAuth, checkEmail, function(req, res, 
     'type' : 'tenant'
   }, function(error, numOfDeletes) {
     if(error !== null)
-      return res.status(500).send('Something went wrong!');
+      return res.status(500).send(error);
 
     if(!numOfDeletes)
       return res.status(500).send('Something went wrong!');

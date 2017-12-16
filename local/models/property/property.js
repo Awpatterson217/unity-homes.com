@@ -16,113 +16,132 @@ const {customErr} = require('../../resources/js/error');
 
 const Property = function(){
   this.id = {
-    value: '',
+    value   : '',
+    required: false
   }
   this.mainImage = {
-    value: '',
-    safe : function(str){
+    value   : '',
+    required: false,
+    safe    : function(str){
       return safeStr(str);
     }
   }
   this.type = {
-    value: '',
-    safe : function(str){
+    value   : '',
+    required: false,
+    safe    : function(str){
       return safeStr(str);
     }
   }
   this.street = {
-    value: '',
-    safe : function(str){
+    value   : '',
+    required: false,
+    safe    : function(str){
       return safeStr(str);
     }        
   }
   this.city = {
-    value: '',
-    safe : function(str){
+    value   : '',
+    required: false,
+    safe    : function(str){
       return safeStr(str);
     }
   }
   this.state = {
-    value: '',
-    safe : function(str){
+    value   : '',
+    required: false,
+    safe    : function(str){
       return safeStr(str);
     }
   }
   this.zip = {
-    value: '',
-    safe : function(num){
+    value   : '',
+    required: false,
+    safe    : function(num){
       return safeNum(num);
     }
   }
   this.stories = {
-    value: '',
-    safe : function(num){
+    value   : '',
+    required: false,
+    safe    : function(num){
       return safeNum(num);
     }
   }
   this.rent = {
-    value: '',
-    safe : function(num){
+    value   : '',
+    required: false,
+    safe    : function(num){
       return safeNum(num);
     }
   }
   this.occupied = {
-    value: '',
-    safe : function(bool){
+    value   : '',
+    required: false,
+    safe    : function(bool){
       return safeBool(bool);
     }        
   }
   this.occupants = {
-    value: '',
-    safe : function(str){
+    value   : '',
+    required: false,
+    safe    : function(str){
       return safeStr(str);
     }
   }
   this.sqft = {
-    value: '',
-    safe : function(num){
+    value   : '',
+    required: false,
+    safe    : function(num){
       return safeNum(num);
     }
   }
   this.year = {
-    value: '',
-    safe : function(num){
+    value   : '',
+    required: false,
+    safe    : function(num){
       return safeYear(num);
     }
   }
   this.washer = {
-    value: '',
-    safe : function(bool){
+    value   : '',
+    required: false,
+    safe    : function(bool){
       return safeBool(bool);
     }        
   }
   this.dryer = {
-    value: '',
-    safe : function(bool){
+    value   : '',
+    required: false,
+    safe    : function(bool){
       return safeBool(bool);
     }        
   }
   this.garage = {
-    value: '',
-    safe : function(bool){
+    value   : '',
+    required: false,
+    safe    : function(bool){
       return safeBool(bool);
     }        
   }
   this.basement = {
-    value: '',
-    safe : function(bool){
+    value   : '',
+    required: false,
+    safe    : function(bool){
       return safeBool(bool);
     }        
   }
   this.fence = {
-    value: '',
-    safe : function(bool){
+    value   : '',
+    required: false,
+    safe    : function(bool){
       return safeBool(bool);
     }        
   }
   this.timestamp = {
-    value: '',
-    safe : function(num){
+    value   : '',
+    required: true,
+    safe    : function(num){
       return safeNum(num);
     }
   }
@@ -159,6 +178,20 @@ const Property = function(){
     }
 
     return object;
+  }
+  this.reset = function(){
+    let keys   = [];
+
+    Object.keys(this).forEach(function(val, i, arr){
+      if(typeof this[val] !== 'function')
+        keys.push(val);
+    }.bind(this));
+
+    for(let i = 0; i < keys.length - 1; i++){
+      this[keys[i]].value = '';
+    }
+
+    return;
   }
   this.create = function(callback){
     const dataObj = this.getObject();
@@ -217,6 +250,29 @@ const Property = function(){
 
       return callback(null, prop, numFound);
     });
+  }
+  this.fill = function(request, callback){
+    const dataObj = this.getObject();
+
+    Object.keys(request).forEach( function(key) {
+      if(dataObj.hasOwnProperty(key))
+        this.setVal(key, request[key]);
+    }.bind(this));
+
+    this.setVal('timestamp', Math.floor(Date.now() / 1000).toString());
+
+    const fullObj = this.getObject();
+
+    fullObj.forEach( function(prop) {
+      if(prop.required === true)
+        if(prop.value === ''){
+          this.reset();
+          callback(customErr('Missing Required Value'))
+        }
+
+    }.bind(this));
+
+    callback(null, fullObj);
   }
 }
 

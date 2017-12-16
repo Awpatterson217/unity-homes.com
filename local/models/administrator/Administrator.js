@@ -17,73 +17,86 @@ const {customErr} = require('../../resources/js/error');
 
 const Administrator = function(){
   this.email = {
-    value: '',
-    safe : function(email){
+    value   : '',
+    required: true,
+    safe    : function(email){
       return safeEmail(email);
     }
   }
   this.phone = {
-    value: '',
-    safe : function(num){
+    value   : '',
+    required: false,
+    safe    : function(num){
       return safeNum(num);
     }
   }
   this.firstName = {
-    value: '',
-    safe : function(str){
+    value   : '',
+    required: false,
+    safe    : function(str){
       return safeStr(str);
     }
   }
   this.middleName = {
-    value: '',
-    safe : function(str){
+    value   : '',
+    required: false,
+    safe    : function(str){
       return safeStr(str);
     }
   }
   this.lastName = {
-    value: '',
-    safe : function(str){
+    value   : '',
+    required: false,
+    safe    : function(str){
       return safeStr(str);
     }
   }
   this.type = {
     value: 'admin',
+    required: false
   }
   this.password = {
     value: '',
+    required: false
   }  
   this.street = {
-    value: '',
-    safe : function(str){
+    value   : '',
+    required: false,
+    safe    : function(str){
       return safeStr(str);
     }        
   }
   this.city = {
-    value: '',
-    safe : function(str){
+    value   : '',
+    required: false,
+    safe    : function(str){
       return safeStr(str);
     }
   }
   this.state = {
-    value: '',
-    safe : function(str){
+    value   : '',
+    required: false,
+    safe    : function(str){
       return safeStr(str);
     }
   }
   this.zip = {
-    value: '',
-    safe : function(num){
+    value   : '',
+    required: false,
+    safe    : function(num){
       return safeNum(num);
     }
   }
   this.timestamp = {
-    value: '',
-    safe : function(num){
+    value   : '',
+    required: true,
+    safe    : function(num){
       return safeNum(num);
     }
   }
   this.firstLogin = {
-    value: ''
+    value: '',
+    required: false // TODO Change to false
   }
   this.authenticate = async function(email, password, callback){
     let thisEmail    = safeEmail(email);
@@ -165,6 +178,20 @@ const Administrator = function(){
     }
 
     return object;
+  }
+  this.reset = function(){
+    let keys   = [];
+
+    Object.keys(this).forEach(function(val, i, arr){
+      if(typeof this[val] !== 'function')
+        keys.push(val);
+    }.bind(this));
+
+    for(let i = 0; i < keys.length - 1; i++){
+      this[keys[i]].value = '';
+    }
+
+    return;
   }
   this.create = function(callback){
     const dataObj = this.getObject();

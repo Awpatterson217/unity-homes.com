@@ -15,8 +15,6 @@ const {checkPassTwo} = require('../resources/js/middleware');
 const router = express.Router();
 
 router.get('/administrators/read', checkAuth, function(req, res) {
-  let time; // TODO Log time and req
-  const NOW = new Date().getTime();
   const administrator = new Administrator();
 
     administrator.all()
@@ -28,7 +26,7 @@ router.get('/administrators/read', checkAuth, function(req, res) {
     }).catch( error => {
       // LOG/HANDLE ERROR
       console.log(error);
-      return res.status(500).send('Something went wrong!');
+      return res.status(500).send(error);
     });
 });
 
@@ -39,7 +37,6 @@ router.get('/administrator/read', checkAuth, function(req, res) {
 });
 
 router.post('/administrator/create', checkAuth, checkNames, checkEmail, checkPass, checkPassTwo, function(req, res, next) {
-  //const fullName = req.session.firstName + ' ' + req.session.lastName;
   const administrator = new Administrator();
 
   const email       = req.body.email;
@@ -73,12 +70,13 @@ router.post('/administrator/create', checkAuth, checkNames, checkEmail, checkPas
 
     administrator.create(function(error, user){
       if(error !== null)
-        return res.status(500).send('Something went wrong!');
+        return res.status(500).send(error);
 
       return res.status(200).send('Success');
     });
   }).catch(function(error){
     console.log(error);
+    return res.status(500).send(error);
   });
 });
 
@@ -89,7 +87,6 @@ router.post('/administrator/update', checkAuth, function(req, res, next) {
 });
 
 router.post('/administrator/delete', checkAuth, checkEmail, function(req, res, next) {
-  //const fullName = req.session.firstName + ' ' + req.session.lastName;
   const administrator = new Administrator();
 
   const email = req.body.email;
@@ -102,7 +99,7 @@ router.post('/administrator/delete', checkAuth, checkEmail, function(req, res, n
     'type' : 'admin'
   }, function(error, numOfDeletes) {
     if(error !== null)
-      return res.status(500).send('Something went wrong!');
+      return res.status(500).send(error);
 
     if(!numOfDeletes)
       return res.status(500).send('Something went wrong!');

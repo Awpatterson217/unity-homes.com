@@ -2,11 +2,11 @@
 
 const express = require('express');
 
-const property      = require('../../../models/property/property');
-const {checkProps}  = require('../../../resources/js/middleware');
-const {checkPropId} = require('../../../resources/js/middleware');
-const {isEmpty}     = require('../../../resources/js/functions');
-const {checkAuth}   = require('../../../resources/js/middleware');
+const property     = require('../../../models/property/property');
+const {checkProps} = require('../../../resources/js/middleware');
+const {checkId}    = require('../../../resources/js/middleware');
+const {isEmpty}    = require('../../../resources/js/functions');
+const {checkAuth}  = require('../../../resources/js/middleware');
 
 const router = express.Router();
 

@@ -17,41 +17,48 @@ const {customErr} = require('../../resources/js/error');
 
 const UnregisteredTenant = function(){
   this.email = {
-    value: '',
-    safe : function(email){
+    value   : '',
+    required: true,
+    safe    : function(email){
       return safeEmail(email);
     }
   }
   this.phone = {
-    value: '',
-    safe : function(num){
+    value   : '',
+    required: false,
+    safe    : function(num){
       return safeNum(num);
     }
   }
   this.firstName = {
-    value: '',
-    safe : function(str){
+    value   : '',
+    required: true,
+    safe    : function(str){
       return safeStr(str);
     }
   }
   this.middleName = {
-    value: '',
-    safe : function(str){
+    value   : '',
+    required: false,
+    safe    : function(str){
       return safeStr(str);
     }
   }
   this.lastName = {
-    value: '',
-    safe : function(str){
+    value   : '',
+    required: true,
+    safe    : function(str){
       return safeStr(str);
     }
   }
   this.code = {
     value: '',
+    required: false
   },
   this.timestamp = {
-    value: '',
-    safe : function(num){
+    value   : '',
+    required: true,
+    safe    : function(num){
       return safeNum(num);
     }
   }
@@ -88,6 +95,20 @@ const UnregisteredTenant = function(){
     }
 
     return object;
+  }
+  this.reset = function(){
+    let keys   = [];
+
+    Object.keys(this).forEach(function(val, i, arr){
+      if(typeof this[val] !== 'function')
+        keys.push(val);
+    }.bind(this));
+
+    for(let i = 0; i < keys.length - 1; i++){
+      this[keys[i]].value = '';
+    }
+
+    return;
   }
   this.create = function(callback){
     const dataObj = this.getObject();
@@ -142,6 +163,29 @@ const UnregisteredTenant = function(){
       // TODO: Handle error
       console.log(err);
     }
+  }
+  this.fill = function(request, callback){
+    const dataObj = this.getObject();
+
+    Object.keys(request).forEach( function(key) {
+      if(dataObj.hasOwnProperty(key))
+        this.setVal(key, request[key]);
+    }.bind(this));
+
+    this.setVal('timestamp', Math.floor(Date.now() / 1000).toString());
+
+    const fullObj = this.getObject();
+
+    fullObj.forEach( function(prop) {
+      if(prop.required === true)
+        if(prop.value === ''){
+          this.reset();
+          callback(customErr('Missing Required Value'))
+        }
+
+    }.bind(this));
+
+    callback(null, fullObj);
   }
 }
 
