@@ -205,8 +205,32 @@ let checkApp = function(req, res, next){
   app.fourthRelationship  = safeStr(req.body.fourthRelationship);
 
   // Pets
-  
-  app.washer    = safeBool(req.body.washer);
+  app.firstPetName   = safeStr(req.body.firstPetName);
+  app.firstPetGender = safeStr(req.body.firstPetGender);
+  app.firstPetBreed  = safeStr(req.body.firstPetBreed);
+  app.firstPetWeight = safeNum(req.body.firstPetWeight);
+  app.firstPetAge    = safeNum(req.body.firstPetAge);
+  app.firstPetSpayed = safeBool(req.body.firstPetSpayed);
+
+  app.secondPetName   = safeStr(req.body.secondPetName);
+  app.secondPetGender = safeStr(req.body.secondPetGender);
+  app.secondPetBreed  = safeStr(req.body.secondPetBreed);
+  app.secondPetWeight = safeNum(req.body.secondPetWeight);
+  app.secondPetAge    = safeNum(req.body.secondPetAge);
+  app.secondPetSpayed = safeBool(req.body.secondPetSpayed);
+
+  // References
+  app.firstReferenceFName = safeStr(req.body.firstReferenceFName);
+  app.firstReferenceLName = safeStr(req.body.firstReferenceLName);
+  app.firstReferenceRel   = safeStr(req.body.firstReferenceRel); 
+  app.firstReferenceYears = safeNum(req.body.firstReferenceYears);
+  app.firstReferencePhone = safeNum(req.body.firstReferencePhone);
+
+  app.secondReferenceFName = safeStr(req.body.secondReferenceFName);
+  app.secondReferenceLName = safeStr(req.body.secondReferenceLName);
+  app.secondReferenceRel   = safeStr(req.body.secondReferenceRel); 
+  app.secondReferenceYears = safeNum(req.body.secondReferenceYears);
+  app.secondReferencePhone = safeNum(req.body.secondReferencePhone);
 
   for(let prop in app){
     if(app.hasOwnProperty(prop)){
