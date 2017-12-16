@@ -195,7 +195,7 @@ const Property = function(){
   }
   this.create = function(callback){
     const dataObj = this.getObject();
-
+    
     _count('properties', {
       'street': this.street.value
     }, function(error, count) {
@@ -212,7 +212,7 @@ const Property = function(){
           newStreet += copiedStreet[i];
         }
         this.id.value = newStreet.toLowerCase();
-        _create('properties', dataObj, function(error, prop) {
+        _create('properties', this.getObject(), function(error, prop) {
           if(error !== null)
             return callback(newErr(error));
 
@@ -221,7 +221,7 @@ const Property = function(){
       }else{
         return callback(customErr('Duplicate Property'));
       }
-    });
+    }.bind(this));
   }
   this.delete = function(filter, callback){
     _delete('properties', filter, function(error, numOfDeletes) {
@@ -254,22 +254,21 @@ const Property = function(){
   this.fill = function(request, callback){
     const dataObj = this.getObject();
 
-    Object.keys(request).forEach( function(key) {
+    Object.keys(request.body).forEach( function(key) {
       if(dataObj.hasOwnProperty(key))
-        this.setVal(key, request[key]);
+        this.setVal(key, request.body[key]);
     }.bind(this));
 
     this.setVal('timestamp', Math.floor(Date.now() / 1000).toString());
 
     const fullObj = this.getObject();
 
-    fullObj.forEach( function(prop) {
+    Object.keys(fullObj).forEach( function(prop) {
       if(prop.required === true)
         if(prop.value === ''){
           this.reset();
           callback(customErr('Missing Required Value'))
         }
-
     }.bind(this));
 
     callback(null, fullObj);

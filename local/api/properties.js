@@ -93,8 +93,6 @@ router.post('/property/delete', checkAuth, checkId, function(req, res, next) {
   property.delete({
     'id': id,
   }, function(error, numOfDeletes) {
-    console.log('error: ', error);
-    console.log('numOfDeletes: ', numOfDeletes);
     if(error !== null)
       return res.status(500).send(error);
 

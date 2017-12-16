@@ -684,24 +684,23 @@ const Application = function(){
 
     Object.keys(request).forEach( function(key) {
       if(dataObj.hasOwnProperty(key))
-        this.setVal(key, request[key]);
+        this.setVal(key, request.body[key]);
     }.bind(this));
 
     this.setVal('timestamp', Math.floor(Date.now() / 1000).toString());
 
     const fullObj = this.getObject();
 
-    fullObj.forEach( function(prop) {
+    Object.keys(fullObj).forEach( function(prop) {
       if(prop.required === true)
         if(prop.value === ''){
           this.reset();
           callback(customErr('Missing Required Value'))
         }
-
     }.bind(this));
 
     callback(null, fullObj);
   }
 }
 
-module.exports = Property;
+module.exports = Application;
