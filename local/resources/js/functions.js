@@ -1,9 +1,9 @@
 "use strict";
 
-const path    = require('path');
-const fs      = require('fs');
+const path = require('path');
+const fs   = require('fs');
 
-let RegisteredTenant   = require('../../models/tenant/RegisteredTenant');
+let RegisteredTenant = require('../../models/tenant/RegisteredTenant');
 let Property           = require('../../models/property/Property');
 let UnregisteredTenant = require('../../models/tenant/UnregisteredTenant');
 
