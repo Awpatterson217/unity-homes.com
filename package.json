@@ -5,8 +5,8 @@
   "main": "unity_homes_server.js",
   "scripts": {
     "dev": "nodemon dev_server.js",
-    "startLive": "pm2 start ecosystem.json --env production",
-    "restartLive": "pm2 restart ecosystem.json --env production"
+    "startLive": "NODE_PATH=/usr/lib/nodejs:/usr/lib/node_modules && pm2 start ecosystem.json --env production",
+    "restartLive": "NODE_PATH=/usr/lib/nodejs:/usr/lib/node_modules && pm2 restart ecosystem.json --env production"
   },
   "repository": {
     "type": "git",
