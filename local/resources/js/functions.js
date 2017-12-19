@@ -4,8 +4,8 @@ const path    = require('path');
 const fs      = require('fs');
 const _filter = require('lodash/filter');
 
-let Property           = require('../../models/property/Property');
 let RegisteredTenant   = require('../../models/tenant/RegisteredTenant');
+let Property           = require('../../models/property/Property');
 let UnregisteredTenant = require('../../models/tenant/UnregisteredTenant');
 
 let isEmpty = function(...str){
