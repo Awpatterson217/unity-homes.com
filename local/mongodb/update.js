@@ -25,5 +25,5 @@ let _update = function (userCollection, filter, data, callback) {
 };
 
 module.exports = {
-  _update: _update
+  _update
 };

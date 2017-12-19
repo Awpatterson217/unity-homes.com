@@ -25,5 +25,5 @@ let _delete = function (userCollection, filter, callback) {
 };
 
 module.exports = {
-  _delete: _delete
+  _delete
 }

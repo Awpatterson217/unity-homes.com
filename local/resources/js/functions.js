@@ -2,7 +2,6 @@
 
 const path    = require('path');
 const fs      = require('fs');
-const _filter = require('lodash/filter');
 
 let RegisteredTenant   = require('../../models/tenant/RegisteredTenant');
 let Property           = require('../../models/property/Property');

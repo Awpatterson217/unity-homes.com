@@ -57,7 +57,7 @@ let _all = function (userCollection) {
 };
 
 module.exports = {
-  _find : _find,
-  _count: _count,
-  _all  : _all
+  _find,
+  _count,
+  _all
 }

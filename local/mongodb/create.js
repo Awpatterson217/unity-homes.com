@@ -25,5 +25,5 @@ let _create = function (userCollection, data, callback) {
 };
 
 module.exports = {
-  _create: _create
+  _create
 };
