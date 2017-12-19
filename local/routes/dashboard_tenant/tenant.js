@@ -1,24 +1,19 @@
 "use strict";
 
 const express = require('express');
-const moment  = require('moment');
 
 const {checkAuth} = require('../../resources/js/middleware');
 
 const router = express.Router();
 
 router.get('/tenant', checkAuth, function(req, res) {
-  let time; // TODO Log time and req
-  const NOW = new Date().getTime();
+  const now = new Date().getTime();
+  // TODO Log time and req
 
-  let firstName = req.session.firstName;
-  let lastName  = req.session.lastName;
-
-  let fullName = firstName + ' ' + lastName;
+  const fullName = req.session.firstName + ' ' + req.session.lastName;
 
   res.render('tenant', {
-    fullName: fullName,
-    time    : moment(NOW).format('LLL')
+    fullName
   });
 });
 

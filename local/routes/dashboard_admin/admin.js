@@ -1,7 +1,6 @@
 "use strict";
 
 const express = require('express');
-const moment  = require('moment');
 
 const {checkAuth}    = require('../../resources/js/middleware');
 const {adminData}    = require('../../resources/js/functions');
@@ -12,7 +11,7 @@ router.get('/admin', checkAuth, function(req, res) {
   const now = new Date().getTime();
   // TODO Log time and req
 
-  let fullName = req.session.firstName + ' ' + req.session.lastName;
+  const fullName = req.session.firstName + ' ' + req.session.lastName;
 
   adminData(fullName, (error, data) => {
     if(error !== null)

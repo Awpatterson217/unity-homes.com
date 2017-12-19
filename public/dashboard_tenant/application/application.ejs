@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-  <% include ../includes/head %>
+  <% include ../includes/dashboardHead %>
 
-  <body>
-    <div class="container">
-      <% include ../includes/nav %>
+  <body class="container-fluid">
+    <% include ../../includes/tenantNav %>
 
       <ul class="nav nav-tabs">
         <li class="nav-item">
@@ -27,9 +26,6 @@
         </li>
         <li class="nav-item">
           <a class="nav-link" data-toggle="tab" href="#history">History</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" data-toggle="tab" href="#emergency">Emergency Contact</a>
         </li>
       </ul>
 
@@ -447,189 +443,54 @@
         </div> <!-- END TAB -->
 
         <div class="tab-pane fade" id="vehicles">
-          <div id="form-group">
-            <form class="container apply" action="" method="post">
-              <h5 class="form-signin-heading mt-2">
-                First Vehicle
-              </h5>
-              <div class="row">
-                <div class="col-md-6 mb-2">
-                  <input type="text" class="form-control" name="vMakeOne" placeholder="Vehicle Make" required>
-                </div>                 
-                <div class="col-md-6 mb-2">
-                  <input type="text" class="form-control" name="vModelOne" placeholder="Last Name" required>
-                </div>
-              </div>
-              <div class="row">              
-                <div class="col-md-3 mb-2">
-                  <input type="text" class="form-control" name="vYearOne" placeholder="Year" required>
-                </div>                 
-                <div class="col-md-3 mb-2">
-                  <input type="text" class="form-control" name="vStateOne" placeholder="State" required>
-                </div>
-                <div class="col-md-3 mb-2">
-                  <input type="text" class="form-control" name="vPlateOne" placeholder="License Plate" required>
-                </div>
-              </div>
-              <hr class="thick-hr" />
-              <h5 class="form-signin-heading mt-2">
-                Second Vehicle
-              </h5>
-              <div class="row">              
-                <div class="col-md-6 mb-2">
-                  <input type="text" class="form-control" name="vMakeTwo" placeholder="Vehicle Make" required>
-                </div>                 
-                <div class="col-md-6 mb-2">
-                  <input type="text" class="form-control" name="vModelTwo" placeholder="Last Name" required>
-                </div>
-              </div>
-              <div class="row">       
-                <div class="col-md-3 mb-2">
-                  <input type="text" class="form-control" name="vYearTwo" placeholder="Year" required>
-                </div>                 
-                <div class="col-md-3 mb-2">
-                  <input type="text" class="form-control" name="vStateTwo" placeholder="State" required>
-                </div>
-                <div class="col-md-3 mb-2">
-                  <input type="text" class="form-control" name="vPlateTwo" placeholder="License Plate" required>
-                </div>
-              </div>
-            </form>
+          <h5 class="form-signin-heading mt-2">
+            First Vehicle
+          </h5>
+          <div class="row">
+            <div class="col-md-6 mb-2">
+              <input type="text" class="form-control" name="vMakeOne" placeholder="Vehicle Make" required>
+            </div>                 
+            <div class="col-md-6 mb-2">
+              <input type="text" class="form-control" name="vModelOne" placeholder="Last Name" required>
+            </div>
+          </div>
+          <div class="row">              
+            <div class="col-md-3 mb-2">
+              <input type="text" class="form-control" name="vYearOne" placeholder="Year" required>
+            </div>                 
+            <div class="col-md-3 mb-2">
+              <input type="text" class="form-control" name="vStateOne" placeholder="State" required>
+            </div>
+            <div class="col-md-3 mb-2">
+              <input type="text" class="form-control" name="vPlateOne" placeholder="License Plate" required>
+            </div>
+          </div>
+          <hr class="thick-hr" />
+          <h5 class="form-signin-heading mt-2">
+            Second Vehicle
+          </h5>
+          <div class="row">              
+            <div class="col-md-6 mb-2">
+              <input type="text" class="form-control" name="vMakeTwo" placeholder="Vehicle Make" required>
+            </div>                 
+            <div class="col-md-6 mb-2">
+              <input type="text" class="form-control" name="vModelTwo" placeholder="Last Name" required>
+            </div>
+          </div>
+          <div class="row">              
+            <div class="col-md-3 mb-2">
+              <input type="text" class="form-control" name="vYearTwo" placeholder="Year" required>
+            </div>                 
+            <div class="col-md-3 mb-2">
+              <input type="text" class="form-control" name="vStateTwo" placeholder="State" required>
+            </div>
+            <div class="col-md-3 mb-2">
+              <input type="text" class="form-control" name="vPlateTwo" placeholder="License Plate" required>
+            </div>
           </div>
         </div> <!-- END TAB -->
 
         <div class="tab-pane fade" id="history">
-          <div id="form-group">
-            <form class="container apply" action="" method="post">
-              <div class="row mb-4">
-                <div class="col-md-8">
-                  <h5>
-                    Have you ever been evicted?
-                  </h5>
-                </div>
-                <div class="col-md-2">
-                  <div class="form-check">
-                    <label class="form-check-label">
-                      <input type="radio" class="form-check-input" name="evicted" value="yes">
-                      Yes
-                    </label>
-                  </div>
-                </div>
-                <div class="col-md-2">
-                  <div class="form-check">
-                  <label class="form-check-label">
-                      <input type="radio" class="form-check-input" name="evicted" value="no">
-                      No
-                    </label>
-                  </div>
-                </div>
-              </div> <!-- End Row -->
-              <div class="row">       
-                <div class="col-md-6 mb-2">
-                  <input type="date" class="form-control" name="evictedDate" placeholder="When?">
-                </div>
-              </div> <!-- End Row -->
-              <div class="row">       
-                <div class="col-md-12 mb-2">
-                  <input type="text" class="form-control" name="evictedReason" placeholder="Why?">
-                </div>
-              </div> <!-- End Row -->
-              <hr class="thick-hr" />
-              <div class="row mb-4">
-                <div class="col-md-8">
-                  <h5>
-                    Have you ever declared bankruptcy?
-                  </h5>
-                </div>
-                <div class="col-md-2">
-                  <div class="form-check">
-                    <label class="form-check-label">
-                      <input type="radio" class="form-check-input" name="bankruptcy" value="yes">
-                      Yes
-                    </label>
-                  </div>
-                </div>
-                <div class="col-md-2">
-                  <div class="form-check">
-                  <label class="form-check-label">
-                      <input type="radio" class="form-check-input" name="bankruptcy" value="no">
-                      No
-                    </label>
-                  </div>
-                </div>
-              </div> <!-- End Row -->
-              <div class="row">       
-                <div class="col-md-6 mb-2">
-                  <input type="date" class="form-control" name="bankruptcyDate" placeholder="When?">
-                </div>
-              </div> <!-- End Row -->
-              <div class="row">       
-                <div class="col-md-12 mb-2">
-                  <input type="text" class="form-control" name="bankruptcyReason" placeholder="Describe">
-                </div>
-              </div> <!-- End Row -->
-              <hr class="thick-hr" />
-              <div class="row mb-4">
-                <div class="col-md-8">
-                  <h5>
-                    Have you ever been convicted of a crime?
-                  </h5>
-                </div>
-                <div class="col-md-2">
-                  <div class="form-check">
-                    <label class="form-check-label">
-                      <input type="radio" class="form-check-input" name="convicted" value="yes">
-                      Yes
-                    </label>
-                  </div>
-                </div>
-                <div class="col-md-2 mb-2">
-                  <div class="form-check">
-                  <label class="form-check-label">
-                      <input type="radio" class="form-check-input" name="convicted" value="no">
-                      No
-                    </label>
-                  </div>
-                </div>
-              </div> <!-- End Row -->
-              <div class="row">       
-                <div class="col-md-6 mb-2">
-                  <input type="date" class="form-control" name="convictedDate" placeholder="When?">
-                </div>
-              </div> <!-- End Row -->
-              <div class="row">       
-                <div class="col-md-12 mb-2">
-                  <input type="text" class="form-control" name="convictedReason" placeholder="Describe">
-                </div>
-              </div> <!-- End Row -->
-            </form>
-          </div>
-        </div> <!-- END TAB -->
-
-        <div class="tab-pane fade" id="emergency">
-          <div id="form-group">
-            <form class="container apply" action="" method="post">
-              <h5 class="form-signin-heading mt-2">
-                Emergency Contact
-              </h5>
-              <div class="row">              
-                <div class="col-md-6 mb-2">
-                  <input type="text" class="form-control" name="emergencyFName" placeholder="First Name" required>
-                </div>                 
-                <div class="col-md-6 mb-2">
-                  <input type="text" class="form-control" name="emergencyLName" placeholder="Last Name" required>
-                </div>
-              </div>
-              <div class="row">              
-                <div class="col-md-4 mb-2">
-                  <input type="text" class="form-control" name="emergencyRel" placeholder="Relationship to Contact" required>
-                </div>
-                <div class="col-md-4 mb-2">
-                  <input type="text" class="form-control" name="emergencyPhone" placeholder="Phone" required>
-                </div>
-              </div>
-            </form>
-          </div>
         </div> <!-- END TAB -->
 
         <div class="tab-pane fade" id="submit">
