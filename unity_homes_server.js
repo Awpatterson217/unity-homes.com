@@ -18,13 +18,13 @@ const APIs   = require('./local/api');
 // Seconds
 const ttl = 180;
 
-//let PORT   = process.env.UNITY_PORT;
-//let HOST   = process.env.UNITY_HOST;
-//let SECRET = process.env.UNITY_SECRET;
+let PORT   = process.env.UNITY_PORT;
+let HOST   = process.env.UNITY_HOST;
+let SECRET = process.env.UNITY_SECRET;
 
-let PORT   = 3000;
-let HOST   = "127.0.0.4";
-let SECRET = "testing";
+//let PORT   = 3000;
+//let HOST   = "127.0.0.4";
+//let SECRET = "testing";
 
 if(typeof SECRET !== 'undefined')
   SECRET = SECRET.trim();
