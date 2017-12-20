@@ -3,9 +3,9 @@
 const path = require('path');
 const fs   = require('fs');
 
-let RegisteredTenant   = require('../../models/tenant/RegisteredTenant');
-let Property           = require('../../models/property/Property');
-let UnregisteredTenant = require('../../models/tenant/UnregisteredTenant');
+const RegisteredTenant   = require('../../models/tenant/RegisteredTenant');
+const Property           = require('../../models/property/Property');
+const UnregisteredTenant = require('../../models/tenant/UnregisteredTenant');
 
 let isEmpty = function(...str){
   let params = [...str];
