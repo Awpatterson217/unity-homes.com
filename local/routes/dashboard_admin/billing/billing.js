@@ -3,7 +3,6 @@
 const express    = require('express');
 const formidable = require('formidable');
 
-const Property     = require('../../../models/property/Property');
 const {checkEmail} = require('../../../resources/js/middleware');
 const {checkImage} = require('../../../resources/js/middleware');
 const {checkAuth}  = require('../../../resources/js/middleware');
@@ -83,23 +82,6 @@ router.post('/propImages/delete', checkAuth, function(req, res, next) {
       deleteSuccess: false
     });
 
-  Property.deleteImage({
-    'name': id,
-  }, function(error, numOfDeletes) {
-    if(error !== null)
-      return res.render('propImages', {
-        deleteSuccess: false
-      });
-
-    if(!numOfDeletes)
-      return res.render('propImages', {
-        deleteSuccess: false
-      });
-
-    return res.render('propImages', { 
-      deleteSuccess: true
-    });
-  });
 });
 
 module.exports = router;

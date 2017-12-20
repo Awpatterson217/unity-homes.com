@@ -2,8 +2,6 @@
 
 const express = require('express');
 
-const unregisteredTenant = require('../../../models/tenant/unregisteredTenant');
-const registeredTenant = require('../../../models/tenant/registeredTenant');
 const {checkEmail}     = require('../../../resources/js/middleware');
 const {checkPhone}     = require('../../../resources/js/middleware');
 const {checkNames}     = require('../../../resources/js/middleware');

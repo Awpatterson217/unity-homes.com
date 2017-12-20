@@ -2,7 +2,6 @@
 
 const express = require('express');
 
-const property     = require('../../../models/property/Property');
 const {checkProps} = require('../../../resources/js/middleware');
 const {checkId}    = require('../../../resources/js/middleware');
 const {isEmpty}    = require('../../../resources/js/functions');
