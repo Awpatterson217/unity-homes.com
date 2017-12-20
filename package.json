@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "nodemon dev_server.js",
     "startLive": "pm2 start ecosystem.json --env production",
-    "restartLive": "pm2 restart ecosystem.json --env production"
+    "restartLive": "pm2 restart ecosystem.json --env production",
+    "preinstall": "rm package-lock.json"
   },
   "repository": {
     "type": "git",
