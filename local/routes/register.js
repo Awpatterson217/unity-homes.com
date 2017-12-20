@@ -4,8 +4,8 @@ const express = require('express');
 const moment  = require('moment');
 const csrf    = require('csurf');
 
-const registeredTenant   = require('../models/tenant/registeredTenant');
-const unregisteredTenant = require('../models/tenant/unregisteredTenant');
+const RegisteredTenant   = require('../models/tenant/RegisteredTenant');
+const UnregisteredTenant = require('../models/tenant/UnregisteredTenant');
 const {checkEmail}       = require('../resources/js/middleware');
 const {checkCode}        = require('../resources/js/middleware');
 const {checkPass}        = require('../resources/js/middleware');
@@ -21,6 +21,8 @@ router.get('/register', function(req, res) {
 });
 
 router.post('/register', checkCode, checkEmail, checkPass, checkPassTwo, function(req, res, next) {
+  unregisteredTenant = new UnregisteredTenant();
+  registeredTenant = new RegisteredTenant();
   // TODO Log time and req
   const now         = new Date().getTime();
   const code        = req.body.code;
