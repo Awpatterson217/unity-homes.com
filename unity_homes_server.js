@@ -124,7 +124,10 @@ const server = app.listen(PORT, HOST, () => {
 });
 
 //        TODO
-// CSRF
+// Finish CSRF
+// Nodemailer
+// Contact API
+// Stripe
 // SSL / TSL
 // - cert
 // - proxy

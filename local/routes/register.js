@@ -2,7 +2,6 @@
 
 const express = require('express');
 const moment  = require('moment');
-const csrf    = require('csurf');
 
 const RegisteredTenant   = require('../models/tenant/RegisteredTenant');
 const UnregisteredTenant = require('../models/tenant/UnregisteredTenant');
@@ -12,8 +11,6 @@ const {checkPass}        = require('../resources/js/middleware');
 const {checkPassTwo}     = require('../resources/js/middleware');
 const {isEmpty}          = require('../resources/js/functions');
 
-//const csrfProtection = csrf();
-//{ csrfToken: req.csrfToken() }
 const router = express.Router();
 
 router.get('/register', function(req, res) {
@@ -78,19 +75,5 @@ router.post('/register', checkCode, checkEmail, checkPass, checkPassTwo, functio
     });
   });
 });
-
-// TODO CSRF
-
-//router.use(csrf());
-//router.use(function (request, response, next) {
-// response.locals.csrftoken = request.csrfToken();
-// next();
-//});
-
-// handle csrf errors specifically
-//router.use(function(err, req, res, next) {
-//    if (err.code !== 'EBADCSRFTOKEN') return next(err);
-//    res.status(403).send("ERROR: session has expired or been tampered with");
-//});
   
 module.exports = router;

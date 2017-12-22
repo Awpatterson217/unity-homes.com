@@ -1,21 +1,13 @@
 "use strict";
 
-const express    = require('express');
-const moment     = require('moment');
-const bodyParser = require('body-parser');
-const csrf       = require('csurf');
+const express = require('express');
 
 const RegisteredTenant = require('../models/tenant/RegisteredTenant');
 const {checkEmail}     = require('../resources/js/middleware');
 const {checkPass}      = require('../resources/js/middleware');
 const {isEmpty}        = require('../resources/js/functions');
 
-//const csrfProtection = csrf();
 const router = express.Router();
-//const parseForm      = bodyParser.urlencoded({ extended: false });
-
-//router.use(csrf({ sessionKey:'sessionid' }))
-// { csrfToken: req.csrfToken() }
 
 router.get('/login', function(req, res) {
   return res.render('login');
