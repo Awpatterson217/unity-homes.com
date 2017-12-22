@@ -22,10 +22,6 @@ let PORT   = process.env.UNITY_PORT;
 let HOST   = process.env.UNITY_HOST;
 let SECRET = process.env.UNITY_SECRET;
 
-//let PORT   = 3000;
-//let HOST   = "127.0.0.4";
-//let SECRET = "testing";
-
 if(typeof SECRET !== 'undefined')
   SECRET = SECRET.trim();
 else
@@ -95,8 +91,9 @@ app.set('views', [
 /**
  * Middleware
  */
+// Place helmet early in
+// the stack.
 app.use(helmet());
-app.use(helmet.hidePoweredBy());
 
 app.use(urlEncParser); 
 app.use(jsonParser); 
@@ -129,7 +126,8 @@ const server = app.listen(PORT, HOST, () => {
 //        TODO
 // CSRF
 // SSL / TSL
-// Billing system
+// - cert
+// - proxy
 // Logs
 // Graphics, design, favicon, etc.
 // babel and Webpack

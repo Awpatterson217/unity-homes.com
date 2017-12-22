@@ -4,6 +4,13 @@ const path    = require('path');
 const fs      = require('fs');
 const express = require('express');
 
+const csrf    = require('csurf')
+// Add as middleware
+const csrfProtection = csrf()
+// Use template engine to pass token
+// res.render('send', { csrfToken: req.csrfToken() })
+// <input type="hidden" name="_csrf" value="{{csrfToken}}">
+
 const Property     = require('../models/property/Property');
 const {getImages}  = require('../resources/js/functions');
 const {checkProps} = require('../resources/js/middleware');

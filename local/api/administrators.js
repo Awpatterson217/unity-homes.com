@@ -5,6 +5,13 @@ const fs      = require('fs');
 const express = require('express');
 const _filter = require('lodash/filter');
 
+const csrf    = require('csurf')
+// Add as middleware
+const csrfProtection = csrf()
+// Use template engine to pass token
+// res.render('send', { csrfToken: req.csrfToken() })
+// <input type="hidden" name="_csrf" value="{{csrfToken}}">
+
 const Administrator  = require('../models/administrator/Administrator');
 const {checkEmail}   = require('../resources/js/middleware');
 const {checkAuth}    = require('../resources/js/middleware');
