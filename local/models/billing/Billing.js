@@ -196,7 +196,7 @@ const Billing = function(){
       filter = this.getObject();
 
     try{
-      let user = await _find('registeredUsers', filter);
+      let user = await _find('billing', filter);
 
       if(!user)
         return callback(customErr('Nothing Found'));
