@@ -3,8 +3,8 @@
 const path    = require('path');
 const fs      = require('fs');
 const express = require('express');
+const csrf    = require('csurf');
 
-const csrf    = require('csurf')
 // Add as middleware
 const csrfProtection = csrf()
 // Use template engine to pass token

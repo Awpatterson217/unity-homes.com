@@ -4,24 +4,24 @@ const path    = require('path');
 const fs      = require('fs');
 const express = require('express');
 const _filter = require('lodash/filter');
+const csrf    = require('csurf');
 
-const csrf    = require('csurf')
 // Add as middleware
 const csrfProtection = csrf()
 // Use template engine to pass token
 // res.render('send', { csrfToken: req.csrfToken() })
 // <input type="hidden" name="_csrf" value="{{csrfToken}}">
 
-const Administrator  = require('../models/administrator/Administrator');
-const {checkEmail}   = require('../resources/js/middleware');
-const {checkAuth}    = require('../resources/js/middleware');
-const {checkNames}   = require('../resources/js/middleware');
-const {checkPass}    = require('../resources/js/middleware');
-const {checkPassTwo} = require('../resources/js/middleware');
+const Administrator    = require('../models/administrator/Administrator');
+const {checkEmail}     = require('../resources/js/middleware');
+const {checkAdminAuth} = require('../resources/js/middleware');
+const {checkNames}     = require('../resources/js/middleware');
+const {checkPass}      = require('../resources/js/middleware');
+const {checkPassTwo}   = require('../resources/js/middleware');
 
 const router = express.Router();
 
-router.get('/administrators/read', checkAuth, function(req, res) {
+router.get('/administrators/read', checkAdminAuth, function(req, res) {
   const administrator = new Administrator();
 
     administrator.all()
@@ -37,13 +37,13 @@ router.get('/administrators/read', checkAuth, function(req, res) {
     });
 });
 
-router.get('/administrator/read', checkAuth, function(req, res) {
+router.get('/administrator/read', checkAdminAuth, function(req, res) {
   const administrator = new Administrator();
   // TODO
   return res.status(500).send('Something went wrong!');
 });
 
-router.post('/administrator/create', checkAuth, checkNames, checkEmail, checkPass, checkPassTwo, function(req, res, next) {
+router.post('/administrator/create', checkAdminAuth, checkNames, checkEmail, checkPass, checkPassTwo, function(req, res, next) {
   const administrator = new Administrator();
 
   const email       = req.body.email;
@@ -87,13 +87,13 @@ router.post('/administrator/create', checkAuth, checkNames, checkEmail, checkPas
   });
 });
 
-router.post('/administrator/update', checkAuth, function(req, res, next) {
+router.post('/administrator/update', checkAdminAuth, function(req, res, next) {
   const administrator = new Administrator();
   // TODO
   return res.status(500).send('Something went wrong!');
 });
 
-router.post('/administrator/delete', checkAuth, checkEmail, function(req, res, next) {
+router.post('/administrator/delete', checkAdminAuth, checkEmail, function(req, res, next) {
   const administrator = new Administrator();
 
   const email = req.body.email;

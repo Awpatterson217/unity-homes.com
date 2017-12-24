@@ -3,24 +3,24 @@
 const path    = require('path');
 const fs      = require('fs');
 const express = require('express');
+const csrf    = require('csurf');
 
-const csrf    = require('csurf')
 // Add as middleware
 const csrfProtection = csrf()
 // Use template engine to pass token
 // res.render('send', { csrfToken: req.csrfToken() })
 // <input type="hidden" name="_csrf" value="{{csrfToken}}">
 
-const Property     = require('../models/property/Property');
-const {getImages}  = require('../resources/js/functions');
-const {checkProps} = require('../resources/js/middleware');
-const {checkId}    = require('../resources/js/middleware');
-const {isEmpty}    = require('../resources/js/functions');
-const {checkAuth}  = require('../resources/js/middleware');
+const Property         = require('../models/property/Property');
+const {getImages}      = require('../resources/js/functions');
+const {checkProps}     = require('../resources/js/middleware');
+const {checkId}        = require('../resources/js/middleware');
+const {isEmpty}        = require('../resources/js/functions');
+const {checkAdminAuth} = require('../resources/js/middleware');
 
 const router = express.Router();
 
-router.get('/properties/read', checkAuth, function(req, res) {
+router.get('/properties/read', checkAdminAuth, function(req, res) {
   const property = new Property();
 
   property.all()
@@ -42,13 +42,13 @@ router.get('/properties/read', checkAuth, function(req, res) {
   });
 });
 
-router.get('/property/read', checkAuth, function(req, res) {
+router.get('/property/read', checkAdminAuth, function(req, res) {
   const property = new Property();
   // TODO
   return res.status(500).send('Something went wrong!');
 });
 
-router.post('/property/create', checkAuth, checkProps, function(req, res, next) {
+router.post('/property/create', checkAdminAuth, checkProps, function(req, res, next) {
   const property = new Property();
 
   req.body.washer   = isEmpty(req.body.washer)
@@ -83,13 +83,13 @@ router.post('/property/create', checkAuth, checkProps, function(req, res, next) 
   });
 });
 
-router.post('/property/update', checkAuth, function(req, res, next) {
+router.post('/property/update', checkAdminAuth, function(req, res, next) {
   const property = new Property();  
   // TODO
   return res.status(500).send('Something went wrong!');
 });
 
-router.post('/property/delete', checkAuth, checkId, function(req, res, next) {
+router.post('/property/delete', checkAdminAuth, checkId, function(req, res, next) {
   const property = new Property();
 
   const id = req.body.id;

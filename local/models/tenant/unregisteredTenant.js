@@ -148,20 +148,17 @@ const UnregisteredTenant = function(){
       
     return users;
   }
-  this.find = async function(filter, callback){
+  this.find = async function(filter){
     if (filter === undefined)
       filter = this.getObject();
 
     try{
-      let user = await _find('unregisteredUsers', filter);
+      return await _find('unregisteredUsers', filter);
 
-      if(!user)
-        return callback(customErr('Nothing Found'));
-
-      return callback(null, user);
     } catch(err) {
       // TODO: Handle error
       console.log(err);
+      return err;
     }
   }
   this.fill = function(request, callback){

@@ -124,11 +124,26 @@ let checkId = function(req, res, next){
   return next();
 }
 
+let checkAdminAuth = function(req, res, next){
+  if(!req.session.userAuth)
+    return res.redirect('/login');
+  if(req.session.type !== 'admin')
+    return res.redirect('/login');
+  return next();
+}
+
 let checkAuth = function(req, res, next){
   if(!req.session.userAuth)
-      return res.redirect('/login');
-  else
-    return next();
+    return res.redirect('/login');
+  return next();
+}
+
+let checkTenantAuth = function(req, res, next){
+  if(!req.session.userAuth)
+    return res.redirect('/login');
+  if(req.session.type !== 'tenant')
+    return res.redirect('/login');
+  return next();
 }
 
 let checkApp = function(req, res, next){
@@ -251,6 +266,8 @@ module.exports = {
   checkProps,
   checkId,
   checkAuth,
+  checkAdminAuth,
+  checkTenantAuth,
   checkImage,
   checkApp
 }

@@ -48,7 +48,8 @@ app.set('views', [
   path.join(__dirname, 'public', 'dashboard_admin', 'adminUsers'),
   path.join(__dirname, 'public', 'dashboard_admin', 'properties'),
   path.join(__dirname, 'public', 'dashboard_admin', 'billing'),
-  path.join(__dirname, 'public', 'dashboard_tenant')
+  path.join(__dirname, 'public', 'dashboard_tenant'),
+  path.join(__dirname, 'public', 'dashboard_tenant', 'application'),
 ]);
 
 /**

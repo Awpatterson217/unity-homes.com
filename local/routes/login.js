@@ -35,6 +35,7 @@ router.post('/login', checkEmail, checkPass, function(req, res, next) {
 
     req.session.firstName = user.firstName;
     req.session.lastName  = user.lastName;
+    req.session.type      = user.type;
     req.session.userAuth  = true;
 
     if(user.type === 'admin')

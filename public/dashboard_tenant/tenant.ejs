@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-  <% include ../includes/dashboardHead %>
+  <% include ../includes/dashboard_tenant/head %>
 
   <body class="container-fluid">
     <% include ../includes/settingsModal %>    
@@ -24,7 +24,7 @@
       <div class="col-12">
         <div class="nav nav-pills nav-fill">
           <div class="nav-item">
-            <a class="nav-link home-link" href="/application">dashboard</a>
+            <a class="nav-link home-link" href="/application">application</a>
           </div>
         </div> <!-- END NAV -->
       </div> <!-- END COL -->
@@ -37,6 +37,6 @@
       </div> <!-- END ROW -->
     </div> <!-- END NG -->
 
-    <% include ../includes/dashboardScripts %>
+    <% include ../includes/dashboard_tenant/scripts.ejs %>
   </body>
 </html>

@@ -165,7 +165,7 @@ const Administrator = function(){
       return false;
   }
   this.getObject = function(){
-    let object = {}
+    let object = {};
     let keys   = [];
 
     Object.keys(this).forEach(function(val, i, arr){

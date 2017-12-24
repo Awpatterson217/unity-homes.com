@@ -130,13 +130,13 @@ const Mail = function(){
         user: this.username,
         pass: this.password
       }
-    }).sendMail({
+    }.bind(this)).sendMail({
       from   : this.from,
       to     : this.to,
       subject: this.subject,
       text   : this.text,
       html   : this.html,
-    }, (error, info) => {
+    }.bind(this), (error, info) => {
       if(error)
         return callback(error)
       return callback(null, info);

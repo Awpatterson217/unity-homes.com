@@ -18,8 +18,8 @@ router.get('/register', function(req, res) {
 });
 
 router.post('/register', checkCode, checkEmail, checkPass, checkPassTwo, function(req, res, next) {
-  unregisteredTenant = new UnregisteredTenant();
-  registeredTenant = new RegisteredTenant();
+  const unregisteredTenant = new UnregisteredTenant();
+  const registeredTenant = new RegisteredTenant();
   // TODO Log time and req
   const now         = new Date().getTime();
   const code        = req.body.code;
@@ -37,12 +37,7 @@ router.post('/register', checkCode, checkEmail, checkPass, checkPassTwo, functio
       match: false
     });
 
-  unregisteredTenant.authenticate(email, code, function(error, user){
-    if(error !== null)
-      return res.render('register', {
-        invalid: true
-      });
-    
+  unregisteredTenant.find({ email, code}).then( user => {
     registeredTenant.hash(password).then(function(success){
       if(!success)
         return res.render('register', {
@@ -73,6 +68,10 @@ router.post('/register', checkCode, checkEmail, checkPass, checkPassTwo, functio
         invalid: true
       });
     });
+  }).catch( error => {
+      return res.render('register', {
+        invalid: true
+      });
   });
 });
   

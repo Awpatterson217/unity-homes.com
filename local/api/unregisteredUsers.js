@@ -3,8 +3,8 @@
 const path    = require('path');
 const fs      = require('fs');
 const express = require('express');
+const csrf    = require('csurf');
 
-const csrf    = require('csurf')
 // Add as middleware
 const csrfProtection = csrf()
 // Use template engine to pass token
@@ -15,11 +15,11 @@ const UnregisteredTenant = require('../models/tenant/UnregisteredTenant');
 const {checkEmail}       = require('../resources/js/middleware');
 const {checkPhone}       = require('../resources/js/middleware');
 const {checkNames}       = require('../resources/js/middleware');
-const {checkAuth}        = require('../resources/js/middleware');
+const {checkAdminAuth}   = require('../resources/js/middleware');
 
 const router = express.Router();
 
-router.get('/unregisteredUsers/read', checkAuth, function(req, res) {
+router.get('/unregisteredUsers/read', checkAdminAuth, function(req, res) {
   const unregisteredTenant = new UnregisteredTenant();
 
   unregisteredTenant.all()
@@ -32,15 +32,14 @@ router.get('/unregisteredUsers/read', checkAuth, function(req, res) {
   });
 });
 
-router.get('/unregisteredUser/read', checkAuth, function(req, res) {
+router.get('/unregisteredUser/read', checkAdminAuth, function(req, res) {
   const unregisteredTenant = new UnregisteredTenant();
   // TODO
   return res.status(500).send('Something went wrong!');
 });
 
-router.post('/unregisteredUser/create', checkAuth, checkNames, checkEmail, checkPhone, function(req, res, next) {
+router.post('/unregisteredUser/create', checkAdminAuth, checkNames, checkEmail, checkPhone, function(req, res, next) {
   const unregisteredTenant = new UnregisteredTenant();
-
 
   unregisteredTenant.fill(req, function(error, dataObj) {
     if(error !== null)
@@ -55,13 +54,13 @@ router.post('/unregisteredUser/create', checkAuth, checkNames, checkEmail, check
   });
 });
 
-router.post('/unregisteredUser/update', checkAuth, function(req, res, next) {
+router.post('/unregisteredUser/update', checkAdminAuth, function(req, res, next) {
   const unregisteredTenant = new UnregisteredTenant();
   // TODO
   return res.status(500).send('Something went wrong!');
 });
 
-router.post('/unregisteredUser/delete', checkAuth, checkEmail, function(req, res, next) {
+router.post('/unregisteredUser/delete', checkAdminAuth, checkEmail, function(req, res, next) {
   const unregisteredTenant = new UnregisteredTenant();
 
   const email = req.body.email;
