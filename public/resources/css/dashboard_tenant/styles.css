@@ -85,12 +85,6 @@ body {
    background-color: maroon !important;
    color: white;
 }
-.nav>li>a.active,
-.nav>li>a:hover,
-.nav>li>a:focus {
-   background-color: maroon !important;
-   color: white;
-}
 .big-link {
     font-weight: bold;
     color: maroon;

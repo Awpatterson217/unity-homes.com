@@ -113,6 +113,14 @@ const UnregisteredTenant = function(){
   this.create = function(callback){
     const dataObj = this.getObject();
 
+    Object.keys(dataObj).forEach( function(prop) {
+      if(prop.required === true)
+        if(prop.value === ''){
+          this.reset();
+          callback(customErr('Missing Required Value'))
+        }
+    }.bind(this));
+
     _count('unregisteredUsers', {
       'email': this.email.value
     }, function(error, count) {
