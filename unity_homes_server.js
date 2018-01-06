@@ -24,9 +24,9 @@ const httpsOptions = {
   // key: fs.readFileSync(path.join(__dirname, 'ssl', 'server.key')),
 }
 
-const PORT   = process.env.UNITY_PORT;
-const HOST   = process.env.UNITY_HOST;
-const SECRET = process.env.UNITY_SECRET;
+let PORT   = process.env.UNITY_PORT;
+let HOST   = process.env.UNITY_HOST;
+let SECRET = process.env.UNITY_SECRET;
 
 if(typeof SECRET !== 'undefined')
   SECRET = SECRET.trim();
