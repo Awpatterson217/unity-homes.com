@@ -1,6 +1,7 @@
 "use strict";
 
 const express    = require('express');
+const https      = require('https');
 const bodyParser = require('body-parser');
 const path       = require('path');
 const fs         = require('fs');
@@ -15,12 +16,17 @@ const app = express();
 const routes = require('./local/routes');
 const APIs   = require('./local/api');
 
-// Seconds
-const ttl = 180;
+const ttl     = 180; // Seconds
+const sslPort = 3443; // Temporary
 
-let PORT   = process.env.UNITY_PORT;
-let HOST   = process.env.UNITY_HOST;
-let SECRET = process.env.UNITY_SECRET;
+const httpsOptions = {
+  // cert: fs.readFileSync(path.join(__dirname, 'ssl', 'server.crt')),
+  // key: fs.readFileSync(path.join(__dirname, 'ssl', 'server.key')),
+}
+
+const PORT   = process.env.UNITY_PORT;
+const HOST   = process.env.UNITY_HOST;
+const SECRET = process.env.UNITY_SECRET;
 
 if(typeof SECRET !== 'undefined')
   SECRET = SECRET.trim();
@@ -123,6 +129,11 @@ const server = app.listen(PORT, HOST, () => {
   const port = server.address().port;
   console.log(`Server running at http://${host}:${port}`);
 });
+
+// https.createServer(httpsOptions, app)
+//   .listen(sslPort, function () {
+//     console.log(`SERVER RUNNING ON https://localhost:3443`);
+//   })
 
 //        TODO
 // Finish CSRF
