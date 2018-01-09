@@ -23,7 +23,7 @@ const {isEmpty}        = require('../resources/js/functions');
 
 const router = express.Router();
 
-router.get('/registeredUsers/read', checkAdminAuth, function(req, res) {
+router.get('/registeredUsers/read', checkAdminAuth, function (req, res) {
   const registeredTenant = new RegisteredTenant();
 
   registeredTenant.all()
@@ -37,13 +37,13 @@ router.get('/registeredUsers/read', checkAdminAuth, function(req, res) {
   });
 });
 
-router.get('/registeredUser/read', checkAdminAuth, function(req, res) {
+router.get('/registeredUser/read', checkAdminAuth, function (req, res) {
   const registeredTenant = new RegisteredTenant();
   // TODO
   return res.status(500).send('Something went wrong!');
 });
 
-router.post('/registeredUser/create', checkAdminAuth, checkNames, checkEmail, checkPass, checkPassTwo, checkPhone, function(req, res, next) {
+router.post('/registeredUser/create', checkAdminAuth, checkNames, checkEmail, checkPass, checkPassTwo, checkPhone, function (req, res, next) {
   const registeredTenant = new RegisteredTenant();
 
   const email       = req.body.email;
@@ -54,16 +54,16 @@ router.post('/registeredUser/create', checkAdminAuth, checkNames, checkEmail, ch
   const password    = req.body.password;
   const passwordTwo = req.body.passwordTwo;
 
-  if(isEmpty(email, password, passwordTwo, firstName, lastName))
+  if (isEmpty(email, password, passwordTwo, firstName, lastName))
     return res.status(500).send('Missing Data!');
 
-  if(!password)
+  if (!password)
     return res.status(500).send('Something went wrong!');
 
-  if(!passwordTwo)
+  if (!passwordTwo)
     return res.status(500).send('Something went wrong!');
 
-  if(password !== passwordTwo)
+  if (password !== passwordTwo)
     return res.status(500).send('Password Don\'t match!');
   
   registeredTenant.setVal('email', email);
@@ -73,36 +73,36 @@ router.post('/registeredUser/create', checkAdminAuth, checkNames, checkEmail, ch
   registeredTenant.setVal('lastName', lastName);
   registeredTenant.hash(password);
   registeredTenant.setVal('timestamp',  Math.floor(Date.now() / 1000).toString());
-  registeredTenant.create(function(error, user){
-    if(error !== null)
+  registeredTenant.create(function (error, user) {
+    if (error !== null)
       return res.status(500).send(error);
 
     return res.status(200).send('Success');
   });
 });
 
-router.post('/registeredUser/update', checkAdminAuth, function(req, res, next) {
+router.post('/registeredUser/update', checkAdminAuth, function (req, res, next) {
   const registeredTenant = new RegisteredTenant();
   // TODO
   return res.status(500).send('Something went wrong!');
 });
 
-router.post('/registeredUser/delete', checkAdminAuth, checkEmail, function(req, res, next) {
+router.post('/registeredUser/delete', checkAdminAuth, checkEmail, function (req, res, next) {
   const registeredTenant = new RegisteredTenant();
 
   const email = req.body.email;
 
-  if(email === '')
+  if (email === '')
     return res.status(500).send('Something went wrong!');
 
   registeredTenant.delete({
     'email': email,
     'type' : 'tenant'
-  }, function(error, numOfDeletes) {
-    if(error !== null)
+  }, function (error, numOfDeletes) {
+    if (error !== null)
       return res.status(500).send(error);
 
-    if(!numOfDeletes)
+    if (!numOfDeletes)
       return res.status(500).send('Something went wrong!');
 
     return res.status(200).send('Success');

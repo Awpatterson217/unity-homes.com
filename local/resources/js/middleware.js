@@ -8,9 +8,9 @@ const {safeBool}     = require('./safe');
 const {safeStr}      = require('./safe');
 const {safeNum}      = require('./safe');
 
-let checkEmail = function(req, res, next){
+let checkEmail = function (req, res, next) {
   let email = sanitize(req.body.email);
-  if(validator.isEmail(email)){
+  if (validator.isEmail(email)) {
     req.body.email = email;
     return next();
   }
@@ -18,22 +18,22 @@ let checkEmail = function(req, res, next){
   return next();
 }
 
-let checkNames = function(req, res, next){
+let checkNames = function (req, res, next) {
   let firstName  = sanitize(req.body.firstName);
   let middleName = sanitize(req.body.middleName);
   let lastName   = sanitize(req.body.lastName);
 
-  if(firstName.length < 20)
+  if (firstName.length < 20)
     req.body.firstName = firstName;
   else
     req.body.firstName = '';
 
-  if(middleName.length < 20)
+  if (middleName.length < 20)
     req.body.middleName = middleName;
   else
     req.body.middleName = '';
 
-  if(lastName.length < 20)
+  if (lastName.length < 20)
     req.body.lastName = lastName;
   else
     req.body.lastName = '';
@@ -41,9 +41,9 @@ let checkNames = function(req, res, next){
   return next();
 }
 
-let checkCode = function(req, res, next){
+let checkCode = function (req, res, next) {
   let code = sanitize(req.body.code);
-  if(validator.isNumeric(code)){
+  if (validator.isNumeric(code)) {
     req.body.code = code;
     return next();
   }
@@ -51,9 +51,9 @@ let checkCode = function(req, res, next){
   return next();
 }
 
-let checkPhone = function(req, res, next){
+let checkPhone = function (req, res, next) {
   let phone = sanitize(req.body.phone);
-  if(validator.isNumeric(phone)){
+  if (validator.isNumeric(phone)) {
     req.body.phone = phone;
     return next();
   }
@@ -61,9 +61,9 @@ let checkPhone = function(req, res, next){
   return next();
 }
 
-let checkPass = function(req, res, next){
+let checkPass = function (req, res, next) {
   let pass = sanitize(req.body.password);
-  if(isPassFormat(pass)){
+  if (isPassFormat(pass)) {
     req.body.password = pass;
     return next();
   }
@@ -71,9 +71,9 @@ let checkPass = function(req, res, next){
   return next();
 }
 
-let checkPassTwo = function(req, res, next){
+let checkPassTwo = function (req, res, next) {
   let pass = sanitize(req.body.passwordTwo);
-  if(isPassFormat(pass)){
+  if (isPassFormat(pass)) {
     req.body.passwordTwo = pass;
     return next();
   }
@@ -81,9 +81,9 @@ let checkPassTwo = function(req, res, next){
   return next();
 }
 
-let checkImage = function(req, res, next){
+let checkImage = function (req, res, next) {
   let image = sanitize(req.body.image);
-  if(validator.isDataURI(image)){
+  if (validator.isDataURI(image)) {
     req.body.image = image;
     return next();
   }
@@ -91,7 +91,7 @@ let checkImage = function(req, res, next){
   return next();
 }
 
-let checkProps = function(req, res, next){
+let checkProps = function (req, res, next) {
   let property = {};
 
   property.mainImage = safeStr(req.body.mainImage);
@@ -109,8 +109,8 @@ let checkProps = function(req, res, next){
   property.stories   = safeNum(req.body.stories);
   property.occupied  = safeBool(req.body.occupied);
 
-  for(let prop in property){
-    if(property.hasOwnProperty(prop)){
+  for (let prop in property) {
+    if (property.hasOwnProperty(prop)) {
       req.body[prop] = property[prop].val;
     }
   }
@@ -118,35 +118,35 @@ let checkProps = function(req, res, next){
   return next();
 }
 
-let checkId = function(req, res, next){
+let checkId = function (req, res, next) {
   let id = sanitize(req.body.id);
   req.body.id = id;
   return next();
 }
 
-let checkAdminAuth = function(req, res, next){
-  if(!req.session.userAuth)
+let checkAdminAuth = function (req, res, next) {
+  if (!req.session.userAuth)
     return res.redirect('/login');
-  if(req.session.type !== 'admin')
-    return res.redirect('/login');
-  return next();
-}
-
-let checkAuth = function(req, res, next){
-  if(!req.session.userAuth)
+  if (req.session.type !== 'admin')
     return res.redirect('/login');
   return next();
 }
 
-let checkTenantAuth = function(req, res, next){
-  if(!req.session.userAuth)
-    return res.redirect('/login');
-  if(req.session.type !== 'tenant')
+let checkAuth = function (req, res, next) {
+  if (!req.session.userAuth)
     return res.redirect('/login');
   return next();
 }
 
-let checkApp = function(req, res, next){
+let checkTenantAuth = function (req, res, next) {
+  if (!req.session.userAuth)
+    return res.redirect('/login');
+  if (req.session.type !== 'tenant')
+    return res.redirect('/login');
+  return next();
+}
+
+let checkApp = function (req, res, next) {
   let app = {};
 
   // Personal / Current
@@ -247,8 +247,8 @@ let checkApp = function(req, res, next){
   app.secondReferenceYears = safeNum(req.body.secondReferenceYears);
   app.secondReferencePhone = safeNum(req.body.secondReferencePhone);
 
-  for(let prop in app){
-    if(app.hasOwnProperty(prop)){
+  for (let prop in app) {
+    if (app.hasOwnProperty(prop)) {
       req.body[prop] = app[prop].val;
     }
   }

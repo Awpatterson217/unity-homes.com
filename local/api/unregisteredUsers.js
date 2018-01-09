@@ -19,7 +19,7 @@ const {checkAdminAuth}   = require('../resources/js/middleware');
 
 const router = express.Router();
 
-router.get('/unregisteredUsers/read', checkAdminAuth, function(req, res) {
+router.get('/unregisteredUsers/read', checkAdminAuth, function (req, res) {
   const unregisteredTenant = new UnregisteredTenant();
 
   unregisteredTenant.all()
@@ -32,49 +32,49 @@ router.get('/unregisteredUsers/read', checkAdminAuth, function(req, res) {
   });
 });
 
-router.get('/unregisteredUser/read', checkAdminAuth, function(req, res) {
+router.get('/unregisteredUser/read', checkAdminAuth, function (req, res) {
   const unregisteredTenant = new UnregisteredTenant();
   // TODO
   return res.status(500).send('Something went wrong!');
 });
 
-router.post('/unregisteredUser/create', checkAdminAuth, checkNames, checkEmail, checkPhone, function(req, res, next) {
+router.post('/unregisteredUser/create', checkAdminAuth, checkNames, checkEmail, checkPhone, function (req, res, next) {
   const unregisteredTenant = new UnregisteredTenant();
 
-  unregisteredTenant.fill(req, function(error, dataObj) {
-    if(error !== null)
+  unregisteredTenant.fill(req, function (error, dataObj) {
+    if (error !== null)
       return res.status(500).send(error);
   });
 
-  unregisteredTenant.create(function(error, user){
-    if(error !== null)
+  unregisteredTenant.create(function (error, user) {
+    if (error !== null)
       return res.status(500).send(error);
 
     return res.status(200).send('Success');
   });
 });
 
-router.post('/unregisteredUser/update', checkAdminAuth, function(req, res, next) {
+router.post('/unregisteredUser/update', checkAdminAuth, function (req, res, next) {
   const unregisteredTenant = new UnregisteredTenant();
   // TODO
   return res.status(500).send('Something went wrong!');
 });
 
-router.post('/unregisteredUser/delete', checkAdminAuth, checkEmail, function(req, res, next) {
+router.post('/unregisteredUser/delete', checkAdminAuth, checkEmail, function (req, res, next) {
   const unregisteredTenant = new UnregisteredTenant();
 
   const email = req.body.email;
 
-  if(email === '')
+  if (email === '')
     return res.status(500).send('Something went wrong!');
 
   unregisteredTenant.delete({
     'email': email
-  }, function(error, numOfDeletes){
-    if(error !== null)
+  }, function (error, numOfDeletes) {
+    if (error !== null)
       return res.status(500).send(error);
 
-    if(!numOfDeletes)
+    if (!numOfDeletes)
       return res.status(500).send('Something went wrong!');
 
     return res.status(200).send('Success');

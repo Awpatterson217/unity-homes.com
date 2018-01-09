@@ -2,8 +2,8 @@
 
 let app = angular.module('ngAdmin', []);
 
-app.service('getRequest', ['$http', function($http) {
-  return function(url){
+app.service('getRequest', ['$http', function ($http) {
+  return function (url) {
     return $http({
       method: 'GET',
       url,
@@ -11,8 +11,8 @@ app.service('getRequest', ['$http', function($http) {
   } 
 }]);
 
-app.service('postRequest', ['$http', function($http) {
-  return function(url, data){
+app.service('postRequest', ['$http', function ($http) {
+  return function (url, data) {
     return $http({
       method: 'POST',
       url,

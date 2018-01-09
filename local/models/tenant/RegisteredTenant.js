@@ -15,39 +15,39 @@ const {safeStr}   = require('../../resources/js/safe');
 const {newErr}    = require('../../resources/js/error');
 const {customErr} = require('../../resources/js/error');
 
-const RegisteredTenant = function(){
+const RegisteredTenant = function () {
   this.email = {
     value   : '',
     required: true,
-    safe    : function(email){
+    safe    : function (email) {
       return safeEmail(email);
     }
   }
   this.phone = {
     value   : '',
     required: false,
-    safe    : function(num){
+    safe    : function (num) {
       return safeNum(num);
     }
   }
   this.firstName = {
     value   : '',
     required: false,
-    safe    : function(str){
+    safe    : function (str) {
       return safeStr(str);
     }
   }
   this.middleName = {
     value   : '',
     required: false,
-    safe    : function(str){
+    safe    : function (str) {
       return safeStr(str);
     }
   }
   this.lastName = {
     value   : '',
     required: false,
-    safe    : function(str){
+    safe    : function (str) {
       return safeStr(str);
     }
   }
@@ -62,63 +62,63 @@ const RegisteredTenant = function(){
   this.rent = {
     value   : '',
     required: false,
-    safe    : function(num){
+    safe    : function (num) {
       return safeNum(num);
     }
   }
   this.leaseStart = {
     value   : '',
     required: false,
-    safe    : function(num){
+    safe    : function (num) {
       return safeNum(num);
     }
   }
   this.leaseEnd = {
     value   : '',
     required: false,
-    safe    : function(num){
+    safe    : function (num) {
       return safeNum(num);
     }
   }   
   this.pet = {
     value   : '',
     required: false,
-    safe    : function(bool){
+    safe    : function (bool) {
       return safeBool(bool);
     }      
   }
   this.street = {
     value   : '',
     required: false,
-    safe    : function(str){
+    safe    : function (str) {
       return safeStr(str);
     }        
   }
   this.city = {
     value   : '',
     required: false,
-    safe    : function(str){
+    safe    : function (str) {
       return safeStr(str);
     }
   }
   this.state = {
     value   : '',
     required: false,
-    safe    : function(str){
+    safe    : function (str) {
       return safeStr(str);
     }
   }
   this.zip = {
     value   : '',
     required: false,
-    safe    : function(num){
+    safe    : function (num) {
       return safeNum(num);
     }
   }
   this.timestamp = {
     value   : '',
     required: true,
-    safe    : function(num){
+    safe    : function (num) {
       return safeNum(num);
     }
   }
@@ -126,25 +126,25 @@ const RegisteredTenant = function(){
     value   : '',
     required: false
   }
-  this.authenticate = async function(email, password, callback){
+  this.authenticate = async function (email, password, callback) {
     let thisEmail    = safeEmail(email);
     let thisPassword = safePass(password);
 
-    if(!thisEmail.safe)
+    if (!thisEmail.safe)
       return callback(customErr('Invalid Email'));
 
-    if(!thisPassword.safe)
+    if (!thisPassword.safe)
       return callback(customErr('Invalid Password'));
 
       try{
         let user = await _find('registeredUsers', {'email': thisEmail.val});
 
-        if(!user)
+        if (!user)
           return callback(customErr('Invalid Email'));
 
         let validPW = await bcrypt.compare(thisPassword.val, user.password);
 
-        if(!validPW)
+        if (!validPW)
           return callback(customErr('Invalid Email'));
 
         return callback(null, user);
@@ -153,18 +153,18 @@ const RegisteredTenant = function(){
         console.log(err);
       }
   }
-  this.setVal = function(key, val){
+  this.setVal = function (key, val) {
     let safeValue;
 
-    if(typeof key !== 'string')
+    if (typeof key !== 'string')
       return false;
 
-    if(typeof val !== 'string')
+    if (typeof val !== 'string')
       return false;
 
     safeValue = this[key].safe(val);
 
-    if(safeValue.safe){
+    if (safeValue.safe) {
       this[key].value = safeValue.val;
 
       return true;
@@ -172,10 +172,10 @@ const RegisteredTenant = function(){
 
     return false;
   }
-  this.hash = async function(password){
+  this.hash = async function (password) {
       let safePassword = safePass(password);
 
-      if(safePassword.safe){
+      if (safePassword.safe) {
         try{
            let salt = await bcrypt.genSalt(13);
 
@@ -192,41 +192,41 @@ const RegisteredTenant = function(){
       
       return false;
   }
-  this.getObject = function(){
+  this.getObject = function () {
     let object = {}
     let keys   = [];
     
-    Object.keys(this).forEach(function(val, i, arr){
-      if(typeof this[val] !== 'function')
+    Object.keys(this).forEach(function (val, i, arr) {
+      if (typeof this[val] !== 'function')
         keys.push(val);
     }.bind(this));
 
-    for(let i = 0; i < keys.length; i++){
+    for (let i = 0; i < keys.length; i++) {
       object[keys[i]] = this[keys[i]].value;
     }
 
     return object;
   }
-  this.reset = function(){
+  this.reset = function () {
     let keys   = [];
 
-    Object.keys(this).forEach(function(val, i, arr){
-      if(typeof this[val] !== 'function')
+    Object.keys(this).forEach(function (val, i, arr) {
+      if (typeof this[val] !== 'function')
         keys.push(val);
     }.bind(this));
 
-    for(let i = 0; i < keys.length - 1; i++){
+    for (let i = 0; i < keys.length - 1; i++) {
       this[keys[i]].value = '';
     }
 
     return;
   }
-  this.create = function(callback){
+  this.create = function (callback) {
     const dataObj = this.getObject();
 
-    Object.keys(dataObj).forEach( function(prop) {
-      if(prop.required === true)
-        if(prop.value === ''){
+    Object.keys(dataObj).forEach( function (prop) {
+      if (prop.required === true)
+        if (prop.value === '') {
           this.reset();
           callback(customErr('Missing Required Value'))
         }
@@ -234,13 +234,13 @@ const RegisteredTenant = function(){
 
     _count('registeredUsers', {
       'email': this.email.value
-    }, function(error, count) {
-      if(error !== null)
+    }, function (error, count) {
+      if (error !== null)
         return callback(newErr(error));
 
-      if(!count){
-        _create('registeredUsers', dataObj, function(error, user) {
-          if(error !== null)
+      if (!count) {
+        _create('registeredUsers', dataObj, function (error, user) {
+          if (error !== null)
             return callback(newErr(error));
 
           return callback(null, user)
@@ -250,32 +250,32 @@ const RegisteredTenant = function(){
       }
     });
   }
-  this.delete = function(filter, callback){
-    _delete('registeredUsers', filter, function(error, numOfDeletes) {
-      if(error !== null)
+  this.delete = function (filter, callback) {
+    _delete('registeredUsers', filter, function (error, numOfDeletes) {
+      if (error !== null)
         return callback(newErr(error));
 
       return callback(null, numOfDeletes)
     });
   }
-  this.all = async function(){
-    const users = await _all('registeredUsers').then(function(users) {
+  this.all = async function () {
+    const users = await _all('registeredUsers').then(function (users) {
       return users;
-    }, function(error) {
+    }, function (error) {
       console.log(error);
         return newErr(error);
     });
       
     return users;
   }
-  this.find = async function(filter, callback){
+  this.find = async function (filter, callback) {
     if (filter === undefined)
       filter = this.getObject();
 
     try{
       let user = await _find('registeredUsers', filter);
 
-      if(!user)
+      if (!user)
         return callback(customErr('Nothing Found'));
 
       return callback(null, user);

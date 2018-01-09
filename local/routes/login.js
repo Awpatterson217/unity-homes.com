@@ -9,11 +9,11 @@ const {isEmpty}        = require('../resources/js/functions');
 
 const router = express.Router();
 
-router.get('/login', function(req, res) {
+router.get('/login', function (req, res) {
   return res.render('login');
 });
   
-router.post('/login', checkEmail, checkPass, function(req, res, next) {
+router.post('/login', checkEmail, checkPass, function (req, res, next) {
   let time;
   const NOW = new Date().getTime();
   const registeredTenant = new RegisteredTenant();
@@ -24,11 +24,11 @@ router.post('/login', checkEmail, checkPass, function(req, res, next) {
   if (req.body.remember)
     res.cookie('remember', email, { maxAge: year });
 
-  if(isEmpty(email, password))
+  if (isEmpty(email, password))
     return res.render('login', { invalid: true });
 
-  registeredTenant.authenticate(email, password, function(error, user){
-    if(error !== null)
+  registeredTenant.authenticate(email, password, function (error, user) {
+    if (error !== null)
       return res.render('login', {
         invalid: true
       });
@@ -38,9 +38,9 @@ router.post('/login', checkEmail, checkPass, function(req, res, next) {
     req.session.type      = user.type;
     req.session.userAuth  = true;
 
-    if(user.type === 'admin')
+    if (user.type === 'admin')
       return res.redirect('/admin');
-    if(user.type === 'tenant')
+    if (user.type === 'tenant')
       return res.redirect('/tenant');
   });
 });
@@ -51,7 +51,7 @@ res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-s
 // TODO CSRF
 
 // handle csrf errors specifically
-//router.use(function(err, req, res, next) {
+//router.use(function (err, req, res, next) {
 //    if (err.code !== 'EBADCSRFTOKEN') return next(err);
 //    res.status(403).send("ERROR: session has expired or been tampered with");
 //});

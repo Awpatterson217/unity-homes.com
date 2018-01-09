@@ -21,14 +21,14 @@ const {checkPassTwo}   = require('../resources/js/middleware');
 
 const router = express.Router();
 
-router.get('/administrators/read', checkAdminAuth, function(req, res) {
+router.get('/administrators/read', checkAdminAuth, function (req, res) {
   const administrator = new Administrator();
 
     administrator.all()
     .then( regTenants => {
       const admins = _filter(regTenants, {type: 'admin'} );
 
-      if(admins.length)
+      if (admins.length)
         return res.type('application/json').send(JSON.stringify(admins, null, 2));
     }).catch( error => {
       // LOG/HANDLE ERROR
@@ -37,13 +37,13 @@ router.get('/administrators/read', checkAdminAuth, function(req, res) {
     });
 });
 
-router.get('/administrator/read', checkAdminAuth, function(req, res) {
+router.get('/administrator/read', checkAdminAuth, function (req, res) {
   const administrator = new Administrator();
   // TODO
   return res.status(500).send('Something went wrong!');
 });
 
-router.post('/administrator/create', checkAdminAuth, checkNames, checkEmail, checkPass, checkPassTwo, function(req, res, next) {
+router.post('/administrator/create', checkAdminAuth, checkNames, checkEmail, checkPass, checkPassTwo, function (req, res, next) {
   const administrator = new Administrator();
 
   const email       = req.body.email;
@@ -53,20 +53,20 @@ router.post('/administrator/create', checkAdminAuth, checkNames, checkEmail, che
   const password    = req.body.password;
   const passwordTwo = req.body.passwordTwo;
 
-  if(isEmpty(email, password, passwordTwo, firstName, lastName))
+  if (isEmpty(email, password, passwordTwo, firstName, lastName))
     return res.status(500).send('Something went wrong!');
 
-  if(!password)
+  if (!password)
     return res.status(500).send('Something went wrong!');
 
-  if(!passwordTwo)
+  if (!passwordTwo)
     return res.status(500).send('Something went wrong!');
 
-  if(password !== passwordTwo)
+  if (password !== passwordTwo)
     return res.status(500).send('Something went wrong!');
 
-  administrator.hash(password).then(function(success){
-    if(!success)
+  administrator.hash(password).then(function (success) {
+    if (!success)
       return res.status(500).send('Something went wrong!');
 
     administrator.setVal('email', email);
@@ -75,40 +75,40 @@ router.post('/administrator/create', checkAdminAuth, checkNames, checkEmail, che
     administrator.setVal('lastName', lastName);
     administrator.setVal('timestamp', Math.floor(Date.now() / 1000).toString());
 
-    administrator.create(function(error, user){
-      if(error !== null)
+    administrator.create(function (error, user) {
+      if (error !== null)
         return res.status(500).send(error);
 
       return res.status(200).send('Success');
     });
-  }).catch(function(error){
+  }).catch(function (error) {
     console.log(error);
     return res.status(500).send(error);
   });
 });
 
-router.post('/administrator/update', checkAdminAuth, function(req, res, next) {
+router.post('/administrator/update', checkAdminAuth, function (req, res, next) {
   const administrator = new Administrator();
   // TODO
   return res.status(500).send('Something went wrong!');
 });
 
-router.post('/administrator/delete', checkAdminAuth, checkEmail, function(req, res, next) {
+router.post('/administrator/delete', checkAdminAuth, checkEmail, function (req, res, next) {
   const administrator = new Administrator();
 
   const email = req.body.email;
 
-  if(email === '')
+  if (email === '')
     return res.status(500).send('Something went wrong!');
 
   administrator.delete({
     'email': email,
     'type' : 'admin'
-  }, function(error, numOfDeletes) {
-    if(error !== null)
+  }, function (error, numOfDeletes) {
+    if (error !== null)
       return res.status(500).send(error);
 
-    if(!numOfDeletes)
+    if (!numOfDeletes)
       return res.status(500).send('Something went wrong!');
 
     return res.status(200).send('Success');

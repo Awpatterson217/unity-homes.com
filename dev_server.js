@@ -71,10 +71,10 @@ app.use('/js'       , express.static(__dirname + '/public/resources/js/ngAdmin')
 app.use('/js'       , express.static(__dirname + '/public/resources/js/ngTenant'));
 app.use('/images'   , express.static(__dirname + '/public/resources/images/'));
 
-for(let routeKeys in routes){
+for (let routeKeys in routes) {
   app.use(routes[routeKeys]);
 }
-for(let apiKey in APIs){
+for (let apiKey in APIs) {
   app.use('/api', APIs[apiKey]);
 }
 

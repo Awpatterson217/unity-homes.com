@@ -19,31 +19,31 @@ const {checkPassTwo}   = require('../resources/js/middleware');
 
 const router = express.Router();
 
-router.get('/billing/read', checkAdminAuth, function(req, res) {
+router.get('/billing/read', checkAdminAuth, function (req, res) {
   const billing = new Billing();
   // TODO
   return res.status(500).send('Something went wrong!');
 });
 
-router.get('/billing/read', checkAdminAuth, function(req, res) {
+router.get('/billing/read', checkAdminAuth, function (req, res) {
   const billing = new Billing();
   // TODO
   return res.status(500).send('Something went wrong!');
 });
 
-router.post('/billing/create', checkAuth, function(req, res, next) {
+router.post('/billing/create', checkAuth, function (req, res, next) {
   const billing = new Billing();
   // TODO
   return res.status(500).send('Something went wrong!');
 });
 
-router.post('/billing/update', checkAuth, function(req, res, next) {
+router.post('/billing/update', checkAuth, function (req, res, next) {
   const billing = new Billing();
   // TODO
   return res.status(500).send('Something went wrong!');
 });
 
-router.post('/billing/delete', checkAdminAuth, function(req, res, next) {
+router.post('/billing/delete', checkAdminAuth, function (req, res, next) {
   const billing = new Billing();
   // TODO
   return res.status(500).send('Something went wrong!');

@@ -20,12 +20,12 @@ const {checkAdminAuth} = require('../resources/js/middleware');
 
 const router = express.Router();
 
-router.get('/properties/read', checkAdminAuth, function(req, res) {
+router.get('/properties/read', checkAdminAuth, function (req, res) {
   const property = new Property();
 
   property.all()
   .then( props => {
-    for(let i = 0; i < props.length; i++){
+    for (let i = 0; i < props.length; i++) {
       getImages(props[i].id).then( images => {
         props[i].images = images;
       }).catch( error => {
@@ -42,13 +42,13 @@ router.get('/properties/read', checkAdminAuth, function(req, res) {
   });
 });
 
-router.get('/property/read', checkAdminAuth, function(req, res) {
+router.get('/property/read', checkAdminAuth, function (req, res) {
   const property = new Property();
   // TODO
   return res.status(500).send('Something went wrong!');
 });
 
-router.post('/property/create', checkAdminAuth, checkProps, function(req, res, next) {
+router.post('/property/create', checkAdminAuth, checkProps, function (req, res, next) {
   const property = new Property();
 
   req.body.washer   = isEmpty(req.body.washer)
@@ -70,40 +70,40 @@ router.post('/property/create', checkAdminAuth, checkProps, function(req, res, n
     ? 'false' 
     : 'true';
 
-  property.fill(req, function(error, dataObj) {
-    if(error !== null)
+  property.fill(req, function (error, dataObj) {
+    if (error !== null)
       return res.status(500).send(error);
   });
 
-  property.create(function(error, prop){    
-    if(error !== null)
+  property.create(function (error, prop) {    
+    if (error !== null)
       return res.status(500).send(error);
     
     return res.status(200).send('Success');
   });
 });
 
-router.post('/property/update', checkAdminAuth, function(req, res, next) {
+router.post('/property/update', checkAdminAuth, function (req, res, next) {
   const property = new Property();  
   // TODO
   return res.status(500).send('Something went wrong!');
 });
 
-router.post('/property/delete', checkAdminAuth, checkId, function(req, res, next) {
+router.post('/property/delete', checkAdminAuth, checkId, function (req, res, next) {
   const property = new Property();
 
   const id = req.body.id;
 
-  if(id === '')
+  if (id === '')
     return res.status(500).send('Something went wrong!');
 
   property.delete({
     'id': id,
-  }, function(error, numOfDeletes) {
-    if(error !== null)
+  }, function (error, numOfDeletes) {
+    if (error !== null)
       return res.status(500).send(error);
 
-    if(!numOfDeletes)
+    if (!numOfDeletes)
       return res.status(500).send('Something went wrong!');
 
     return res.status(200).send('Success');
