@@ -21,7 +21,7 @@ const {checkPassTwo}   = require('../resources/js/middleware');
 
 const router = express.Router();
 
-router.get('/administrators/read', checkAdminAuth, function (req, res) {
+router.get('/administrators/read', checkAdminAuth, function(req, res) {
   const administrator = new Administrator();
 
     administrator.all()
@@ -37,13 +37,13 @@ router.get('/administrators/read', checkAdminAuth, function (req, res) {
     });
 });
 
-router.get('/administrator/read', checkAdminAuth, function (req, res) {
+router.get('/administrator/read', checkAdminAuth, function(req, res) {
   const administrator = new Administrator();
   // TODO
   return res.status(500).send('Something went wrong!');
 });
 
-router.post('/administrator/create', checkAdminAuth, checkNames, checkEmail, checkPass, checkPassTwo, function (req, res, next) {
+router.post('/administrator/create', checkAdminAuth, checkNames, checkEmail, checkPass, checkPassTwo, function(req, res, next) {
   const administrator = new Administrator();
 
   const email       = req.body.email;
@@ -65,7 +65,7 @@ router.post('/administrator/create', checkAdminAuth, checkNames, checkEmail, che
   if (password !== passwordTwo)
     return res.status(500).send('Something went wrong!');
 
-  administrator.hash(password).then(function (success) {
+  administrator.hash(password).then(function(success) {
     if (!success)
       return res.status(500).send('Something went wrong!');
 
@@ -75,25 +75,25 @@ router.post('/administrator/create', checkAdminAuth, checkNames, checkEmail, che
     administrator.setVal('lastName', lastName);
     administrator.setVal('timestamp', Math.floor(Date.now() / 1000).toString());
 
-    administrator.create(function (error, user) {
+    administrator.create(function(error, user) {
       if (error !== null)
         return res.status(500).send(error);
 
       return res.status(200).send('Success');
     });
-  }).catch(function (error) {
+  }).catch(function(error) {
     console.log(error);
     return res.status(500).send(error);
   });
 });
 
-router.post('/administrator/update', checkAdminAuth, function (req, res, next) {
+router.post('/administrator/update', checkAdminAuth, function(req, res, next) {
   const administrator = new Administrator();
   // TODO
   return res.status(500).send('Something went wrong!');
 });
 
-router.post('/administrator/delete', checkAdminAuth, checkEmail, function (req, res, next) {
+router.post('/administrator/delete', checkAdminAuth, checkEmail, function(req, res, next) {
   const administrator = new Administrator();
 
   const email = req.body.email;
@@ -104,7 +104,7 @@ router.post('/administrator/delete', checkAdminAuth, checkEmail, function (req, 
   administrator.delete({
     'email': email,
     'type' : 'admin'
-  }, function (error, numOfDeletes) {
+  }, function(error, numOfDeletes) {
     if (error !== null)
       return res.status(500).send(error);
 

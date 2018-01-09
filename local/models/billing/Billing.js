@@ -25,87 +25,87 @@ const customer = await stripe.customers.create(
 // Create a new customer and then a new charge for that customer:
 stripe.customers.create({
   email: 'foo-customer@example.com'
-}).then(function (customer) {
+}).then(function(customer) {
   return stripe.customers.createSource(customer.id, {
     source: 'tok_visa'
   });
-}).then(function (source) {
+}).then(function(source) {
   return stripe.charges.create({
     amount: 1600,
     currency: 'usd',
     customer: source.customer
   });
-}).then(function (charge) {
+}).then(function(charge) {
   // New charge created on a new customer
-}).catch(function (err) {
+}).catch(function(err) {
   // Deal with an error
 });
 */
-const Billing = function () {
+const Billing = function() {
   this.email = {
     value   : '',
     required: true,
-    safe    : function (email) {
+    safe    : function(email) {
       return safeEmail(email);
     }
   }
   this.firstName = {
     value   : '',
     required: false,
-    safe    : function (str) {
+    safe    : function(str) {
       return safeStr(str);
     }
   }
   this.middleName = {
     value   : '',
     required: false,
-    safe    : function (str) {
+    safe    : function(str) {
       return safeStr(str);
     }
   }
   this.lastName = {
     value   : '',
     required: false,
-    safe    : function (str) {
+    safe    : function(str) {
       return safeStr(str);
     }
   } 
   this.street = {
     value   : '',
     required: false,
-    safe    : function (str) {
+    safe    : function(str) {
       return safeStr(str);
     }        
   }
   this.city = {
     value   : '',
     required: false,
-    safe    : function (str) {
+    safe    : function(str) {
       return safeStr(str);
     }
   }
   this.state = {
     value   : '',
     required: false,
-    safe    : function (str) {
+    safe    : function(str) {
       return safeStr(str);
     }
   }
   this.zip = {
     value   : '',
     required: false,
-    safe    : function (num) {
+    safe    : function(num) {
       return safeNum(num);
     }
   }
   this.timestamp = {
     value   : '',
     required: true,
-    safe    : function (num) {
+    safe    : function(num) {
       return safeNum(num);
     }
   }
-  this.setVal = function (key, val) {
+  this.setVal = function(key, val) {
     let safeValue;
 
     if (typeof key !== 'string')
@@ -124,11 +124,11 @@ const Billing = function () {
 
     return false;
   }
-  this.getObject = function () {
+  this.getObject = function() {
     let object = {}
     let keys   = [];
 
-    Object.keys(this).forEach(function (val, i, arr) {
+    Object.keys(this).forEach(function(val, i, arr) {
       if (typeof this[val] !== 'function')
         keys.push(val);
     }.bind(this));
@@ -139,10 +139,10 @@ const Billing = function () {
 
     return object;
   }
-  this.reset = function () {
+  this.reset = function() {
     let keys   = [];
 
-    Object.keys(this).forEach(function (val, i, arr) {
+    Object.keys(this).forEach(function(val, i, arr) {
       if (typeof this[val] !== 'function')
         keys.push(val);
     }.bind(this));
@@ -153,10 +153,10 @@ const Billing = function () {
 
     return;
   }
-  this.create = function (callback) {
+  this.create = function(callback) {
     const dataObj = this.getObject();
 
-    Object.keys(dataObj).forEach( function (prop) {
+    Object.keys(dataObj).forEach( function(prop) {
       if (prop.required === true)
         if (prop.value === '') {
           this.reset();
@@ -166,12 +166,12 @@ const Billing = function () {
 
     _count('billing', {
       'email': this.email.value
-    }, function (error, count) {
+    }, function(error, count) {
       if (error !== null)
         return callback(newErr(error));
 
       if (!count) {
-        _create('billing', dataObj, function (error, user) {
+        _create('billing', dataObj, function(error, user) {
           if (error !== null)
             return callback(newErr(error));
 
@@ -182,24 +182,24 @@ const Billing = function () {
       }
     });
   }
-  this.delete = function (filter, callback) {
-    _delete('billing', filter, function (error, numOfDeletes) {
+  this.delete = function(filter, callback) {
+    _delete('billing', filter, function(error, numOfDeletes) {
       if (error !== null)
         return callback(newErr(error));
 
       return callback(null, numOfDeletes)
     });
   }
-  this.all = async function (callback) {
-    const users = await _all('billing').then(function (users) {
+  this.all = async function(callback) {
+    const users = await _all('billing').then(function(users) {
       return users;
-    }, function (error) {
+    }, function(error) {
         return newErr(error);
     });
       
     return users;
   }
-  this.find = async function (filter, callback) {
+  this.find = async function(filter, callback) {
     if (filter === undefined)
       filter = this.getObject();
 

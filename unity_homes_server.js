@@ -44,7 +44,7 @@ const redisOptions = {
   ttl
 }
 
-client.on("error", function (err) {
+client.on("error", function(err) {
   console.log("Error " + err); // TODO: LOG
 });
 
@@ -112,7 +112,7 @@ const server = app.listen(PORT, HOST, () => {
 });
 
 // https.createServer(httpsOptions, app)
-//   .listen(sslPort, function () {
+//   .listen(sslPort, function() {
 //     console.log(`SERVER RUNNING ON https://localhost:3443`);
 //   })
 

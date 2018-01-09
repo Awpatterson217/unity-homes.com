@@ -7,11 +7,11 @@ const RegisteredTenant   = require('../../models/tenant/RegisteredTenant');
 const Property           = require('../../models/property/Property');
 const UnregisteredTenant = require('../../models/tenant/UnregisteredTenant');
 
-let isEmpty = function (...str) {
+let isEmpty = function(...str) {
   let params = [...str];
   let empty  = false;
 
-  params.forEach(function (val, index, array) {
+  params.forEach(function(val, index, array) {
     if (val === '')
       empty = true;
   });
@@ -20,7 +20,7 @@ let isEmpty = function (...str) {
   return false;  
 }
 
-let propdata = async function () {
+let propdata = async function() {
   const property = new Property();
 
   let data = {};
@@ -41,7 +41,7 @@ let propdata = async function () {
   }
 }
 
-let adminData = async function (fullName, callback) {
+let adminData = async function(fullName, callback) {
   const registeredTenant   = new RegisteredTenant();
   const unregisteredTenant = new UnregisteredTenant();
   const property           = new Property();
@@ -69,7 +69,7 @@ let adminData = async function (fullName, callback) {
   }
 }
 
-let imageMatcher = function (item, id) {
+let imageMatcher = function(item, id) {
   let parsedItem;
   parsedItem = path.parse(item);
   parsedItem = parsedItem.name;
@@ -77,7 +77,7 @@ let imageMatcher = function (item, id) {
   return (parsedItem[0] === id);
 }
 
-let getImages = function (id) {
+let getImages = function(id) {
   let pathToImages;
   pathToImages = path.join('public', 'resources', 'images', 'properties');
   pathToImages = path.join(process.cwd(), pathToImages);
@@ -93,11 +93,11 @@ let getImages = function (id) {
   });
 }
 
-let getImage = function () {
+let getImage = function() {
 
 }
 
-let createImage = function () {
+let createImage = function() {
 
 }
 

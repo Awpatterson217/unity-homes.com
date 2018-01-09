@@ -1,6 +1,6 @@
 "use strict";
 
-let newErr = function (error) {
+let newErr = function(error) {
   const errorObj = {
     err: true,
     msg: error.msg
@@ -9,7 +9,7 @@ let newErr = function (error) {
   return errorObj;
 }
 
-let customErr = function (message) {
+let customErr = function(message) {
   const errorObj = {
     err: true,
     msg: message

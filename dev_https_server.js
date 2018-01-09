@@ -20,6 +20,6 @@ const httpsOptions = {
 app.use('/', express.static(__dirname + 'test'));
 
 https.createServer(httpsOptions, app)
-  .listen(sslPort, function () {
+  .listen(sslPort, function() {
     console.log(`SERVER RUNNING ON https://localhost:3443`);
   })

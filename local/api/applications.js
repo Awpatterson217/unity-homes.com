@@ -19,7 +19,7 @@ const {checkEmail} = require('../resources/js/middleware');
 
 const router = express.Router();
 
-router.get('/applications/read', checkAuth, function (req, res) {
+router.get('/applications/read', checkAuth, function(req, res) {
   const application = new Application();
 
   application.all()
@@ -32,21 +32,21 @@ router.get('/applications/read', checkAuth, function (req, res) {
   });
 });
 
-router.get('/application/read', checkAuth, function (req, res) {
+router.get('/application/read', checkAuth, function(req, res) {
   const application = new Application();
   // TODO
   return res.status(500).send('Something went wrong!');
 });
 
-router.post('/application/create', checkAuth, checkApp, function (req, res, next) {
+router.post('/application/create', checkAuth, checkApp, function(req, res, next) {
   const application = new Application();
 
-  application.fill(req, function (error, dataObj) {
+  application.fill(req, function(error, dataObj) {
     if (error !== null)
       return res.status(500).send(error);
   });
 
-  application.create(function (error, app) {
+  application.create(function(error, app) {
     if (error !== null)
       return res.status(500).send(error);
 
@@ -54,13 +54,13 @@ router.post('/application/create', checkAuth, checkApp, function (req, res, next
   });
 });
 
-router.post('/application/update', checkAuth, checkApp, function (req, res, next) {
+router.post('/application/update', checkAuth, checkApp, function(req, res, next) {
   const application = new Application();  
   // TODO
   return res.status(500).send('Something went wrong!');
 });
 
-router.post('/application/delete', checkAuth, checkEmail, function (req, res, next) {
+router.post('/application/delete', checkAuth, checkEmail, function(req, res, next) {
   const application = new Application();
 
   const email = req.body.email;
@@ -70,7 +70,7 @@ router.post('/application/delete', checkAuth, checkEmail, function (req, res, ne
 
   application.delete({
     'email': email
-  }, function (error, numOfDeletes) {
+  }, function(error, numOfDeletes) {
     if (error !== null)
       return res.status(500).send('Something went wrong!');
 

@@ -9,85 +9,85 @@ const {safeStr}   = require('../../resources/js/safe');
 const {newErr}    = require('../../resources/js/error');
 const {customErr} = require('../../resources/js/error');
 
-const Mail = function () {
+const Mail = function() {
   this.host = {
     value   : '',
     required: true,
-    safe    : function (str) {
+    safe    : function(str) {
       return safeStr(str);
     }
   }
   this.username = {
     value   : '',
     required: true,
-    safe    : function (email) {
+    safe    : function(email) {
       return safeEmail(email);
     }
   }
   this.password = {
     value   : '',
     required: true,
-    safe    : function (str) {
+    safe    : function(str) {
       return safeStr(str);
     }
   }
   this.port = {
     value   : '',
     required: true,
-    safe    : function (num) {
+    safe    : function(num) {
       return safeNum(num);
     }
   }
   this.secure = {
     value   : '',
     required: false,
-    safe    : function (bool) {
+    safe    : function(bool) {
       return safeBool(bool);
     }
   }
   this.requireTLS = {
     value   : '',
     required: false,
-    safe    : function (bool) {
+    safe    : function(bool) {
       return safeBool(bool);
     }
   }
   this.from = {
     value   : '',
     required: true,
-    safe    : function (str) {
+    safe    : function(str) {
       return safeStr(str);
     }
   }
   this.to = {
     value   : '',
     required: true,
-    safe    : function (email) {
+    safe    : function(email) {
       return safeEmail(email);
     }
   }
   this.subject = {
     value   : '',
     required: false,
-    safe    : function (str) {
+    safe    : function(str) {
       return safeStr(str);
     }
   }
   this.text = {
     value   : '',
     required: false,
-    safe    : function (str) {
+    safe    : function(str) {
       return safeStr(str);
     }
   }
   this.html = {
     value   : '',
     required: false,
-    safe    : function (str) {
+    safe    : function(str) {
       return safeStr(str);
     }
   }
-  this.setVal = function (key, val) {
+  this.setVal = function(key, val) {
     let safeValue;
 
     if (typeof key !== 'string')
@@ -106,11 +106,11 @@ const Mail = function () {
 
     return false;
   }
-  this.getObject = function () {
+  this.getObject = function() {
     let object = {}
     let keys   = [];
 
-    Object.keys(this).forEach(function (val, i, arr) {
+    Object.keys(this).forEach(function(val, i, arr) {
       if (typeof this[val] !== 'function')
         keys.push(val);
     }.bind(this));
@@ -121,10 +121,10 @@ const Mail = function () {
 
     return object;
   }
-  this.reset = function () {
+  this.reset = function() {
     let keys   = [];
 
-    Object.keys(this).forEach(function (val, i, arr) {
+    Object.keys(this).forEach(function(val, i, arr) {
       if (typeof this[val] !== 'function')
         keys.push(val);
     }.bind(this));
@@ -135,10 +135,10 @@ const Mail = function () {
 
     return;
   }
-  this.send = function (callback) {
+  this.send = function(callback) {
     const dataObj = this.getObject();
 
-    Object.keys(dataObj).forEach( function (prop) {
+    Object.keys(dataObj).forEach( function(prop) {
       if (prop.required === true)
         if (prop.value === '') {
           this.reset();

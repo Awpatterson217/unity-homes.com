@@ -6,7 +6,7 @@ const {checkTenantAuth} = require('../../resources/js/middleware');
 
 const router = express.Router();
 
-router.get('/tenant', checkTenantAuth, function (req, res) {
+router.get('/tenant', checkTenantAuth, function(req, res) {
   const now = new Date().getTime();
   // TODO Log time and req
 

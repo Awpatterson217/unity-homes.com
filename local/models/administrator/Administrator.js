@@ -15,39 +15,39 @@ const {safeStr}   = require('../../resources/js/safe');
 const {newErr}    = require('../../resources/js/error');
 const {customErr} = require('../../resources/js/error');
 
-const Administrator = function () {
+const Administrator = function() {
   this.email = {
     value   : '',
     required: true,
-    safe    : function (email) {
+    safe    : function(email) {
       return safeEmail(email);
     }
   }
   this.phone = {
     value   : '',
     required: false,
-    safe    : function (num) {
+    safe    : function(num) {
       return safeNum(num);
     }
   }
   this.firstName = {
     value   : '',
     required: false,
-    safe    : function (str) {
+    safe    : function(str) {
       return safeStr(str);
     }
   }
   this.middleName = {
     value   : '',
     required: false,
-    safe    : function (str) {
+    safe    : function(str) {
       return safeStr(str);
     }
   }
   this.lastName = {
     value   : '',
     required: false,
-    safe    : function (str) {
+    safe    : function(str) {
       return safeStr(str);
     }
   }
@@ -62,35 +62,35 @@ const Administrator = function () {
   this.street = {
     value   : '',
     required: false,
-    safe    : function (str) {
+    safe    : function(str) {
       return safeStr(str);
     }        
   }
   this.city = {
     value   : '',
     required: false,
-    safe    : function (str) {
+    safe    : function(str) {
       return safeStr(str);
     }
   }
   this.state = {
     value   : '',
     required: false,
-    safe    : function (str) {
+    safe    : function(str) {
       return safeStr(str);
     }
   }
   this.zip = {
     value   : '',
     required: false,
-    safe    : function (num) {
+    safe    : function(num) {
       return safeNum(num);
     }
   }
   this.timestamp = {
     value   : '',
     required: true,
-    safe    : function (num) {
+    safe    : function(num) {
       return safeNum(num);
     }
   }
@@ -98,7 +98,7 @@ const Administrator = function () {
     value   : '',
     required: false // TODO Change to false after login
   }
-  this.authenticate = async function (email, password, callback) {
+  this.authenticate = async function(email, password, callback) {
     let thisEmail    = safeEmail(email);
     let thisPassword = safePass(password);
 
@@ -125,7 +125,7 @@ const Administrator = function () {
         console.log(err);
       }
   }
-  this.setVal = function (key, val) {
+  this.setVal = function(key, val) {
     let safeValue;
 
     if (typeof key !== 'string')
@@ -144,7 +144,7 @@ const Administrator = function () {
 
     return false;
   }
-  this.hash = async function (password) {
+  this.hash = async function(password) {
       let safePassword = safePass(password);
 
       if (safePassword.safe) {
@@ -164,11 +164,11 @@ const Administrator = function () {
       
       return false;
   }
-  this.getObject = function () {
+  this.getObject = function() {
     let object = {};
     let keys   = [];
 
-    Object.keys(this).forEach(function (val, i, arr) {
+    Object.keys(this).forEach(function(val, i, arr) {
       if (typeof this[val] !== 'function')
         keys.push(val);
     }.bind(this));
@@ -179,10 +179,10 @@ const Administrator = function () {
 
     return object;
   }
-  this.reset = function () {
+  this.reset = function() {
     let keys   = [];
 
-    Object.keys(this).forEach(function (val, i, arr) {
+    Object.keys(this).forEach(function(val, i, arr) {
       if (typeof this[val] !== 'function')
         keys.push(val);
     }.bind(this));
@@ -193,10 +193,10 @@ const Administrator = function () {
 
     return;
   }
-  this.create = function (callback) {
+  this.create = function(callback) {
     const dataObj = this.getObject();
 
-    Object.keys(dataObj).forEach( function (prop) {
+    Object.keys(dataObj).forEach( function(prop) {
       if (prop.required === true)
         if (prop.value === '') {
           this.reset();
@@ -206,12 +206,12 @@ const Administrator = function () {
 
     _count('registeredUsers', {
       'email': this.email.value
-    }, function (error, count) {
+    }, function(error, count) {
       if (error !== null)
         return callback(newErr(error));
 
       if (!count) {
-        _create('registeredUsers', dataObj, function (error, user) {
+        _create('registeredUsers', dataObj, function(error, user) {
           if (error !== null)
             return callback(newErr(error));
 
@@ -222,24 +222,24 @@ const Administrator = function () {
       }
     });
   }
-  this.delete = function (filter, callback) {
-    _delete('registeredUsers', filter, function (error, numOfDeletes) {
+  this.delete = function(filter, callback) {
+    _delete('registeredUsers', filter, function(error, numOfDeletes) {
       if (error !== null)
         return callback(newErr(error));
 
       return callback(null, numOfDeletes)
     });
   }
-  this.all = async function (callback) {
-    const users = await _all('registeredUsers').then(function (users) {
+  this.all = async function(callback) {
+    const users = await _all('registeredUsers').then(function(users) {
       return users;
-    }, function (error) {
+    }, function(error) {
         return newErr(error);
     });
       
     return users;
   }
-  this.find = async function (filter, callback) {
+  this.find = async function(filter, callback) {
     if (filter === undefined)
       filter = this.getObject();
 

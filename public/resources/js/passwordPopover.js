@@ -15,6 +15,6 @@ const options = {
     html: true
   };
 
-$(window).on('load', function () {
+$(window).on('load', function() {
     $('#password').popover(options);
 });

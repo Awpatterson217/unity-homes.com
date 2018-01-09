@@ -2,8 +2,8 @@
 
 let app = angular.module('ngAdmin', []);
 
-app.service('getRequest', ['$http', function ($http) {
-  return function (url) {
+app.service('getRequest', ['$http', function($http) {
+  return function(url) {
     return $http({
       method: 'GET',
       url,
@@ -11,8 +11,8 @@ app.service('getRequest', ['$http', function ($http) {
   } 
 }]);
 
-app.service('postRequest', ['$http', function ($http) {
-  return function (url, data) {
+app.service('postRequest', ['$http', function($http) {
+  return function(url, data) {
     return $http({
       method: 'POST',
       url,
@@ -22,72 +22,72 @@ app.service('postRequest', ['$http', function ($http) {
 }]);
 
 // READ
-app.service('readAdmin', ['getRequest', function (getRequest) {
+app.service('readAdmin', ['getRequest', function(getRequest) {
   return () => getRequest(`api/property/read`);
 }]);
 
-app.service('readUnregUser', ['getRequest', function (getRequest) {
+app.service('readUnregUser', ['getRequest', function(getRequest) {
   return () => getRequest(`api/unregisteredUser/read`);
 }]);
 
-app.service('readRegUser', ['getRequest', function (getRequest) {
+app.service('readRegUser', ['getRequest', function(getRequest) {
   return () => getRequest(`api/registeredUser/read`);
 }]);
 
-app.service('readProp', ['getRequest', function (getRequest) {
+app.service('readProp', ['getRequest', function(getRequest) {
   return () => getRequest(`api/property/read`);
 }]);
 
 // CREATE
-app.service('createAdmin', ['postRequest', function (postRequest) {
+app.service('createAdmin', ['postRequest', function(postRequest) {
   return data => postRequest(`api/property/create`, data);
 }]);
-app.service('createUnregUser', ['postRequest', function (postRequest) {
+app.service('createUnregUser', ['postRequest', function(postRequest) {
   return data => postRequest(`api/unregisteredUser/create`, data);
 }]);
-app.service('createRegUser', ['postRequest', function (postRequest) {
+app.service('createRegUser', ['postRequest', function(postRequest) {
   return data => postRequest(`api/registeredUser/create`, data);
 }]);
-app.service('createProp', ['postRequest', function (postRequest) {
+app.service('createProp', ['postRequest', function(postRequest) {
   return data => postRequest(`api/property/create`, data);
 }]);
 
 // DELETE
-app.service('deleteAdmin', ['postRequest', function (postRequest) {
+app.service('deleteAdmin', ['postRequest', function(postRequest) {
   return data => postRequest(`api/property/delete`, data);
 }]);
 
-app.service('deleteUnregUser', ['postRequest', function (postRequest) {
+app.service('deleteUnregUser', ['postRequest', function(postRequest) {
   return data => postRequest(`api/unregisteredUser/delete`, data);
 }]);
 
-app.service('deleteRegUser', ['postRequest', function (postRequest) {
+app.service('deleteRegUser', ['postRequest', function(postRequest) {
   return data => postRequest(`api/registeredUser/delete`, data);
 }]);
 
-app.service('deleteProp', ['postRequest', function (postRequest) {
+app.service('deleteProp', ['postRequest', function(postRequest) {
   return data => postRequest(`api/property/delete`, data);
 }]);
 
 // UPDATE
-app.service('updateAdmin', ['postRequest', function (postRequest) {
+app.service('updateAdmin', ['postRequest', function(postRequest) {
   return data => postRequest(`api/property/update`, data);
 }]);
 
-app.service('updateUnregUser', ['postRequest', function (postRequest) {
+app.service('updateUnregUser', ['postRequest', function(postRequest) {
   return data => postRequest(`api/unregisteredUser/update`, data);
 }]);
 
-app.service('updateRegUser', ['postRequest', function (postRequest) {
+app.service('updateRegUser', ['postRequest', function(postRequest) {
   return data => postRequest(`api/registeredUser/update`, data);
 }]);
 
-app.service('updateProp', ['postRequest', function (postRequest) {
+app.service('updateProp', ['postRequest', function(postRequest) {
   return data => postRequest(`api/property/update`, data);
 }]);
 
 // GETS ALL DATA
-app.service('initialize', ['$q', 'getRequest', function ($q, getRequest) {
+app.service('initialize', ['$q', 'getRequest', function($q, getRequest) {
   const promises = [
     getRequest(`api/unregisteredUsers/read`),
     getRequest(`api/registeredUsers/read`),
@@ -98,7 +98,7 @@ app.service('initialize', ['$q', 'getRequest', function ($q, getRequest) {
   return () => $q.all(promises);
 }]);
 
-app.controller('dashboardCtrl', ['$scope', 'initialize', function ($scope, initialize) {
+app.controller('dashboardCtrl', ['$scope', 'initialize', function($scope, initialize) {
   initialize().then( data => {
     $scope.unregisteredUsers = data[0].data;
     $scope.registeredUsers = data[1].data;

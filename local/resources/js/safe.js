@@ -7,7 +7,7 @@ const passExpl = /(?=.*[a-z])/;
 const passExpL = /(?=.*[A-Z])/;
 const passExpn = /(?=.*[0-9])/;
 
-let sanitize = function (input) {
+let sanitize = function(input) {
   let response;
   let trimmed;
   if (typeof input === 'string') {
@@ -19,7 +19,7 @@ let sanitize = function (input) {
   return '';
 };
 
-let isPassFormat = function (password) {
+let isPassFormat = function(password) {
   if (!password)
     return false;
   // Is password 8-20 characters
@@ -46,7 +46,7 @@ let isPassFormat = function (password) {
   return true;
 }
 
-let safeEmail = function (email) {
+let safeEmail = function(email) {
   let safeEmail = {};
   safeEmail.val = sanitize(email);
   if (validator.isEmail(safeEmail.val)) {
@@ -57,7 +57,7 @@ let safeEmail = function (email) {
   return safeEmail;
 }
 
-let safeCode = function (code) {
+let safeCode = function(code) {
   let safeCode = {};
   safeCode.val = sanitize(code);
   if (validator.isNumeric(safeCode.val)) {
@@ -68,7 +68,7 @@ let safeCode = function (code) {
   return safeCode;
 }
 
-let safePass = function (password) {
+let safePass = function(password) {
   let safePass = {};
   safePass.val = sanitize(password);
   if (safePass.val === '') {
@@ -83,7 +83,7 @@ let safePass = function (password) {
   return safePass;
 }
 
-let safeNum = function (num) {
+let safeNum = function(num) {
   let safeNum = {};
   safeNum.val = sanitize(num);
   if (safeNum.val === '') {
@@ -98,7 +98,7 @@ let safeNum = function (num) {
   return safeNum;
 }
 
-let safeYear = function (num) {
+let safeYear = function(num) {
   let safeNum = {};
   safeNum.val = sanitize(num);
   if (safeNum.val === '') {
@@ -117,7 +117,7 @@ let safeYear = function (num) {
   return safeNum;
 }
 
-let safeBool = function (boolean) {
+let safeBool = function(boolean) {
   let safeBool = {};
   safeBool.val = sanitize(boolean);
   if (safeBool.val === '') {
@@ -132,7 +132,7 @@ let safeBool = function (boolean) {
   return safeBool;
 }
 
-let safeStr = function (str) {
+let safeStr = function(str) {
   let safeStr = {};
   safeStr.val = sanitize(str);
   if (safeStr.val === '') {

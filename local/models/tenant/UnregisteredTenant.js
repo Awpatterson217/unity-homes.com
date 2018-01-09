@@ -15,39 +15,39 @@ const {safeStr}   = require('../../resources/js/safe');
 const {newErr}    = require('../../resources/js/error');
 const {customErr} = require('../../resources/js/error');
 
-const UnregisteredTenant = function () {
+const UnregisteredTenant = function() {
   this.email = {
     value   : '',
     required: true,
-    safe    : function (email) {
+    safe    : function(email) {
       return safeEmail(email);
     }
   }
   this.phone = {
     value   : '',
     required: false,
-    safe    : function (num) {
+    safe    : function(num) {
       return safeNum(num);
     }
   }
   this.firstName = {
     value   : '',
     required: true,
-    safe    : function (str) {
+    safe    : function(str) {
       return safeStr(str);
     }
   }
   this.middleName = {
     value   : '',
     required: false,
-    safe    : function (str) {
+    safe    : function(str) {
       return safeStr(str);
     }
   }
   this.lastName = {
     value   : '',
     required: true,
-    safe    : function (str) {
+    safe    : function(str) {
       return safeStr(str);
     }
   }
@@ -58,11 +58,11 @@ const UnregisteredTenant = function () {
   this.timestamp = {
     value   : '',
     required: true,
-    safe    : function (num) {
+    safe    : function(num) {
       return safeNum(num);
     }
   }
-  this.setVal = function (key, val) {
+  this.setVal = function(key, val) {
     let safeValue;
 
     if (typeof key !== 'string')
@@ -81,11 +81,11 @@ const UnregisteredTenant = function () {
 
     return false;
   }
-  this.getObject = function () {
+  this.getObject = function() {
     let object = {}
     let keys   = [];
 
-    Object.keys(this).forEach(function (val, i, arr) {
+    Object.keys(this).forEach(function(val, i, arr) {
       if (typeof this[val] !== 'function')
         keys.push(val);
     }.bind(this));
@@ -96,10 +96,10 @@ const UnregisteredTenant = function () {
 
     return object;
   }
-  this.reset = function () {
+  this.reset = function() {
     let keys   = [];
 
-    Object.keys(this).forEach(function (val, i, arr) {
+    Object.keys(this).forEach(function(val, i, arr) {
       if (typeof this[val] !== 'function')
         keys.push(val);
     }.bind(this));
@@ -110,10 +110,10 @@ const UnregisteredTenant = function () {
 
     return;
   }
-  this.create = function (callback) {
+  this.create = function(callback) {
     const dataObj = this.getObject();
 
-    Object.keys(dataObj).forEach( function (prop) {
+    Object.keys(dataObj).forEach( function(prop) {
       if (prop.required === true)
         if (prop.value === '') {
           this.reset();
@@ -123,12 +123,12 @@ const UnregisteredTenant = function () {
 
     _count('unregisteredUsers', {
       'email': this.email.value
-    }, function (error, count) {
+    }, function(error, count) {
       if (error !== null)
         return callback(newErr(error));
 
       if (!count) {
-        _create('unregisteredUsers', dataObj, function (error, user) {
+        _create('unregisteredUsers', dataObj, function(error, user) {
           if (error !== null)
             return callback(newErr(error));
 
@@ -139,24 +139,24 @@ const UnregisteredTenant = function () {
       }
     });
   }
-  this.delete = function (filter, callback) {
-    _delete('unregisteredUsers', filter, function (error, numOfDeletes) {
+  this.delete = function(filter, callback) {
+    _delete('unregisteredUsers', filter, function(error, numOfDeletes) {
       if (error !== null)
         return callback(newErr(error));
 
       return callback(null, numOfDeletes)
     });
   }
-  this.all = async function () {
-    const users = await _all('unregisteredUsers').then(function (users) {
+  this.all = async function() {
+    const users = await _all('unregisteredUsers').then(function(users) {
       return users;
-    }, function (error) {
+    }, function(error) {
         return newErr(error);
     });
       
     return users;
   }
-  this.find = async function (filter) {
+  this.find = async function(filter) {
     if (filter === undefined)
       filter = this.getObject();
 
@@ -169,10 +169,10 @@ const UnregisteredTenant = function () {
       return err;
     }
   }
-  this.fill = function (request, callback) {
+  this.fill = function(request, callback) {
     const dataObj = this.getObject();
 
-    Object.keys(request).forEach( function (key) {
+    Object.keys(request).forEach( function(key) {
       if (dataObj.hasOwnProperty(key))
         this.setVal(key, request.body[key]);
     }.bind(this));
@@ -181,7 +181,7 @@ const UnregisteredTenant = function () {
 
     const fullObj = this.getObject();
 
-    Object.keys(fullObj).forEach( function (prop) {
+    Object.keys(fullObj).forEach( function(prop) {
       if (prop.required === true)
         if (prop.value === '') {
           this.reset();

@@ -13,11 +13,11 @@ const {isEmpty}          = require('../resources/js/functions');
 
 const router = express.Router();
 
-router.get('/register', function (req, res) {
+router.get('/register', function(req, res) {
   return res.render('register');
 });
 
-router.post('/register', checkCode, checkEmail, checkPass, checkPassTwo, function (req, res, next) {
+router.post('/register', checkCode, checkEmail, checkPass, checkPassTwo, function(req, res, next) {
   const unregisteredTenant = new UnregisteredTenant();
   const registeredTenant = new RegisteredTenant();
   // TODO Log time and req
@@ -38,7 +38,7 @@ router.post('/register', checkCode, checkEmail, checkPass, checkPassTwo, functio
     });
 
   unregisteredTenant.find({ email, code}).then( user => {
-    registeredTenant.hash(password).then(function (success) {
+    registeredTenant.hash(password).then(function(success) {
       if (!success)
         return res.render('register', {
           invalid: true
@@ -49,7 +49,7 @@ router.post('/register', checkCode, checkEmail, checkPass, checkPassTwo, functio
       registeredTenant.setVal('middleName', user.middleName);
       registeredTenant.setVal('lastName'  , user.lastName);
       registeredTenant.setVal('timestamp' ,  Math.floor(Date.now() / 1000).toString());
-      registeredTenant.create(function (error, user) {
+      registeredTenant.create(function(error, user) {
         if (error !== null) {
           return res.render('register', {
             invalid: true
@@ -61,7 +61,7 @@ router.post('/register', checkCode, checkEmail, checkPass, checkPassTwo, functio
           password: password
         });
       });
-    }).catch(function (error) {
+    }).catch(function(error) {
       // TODO: Log error
       console.log(error);
       return res.render('register', {

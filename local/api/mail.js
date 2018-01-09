@@ -18,31 +18,31 @@ const {checkPassTwo} = require('../resources/js/middleware');
 
 const router = express.Router();
 
-router.get('/mail/read', checkAuth, function (req, res) {
+router.get('/mail/read', checkAuth, function(req, res) {
   const mail = new Mail();
   // TODO
   return res.status(500).send('Something went wrong!');
 });
 
-router.get('/mail/read', checkAuth, function (req, res) {
+router.get('/mail/read', checkAuth, function(req, res) {
   const mail = new Mail();
   // TODO
   return res.status(500).send('Something went wrong!');
 });
 
-router.post('/mail/create', checkAuth, function (req, res, next) {
+router.post('/mail/create', checkAuth, function(req, res, next) {
   const mail = new Mail();
   // TODO
   return res.status(500).send('Something went wrong!');
 });
 
-router.post('/mail/update', checkAuth, function (req, res, next) {
+router.post('/mail/update', checkAuth, function(req, res, next) {
   const mail = new Mail();
   // TODO
   return res.status(500).send('Something went wrong!');
 });
 
-router.post('/mail/delete', checkAuth, function (req, res, next) {
+router.post('/mail/delete', checkAuth, function(req, res, next) {
   const mail = new Mail();
   // TODO
   return res.status(500).send('Something went wrong!');
