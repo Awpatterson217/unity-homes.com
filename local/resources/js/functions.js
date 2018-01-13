@@ -93,14 +93,6 @@ let getImages = function(id) {
   });
 }
 
-let getImage = function() {
-
-}
-
-let createImage = function() {
-
-}
-
 module.exports = {
   isEmpty,
   getImages,

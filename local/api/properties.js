@@ -94,8 +94,8 @@ router.post('/property/delete', checkAdminAuth, checkId, function(req, res, next
 
   const id = req.body.id;
 
-  if (id === '')
-    return res.status(500).send('Something went wrong!');
+  // if (id === '')
+  //  return res.status(500).send('Empty Property Identifier!');
 
   property.delete({
     'id': id,

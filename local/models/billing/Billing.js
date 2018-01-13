@@ -139,6 +139,24 @@ const Billing = function() {
 
     return object;
   }
+  this.getFullObject = function() {
+    let object = {};
+    let keys   = [];
+
+    Object.keys(this).forEach(function(val, i, arr) {
+      if (typeof this[val] !== 'function')
+        keys.push(val);
+    }.bind(this));
+
+    for (let i = 0; i < keys.length; i++) {
+      object[keys[i]] = {
+        value:    this[keys[i]].value,
+        required: this[keys[i]].required
+      };
+    }
+
+    return object;
+  }
   this.reset = function() {
     let keys   = [];
 
@@ -154,15 +172,19 @@ const Billing = function() {
     return;
   }
   this.create = function(callback) {
+    const fullObj = this.getFullObject();
     const dataObj = this.getObject();
 
-    Object.keys(dataObj).forEach( function(prop) {
-      if (prop.required === true)
-        if (prop.value === '') {
+    const keys = Object.keys(fullObj);
+
+    for(let x = 0; x < keys.length; x++) {
+      if (fullObj[keys[x]].required === true){
+        if (fullObj[keys[x]].value === '') {
           this.reset();
-          callback(customErr('Missing Required Value'))
+          return callback(customErr('Missing Required Value'))
         }
-    }.bind(this));
+      }
+    }
 
     _count('billing', {
       'email': this.email.value

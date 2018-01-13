@@ -613,6 +613,24 @@ const Application = function() {
 
     return object;
   }
+  this.getFullObject = function() {
+    let object = {};
+    let keys   = [];
+
+    Object.keys(this).forEach(function(val, i, arr) {
+      if (typeof this[val] !== 'function')
+        keys.push(val);
+    }.bind(this));
+
+    for (let i = 0; i < keys.length; i++) {
+      object[keys[i]] = {
+        value:    this[keys[i]].value,
+        required: this[keys[i]].required
+      };
+    }
+
+    return object;
+  }
   this.reset = function() {
     let keys   = [];
 
@@ -628,15 +646,19 @@ const Application = function() {
     return;
   }
   this.create = function(callback) {
+    const fullObj = this.getFullObject();
     const dataObj = this.getObject();
 
-    Object.keys(dataObj).forEach( function(prop) {
-      if (prop.required === true)
-        if (prop.value === '') {
+    const keys = Object.keys(fullObj);
+
+    for(let x = 0; x < keys.length; x++) {
+      if (fullObj[keys[x]].required === true){
+        if (fullObj[keys[x]].value === '') {
           this.reset();
-          callback(customErr('Missing Required Value'))
+          return callback(customErr('Missing Required Value'))
         }
-    }.bind(this));
+      }
+    }
 
     _count('applications', {
       'email': this.email.value
@@ -690,24 +712,29 @@ const Application = function() {
   this.fill = function(request, callback) {
     const dataObj = this.getObject();
 
-    Object.keys(request).forEach( function(key) {
+    Object.keys(request.body).forEach( function(key) {
       if (dataObj.hasOwnProperty(key))
         this.setVal(key, request.body[key]);
     }.bind(this));
 
     this.setVal('timestamp', Math.floor(Date.now() / 1000).toString());
 
-    const fullObj = this.getObject();
+    const filledObj = this.getObject();
 
-    Object.keys(fullObj).forEach( function(prop) {
-      if (prop.required === true)
-        if (prop.value === '') {
+    const fullObj = this.getFullObject();
+
+    const keys = Object.keys(fullObj);
+
+    for(let x = 0; x < keys.length; x++) {
+      if (fullObj[keys[x]].required === true){
+        if (fullObj[keys[x]].value === '') {
           this.reset();
-          callback(customErr('Missing Required Value'))
+          return callback(customErr('Missing Required Value'))
         }
-    }.bind(this));
+      }
+    }
 
-    callback(null, fullObj);
+    return callback(null, filledObj);
   }
 }
 

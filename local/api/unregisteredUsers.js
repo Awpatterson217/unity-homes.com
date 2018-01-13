@@ -49,7 +49,7 @@ router.post('/unregisteredUser/create', checkAdminAuth, checkNames, checkEmail, 
   unregisteredTenant.create(function(error, user) {
     if (error !== null)
       return res.status(500).send(error);
-
+      console.log('user: ', user);
     return res.status(200).send('Success');
   });
 });
@@ -65,8 +65,8 @@ router.post('/unregisteredUser/delete', checkAdminAuth, checkEmail, function(req
 
   const email = req.body.email;
 
-  if (email === '')
-    return res.status(500).send('Something went wrong!');
+  // if (email === '')
+    // return res.status(500).send('Something went wrong!');
 
   unregisteredTenant.delete({
     'email': email

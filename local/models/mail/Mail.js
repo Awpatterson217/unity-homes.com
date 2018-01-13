@@ -121,6 +121,24 @@ const Mail = function() {
 
     return object;
   }
+  this.getFullObject = function() {
+    let object = {};
+    let keys   = [];
+
+    Object.keys(this).forEach(function(val, i, arr) {
+      if (typeof this[val] !== 'function')
+        keys.push(val);
+    }.bind(this));
+
+    for (let i = 0; i < keys.length; i++) {
+      object[keys[i]] = {
+        value:    this[keys[i]].value,
+        required: this[keys[i]].required
+      };
+    }
+
+    return object;
+  }
   this.reset = function() {
     let keys   = [];
 

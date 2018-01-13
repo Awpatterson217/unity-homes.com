@@ -71,14 +71,17 @@ router.post('/registeredUser/create', checkAdminAuth, checkNames, checkEmail, ch
   registeredTenant.setVal('firstName', firstName);
   registeredTenant.setVal('middleName', middleName);
   registeredTenant.setVal('lastName', lastName);
-  registeredTenant.hash(password);
-  registeredTenant.setVal('timestamp',  Math.floor(Date.now() / 1000).toString());
-  registeredTenant.create(function(error, user) {
-    if (error !== null)
-      return res.status(500).send(error);
+  registeredTenant.hash(password).then(didHash => {
+    if(!didHash)
+      return res.status(500).send('Something went wrong!');
+    registeredTenant.setVal('timestamp',  Math.floor(Date.now() / 1000).toString());
+    registeredTenant.create(function(error, user) {
+      if (error !== null)
+        return res.status(500).send(error);
 
-    return res.status(200).send('Success');
-  });
+      return res.status(200).send('Success');
+    });
+  })
 });
 
 router.post('/registeredUser/update', checkAdminAuth, function(req, res, next) {

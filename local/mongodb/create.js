@@ -13,13 +13,13 @@ let _create = function(userCollection, data, callback) {
 
     const collection = db.collection(userCollection);
 
-    collection.insertOne(data, function(error, user) {
+    collection.insertOne(data, function(error, info) {
       db.close();
 
       if (error)
         return callback(customErr('Insertion Failed'));
 
-      return callback(null, user);
+      return callback(null, info);
     });
   });
 };
