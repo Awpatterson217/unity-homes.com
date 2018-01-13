@@ -65,8 +65,8 @@ router.post('/unregisteredUser/delete', checkAdminAuth, checkEmail, function(req
 
   const email = req.body.email;
 
-  // if (email === '')
-    // return res.status(500).send('Something went wrong!');
+  if (email === '')
+    return res.status(500).send('Empty User Identifier!');
 
   unregisteredTenant.delete({
     'email': email
