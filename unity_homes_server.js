@@ -11,6 +11,8 @@ const session    = require('express-session');
 const RedisStore = require('connect-redis')(session);
 const ejs        = require('ejs');
 
+const { checkAuth } = require('./local/node_modules/lib/middleware');
+
 const app = express();
 
 const routes = require('./local/routes');
@@ -92,6 +94,9 @@ for (let routeKeys in routes) {
   app.use(routes[routeKeys]);
 }
 
+// Check for authorization for all api calls
+app.use('/api', checkAuth);
+
 for (let apiKey in APIs) {
   app.use('/api', APIs[apiKey]);
 }
@@ -99,12 +104,16 @@ for (let apiKey in APIs) {
 // TODO Custom error handling and logs
 app.use(function (err, req, res, next) {
   console.error(err.stack)
-  res.status(404).render('error', { url: req.originalUrl });
+  res.status(404).render('error', {
+    url: req.hostname + req.originalUrl,
+  });
 });
 
 // assume 404 since no middleware responded
 app.use(function(req, res, next){
-  res.status(404).render('error', { url: req.originalUrl });
+  res.status(404).render('error', {
+    url: req.hostname + req.originalUrl,
+    });
 });
 
 const server = app.listen(PORT, HOST, () => {

@@ -9,6 +9,8 @@ const helmet     = require('helmet');
 const session    = require('express-session');
 const ejs        = require('ejs');
 
+const { checkAuth } = require('./local/node_modules/lib/middleware');
+
 const app = express();
 
 const routes = require('./local/routes');
@@ -58,6 +60,10 @@ app.use('/images'   , express.static(__dirname + '/public/resources/images/'));
 for (let routeKeys in routes) {
   app.use(routes[routeKeys]);
 }
+
+// Check for authorization for all api calls
+app.use('/api', checkAuth);
+
 for (let apiKey in APIs) {
   app.use('/api', APIs[apiKey]);
 }

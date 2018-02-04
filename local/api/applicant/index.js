@@ -10,7 +10,8 @@ const {
   checkEmail,
   checkPhone,
   checkNames,
-  checkAdminAuth
+  checkAdminAuth,
+  checkEmailParam,
   } = require('lib/middleware');
 
 const router = express.Router();
@@ -22,30 +23,44 @@ const csrfProtection = csrf()
 // <input type="hidden" name="_csrf" value="{{csrfToken}}">
 
 // Must be admin for all API calls
-router.all('/applicant', checkAdminAuth, function(req, res, next) {
-  next();
-});
+router.use('/applicant', checkAdminAuth)
 
 // Get all applicant
 router.get('/applicant', function(req, res) {
   const applicant = new Applicant();
 
   applicant.all()
-  .then( applicants => {
-    return res.type('application/json').status(200).send(JSON.stringify(applicants, null, 2));
-  }).catch( error => {
-    // LOG/HANDLE ERROR
-    console.log(error);
-    return res.status(500).send(error);
-  });
+    .then( applicants => {
+      if (applicants.length)
+        return res.type('application/json').status(200).send(JSON.stringify(applicants, null, 2));
+
+      return res.status(404).render('error', {
+        url: req.hostname + req.originalUrl,
+      });
+    }).catch( error => {
+      // LOG/HANDLE ERROR
+      console.log(error);
+      return res.status(500).send(error);
+    });
 });
 
 // Get an applicant by email
-router.get('/applicant/:email', function(req, res) {
+router.get('/applicant/:email', checkEmailParam, function(req, res) {
   const applicant = new Applicant();
-  console.log('email: ', req.params.email);
-  // TODO
-  return res.status(500).send('Something went wrong!');
+
+  const email = req.params.email;
+
+  applicant.find({ email })
+    .then((app) => {
+      return res.type('application/json')
+        .status(200)
+        .send(JSON.stringify(app, null, 2));
+    })
+      .catch( error => {
+      // LOG/HANDLE ERROR
+      console.log(error);
+      return res.status(500).send(error);
+    });
 });
 
 // Create an applicant
@@ -66,7 +81,7 @@ router.post('/applicant', checkNames, checkEmail, checkPhone, function(req, res,
 });
 
 // Update an applicant by email
-router.put('/applicant/:email', function(req, res, next) {
+router.put('/applicant/:email', checkEmailParam, function(req, res, next) {
   const applicant = new Applicant();
   console.log('email: ', req.params.email);
   // TODO
@@ -74,7 +89,7 @@ router.put('/applicant/:email', function(req, res, next) {
 });
 
 // Delete an applicant by email
-router.delete('/applicant/:email', checkEmail, function(req, res, next) {
+router.delete('/applicant/:email', checkEmailParam, function(req, res, next) {
   const applicant = new Applicant();
 
   const email = req.params.email;

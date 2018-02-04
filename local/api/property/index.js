@@ -10,7 +10,8 @@ const { getImages, isEmpty } = require('lib/functions');
 const {
   checkProps,
   checkId,
-  checkAdminAuth
+  checkAdminAuth,
+  checkIdParam,
   } = require('lib/middleware');
 
 const router = express.Router();
@@ -22,39 +23,55 @@ const csrfProtection = csrf()
 // <input type="hidden" name="_csrf" value="{{csrfToken}}">
 
 // Must be admin for all API calls
-router.all('/property', checkAdminAuth, function(req, res, next) {
-  next();
-});
+router.use('/property', checkAdminAuth)
 
 // Get all properties
 router.get('/property', function(req, res) {
   const property = new Property();
 
   property.all()
-  .then( props => {
-    for (let i = 0; i < props.length; i++) {
-      getImages(props[i].id).then( images => {
-        props[i].images = images;
-      }).catch( error => {
-        // LOG/HANDLE ERROR
-        console.log(error);
-        return res.status(500).send(error);
+    .then( props => {
+      for (let i = 0; i < props.length; i++) {
+        getImages(props[i].id).then( images => {
+          props[i].images = images;
+        }).catch( error => {
+          // LOG/HANDLE ERROR
+          console.log(error);
+          return res.status(500).send(error);
+        });
+      }
+      if (props.length)
+        return res.type('application/json').status(200).send(JSON.stringify(props, null, 5));
+
+      return res.status(404).render('error', {
+        url: req.hostname + req.originalUrl,
       });
-    }
-    return res.type('application/json').status(200).send(JSON.stringify(props, null, 5));
-  }).catch( error => {
-    // LOG/HANDLE ERROR
-    console.log(error);
-      return res.status(500).send(error);
-  });
+    }).catch( error => {
+      // LOG/HANDLE ERROR
+      console.log(error);
+        return res.status(500).send(error);
+    });
 });
 
 // Get a property by id
-router.get('/property/:id', function(req, res) {
+router.get('/property/:id', checkIdParam, function(req, res) {
   const property = new Property();
+
   console.log('id: ', req.params.id);
-  // TODO
-  return res.status(500).send('Something went wrong!');
+
+  const id = req.params.id;
+
+  property.find({ id })
+    .then((prop) => {
+      return res.type('application/json')
+        .status(200)
+        .send(JSON.stringify(prop, null, 2));
+    })
+    .catch( error => {
+      // LOG/HANDLE ERROR
+      console.log(error);
+      return res.status(500).send(error);
+    });
 });
 
 // Create a property
@@ -94,7 +111,7 @@ router.post('/property', checkProps, function(req, res, next) {
 });
 
 // Update a property by id
-router.put('/property/:id', function(req, res, next) {
+router.put('/property/:id', checkIdParam, function(req, res, next) {
   const property = new Property();
   console.log('id: ', req.params.id);
   // TODO
@@ -102,7 +119,7 @@ router.put('/property/:id', function(req, res, next) {
 });
 
 // Delete a property by id
-router.delete('/property/:id', checkId, function(req, res, next) {
+router.delete('/property/:id', checkIdParam, function(req, res, next) {
   const property = new Property();
 
   const id = req.params.id;

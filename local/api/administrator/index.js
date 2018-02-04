@@ -3,7 +3,7 @@
 const path    = require('path');
 const fs      = require('fs');
 const express = require('express');
-const _filter = require('lodash-es/filter');
+const _filter = require('lodash/filter');
 const csrf    = require('csurf');
 
 const Administrator = require('models/Administrator');
@@ -23,21 +23,21 @@ const csrfProtection = csrf()
 // res.render('send', { csrfToken: req.csrfToken() })
 // <input type="hidden" name="_csrf" value="{{csrfToken}}">
 
-// Must be authorized for all API calls
-router.all('/administrator', checkAdminAuth, function(req, res, next) {
-  next();
-});
+// Must be admin for all API calls
+router.use('/administrator', checkAdminAuth)
 
 // Get all administrator
 router.get('/administrator', function(req, res) {
   const administrator = new Administrator();
 
-    administrator.all()
-    .then( regTenants => {
-      const admins = _filter(regTenants, {type: 'admin'} );
-
+  administrator.all()
+    .then( admins => {
       if (admins.length)
         return res.type('application/json').send(JSON.stringify(admins, null, 2));
+
+        return res.status(404).render('error', {
+          url: req.hostname + req.originalUrl,
+        });
     }).catch( error => {
       // LOG/HANDLE ERROR
       console.log(error);

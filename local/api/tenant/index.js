@@ -3,7 +3,7 @@
 const path    = require('path');
 const fs      = require('fs');
 const express = require('express');
-const _filter = require('lodash-es/filter');
+const _filter = require('lodash/filter');
 const csrf    = require('csurf');
 
 const Tenant      = require('models/Tenant');
@@ -27,9 +27,7 @@ const csrfProtection = csrf()
 const router = express.Router();
 
 // Must be admin for all API calls
-router.all('/tenant', checkAdminAuth, function (req, res, next) {
-  next();
-});
+router.use('/tenant', checkAdminAuth)
 
 // Get all registered tenants
 router.get('/tenant', function (req, res) {
@@ -38,7 +36,13 @@ router.get('/tenant', function (req, res) {
   tenant.all()
   .then( allTenants => {
     const tenants = _filter(allTenants, { type: 'tenant' });
-    return res.type('application/json').status(200).send(JSON.stringify(tenants, null, 2));
+
+    if (allTenants.length)
+      return res.type('application/json').status(200).send(JSON.stringify(tenants, null, 2));
+
+    return res.status(404).render('error', {
+      url: req.hostname + req.originalUrl,
+    });
   }).catch( error => {
     // LOG/HANDLE ERROR
     console.log(error);
@@ -52,16 +56,16 @@ router.get('/tenant/:email', checkEmailParam, function(req, res) {
   const email = req.params.email;
 
   tenant.find({ email })
-  .then((tenant) => {
-    return res.type('application/json')
-      .status(200)
-      .send(JSON.stringify(tenant, null, 2));
-  })
-  .catch( error => {
-    // LOG/HANDLE ERROR
-    console.log(error);
-    return res.status(500).send(error);
-  });
+    .then((tenant) => {
+      return res.type('application/json')
+        .status(200)
+        .send(JSON.stringify(tenant, null, 2));
+    })
+    .catch( error => {
+      // LOG/HANDLE ERROR
+      console.log(error);
+      return res.status(500).send(error);
+    });
 });
 
 // Create a registered tenant

@@ -8,10 +8,9 @@ const csrf    = require('csurf');
 const Application = require('models/Application');
 const { isEmpty } = require('lib/functions');
 const {
-  checkEmail,
   checkApp,
-  checkAuth,
   checkAdminAuth,
+  checkEmailParam
   } = require('lib/middleware');
 
 const router = express.Router();
@@ -23,7 +22,7 @@ const csrfProtection = csrf()
 // <input type="hidden" name="_csrf" value="{{csrfToken}}">
 
 // Must be authorized for all API calls
-router.all('/application', checkAuth, function(req, res, next) {
+router.all('/application', function(req, res, next) {
   next();
 });
 
@@ -32,21 +31,37 @@ router.get('/application', checkAdminAuth, function(req, res) {
   const application = new Application();
 
   application.all()
-  .then( apps => {
-    return res.type('application/json').status(200).send(JSON.stringify(apps, null, 2));
-  }).catch( error => {
-    // LOG/HANDLE ERROR
-    console.log(error);
-    return res.status(500).send('Something went wrong!');
-  });
+    .then( apps => {
+      if (apps.length)
+        return res.type('application/json').status(200).send(JSON.stringify(apps, null, 2));
+
+      return res.status(404).render('error', {
+        url: req.hostname + req.originalUrl,
+      });
+    }).catch( error => {
+      // LOG/HANDLE ERROR
+      console.log(error);
+      return res.status(500).send('Something went wrong!');
+    });
 });
 
 // Get application by email
-router.get('/application/:email', function(req, res) {
+router.get('/application/:email', checkEmailParam, function(req, res) {
   const application = new Application();
-  // TODO
-  console.log('email: ', req.params.email);
-  return res.status(500).send('Something went wrong!');
+
+  const email = req.params.email;
+
+  application.find({ email })
+    .then((app) => {
+      return res.type('application/json')
+        .status(200)
+        .send(JSON.stringify(app, null, 2));
+    })
+      .catch( error => {
+      // LOG/HANDLE ERROR
+      console.log(error);
+      return res.status(500).send(error);
+    });
 });
 
 // Create an application
@@ -67,7 +82,7 @@ router.post('/application/create', checkApp, function(req, res, next) {
 });
 
 // Update an application by email
-router.put('/application/:email', checkApp, function(req, res, next) {
+router.put('/application/:email', checkEmailParam, checkApp, function(req, res, next) {
   const application = new Application();
   console.log('email: ', req.params.email);
   // TODO
@@ -75,7 +90,7 @@ router.put('/application/:email', checkApp, function(req, res, next) {
 });
 
 // Delete an application by email
-router.delete('/application/:email', checkEmail, function(req, res, next) {
+router.delete('/application/:email', checkEmailParam, function(req, res, next) {
   const application = new Application();
 
   const email = req.params.email;
