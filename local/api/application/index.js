@@ -41,10 +41,11 @@ router.get('/application', checkAdminAuth, function(req, res) {
   });
 });
 
-// Get application by id
-router.get('/application/:id', function(req, res) {
+// Get application by email
+router.get('/application/:email', function(req, res) {
   const application = new Application();
   // TODO
+  console.log('email: ', req.params.email);
   return res.status(500).send('Something went wrong!');
 });
 
@@ -65,18 +66,19 @@ router.post('/application/create', checkApp, function(req, res, next) {
   });
 });
 
-// Update an application by id
-router.put('/application/:id', checkApp, function(req, res, next) {
-  const application = new Application();  
+// Update an application by email
+router.put('/application/:email', checkApp, function(req, res, next) {
+  const application = new Application();
+  console.log('email: ', req.params.email);
   // TODO
   return res.status(500).send('Something went wrong!');
 });
 
-// Delete an application by id
-router.delete('/application/:id', checkEmail, function(req, res, next) {
+// Delete an application by email
+router.delete('/application/:email', checkEmail, function(req, res, next) {
   const application = new Application();
 
-  const email = req.body.email;
+  const email = req.params.email;
 
   if (email === '')
     return res.status(500).send('Something went wrong!');

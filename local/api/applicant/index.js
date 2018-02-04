@@ -5,7 +5,7 @@ const fs      = require('fs');
 const express = require('express');
 const csrf    = require('csurf');
 
-const UnregisteredUser = require('models/UnregisteredUser');
+const Applicant = require('models/Applicant');
 const {
   checkEmail,
   checkPhone,
@@ -22,17 +22,17 @@ const csrfProtection = csrf()
 // <input type="hidden" name="_csrf" value="{{csrfToken}}">
 
 // Must be admin for all API calls
-router.all('/unregisteredUser', checkAdminAuth, function(req, res, next) {
+router.all('/applicant', checkAdminAuth, function(req, res, next) {
   next();
 });
 
-// Get all UnregisteredUser
-router.get('/unregisteredUser', function(req, res) {
-  const unregisteredUser = new UnregisteredUser();
+// Get all applicant
+router.get('/applicant', function(req, res) {
+  const applicant = new Applicant();
 
-  unregisteredUser.all()
-  .then( unregTenants => {
-    return res.type('application/json').status(200).send(JSON.stringify(unregTenants, null, 2));
+  applicant.all()
+  .then( applicants => {
+    return res.type('application/json').status(200).send(JSON.stringify(applicants, null, 2));
   }).catch( error => {
     // LOG/HANDLE ERROR
     console.log(error);
@@ -40,23 +40,24 @@ router.get('/unregisteredUser', function(req, res) {
   });
 });
 
-// Get an UnregisteredUser by id
-router.get('/unregisteredUser/:id', function(req, res) {
-  const unregisteredUser = new UnregisteredUser();
+// Get an applicant by email
+router.get('/applicant/:email', function(req, res) {
+  const applicant = new Applicant();
+  console.log('email: ', req.params.email);
   // TODO
   return res.status(500).send('Something went wrong!');
 });
 
-// Create an UnregisteredUser
-router.post('/unregisteredUser', checkNames, checkEmail, checkPhone, function(req, res, next) {
-  const unregisteredUser = new UnregisteredUser();
+// Create an applicant
+router.post('/applicant', checkNames, checkEmail, checkPhone, function(req, res, next) {
+  const applicant = new Applicant();
 
-  unregisteredUser.fill(req, function(error, dataObj) {
+  applicant.fill(req, function(error, dataObj) {
     if (error !== null)
       return res.status(500).send(error);
   });
 
-  unregisteredUser.create(function(error, user) {
+  applicant.create(function(error, user) {
     if (error !== null)
       return res.status(500).send(error);
       console.log('user: ', user);
@@ -64,23 +65,24 @@ router.post('/unregisteredUser', checkNames, checkEmail, checkPhone, function(re
   });
 });
 
-// Update an UnregisteredUser by id
-router.put('/unregisteredUser/:id', function(req, res, next) {
-  const unregisteredUser = new UnregisteredUser();
+// Update an applicant by email
+router.put('/applicant/:email', function(req, res, next) {
+  const applicant = new Applicant();
+  console.log('email: ', req.params.email);
   // TODO
   return res.status(500).send('Something went wrong!');
 });
 
-// Delete an UnregisteredUser by id
-router.delete('/unregisteredUser/:id', checkEmail, function(req, res, next) {
-  const unregisteredUser = new UnregisteredUser();
+// Delete an applicant by email
+router.delete('/applicant/:email', checkEmail, function(req, res, next) {
+  const applicant = new Applicant();
 
-  const email = req.body.email;
+  const email = req.params.email;
 
   if (email === '')
     return res.status(500).send('Empty User Identifier!');
 
-  unregisteredUser.delete({
+  applicant.delete({
     'email': email
   }, function(error, numOfDeletes) {
     if (error !== null)

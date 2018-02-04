@@ -45,9 +45,10 @@ router.get('/tenant', function (req, res) {
   });
 });
 
-// Get a registered tenant by id
-router.get('/tenant/:id', function(req, res) {
+// Get a registered tenant by email
+router.get('/tenant/:email', function(req, res) {
   const tenant = new Tenant();
+  console.log('email: ', req.params.email);
   // TODO
   return res.status(500).send('Something went wrong!');
 });
@@ -55,6 +56,7 @@ router.get('/tenant/:id', function(req, res) {
 // Create a registered tenant
 router.post('/tenant', checkNames, checkEmail, checkPass, checkPassTwo, checkPhone, function(req, res, next) {
   const tenant = new Tenant();
+  const user   = new User();
 
   const email       = req.body.email;
   const phone       = req.body.phone;
@@ -65,7 +67,7 @@ router.post('/tenant', checkNames, checkEmail, checkPass, checkPassTwo, checkPho
   const passwordTwo = req.body.passwordTwo;
 
   if (isEmpty(email, password, passwordTwo, firstName, lastName))
-    return res.status(500).send('Missing Data!');
+    return res.status(500).send('Something went wrong!');
 
   if (!password)
     return res.status(500).send('Something went wrong!');
@@ -74,38 +76,53 @@ router.post('/tenant', checkNames, checkEmail, checkPass, checkPassTwo, checkPho
     return res.status(500).send('Something went wrong!');
 
   if (password !== passwordTwo)
-    return res.status(500).send('Password Don\'t match!');
-  
-  tenant.setVal('email', email);
-  tenant.setVal('phone', phone);
-  tenant.setVal('firstName', firstName);
-  tenant.setVal('middleName', middleName);
-  tenant.setVal('lastName', lastName);
-  tenant.hash(password).then(didHash => {
-    if(!didHash)
+    return res.status(500).send('Something went wrong!');
+
+  user.hash(password).then(function(success) {
+    if (!success)
       return res.status(500).send('Something went wrong!');
-    tenant.setVal('timestamp',  Math.floor(Date.now() / 1000).toString());
-    tenant.create(function(error, user) {
+
+    user.setVal('email', email);
+    user.setVal('type', 'tenant');
+    user.setVal('timestamp', Math.floor(Date.now() / 1000).toString());
+
+    tenant.setVal('email', email);
+    tenant.setVal('phone', phone);
+    tenant.setVal('firstName', firstName);
+    tenant.setVal('middleName', middleName);
+    tenant.setVal('lastName', lastName);
+    tenant.setVal('timestamp', Math.floor(Date.now() / 1000).toString());
+
+    user.create(function(error, user) {
       if (error !== null)
         return res.status(500).send(error);
 
-      return res.status(200).send('Success');
+      tenant.create(function(error, admin) {
+        if (error !== null)
+          return res.status(500).send(error);
+
+       return res.status(200).send('Success');
+      });
     });
-  })
+  }).catch(function(error) {
+    console.log(error);
+    return res.status(500).send(error);
+  });
 });
 
-// Update a registered tenant by id
-router.put('/tenant/:id', function(req, res, next) {
+// Update a registered tenant by email
+router.put('/tenant/:email', function(req, res, next) {
   const tenant = new Tenant();
+  console.log('email: ', req.params.email);
   // TODO
   return res.status(500).send('Something went wrong!');
 });
 
-// Delete a registered tenant by id
-router.delete('/tenant/:id', checkEmail, function(req, res, next) {
+// Delete a registered tenant by email
+router.delete('/tenant/:email', checkEmail, function(req, res, next) {
   const tenant = new Tenant();
 
-  const email = req.body.email;
+  const email = req.params.email;
 
   if (email === '')
     return res.status(500).send('Something went wrong!');

@@ -28,8 +28,8 @@ router.all('/administrator', checkAdminAuth, function(req, res, next) {
   next();
 });
 
-// Get all administrators
-router.get('/administrator/read', function(req, res) {
+// Get all administrator
+router.get('/administrator', function(req, res) {
   const administrator = new Administrator();
 
     administrator.all()
@@ -45,16 +45,18 @@ router.get('/administrator/read', function(req, res) {
     });
 });
 
-// Get an administrator by id
-router.get('/administrator/read/:id', function(req, res) {
+// Get an administrator by email
+router.get('/administrator/:email', function(req, res) {
   const administrator = new Administrator();
+  console.log('email: ', req.params.email);
   // TODO
   return res.status(500).send('Something went wrong!');
 });
 
-// Create an administrator account
-router.post('/administrator/create', checkNames, checkEmail, checkPass, checkPassTwo, function(req, res, next) {
+// Create an administrator
+router.post('/administrator', checkNames, checkEmail, checkPass, checkPassTwo, function(req, res, next) {
   const administrator = new Administrator();
+  const user          = new User();
 
   const email       = req.body.email;
   const firstName   = req.body.firstName;
@@ -75,9 +77,13 @@ router.post('/administrator/create', checkNames, checkEmail, checkPass, checkPas
   if (password !== passwordTwo)
     return res.status(500).send('Something went wrong!');
 
-  administrator.hash(password).then(function(success) {
+  user.hash(password).then(function(success) {
     if (!success)
       return res.status(500).send('Something went wrong!');
+
+    user.setVal('email', email);
+    user.setVal('type', 'admin');
+    user.setVal('timestamp', Math.floor(Date.now() / 1000).toString());
 
     administrator.setVal('email', email);
     administrator.setVal('firstName', firstName);
@@ -85,11 +91,16 @@ router.post('/administrator/create', checkNames, checkEmail, checkPass, checkPas
     administrator.setVal('lastName', lastName);
     administrator.setVal('timestamp', Math.floor(Date.now() / 1000).toString());
 
-    administrator.create(function(error, user) {
+    user.create(function(error, user) {
       if (error !== null)
         return res.status(500).send(error);
 
-      return res.status(200).send('Success');
+      administrator.create(function(error, admin) {
+        if (error !== null)
+          return res.status(500).send(error);
+
+       return res.status(200).send('Success');
+      });
     });
   }).catch(function(error) {
     console.log(error);
@@ -97,17 +108,19 @@ router.post('/administrator/create', checkNames, checkEmail, checkPass, checkPas
   });
 });
 
-// Update an administrator account
-router.post('/administrator/update', function(req, res, next) {
+// Update an administrator by email
+router.put('/administrator/:email', function(req, res, next) {
   const administrator = new Administrator();
+  console.log('email: ', req.params.email);
   // TODO
   return res.status(500).send('Something went wrong!');
 });
 
-router.post('/administrator/delete', checkEmail, function(req, res, next) {
+// Delete an administrator by email
+router.delete('/administrator/:email', checkEmail, function(req, res, next) {
   const administrator = new Administrator();
 
-  const email = req.body.email;
+  const email = req.params.email;
 
   if (email === '')
     return res.status(500).send('Something went wrong!');

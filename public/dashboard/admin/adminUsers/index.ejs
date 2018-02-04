@@ -6,7 +6,7 @@
     <% include ../../../includes/dashboard/admin/nav %>
 
       <div id="form">
-        <form class="container" action="/api/administrator/create" method="post">
+        <form class="container" action="/api/administrator" method="post">
           <h2 class="form-signin-heading">
             Create Administrator Account
           </h2>
@@ -51,7 +51,7 @@
       </div>
 
       <div id="form">
-        <form class="container" action="/api/administrator/delete" method="post">
+        <form class="container" action="/api/administrator" method="post">
           <h2 class="form-signin-heading">
             Delete Administrator Account
           </h2>
@@ -61,7 +61,7 @@
               <input type="email" class="form-control" name="email" placeholder="Email" required>
             </div>
           </div>          
-          <button class="btn btn-md btn-default btn-block" type="submit">Submit</button>
+          <button class="btn btn-md btn-default btn-block" ng-click="" type="submit">Submit</button>
         </form>
       </div>
     

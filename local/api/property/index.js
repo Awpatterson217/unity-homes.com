@@ -52,6 +52,7 @@ router.get('/property', function(req, res) {
 // Get a property by id
 router.get('/property/:id', function(req, res) {
   const property = new Property();
+  console.log('id: ', req.params.id);
   // TODO
   return res.status(500).send('Something went wrong!');
 });
@@ -94,7 +95,8 @@ router.post('/property', checkProps, function(req, res, next) {
 
 // Update a property by id
 router.put('/property/:id', function(req, res, next) {
-  const property = new Property();  
+  const property = new Property();
+  console.log('id: ', req.params.id);
   // TODO
   return res.status(500).send('Something went wrong!');
 });
@@ -103,7 +105,7 @@ router.put('/property/:id', function(req, res, next) {
 router.delete('/property/:id', checkId, function(req, res, next) {
   const property = new Property();
 
-  const id = req.body.id;
+  const id = req.params.id;
 
   if (id === '')
     return res.status(500).send('Empty Property Identifier!');

@@ -1,6 +1,6 @@
 "use strict"
 
-let app = angular.module('ngAdmin', []);
+const app = angular.module('ngAdmin', []);
 
 app.service('getRequest', ['$http', function($http) {
   return function(url) {
@@ -16,72 +16,106 @@ app.service('postRequest', ['$http', function($http) {
     return $http({
       method: 'POST',
       url,
-      data
+      data,
     });
   } 
 }]);
 
+app.service('putRequest', ['$http', function($http) {
+  return function(url, data) {
+    return $http({
+      method: 'PUT',
+      url,
+      data,
+    });
+  } 
+}]);
 
-// unregisteredUser
-app.service('readUnregUser', ['getRequest', function(getRequest) {
-  return () => getRequest(`/api/unregisteredUser`);
+app.service('deleteRequest', ['$http', function($http) {
+  return function(url) {
+    return $http({
+      method: 'DELETE',
+      url,
+    });
+  } 
 }]);
-app.service('createUnregUser', ['postRequest', function(postRequest) {
-  return data => postRequest(`/api/unregisteredUser`, data);
+
+// applicant
+app.service('getAllApplicants', ['getRequest', function(getAllRequest) {
+  return () => getRequest(`/api/applicant`);
 }]);
-app.service('updateUnregUser', ['postRequest', function(postRequest) {
-  return data => postRequest(`/api/unregisteredUser`, data);
+app.service('getApplicant', ['getRequest', function(getRequest) {
+  return email => getRequest(`/api/applicant/${email}`);
 }]);
-app.service('deleteUnregUser', ['postRequest', function(postRequest) {
-  return data => postRequest(`/api/unregisteredUser`, data);
+app.service('createApplicant', ['postRequest', function(postRequest) {
+  return data => postRequest(`/api/applicant`, data);
+}]);
+// TODO
+app.service('updateApplicant', ['postRequest', function(putRequest) {
+  return data => putRequest(`/api/applicant/${data}`);
+}]);
+app.service('deleteApplicant', ['postRequest', function(deleteRequest) {
+  return email => deleteRequest(`/api/applicant/${email}`);
 }]);
 
 // tenant
-app.service('readRegUser', ['getRequest', function(getRequest) {
+app.service('getAllTenants', ['getRequest', function(getAllRequest) {
   return () => getRequest(`/api/tenant`);
+}]);
+app.service('getTenant', ['getRequest', function(getRequest) {
+  return email => getRequest(`/api/tenant/${email}`);
 }]);
 app.service('createTenant', ['postRequest', function(postRequest) {
   return data => postRequest(`/api/tenant`, data);
 }]);
-app.service('updateTenant', ['postRequest', function(postRequest) {
-  return data => postRequest(`/api/tenant`, data);
+// TODO
+app.service('updateTenant', ['postRequest', function(putRequest) {
+  return data => putRequest(`/api/tenant`, data);
 }]);
-app.service('deleteTenant', ['postRequest', function(postRequest) {
-  return data => postRequest(`/api/tenant`, data);
+app.service('deleteTenant', ['postRequest', function(deleteRequest) {
+  return email => deleteRequest(`/api/applicant/${email}`);
 }]);
 
 // property
-app.service('readProp', ['getRequest', function(getRequest) {
-  return () => getRequest(`/api/property/read`);
+app.service('getAllProperties', ['getRequest', function(getAllRequest) {
+  return () => getRequest(`/api/property`);
 }]);
-app.service('createProp', ['postRequest', function(postRequest) {
-  return data => postRequest(`/api/property/create`, data);
+app.service('getProperty', ['getRequest', function(getRequest) {
+  return id => getRequest(`/api/property/${id}`);
 }]);
-app.service('updateProp', ['postRequest', function(postRequest) {
-  return data => postRequest(`/api/property/update`, data);
+app.service('createProperty', ['postRequest', function(postRequest) {
+  return data => postRequest(`/api/property`, data);
 }]);
-app.service('deleteProp', ['postRequest', function(postRequest) {
-  return data => postRequest(`/api/property/delete`, data);
+// TODO
+app.service('updateProperty', ['postRequest', function(putRequest) {
+  return data => putRequest(`/api/property`, data);
+}]);
+app.service('deleteProperty', ['postRequest', function(deleteRequest) {
+  return id => deleteRequest(`/api/property/${id}`);
 }]);
 
 // administrator
-app.service('readAdmin', ['getRequest', function(getRequest) {
-  return () => getRequest(`/api/administrator/read`);
+app.service('getAllAdmins', ['getRequest', function(getAllRequest) {
+  return () => getRequest(`/api/administrator`);
+}]);
+app.service('getAdmin', ['getRequest', function(getRequest) {
+  return email => getRequest(`/api/administrator/${email}`);
 }]);
 app.service('createAdmin', ['postRequest', function(postRequest) {
-  return data => postRequest(`/api/administrator/create`, data);
+  return data => postRequest(`/api/administrator`, data);
 }]);
-app.service('updateAdmin', ['postRequest', function(postRequest) {
-  return data => postRequest(`/api/administrator/update`, data);
+// TODO
+app.service('updateAdmin', ['postRequest', function(putRequest) {
+  return data => putRequest(`/api/administrator`, data);
 }]);
-app.service('deleteAdmin', ['postRequest', function(postRequest) {
-  return data => postRequest(`/api/administrator/delete`, data);
+app.service('deleteAdmin', ['postRequest', function(deleteRequest) {
+  return email => deleteRequest(`/api/administrator/${email}`);
 }]);
 
 // GETS ALL DATA
 app.service('initialize', ['$q', 'getRequest', function($q, getRequest) {
   const promises = [
-    getRequest(`/api/unregisteredUser`),
+    getRequest(`/api/applicant`),
     getRequest(`/api/tenant`),
     getRequest(`/api/administrator`),
     getRequest(`/api/property`)
@@ -92,8 +126,8 @@ app.service('initialize', ['$q', 'getRequest', function($q, getRequest) {
 
 app.controller('dashboardCtrl', ['$scope', 'initialize', function($scope, initialize) {
   initialize().then( data => {
-    $scope.unregisteredUsers = data[0].data;
-    $scope.registeredUsers = data[1].data;
+    $scope.applicants = data[0].data;
+    $scope.tenants = data[1].data;
     $scope.administrators = data[2].data;
     $scope.properties = data[3].data;
   })

@@ -15,11 +15,11 @@
             </li>
             <div class="dropdown-divider"></div>
             <li class="nav-item">
-              <a class="nav-link side-link" id="registered-users-tab" data-toggle="pill" href="#registered-users">Registered Users</a>
+              <a class="nav-link side-link" id="tenants-tab" data-toggle="pill" href="#tenants">Tenants</a>
             </li>
             <div class="dropdown-divider"></div>
             <li class="nav-item">
-              <a class="nav-link side-link" id="unregistered-users-tab" data-toggle="pill" href="#unregistered-users">Unregistered Users</a>
+              <a class="nav-link side-link" id="applicants-tab" data-toggle="pill" href="#applicants">Applicants</a>
             </li>
             <div class="dropdown-divider"></div>
             <li class="nav-item">
@@ -61,7 +61,7 @@
               </div> <!-- END TABLE -->
 
             </div> <!-- END ADMIN -->
-            <div class="tab-pane fade" id="registered-users">
+            <div class="tab-pane fade" id="tenants">
 
               <div class="table-responsive">
                 <table class="table table-hover">
@@ -73,17 +73,17 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr class="table-text" ng-repeat="registeredUser in registeredUsers">
+                    <tr class="table-text" ng-repeat="tenant in tenants">
                       <td>                
-                        {{ registeredUser.firstName }}
-                        {{ registeredUser.middleName }}
-                        {{ registeredUser.lastName }}
+                        {{ tenant.firstName }}
+                        {{ tenant.middleName }}
+                        {{ tenant.lastName }}
                       </td>
                       <td>
-                        {{ registeredUser.email }}
+                        {{ tenant.email }}
                       </td>
                       <td>
-                        {{ registeredUser.type }}
+                        {{ tenant.type }}
                       </td>
                     </tr>
                   </tbody>
@@ -91,7 +91,7 @@
               </div> <!-- END TABLE -->
 
             </div> <!-- END REG -->
-            <div class="tab-pane fade" id="unregistered-users">
+            <div class="tab-pane fade" id="applicants">
 
               <div class="table-responsive">
                 <table class="table table-hover">
@@ -103,17 +103,17 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr class="table-text" ng-repeat="unregisteredUser in unregisteredUsers">
+                    <tr class="table-text" ng-repeat="applicant in applicants">
                       <td>                  
-                        {{ unregisteredUser.firstName }}
-                        {{ unregisteredUser.middleName }}
-                        {{ unregisteredUser.lastName }}
+                        {{ applicant.firstName }}
+                        {{ applicant.middleName }}
+                        {{ applicant.lastName }}
                       </td>
                       <td>
-                        {{ unregisteredUser.email }}
+                        {{ applicant.email }}
                       </td>
                       <td>
-                        {{ unregisteredUser.code }}
+                        {{ applicant.code }}
                       </td>
                     </tr>
                   </tbody>
