@@ -3,7 +3,7 @@
 const path    = require('path');
 const fs      = require('fs');
 const express = require('express');
-const _filter = require('lodash/filter');
+const _filter = require('lodash-es/filter');
 const csrf    = require('csurf');
 
 const Administrator = require('models/Administrator');

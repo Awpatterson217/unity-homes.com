@@ -121,11 +121,6 @@ const server = app.listen(PORT, HOST, () => {
 //        TODO
 
 // Make new mongodb ip, Read ip from private file
-// Change crud calls to use correct verbs versus POSTs
-// Change collection unregisteredUsers to unregisteredUser
-// Change collection registeredUsers to tenant
-// Create administrator collection
-// Change auth workflow so that type property is unnecessary
 
 // Need linter and unit tests
 // Finish CSRF

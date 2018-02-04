@@ -3,7 +3,7 @@
 const path    = require('path');
 const fs      = require('fs');
 const express = require('express');
-const _filter = require('lodash/filter');
+const _filter = require('lodash-es/filter');
 const csrf    = require('csurf');
 
 const Tenant      = require('models/Tenant');
@@ -14,7 +14,8 @@ const {
   checkNames,
   checkPass,
   checkPassTwo,
-  checkAdminAuth
+  checkAdminAuth,
+  checkEmailParam,
   } = require('lib/middleware');
 
 // Add as middleware
@@ -35,8 +36,8 @@ router.get('/tenant', function (req, res) {
   const tenant = new Tenant();
 
   tenant.all()
-  .then( regUsers => {
-    const tenants = _filter(regUsers, {type: 'tenant'} );
+  .then( allTenants => {
+    const tenants = _filter(allTenants, { type: 'tenant' });
     return res.type('application/json').status(200).send(JSON.stringify(tenants, null, 2));
   }).catch( error => {
     // LOG/HANDLE ERROR
@@ -46,11 +47,21 @@ router.get('/tenant', function (req, res) {
 });
 
 // Get a registered tenant by email
-router.get('/tenant/:email', function(req, res) {
+router.get('/tenant/:email', checkEmailParam, function(req, res) {
   const tenant = new Tenant();
-  console.log('email: ', req.params.email);
-  // TODO
-  return res.status(500).send('Something went wrong!');
+  const email = req.params.email;
+
+  tenant.find({ email })
+  .then((tenant) => {
+    return res.type('application/json')
+      .status(200)
+      .send(JSON.stringify(tenant, null, 2));
+  })
+  .catch( error => {
+    // LOG/HANDLE ERROR
+    console.log(error);
+    return res.status(500).send(error);
+  });
 });
 
 // Create a registered tenant
@@ -111,7 +122,7 @@ router.post('/tenant', checkNames, checkEmail, checkPass, checkPassTwo, checkPho
 });
 
 // Update a registered tenant by email
-router.put('/tenant/:email', function(req, res, next) {
+router.put('/tenant/:email', checkEmailParam, function(req, res, next) {
   const tenant = new Tenant();
   console.log('email: ', req.params.email);
   // TODO
@@ -119,7 +130,7 @@ router.put('/tenant/:email', function(req, res, next) {
 });
 
 // Delete a registered tenant by email
-router.delete('/tenant/:email', checkEmail, function(req, res, next) {
+router.delete('/tenant/:email', checkEmailParam, function(req, res, next) {
   const tenant = new Tenant();
 
   const email = req.params.email;
