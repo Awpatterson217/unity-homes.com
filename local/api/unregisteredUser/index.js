@@ -5,24 +5,32 @@ const fs      = require('fs');
 const express = require('express');
 const csrf    = require('csurf');
 
+const UnregisteredUser = require('models/UnregisteredUser');
+const {
+  checkEmail,
+  checkPhone,
+  checkNames,
+  checkAdminAuth
+  } = require('lib/middleware');
+
+const router = express.Router();
+
 // Add as middleware
 const csrfProtection = csrf()
 // Use template engine to pass token
 // res.render('send', { csrfToken: req.csrfToken() })
 // <input type="hidden" name="_csrf" value="{{csrfToken}}">
 
-const UnregisteredTenant = require('../models/tenant/UnregisteredTenant');
-const {checkEmail}       = require('../resources/js/middleware');
-const {checkPhone}       = require('../resources/js/middleware');
-const {checkNames}       = require('../resources/js/middleware');
-const {checkAdminAuth}   = require('../resources/js/middleware');
+// Must be admin for all API calls
+router.all('/unregisteredUser', checkAdminAuth, function(req, res, next) {
+  next();
+});
 
-const router = express.Router();
+// Get all UnregisteredUser
+router.get('/unregisteredUser', function(req, res) {
+  const unregisteredUser = new UnregisteredUser();
 
-router.get('/unregisteredUsers/read', checkAdminAuth, function(req, res) {
-  const unregisteredTenant = new UnregisteredTenant();
-
-  unregisteredTenant.all()
+  unregisteredUser.all()
   .then( unregTenants => {
     return res.type('application/json').status(200).send(JSON.stringify(unregTenants, null, 2));
   }).catch( error => {
@@ -32,21 +40,23 @@ router.get('/unregisteredUsers/read', checkAdminAuth, function(req, res) {
   });
 });
 
-router.get('/unregisteredUser/read', checkAdminAuth, function(req, res) {
-  const unregisteredTenant = new UnregisteredTenant();
+// Get an UnregisteredUser by id
+router.get('/unregisteredUser/:id', function(req, res) {
+  const unregisteredUser = new UnregisteredUser();
   // TODO
   return res.status(500).send('Something went wrong!');
 });
 
-router.post('/unregisteredUser/create', checkAdminAuth, checkNames, checkEmail, checkPhone, function(req, res, next) {
-  const unregisteredTenant = new UnregisteredTenant();
+// Create an UnregisteredUser
+router.post('/unregisteredUser', checkNames, checkEmail, checkPhone, function(req, res, next) {
+  const unregisteredUser = new UnregisteredUser();
 
-  unregisteredTenant.fill(req, function(error, dataObj) {
+  unregisteredUser.fill(req, function(error, dataObj) {
     if (error !== null)
       return res.status(500).send(error);
   });
 
-  unregisteredTenant.create(function(error, user) {
+  unregisteredUser.create(function(error, user) {
     if (error !== null)
       return res.status(500).send(error);
       console.log('user: ', user);
@@ -54,21 +64,23 @@ router.post('/unregisteredUser/create', checkAdminAuth, checkNames, checkEmail, 
   });
 });
 
-router.post('/unregisteredUser/update', checkAdminAuth, function(req, res, next) {
-  const unregisteredTenant = new UnregisteredTenant();
+// Update an UnregisteredUser by id
+router.put('/unregisteredUser/:id', function(req, res, next) {
+  const unregisteredUser = new UnregisteredUser();
   // TODO
   return res.status(500).send('Something went wrong!');
 });
 
-router.post('/unregisteredUser/delete', checkAdminAuth, checkEmail, function(req, res, next) {
-  const unregisteredTenant = new UnregisteredTenant();
+// Delete an UnregisteredUser by id
+router.delete('/unregisteredUser/:id', checkEmail, function(req, res, next) {
+  const unregisteredUser = new UnregisteredUser();
 
   const email = req.body.email;
 
   if (email === '')
     return res.status(500).send('Empty User Identifier!');
 
-  unregisteredTenant.delete({
+  unregisteredUser.delete({
     'email': email
   }, function(error, numOfDeletes) {
     if (error !== null)

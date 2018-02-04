@@ -1,7 +1,20 @@
+"use strict"
+
 const path    = require('path');
 const fs      = require('fs');
 const express = require('express');
 const csrf    = require('csurf');
+
+const Mail = require('models/Mail');
+const {
+  checkEmail,
+  checkAuth,
+  checkNames,
+  checkPass,
+  checkPassTwo
+  } = require('../resources/js/middleware');
+
+const router = express.Router();
 
 // Add as middleware
 const csrfProtection = csrf()
@@ -9,40 +22,41 @@ const csrfProtection = csrf()
 // res.render('send', { csrfToken: req.csrfToken() })
 // <input type="hidden" name="_csrf" value="{{csrfToken}}">
 
-const Mail           = require('../models/mail/Mail');
-const {checkEmail}   = require('../resources/js/middleware');
-const {checkAuth}    = require('../resources/js/middleware');
-const {checkNames}   = require('../resources/js/middleware');
-const {checkPass}    = require('../resources/js/middleware');
-const {checkPassTwo} = require('../resources/js/middleware');
+// Must be authorized for all API calls
+router.all('/mail', checkAuth, function(req, res, next) {
+  next();
+});
 
-const router = express.Router();
-
-router.get('/mail/read', checkAuth, function(req, res) {
+// get all mail
+router.get('/mail', function(req, res) {
   const mail = new Mail();
   // TODO
   return res.status(500).send('Something went wrong!');
 });
 
-router.get('/mail/read', checkAuth, function(req, res) {
+// Get a mail by id
+router.get('/mail/:id', function(req, res) {
   const mail = new Mail();
   // TODO
   return res.status(500).send('Something went wrong!');
 });
 
-router.post('/mail/create', checkAuth, function(req, res, next) {
+// Create a mail
+router.post('/mail', function(req, res, next) {
   const mail = new Mail();
   // TODO
   return res.status(500).send('Something went wrong!');
 });
 
-router.post('/mail/update', checkAuth, function(req, res, next) {
+// Update a mail by id
+router.put('/mail/:id', function(req, res, next) {
   const mail = new Mail();
   // TODO
   return res.status(500).send('Something went wrong!');
 });
 
-router.post('/mail/delete', checkAuth, function(req, res, next) {
+// Delete a mail by id
+router.delete('/mail/:id', function(req, res, next) {
   const mail = new Mail();
   // TODO
   return res.status(500).send('Something went wrong!');

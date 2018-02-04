@@ -1,17 +1,17 @@
 "use strict";
 
-const administrators    = require('./administrators.js');
-const properties        = require('./properties.js');
-const unregisteredUsers = require('./unregisteredUsers.js');
-const registeredUsers   = require('./registeredUsers.js');
-const applications      = require('./applications.js');
-const billing           = require('./billing.js');
+const administrator    = require('./administrator');
+const property         = require('./property');
+const unregisteredUser = require('./unregisteredUser');
+const tenant           = require('./tenant');
+const application      = require('./application');
+const billing          = require('./billing');
 
 module.exports = {
-  administrators,
-  properties,
-  unregisteredUsers,
-  registeredUsers,
-  applications,
+  administrator,
+  property,
+  unregisteredUser,
+  tenant,
+  application,
   billing
-}
+};

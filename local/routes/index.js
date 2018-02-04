@@ -1,21 +1,21 @@
 "use strict";
 
-const home        = require('./home.js');
-const listings    = require('./listings.js');
-const apply       = require('./apply.js');
-const contact     = require('./contact.js');
-const register    = require('./register.js');
-const login       = require('./login.js');
-const logout      = require('./logout.js');
-const admin       = require('./dashboard/admin/index.js');
-const data        = require('./dashboard/admin/data/index.js');
-const adminUsers  = require('./dashboard/admin/adminUsers/index.js');
-const users       = require('./dashboard/admin/users/index.js');
-const properties  = require('./dashboard/admin/properties/index.js');
-const aBilling    = require('./dashboard/admin/billing/index.js');
-const tenant      = require('./dashboard/tenant/index.js');
-const tBilling    = require('./dashboard/tenant/billing/index.js');
-const application = require('./dashboard/tenant/application/index.js');
+const home        = require('./home');
+const listings    = require('./listings');
+const apply       = require('./apply');
+const contact     = require('./contact');
+const register    = require('./register');
+const login       = require('./login');
+const logout      = require('./logout');
+const admin       = require('./dashboard/admin');
+const data        = require('./dashboard/admin/data');
+const adminUsers  = require('./dashboard/admin/adminUsers');
+const users       = require('./dashboard/admin/users');
+const properties  = require('./dashboard/admin/properties');
+const aBilling    = require('./dashboard/admin/billing');
+const tenant      = require('./dashboard/tenant');
+const tBilling    = require('./dashboard/tenant/billing');
+const application = require('./dashboard/tenant/application');
 
 module.exports = {
   home,
@@ -34,4 +34,4 @@ module.exports = {
   tBilling,
   tenant,
   application
-}
+};

@@ -2,7 +2,7 @@
 
 const express = require('express');
 
-const {checkAdminAuth}  = require('../../../../resources/js/middleware');
+const { checkAdminAuth } = require('lib/middleware');
 
 const router = express.Router();
 
@@ -11,7 +11,7 @@ router.get('/dashboard/admin/properties', checkAdminAuth, function(req, res) {
   // TODO Log time and req
   const fullName = req.session.firstName + ' ' + req.session.lastName;
 
-  return res.render('admin/properties/index', {
+  return res.render('admin/properties', {
     fullName: fullName
   });
 });

@@ -2,10 +2,9 @@
 
 const express = require('express');
 
-const RegisteredTenant = require('../models/tenant/RegisteredTenant');
-const {checkEmail}     = require('../resources/js/middleware');
-const {checkPass}      = require('../resources/js/middleware');
-const {isEmpty}        = require('../resources/js/functions');
+const Tenant                    = require('models/Tenant');
+const { checkEmail, checkPass } = require('lib/middleware');
+const { isEmpty }               = require('lib/functions');
 
 const router = express.Router();
 
@@ -16,31 +15,32 @@ router.get('/login', function(req, res) {
 router.post('/login', checkEmail, checkPass, function(req, res, next) {
   let time;
   const NOW = new Date().getTime();
-  const registeredTenant = new RegisteredTenant();
+  const tenant = new Tenant();
 
   const email    = req.body.email;
   const password = req.body.password;
   const year     = 365 * 24 * 60 * 60 * 1000;
+  
   if (req.body.remember)
     res.cookie('remember', email, { maxAge: year });
 
   if (isEmpty(email, password))
     return res.render('login', { invalid: true });
 
-  registeredTenant.authenticate(email, password, function(error, user) {
+  tenant.authenticate(email, password, function(error, tenant) {
     if (error !== null)
       return res.render('login', {
         invalid: true
       });
 
-    req.session.firstName = user.firstName;
-    req.session.lastName  = user.lastName;
-    req.session.type      = user.type;
+    req.session.firstName = tenant.firstName;
+    req.session.lastName  = tenant.lastName;
+    req.session.type      = tenant.type;
     req.session.userAuth  = true;
 
-    if (user.type === 'admin')
+    if (tenant.type === 'admin')
       return res.redirect('/dashboard/admin');
-    if (user.type === 'tenant')
+    if (tenant.type === 'tenant')
       return res.redirect('/dashboard/tenant');
   });
 });

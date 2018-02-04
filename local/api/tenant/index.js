@@ -6,27 +6,35 @@ const express = require('express');
 const _filter = require('lodash/filter');
 const csrf    = require('csurf');
 
+const Tenant      = require('models/Tenant');
+const { isEmpty } = require('lib/functions');
+const {
+  checkEmail,
+  checkPhone,
+  checkNames,
+  checkPass,
+  checkPassTwo,
+  checkAdminAuth
+  } = require('lib/middleware');
+
 // Add as middleware
 const csrfProtection = csrf()
 // Use template engine to pass token
 // res.render('send', { csrfToken: req.csrfToken() })
 // <input type="hidden" name="_csrf" value="{{csrfToken}}">
 
-const RegisteredTenant = require('../models/tenant/RegisteredTenant');
-const {checkEmail}     = require('../resources/js/middleware');
-const {checkPhone}     = require('../resources/js/middleware');
-const {checkNames}     = require('../resources/js/middleware');
-const {checkPass}      = require('../resources/js/middleware');
-const {checkPassTwo}   = require('../resources/js/middleware');
-const {checkAdminAuth} = require('../resources/js/middleware');
-const {isEmpty}        = require('../resources/js/functions');
-
 const router = express.Router();
 
-router.get('/registeredUsers/read', checkAdminAuth, function(req, res) {
-  const registeredTenant = new RegisteredTenant();
+// Must be admin for all API calls
+router.all('/tenant', checkAdminAuth, function (req, res, next) {
+  next();
+});
 
-  registeredTenant.all()
+// Get all registered tenants
+router.get('/tenant', function (req, res) {
+  const tenant = new Tenant();
+
+  tenant.all()
   .then( regUsers => {
     const tenants = _filter(regUsers, {type: 'tenant'} );
     return res.type('application/json').status(200).send(JSON.stringify(tenants, null, 2));
@@ -37,14 +45,16 @@ router.get('/registeredUsers/read', checkAdminAuth, function(req, res) {
   });
 });
 
-router.get('/registeredUser/read', checkAdminAuth, function(req, res) {
-  const registeredTenant = new RegisteredTenant();
+// Get a registered tenant by id
+router.get('/tenant/:id', function(req, res) {
+  const tenant = new Tenant();
   // TODO
   return res.status(500).send('Something went wrong!');
 });
 
-router.post('/registeredUser/create', checkAdminAuth, checkNames, checkEmail, checkPass, checkPassTwo, checkPhone, function(req, res, next) {
-  const registeredTenant = new RegisteredTenant();
+// Create a registered tenant
+router.post('/tenant', checkNames, checkEmail, checkPass, checkPassTwo, checkPhone, function(req, res, next) {
+  const tenant = new Tenant();
 
   const email       = req.body.email;
   const phone       = req.body.phone;
@@ -66,16 +76,16 @@ router.post('/registeredUser/create', checkAdminAuth, checkNames, checkEmail, ch
   if (password !== passwordTwo)
     return res.status(500).send('Password Don\'t match!');
   
-  registeredTenant.setVal('email', email);
-  registeredTenant.setVal('phone', phone);
-  registeredTenant.setVal('firstName', firstName);
-  registeredTenant.setVal('middleName', middleName);
-  registeredTenant.setVal('lastName', lastName);
-  registeredTenant.hash(password).then(didHash => {
+  tenant.setVal('email', email);
+  tenant.setVal('phone', phone);
+  tenant.setVal('firstName', firstName);
+  tenant.setVal('middleName', middleName);
+  tenant.setVal('lastName', lastName);
+  tenant.hash(password).then(didHash => {
     if(!didHash)
       return res.status(500).send('Something went wrong!');
-    registeredTenant.setVal('timestamp',  Math.floor(Date.now() / 1000).toString());
-    registeredTenant.create(function(error, user) {
+    tenant.setVal('timestamp',  Math.floor(Date.now() / 1000).toString());
+    tenant.create(function(error, user) {
       if (error !== null)
         return res.status(500).send(error);
 
@@ -84,21 +94,23 @@ router.post('/registeredUser/create', checkAdminAuth, checkNames, checkEmail, ch
   })
 });
 
-router.post('/registeredUser/update', checkAdminAuth, function(req, res, next) {
-  const registeredTenant = new RegisteredTenant();
+// Update a registered tenant by id
+router.put('/tenant/:id', function(req, res, next) {
+  const tenant = new Tenant();
   // TODO
   return res.status(500).send('Something went wrong!');
 });
 
-router.post('/registeredUser/delete', checkAdminAuth, checkEmail, function(req, res, next) {
-  const registeredTenant = new RegisteredTenant();
+// Delete a registered tenant by id
+router.delete('/tenant/:id', checkEmail, function(req, res, next) {
+  const tenant = new Tenant();
 
   const email = req.body.email;
 
   if (email === '')
     return res.status(500).send('Something went wrong!');
 
-  registeredTenant.delete({
+  tenant.delete({
     'email': email,
     'type' : 'tenant'
   }, function(error, numOfDeletes) {

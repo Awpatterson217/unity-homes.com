@@ -5,21 +5,30 @@ const fs      = require('fs');
 const express = require('express');
 const csrf    = require('csurf');
 
+const Application = require('models/Application');
+const { isEmpty } = require('lib/functions');
+const {
+  checkEmail,
+  checkApp,
+  checkAuth,
+  checkAdminAuth,
+  } = require('lib/middleware');
+
+const router = express.Router();
+
 // Add as middleware
 const csrfProtection = csrf()
 // Use template engine to pass token
 // res.render('send', { csrfToken: req.csrfToken() })
 // <input type="hidden" name="_csrf" value="{{csrfToken}}">
 
-const Application  = require('../models/application/Application');
-const {isEmpty}    = require('../resources/js/functions');
-const {checkAuth}  = require('../resources/js/middleware');
-const {checkApp}   = require('../resources/js/middleware');
-const {checkEmail} = require('../resources/js/middleware');
+// Must be authorized for all API calls
+router.all('/application', checkAuth, function(req, res, next) {
+  next();
+});
 
-const router = express.Router();
-
-router.get('/applications/read', checkAuth, function(req, res) {
+// Get all applications
+router.get('/application', checkAdminAuth, function(req, res) {
   const application = new Application();
 
   application.all()
@@ -32,13 +41,15 @@ router.get('/applications/read', checkAuth, function(req, res) {
   });
 });
 
-router.get('/application/read', checkAuth, function(req, res) {
+// Get application by id
+router.get('/application/:id', function(req, res) {
   const application = new Application();
   // TODO
   return res.status(500).send('Something went wrong!');
 });
 
-router.post('/application/create', checkAuth, checkApp, function(req, res, next) {
+// Create an application
+router.post('/application/create', checkApp, function(req, res, next) {
   const application = new Application();
 
   application.fill(req, function(error, dataObj) {
@@ -54,13 +65,15 @@ router.post('/application/create', checkAuth, checkApp, function(req, res, next)
   });
 });
 
-router.post('/application/update', checkAuth, checkApp, function(req, res, next) {
+// Update an application by id
+router.put('/application/:id', checkApp, function(req, res, next) {
   const application = new Application();  
   // TODO
   return res.status(500).send('Something went wrong!');
 });
 
-router.post('/application/delete', checkAuth, checkEmail, function(req, res, next) {
+// Delete an application by id
+router.delete('/application/:id', checkEmail, function(req, res, next) {
   const application = new Application();
 
   const email = req.body.email;
