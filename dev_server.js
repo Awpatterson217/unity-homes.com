@@ -48,14 +48,15 @@ app.use(helmet.hidePoweredBy());
 app.use(urlEncParser); 
 app.use(jsonParser); 
 
-app.use('/bootstrap', express.static(__dirname + '/public/vendor/bootstrap-4.0.0-alpha.6-dist/'));
-app.use('/jquery'   , express.static(__dirname + '/public/vendor/jquery/'));
-app.use('/angularjs', express.static(__dirname + '/public/vendor/angularjs/'));
-app.use('/css'      , express.static(__dirname + '/public/resources/css/'));
-app.use('/js'       , express.static(__dirname + '/public/resources/js/'));
-app.use('/js'       , express.static(__dirname + '/public/resources/js/ngAdmin'));
-app.use('/js'       , express.static(__dirname + '/public/resources/js/ngTenant'));
-app.use('/images'   , express.static(__dirname + '/public/resources/images/'));
+app.use('/bootstrap/4', express.static(__dirname + '/public/vendor/bootstrap-4.0.0/'));
+app.use('/bootstrap/3', express.static(__dirname + '/public/vendor/bootstrap-3.3.7/'));
+app.use('/jquery'     , express.static(__dirname + '/public/vendor/jquery/'));
+app.use('/angularjs'  , express.static(__dirname + '/public/vendor/angularjs/'));
+app.use('/css'        , express.static(__dirname + '/public/resources/css/'));
+app.use('/js'         , express.static(__dirname + '/public/resources/js/'));
+app.use('/js'         , express.static(__dirname + '/public/resources/js/ngAdmin'));
+app.use('/js'         , express.static(__dirname + '/public/resources/js/ngTenant'));
+app.use('/images'     , express.static(__dirname + '/public/resources/images/'));
 
 for (let routeKeys in routes) {
   app.use(routes[routeKeys]);

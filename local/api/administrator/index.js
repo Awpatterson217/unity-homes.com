@@ -7,6 +7,8 @@ const _filter = require('lodash/filter');
 const csrf    = require('csurf');
 
 const Administrator = require('models/Administrator');
+const User          = require('models/User');
+const { isEmpty }   = require('lib/functions');
 const {
   checkEmail,
   checkPass,
@@ -49,8 +51,20 @@ router.get('/administrator', function(req, res) {
 router.get('/administrator/:email', function(req, res) {
   const administrator = new Administrator();
   console.log('email: ', req.params.email);
-  // TODO
-  return res.status(500).send('Something went wrong!');
+
+  const email = req.params.email;
+
+  administrator.find({ email })
+    .then((admin) => {
+      return res.type('application/json')
+        .status(200)
+        .send(JSON.stringify(admin, null, 2));
+    })
+    .catch( error => {
+      // LOG/HANDLE ERROR
+      console.log(error);
+      return res.status(500).send(error);
+    });
 });
 
 // Create an administrator

@@ -3,6 +3,8 @@
 const express = require('express');
 
 const Tenant                    = require('models/Tenant');
+const User                      = require('models/User');
+const Administrator             = require('models/Administrator');
 const { checkEmail, checkPass } = require('lib/middleware');
 const { isEmpty }               = require('lib/functions');
 
@@ -13,9 +15,9 @@ router.get('/login', function(req, res) {
 });
   
 router.post('/login', checkEmail, checkPass, function(req, res, next) {
-  let time;
-  const NOW = new Date().getTime();
-  const tenant = new Tenant();
+  const tenant         = new Tenant();
+  const user           = new User();
+  const administrator  = new Administrator();
 
   const email    = req.body.email;
   const password = req.body.password;
@@ -27,21 +29,44 @@ router.post('/login', checkEmail, checkPass, function(req, res, next) {
   if (isEmpty(email, password))
     return res.render('login', { invalid: true });
 
-  tenant.authenticate(email, password, function(error, tenant) {
+  user.authenticate(email, password, function(error, user) {
     if (error !== null)
       return res.render('login', {
         invalid: true
       });
 
-    req.session.firstName = tenant.firstName;
-    req.session.lastName  = tenant.lastName;
-    req.session.type      = tenant.type;
+    req.session.type      = user.type;
     req.session.userAuth  = true;
 
-    if (tenant.type === 'admin')
-      return res.redirect('/dashboard/admin');
-    if (tenant.type === 'tenant')
-      return res.redirect('/dashboard/tenant');
+    if (user.type === 'admin') {
+      administrator.find({ email })
+        .then((admin) => {
+          req.session.firstName = admin.firstName;
+          req.session.lastName  = admin.lastName;
+
+          return res.redirect('/dashboard/admin');
+        })
+        .catch( error => {
+          // LOG/HANDLE ERROR
+          console.log(error);
+          return res.status(500).send(error);
+        });
+    }
+
+    if (user.type === 'tenant') {
+      tenant.find({ email })
+        .then((tenant) => {
+          req.session.firstName = tenant.firstName;
+          req.session.lastName  = tenant.lastName;
+
+          return res.redirect('/dashboard/tenant');
+        })
+        .catch( error => {
+          // LOG/HANDLE ERROR
+          console.log(error);
+          return res.status(500).send(error);
+        });
+    }
   });
 });
 

@@ -56,7 +56,7 @@ router.get('/applicant/:email', checkEmailParam, function(req, res) {
         .status(200)
         .send(JSON.stringify(app, null, 2));
     })
-      .catch( error => {
+    .catch( error => {
       // LOG/HANDLE ERROR
       console.log(error);
       return res.status(500).send(error);
