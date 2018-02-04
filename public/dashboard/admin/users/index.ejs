@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <% include ../../../includes/dashboard/admin/head %>
+
+  <body class="container-fluid">
+    <% include ../../../includes/dashboard/admin/nav %>
+
+      <div class="row">
+        <div class="col-2">
+          <ul class="nav nav-fill flex-column nav-pills">
+            <li class="nav-item">
+              <a class="nav-link side-link active" id="add-registered-user-tab" data-toggle="pill" href="#add-registered-user">Add Registered</a>
+            </li>
+
+            <div class="dropdown-divider"></div>
+            <li class="nav-item">
+              <a class="nav-link side-link" id="add-unregistered-user-tab" data-toggle="pill" href="#add-unregistered-user">Add Unregistered</a>
+            </li>
+
+            <div class="dropdown-divider"></div>
+            <li class="nav-item">
+              <a class="nav-link side-link" id="delete-registered-user-tab" data-toggle="pill" href="#delete-registered-user">Delete Registered</a>
+            </li>
+
+            <div class="dropdown-divider"></div>
+            <li class="nav-item">
+              <a class="nav-link side-link" id="delete-unregistered-user-tab" data-toggle="pill" href="#delete-unregistered-user">Delete Unregistered</a>
+            </li>
+          </ul>
+        </div> <!-- END COL -->
+
+        <div class="col-9">
+          <div class="tab-content" id="v-pills-tabContent">
+            <div class="tab-pane fade show active" id="add-registered-user">
+              <div id="form-group">
+                <form class="container" action="/api/registeredUser/create" method="post">
+                  <div class="row">              
+                    <div class="col-md-6 mb-2">
+                      <input type="text" class="form-control" name="email" placeholder="Email" required>
+                    </div>
+                    <div class="col-md-6 mb-2">
+                      <input type="tel" class="form-control" name="phone" placeholder="Phone">
+                    </div>
+                  </div>
+                  <div class="row">              
+                    <div class="col-md-12 mb-2">
+                      <input type="text" class="form-control" name="firstName" placeholder="First Name" required>
+                    </div>
+                  </div>
+                  <div class="row">              
+                    <div class="col-md-12 mb-2">
+                      <input type="text" class="form-control" name="middleName" placeholder="Middle Name">
+                    </div>
+                  </div>
+                  <div class="row">              
+                    <div class="col-md-12 mb-2">
+                      <input type="text" class="form-control" name="lastName" placeholder="Last Name" required>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12 mb-2">
+                      <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                    </div>
+                  </div>
+                  <div class="row">  
+                    <div class="col-md-12 mb-2">
+                      <input type="password" class="form-control" name="passwordTwo" placeholder="Confirm Password" required>
+                    </div>
+                  </div>
+                  <button class="btn btn-md btn-default submit-button-center" type="submit">Submit</button>
+                </form>
+              </div>
+            </div> <!-- END TAB -->
+
+            <div class="tab-pane fade" id="delete-registered-user">
+              <div id="form">
+                <form class="container mt-5 ml-5" action="/api/registeredUser/delete" method="post">
+                  <div class="row">              
+                    <div class="col-md-8 mb-2">
+                      <input type="email" class="form-control" name="email" placeholder="Email" required>
+                    </div>
+                  </div>          
+                  <button class="btn btn-md btn-default submit-button-center" type="submit">Submit</button>
+                </form>
+              </div>
+            </div> <!-- END TAB -->
+
+            <div class="tab-pane fade" id="add-unregistered-user">
+              <div  id="app" id="divForm">
+                <form class="container" action="/api/unregisteredUser/create" method="post">
+                  <div class="row">              
+                    <div class="col-md-6 mb-2">
+                      <input type="text" class="form-control" name="email" placeholder="Email" required>
+                    </div>
+                    <div class="col-md-6 mb-2">
+                      <input type="tel" class="form-control" name="phone" placeholder="Phone">
+                    </div>
+                  </div>
+                  <div class="row">              
+                    <div class="col-md-12 mb-2">
+                      <input type="text" class="form-control" name="firstName" placeholder="First Name" required>
+                    </div>
+                  </div>
+                  <div class="row">              
+                    <div class="col-md-12 mb-2">
+                      <input type="text" class="form-control" name="middleName" placeholder="Middle Name">
+                    </div>
+                  </div>
+                  <div class="row">              
+                    <div class="col-md-12 mb-2">
+                      <input type="text" class="form-control" name="lastName" placeholder="Last Name" required>
+                    </div>
+                  </div>
+                  <button class="btn btn-md btn-default submit-button-center" type="submit">Submit</button>
+                </form>
+              </div>
+            </div>  <!-- END TAB -->
+
+            <div class="tab-pane fade" id="delete-unregistered-user">
+              <div id="form">
+                <form class="container mt-5 ml-5" action="/api/unregisteredUser/delete" method="post">
+                  <div class="row">              
+                    <div class="col-md-8 mb-2">
+                      <input type="text" class="form-control" name="email" placeholder="Email" required>
+                    </div>
+                  </div>          
+                  <button class="btn btn-md btn-default submit-button-center" type="submit">Submit</button>
+                </form>
+              </div>
+            </div> <!-- END TAB -->
+
+          </div> <!-- END TABS -->
+        </div> <!-- END COL -->
+      </div> <!-- END ROW -->
+    </div> <!-- END NG -->
+
+    <% include ../../../includes/dashboard/admin/scripts %>
+  </body>
+</html>

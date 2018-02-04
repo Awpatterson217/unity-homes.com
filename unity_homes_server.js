@@ -73,14 +73,7 @@ const jsonParser = bodyParser.json();
 app.set('view engine', 'ejs');
 app.set('views', [
   path.join(__dirname, 'public', 'views'),
-  path.join(__dirname, 'public', 'dashboard_admin'),
-  path.join(__dirname, 'public', 'dashboard_admin', 'data'),
-  path.join(__dirname, 'public', 'dashboard_admin', 'users'),
-  path.join(__dirname, 'public', 'dashboard_admin', 'adminUsers'),
-  path.join(__dirname, 'public', 'dashboard_admin', 'properties'),
-  path.join(__dirname, 'public', 'dashboard_admin', 'billing'),
-  path.join(__dirname, 'public', 'dashboard_tenant'),
-  path.join(__dirname, 'public', 'dashboard_tenant', 'application'),
+  path.join(__dirname, 'public', 'dashboard'),
 ]);
 
 app.use(helmet());
@@ -93,8 +86,6 @@ app.use('/jquery'   , express.static(__dirname + '/public/vendor/jquery/'));
 app.use('/angularjs', express.static(__dirname + '/public/vendor/angularjs/'));
 app.use('/css'      , express.static(__dirname + '/public/resources/css/'));
 app.use('/js'       , express.static(__dirname + '/public/resources/js/'));
-app.use('/js'       , express.static(__dirname + '/public/resources/js/ngAdmin'));
-app.use('/js'       , express.static(__dirname + '/public/resources/js/ngTenant'));
 app.use('/images'   , express.static(__dirname + '/public/resources/images/'));
 
 for (let routeKeys in routes) {
@@ -108,12 +99,12 @@ for (let apiKey in APIs) {
 // TODO Custom error handling and logs
 app.use(function (err, req, res, next) {
   console.error(err.stack)
-  res.status(500).send('Something broke!')
+  res.status(404).render('error', { url: req.originalUrl });
 });
 
 // assume 404 since no middleware responded
 app.use(function(req, res, next){
-  res.status(404).render('404', { url: req.originalUrl });
+  res.status(404).render('error', { url: req.originalUrl });
 });
 
 const server = app.listen(PORT, HOST, () => {
@@ -128,6 +119,7 @@ const server = app.listen(PORT, HOST, () => {
 //   })
 
 //        TODO
+// Make new mongodb ip, Read ip from private file
 // Need linter and unit tests
 // Finish CSRF
 // Nodemailer
@@ -139,6 +131,7 @@ const server = app.listen(PORT, HOST, () => {
 // Logs
 // Favicon
 // Webpack
+// LESS
 // NGINX as a truted proxy? difference? see: proxy-addr
 // need first time login set password prompt
 // Better input sanitation middleware?

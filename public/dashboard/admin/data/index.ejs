@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+  <% include ../../../includes/dashboard/admin/head %>
+
+  <body class="container-fluid">
+    <% include ../../../includes/dashboard/admin/nav %>
+
+      <div class="row" ng-controller="dashboardCtrl">
+
+        <div class="col-2">
+
+          <ul class="nav nav-fill flex-column nav-pills">
+            <li class="nav-item">
+              <a class="nav-link side-link active" id="administrators-tab" data-toggle="pill" href="#administrators">Administrators</a>
+            </li>
+            <div class="dropdown-divider"></div>
+            <li class="nav-item">
+              <a class="nav-link side-link" id="registered-users-tab" data-toggle="pill" href="#registered-users">Registered Users</a>
+            </li>
+            <div class="dropdown-divider"></div>
+            <li class="nav-item">
+              <a class="nav-link side-link" id="unregistered-users-tab" data-toggle="pill" href="#unregistered-users">Unregistered Users</a>
+            </li>
+            <div class="dropdown-divider"></div>
+            <li class="nav-item">
+              <a class="nav-link side-link" id="properties-tab" data-toggle="pill" href="#properties">Properties</a>
+            </li>
+          </ul>
+
+        </div> <!-- END COL -->
+        <div class="col-10">
+
+          <div class="tab-content" id="v-pills-tabContent">
+            <div class="tab-pane fade show active" id="administrators">
+
+              <div class="table-responsive">
+                <table class="table table-hover">
+                  <thead class="table-header-text thead-inverse">
+                    <tr>
+                      <th class="text-center">Name</th>
+                      <th class="text-center">Email</th>
+                      <th class="text-center">Account Type</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="table-text" ng-repeat="administrator in administrators">
+                      <td>                
+                        {{ administrator.firstName }}
+                        {{ administrator.middleName }}
+                        {{ administrator.lastName }}
+                      </td>
+                      <td>
+                        {{ administrator.email }}
+                      </td>
+                      <td>
+                        {{ administrator.type }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div> <!-- END TABLE -->
+
+            </div> <!-- END ADMIN -->
+            <div class="tab-pane fade" id="registered-users">
+
+              <div class="table-responsive">
+                <table class="table table-hover">
+                  <thead class="table-header-text thead-inverse">
+                    <tr>
+                      <th class="text-center">Name</th>
+                      <th class="text-center">Email</th>
+                      <th class="text-center">Account Type</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="table-text" ng-repeat="registeredUser in registeredUsers">
+                      <td>                
+                        {{ registeredUser.firstName }}
+                        {{ registeredUser.middleName }}
+                        {{ registeredUser.lastName }}
+                      </td>
+                      <td>
+                        {{ registeredUser.email }}
+                      </td>
+                      <td>
+                        {{ registeredUser.type }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div> <!-- END TABLE -->
+
+            </div> <!-- END REG -->
+            <div class="tab-pane fade" id="unregistered-users">
+
+              <div class="table-responsive">
+                <table class="table table-hover">
+                  <thead class="table-header-text thead-inverse">
+                    <tr>
+                      <th class="text-center">Name</th>
+                      <th class="text-center">Email</th>
+                      <th class="text-center">Registration Code</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="table-text" ng-repeat="unregisteredUser in unregisteredUsers">
+                      <td>                  
+                        {{ unregisteredUser.firstName }}
+                        {{ unregisteredUser.middleName }}
+                        {{ unregisteredUser.lastName }}
+                      </td>
+                      <td>
+                        {{ unregisteredUser.email }}
+                      </td>
+                      <td>
+                        {{ unregisteredUser.code }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div> <!-- END TABLE -->
+
+            </div> <!-- END UNREG -->
+            <div class="tab-pane fade" id="properties">
+
+              <div class="table-responsive">
+                <table class="table table-hover">
+                  <thead class="table-header-text thead-inverse">
+                    <tr>
+                      <th class="text-center">ID</th>
+                      <th class="text-center">Main Image</th>
+                      <th class="text-center">Address</th>
+                      <th class="text-center">Sq Ft</th>
+                      <th class="text-center">Year</th>
+                      <th class="text-center">Fence</th>
+                      <th class="text-center">Basement/Garage</th>
+                      <th class="text-center">Washer/Dryer</th>
+                      <th class="text-center">Type</th>
+                      <th class="text-center">Occupied</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="table-text" ng-repeat="property in properties">
+                      <td>                  
+                        {{ property.id }}
+                      </td>
+                      <td>
+                        <img class="center-image" v-bind:src=imgName(property.mainImage) />
+                      </td>
+                      <td>
+                        {{ property.street }} <br />
+                        {{ property.city }}, {{ property.state }}  {{ property.zip }} 
+                      </td>
+                      <td>
+                        {{ property.sqft }}
+                      </td>
+                      <td>
+                        {{ property.year }}
+                      </td>
+                      <td>
+                        {{ property.fence }}
+                      </td>
+                      <td>
+                        {{ property.basement }} / {{ property.garage }}
+                      </td>
+                      <td>
+                        {{ property.washer }} / {{ property.dryer }}
+                      </td>
+                      <td>
+                        {{ property.type }}
+                      </td>
+                      <td>
+                        {{ property.occupied }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div> <!-- END TABLE -->
+
+            </div> <!-- END PROP -->
+          </div> <!-- END TAB CONTENT -->
+        </div> <!-- END COL -->
+      </div> <!-- END ROW -->
+    </div> <!-- END NG -->
+
+    <% include ../../../includes/dashboard/admin/scripts %>
+  </body>
+</html>

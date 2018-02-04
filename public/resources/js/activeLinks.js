@@ -6,7 +6,8 @@ let addActive = function() {
 	if (typeof(currentPage) !== 'undefined' && currentPage !== null && currentPage !== '') {
 		if (currentPage !== 'home')
 			if (currentPage !== 'login')
-				document.getElementById(`${currentPage}`).classList.add("active");
+			  if (document.getElementById(`${currentPage}`))
+					document.getElementById(`${currentPage}`).classList.add("active");
 	}
 }
 

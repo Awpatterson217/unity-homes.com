@@ -39,9 +39,9 @@ router.post('/login', checkEmail, checkPass, function(req, res, next) {
     req.session.userAuth  = true;
 
     if (user.type === 'admin')
-      return res.redirect('/admin');
+      return res.redirect('/dashboard/admin');
     if (user.type === 'tenant')
-      return res.redirect('/tenant');
+      return res.redirect('/dashboard/tenant');
   });
 });
 
