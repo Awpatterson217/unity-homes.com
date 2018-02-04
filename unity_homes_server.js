@@ -138,7 +138,7 @@ const server = app.listen(PORT, HOST, () => {
 // - proxy
 // Logs
 // Favicon
-// babel and Webpack
+// Webpack
 // NGINX as a truted proxy? difference? see: proxy-addr
 // need first time login set password prompt
 // Better input sanitation middleware?
