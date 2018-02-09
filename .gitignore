@@ -3,6 +3,8 @@
 /node_modules/
 ssl
 ssl/
+old/
+/old/
 
 # Compiled source #
 ###################

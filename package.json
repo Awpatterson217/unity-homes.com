@@ -4,6 +4,10 @@
   "description": "A web application for a real estate business",
   "main": "unity_homes_server.js",
   "scripts": {
+    "dashBuild": "./node_modules/.bin/webpack",
+    "dashBuild:prod": "./node_modules/.bin/webpack -p",
+    "dashWatch": "./node_modules/.bin/webpack --watch",
+    "dashDev": "./node_modules/.bin/webpack-dev-server",
     "watch": "pm2 start --watch . --name=unity-dev dev_server.js",
     "log": "pm2 logs unity-dev",
     "dev": "npm run watch && npm run log",
@@ -22,11 +26,12 @@
   "homepage": "https://github.com/Awpatterson217/unity-homes.com#readme",
   "dependencies": {
     "@uirouter/angularjs": "^1.0.14",
-    "angular": "^1.6.6",
+    "angular": "^1.6.9",
     "angular-smart-table": "^2.1.11",
     "angular-ui-bootstrap": "^2.5.6",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.17.2",
+    "bootstrap": "^3.3.7",
     "connect-redis": "^3.3.0",
     "csurf": "^1.9.0",
     "ejs": "^2.5.7",
@@ -36,13 +41,27 @@
     "express-validator": "^4.1.1",
     "formidable": "^1.1.1",
     "helmet": "^3.8.1",
+    "jquery": "^3.3.1",
     "lodash": "^4.17.5",
     "moment": "^2.18.1",
     "mongodb": "^2.2.31",
     "nodemailer": "^4.1.0",
     "safe-regex": "^1.1.0",
     "stripe": "^5.4.0",
-    "ui-select": "^0.19.8",
-    "vue": "^2.4.2"
+    "ui-select": "^0.19.8"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.1",
+    "clean-webpack-plugin": "^0.1.18",
+    "css-loader": "^0.28.9",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "file-loader": "^1.1.6",
+    "html-loader": "^0.5.5",
+    "html-webpack-plugin": "^2.30.1",
+    "style-loader": "^0.20.1",
+    "webpack": "^3.10.0",
+    "webpack-dev-server": "^2.11.1"
   }
 }

@@ -76,6 +76,7 @@ app.set('view engine', 'ejs');
 app.set('views', [
   path.join(__dirname, 'public', 'views'),
   path.join(__dirname, 'public', 'dashboard'),
+  path.join(__dirname, 'public', 'dashboard', 'dist'),
 ]);
 
 app.use(helmet());

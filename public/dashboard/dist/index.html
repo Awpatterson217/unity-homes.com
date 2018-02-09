@@ -1,0 +1,120 @@
+Html Webpack Plugin:
+<pre>
+  Error: Child compilation failed:
+  Module build failed: Error: Parse Error: <meta http-equiv=”X-UA-Compatible” content=”IE=edge”> 
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> 
+      <title>AngularJS UI Router</title> 
+    <link href="./app.css" rel="stylesheet"></head> 
+    <body ng-app="app"> 
+      <div class="container"> 
+        <nav-bar></nav-bar> 
+        <div ui-view></div> 
+      </div> 
+    <script type="text/javascript" src="./app.bundle.js"></script></body> 
+  </html>
+  
+  - htmlparser.js:235 new HTMLParser
+    [unity-homes.com]/[html-minifier]/src/htmlparser.js:235:13
+  
+  - htmlminifier.js:944 minify
+    [unity-homes.com]/[html-minifier]/src/htmlminifier.js:944:3
+  
+  - htmlminifier.js:1297 Object.exports.minify
+    [unity-homes.com]/[html-minifier]/src/htmlminifier.js:1297:10
+  
+  
+  - Error: Parse Error: <meta http-equiv=”X-UA-Compatible” content=”IE=edge”>
+  
+  - <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  - <title>AngularJS UI Router</title>
+  
+  - </head>
+  
+  - <body ng-app="app">
+  
+  - <div class="container">
+  
+  - <nav-bar></nav-bar>
+  
+  - <div ui-view></div>
+  
+  - </div>
+  
+  - </body>
+  
+  - </html>
+  
+  - compiler.js:76 
+    [unity-homes.com]/[html-webpack-plugin]/lib/compiler.js:76:16
+  
+  - Compiler.js:300 compile
+    [unity-homes.com]/[webpack]/lib/Compiler.js:300:11
+  
+  - Compiler.js:510 applyPluginsAsync.err
+    [unity-homes.com]/[webpack]/lib/Compiler.js:510:14
+  
+  - Tapable.js:202 next
+    [unity-homes.com]/[tapable]/lib/Tapable.js:202:11
+  
+  - CachePlugin.js:78 Compiler.<anonymous>
+    [unity-homes.com]/[webpack]/lib/CachePlugin.js:78:5
+  
+  - Tapable.js:206 Compiler.applyPluginsAsyncSeries
+    [unity-homes.com]/[tapable]/lib/Tapable.js:206:13
+  
+  - Compiler.js:507 compilation.seal.err
+    [unity-homes.com]/[webpack]/lib/Compiler.js:507:11
+  
+  - Tapable.js:195 Compilation.applyPluginsAsyncSeries
+    [unity-homes.com]/[tapable]/lib/Tapable.js:195:46
+  
+  - Compilation.js:680 self.applyPluginsAsync.err
+    [unity-homes.com]/[webpack]/lib/Compilation.js:680:19
+  
+  - Tapable.js:195 Compilation.applyPluginsAsyncSeries
+    [unity-homes.com]/[tapable]/lib/Tapable.js:195:46
+  
+  - Compilation.js:671 self.applyPluginsAsync.err
+    [unity-homes.com]/[webpack]/lib/Compilation.js:671:11
+  
+  - Tapable.js:202 next
+    [unity-homes.com]/[tapable]/lib/Tapable.js:202:11
+  
+  - index.js:244 Compilation.<anonymous>
+    [unity-homes.com]/[uglifyjs-webpack-plugin]/dist/index.js:244:6
+  
+  - Tapable.js:206 Compilation.applyPluginsAsyncSeries
+    [unity-homes.com]/[tapable]/lib/Tapable.js:206:13
+  
+  - Compilation.js:666 self.applyPluginsAsync.err
+    [unity-homes.com]/[webpack]/lib/Compilation.js:666:10
+  
+  - Tapable.js:195 Compilation.applyPluginsAsyncSeries
+    [unity-homes.com]/[tapable]/lib/Tapable.js:195:46
+  
+  - Compilation.js:662 sealPart2
+    [unity-homes.com]/[webpack]/lib/Compilation.js:662:9
+  
+  - Tapable.js:195 Compilation.applyPluginsAsyncSeries
+    [unity-homes.com]/[tapable]/lib/Tapable.js:195:46
+  
+  - Compilation.js:605 Compilation.seal
+    [unity-homes.com]/[webpack]/lib/Compilation.js:605:8
+  
+  - Compiler.js:504 applyPluginsParallel.err
+    [unity-homes.com]/[webpack]/lib/Compiler.js:504:17
+  
+  - Tapable.js:289 
+    [unity-homes.com]/[tapable]/lib/Tapable.js:289:11
+  
+  - Compilation.js:507 _addModuleChain
+    [unity-homes.com]/[webpack]/lib/Compilation.js:507:11
+  
+  - Compilation.js:477 processModuleDependencies.err
+    [unity-homes.com]/[webpack]/lib/Compilation.js:477:14
+  
+  - next_tick.js:150 process._tickCallback
+    internal/process/next_tick.js:150:11
+  
+</pre>
