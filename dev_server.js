@@ -9,73 +9,72 @@ const helmet     = require('helmet');
 const session    = require('express-session');
 const ejs        = require('ejs');
 
-const { checkAuth } = require('./local/node_modules/lib/middleware');
-
-const app = express();
-
 const routes = require('./local/routes');
 const APIs   = require('./local/api');
 
-const sessionTime = 1000000;
-const port        = 3000;
-const host        = '127.0.0.4';
-
-let SECRET = 'developmentSecret';
-
-app.use(session({
-  secret: SECRET,
-  cookie: {
-    unset   : 'destroy',
-    sameSite: true,
-    maxAge  : sessionTime
-  }
-}));
+const { checkAuth } = require('./local/node_modules/lib/middleware');
 
 const urlEncParser = bodyParser.urlencoded({
   extended: false
 });
 const jsonParser = bodyParser.json();
 
-app.set('view engine', 'ejs');
-app.set('views', [
-  path.join(__dirname, 'public', 'views'),
-  path.join(__dirname, 'public', 'dashboard'),
-]);
+const sessionTime = 1000000;
+const port        = 3000;
+const host        = '127.0.0.4';
+const SECRET      = 'pretendSecret';
 
+const app = express();
+
+// Redis sessions for production
+app.use(session({
+  secret: SECRET,
+  cookie: {
+    unset   : 'destroy',
+    sameSite: true,
+    maxAge  : sessionTime,
+    resave: true,
+    saveUninitialized: false
+  }
+}));
+
+// Security
 app.use(helmet());
 app.use(helmet.hidePoweredBy());
 
+// Parsing
 app.use(urlEncParser); 
 app.use(jsonParser); 
 
-app.use('/bootstrap/4', express.static(__dirname + '/public/vendor/bootstrap-4.0.0/'));
-app.use('/bootstrap/3', express.static(__dirname + '/public/vendor/bootstrap-3.3.7/'));
-app.use('/jquery'     , express.static(__dirname + '/public/vendor/jquery/'));
-app.use('/angularjs'  , express.static(__dirname + '/public/vendor/angularjs/'));
-app.use('/css'        , express.static(__dirname + '/public/resources/css/'));
-app.use('/js'         , express.static(__dirname + '/public/resources/js/'));
-app.use('/js'         , express.static(__dirname + '/public/resources/js/ngAdmin'));
-app.use('/js'         , express.static(__dirname + '/public/resources/js/ngTenant'));
-app.use('/images'     , express.static(__dirname + '/public/resources/images/'));
-
-for (let routeKeys in routes) {
-  app.use(routes[routeKeys]);
-}
+// Static Files
+app.use('/', express.static(__dirname + '/dist/'));
 
 // Check for authorization for all api calls
 app.use('/api', checkAuth);
 
+// Adding API
 for (let apiKey in APIs) {
   app.use('/api', APIs[apiKey]);
 }
 
-// TODO Custom error handling and logs
+// Adding front-end routes
+for (let routeKeys in routes) {
+  app.use(routes[routeKeys]);
+}
+
+// Ejs templating
+app.set('view engine', 'ejs');
+app.set('views', [
+  path.join(__dirname, 'dist'),
+]);
+
+
 app.use(function (err, req, res, next) {
   console.error(err.stack)
   res.status(404).render('error', { url: req.originalUrl });
 });
 
-// assume 404 since no middleware responded
+// Assume 404 since no middleware responded
 app.use(function(req, res, next){
   res.status(404).render('error', { url: req.originalUrl });
 });

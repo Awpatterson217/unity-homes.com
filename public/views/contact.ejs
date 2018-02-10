@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-  <% include ../includes/head %>
+  <% include includes/head.ejs %>
 
   <body>
-    <% include ../includes/nav %>
+    <% include includes/nav.ejs %>
 
     <div class="container">
         <div class="row mt-4">              
@@ -22,17 +22,13 @@
                 <textarea class="form-control" type="textarea" id="message" placeholder="Message" maxlength="250" rows="7"></textarea>
               </div>
               <div class="text-center">
-                  <button class="btn btn-md btn-outline-dark no-webkit" data-toggle="modal" data-target="#inactiveModal" type="submit">Submit</button>
+                  <button class="btn btn-md btn-outline-dark" type="submit">Submit</button>
               </div>
             </form>
           </div>
         </div>
     </div>
 
-    <% include ../includes/inactiveModal %>    
-
-    <% include ../includes/footer %>
-
-    <% include ../includes/scripts %>
+    <% include includes/footer.ejs %>
   </body>
 </html>

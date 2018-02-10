@@ -44,7 +44,7 @@ router.post('/login', checkEmail, checkPass, function(req, res, next) {
           req.session.firstName = admin.firstName;
           req.session.lastName  = admin.lastName;
 
-          return res.redirect('/dashboard');
+          return res.redirect('/dashboard/admin');
         })
         .catch( error => {
           // LOG/HANDLE ERROR

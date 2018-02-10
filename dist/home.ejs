@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <% include includes/head.ejs %>
+
+  <body>
+    <div class="container">   
+      <% include includes/nav %>
+        <div class="jumbotron mt-1">
+          <h1 class="display-3">
+            Spacious Modern Living
+          </h1>
+            <div id="homeCarousel" class="carousel slide" data-interval="3000" data-ride="carousel">
+              <div class="carousel-inner" role="listbox">
+                <div class="carousel-item active">
+                  <h1 class="ml-5 display-4">
+                   Love Where You Live
+                  </h1>
+                </div> <!-- END ITEM -->
+                <div class="carousel-item">
+                  <h1 class="ml-5 display-4">
+                   Amenities you deserve
+                  </h1>
+                </div> <!-- END ITEM -->
+                <div class="carousel-item">
+                  <h1 class="ml-5 display-4">
+                    Above the crowd
+                  </h1>
+                </div> <!-- END ITEM -->
+              </div> <!-- END INNER -->
+            </div> <!-- END CAROUSEL -->
+
+            <hr class="my-2"/>
+
+            <a class="btn btn-dark btn-lg " href="/contact" role="button">
+              Get in Touch
+            </a>
+        </div> <!-- END JUMBO -->
+    </div> <!-- END CONTAINER -->
+
+    <% include includes/footer.ejs %>
+  <script type="text/javascript" src="./main.bundle.js"></script></body>
+</html>

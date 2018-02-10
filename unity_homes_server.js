@@ -106,14 +106,14 @@ for (let apiKey in APIs) {
 // TODO Custom error handling and logs
 app.use(function (err, req, res, next) {
   console.error(err.stack)
-  res.status(404).render('error', {
+  res.status(404).render('error.dist.ejs', {
     url: req.hostname + req.originalUrl,
   });
 });
 
 // assume 404 since no middleware responded
 app.use(function(req, res, next){
-  res.status(404).render('error', {
+  res.status(404).render('error.dist.ejs', {
     url: req.hostname + req.originalUrl,
     });
 });
