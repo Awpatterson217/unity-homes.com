@@ -6,7 +6,6 @@ const less        = require('gulp-less');
 const sass        = require('gulp-sass');
 const browserSync = require('browser-sync').create();
 const vendor      = require('gulp-concat-vendor');
-const log         = require('fancy-log');
 const babel       = require('gulp-babel');
 const del         = require('del');
 const uglify      = require('gulp-uglify');
@@ -14,14 +13,7 @@ const nodemon     = require('gulp-nodemon');
 const sequence    = require('run-sequence');
 const reload      = browserSync.reload;
 
-/*
-gulp.task - Define tasks
-gulp.src - Point tofiles to use
-gulp.dest - Points to foler to output
-gulp.watch - watch files nad folders for changes
-*/
-
-//                        SIMPLE TASKS
+//                COMPILERS / TRANSFORMERS / COPY
 
 // Copy Unity-Homes templates to /dist
 gulp.task('copy-views', function() {
@@ -68,6 +60,9 @@ gulp.task('compile-less', function() {
     .pipe(gulp.dest('./dist/css/'));
 });
  // Dev compile less
+ // Dev - Transpiles, minifies, and concats custom scripts
+// .pipe(browserSync.stream()) guarantees browserSync doesn't
+// update before this operation is complete.
 gulp.task('dev-compile-less', function() {  
   return gulp.src('./public/assets/less/styles.less')
     .pipe(less())
@@ -81,13 +76,17 @@ gulp.task('compile-sass', function () {
     .pipe(gulp.dest('./dist/css'));
 });
 // Dev compile sass
+// Dev - Transpiles, minifies, and concats custom scripts
+// .pipe(browserSync.stream()) guarantees browserSync doesn't
+// update before this operation is complete.
 gulp.task('dev-compile-sass', function () {
   return gulp.src('./public/assets/sass/styles.scss')
     .pipe(sass().on('error', sass.logError))
     .pipe(gulp.dest('./dist/css'))
     .pipe(browserSync.stream());
 });
-// Dev - Transpiles, minifies, and concats custom scripts
+
+// Transpiles, minifies, and concats custom scripts
 gulp.task('compile-scripts', function() {
   return gulp.src('public/assets/js/*.js', { sourcemaps: true })
     .pipe(babel())
@@ -104,6 +103,9 @@ gulp.task('dev-compile-scripts', function() {
     .pipe(gulp.dest('dist/js/'))
     .pipe(browserSync.stream());
 });
+
+//                    WATCHERS
+
 // Watch and recompile less
 gulp.task('watch-less', function() {  
   return gulp.watch('./public/assets/less/**/*.less' , ['dev-compile-less']);
@@ -142,32 +144,32 @@ gulp.task('watch', [
 
 // Sets up back-end server, watches local files
 gulp.task('dev-back', function() {
-    let nodemon = require('gulp-nodemon'),
-        spawn   = require('cross-spawn'),
-        bunyan
- 
-    nodemon({
-        script: 'dev_server.js',
-        watch:    ['./local'],
-        stdout:   false,
-        readable: false
-    })
-    .on('readable', function() {
- 
-        // free memory 
-        bunyan && bunyan.kill()
- 
-        bunyan = spawn('./node_modules/bunyan/bin/bunyan', [
-            '--output', 'short',
-            '--color'
-        ])
- 
-        bunyan.stdout.pipe(process.stdout)
-        bunyan.stderr.pipe(process.stderr)
+  let nodemon = require('gulp-nodemon'),
+      spawn   = require('cross-spawn'),
+      bunyan
 
-        this.stdout.pipe(bunyan.stdin)
-        this.stderr.pipe(bunyan.stdin)
-    });
+  nodemon({
+    script: 'dev_server.js',
+    watch:    ['./local'],
+    stdout:   false,
+    readable: false
+  })
+  .on('readable', function() {
+
+  // free memory 
+  bunyan && bunyan.kill()
+
+  bunyan = spawn('./node_modules/bunyan/bin/bunyan', [
+    '--output', 'short',
+    '--color'
+  ])
+
+  bunyan.stdout.pipe(process.stdout)
+  bunyan.stderr.pipe(process.stderr)
+
+  this.stdout.pipe(bunyan.stdin)
+  this.stderr.pipe(bunyan.stdin)
+  });
 });
 
 // Servers front end files, re-routes request to back-end server
@@ -195,7 +197,6 @@ gulp.task('build', [
 gulp.task('dev', function() {
   return sequence(['watch', 'dev-back', 'dev-front'])
 });
-
 
 //                         UNUSED TASKS
 

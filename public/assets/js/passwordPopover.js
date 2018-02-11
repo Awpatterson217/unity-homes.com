@@ -1,5 +1,3 @@
-"use strict"
-
 let pwTemplate = '';
 pwTemplate += '8-20 characters<br />';
 pwTemplate += '1 uppercase <br />';
