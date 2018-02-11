@@ -11,9 +11,7 @@ router.get('/dashboard/admin', checkAdminAuth, function(req, res) {
   // TODO Log time and req
   const fullName = req.session.firstName + ' ' + req.session.lastName;
 
-  return res.render('admin', {
-    fullName: fullName
-  });
+  return res.render('admin');
 });
 
 module.exports = router;

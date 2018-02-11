@@ -35,3 +35,5 @@ const autofillEmail = function() {
       document.getElementById('login-email').focus();
     }
 }
+
+autofillEmail();

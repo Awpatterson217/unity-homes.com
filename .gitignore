@@ -5,6 +5,8 @@ ssl
 ssl/
 old/
 /old/
+dist/
+/dist/
 
 # Compiled source #
 ###################

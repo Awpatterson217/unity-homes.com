@@ -11,45 +11,68 @@ const session    = require('express-session');
 const RedisStore = require('connect-redis')(session);
 const ejs        = require('ejs');
 
-const { checkAuth } = require('./local/node_modules/lib/middleware');
-
-const app = express();
-
 const routes = require('./local/routes');
 const APIs   = require('./local/api');
 
-const ttl     = 180;  // Seconds
-const sslPort = 3443; // Temporary
+// Authorization check for API
+const { checkAuth } = require('./local/node_modules/lib/middleware');
 
-// const httpsOptions = {
-  // cert: fs.readFileSync(path.join(__dirname, 'ssl', 'server.crt')),
-  // key: fs.readFileSync(path.join(__dirname, 'ssl', 'server.key')),
-// }
+// Parsers
+const urlEncParser = bodyParser.urlencoded({
+  extended: false
+});
+const jsonParser   = bodyParser.json();
 
-let PORT   = process.env.UNITY_PORT;
-let HOST   = process.env.UNITY_HOST;
-let SECRET = process.env.UNITY_SECRET;
-
-if (typeof SECRET !== 'undefined')
-  SECRET = SECRET.trim();
-else
-  console.log("SECRET is undefined"); // TODO: LOG
-
-if (typeof HOST !== 'undefined')
-  HOST = HOST.trim();
-else
-  console.log("HOST is undefined"); // TODO: LOG
-
-const client = redis.createClient();
+const client       = redis.createClient();
 const redisOptions = {
   client,
   ttl
 }
+// Seconds
+const ttl     = 180;  
+// TODO: Read from external file
+const sslPort = 3443;
+let PORT   = process.env.UNITY_PORT;
+let HOST   = process.env.UNITY_HOST;
+let SECRET = process.env.UNITY_SECRET;
 
 client.on("error", function(err) {
-  console.log("Error " + err); // TODO: LOG
+  // TODO: LOG
+  console.log("Error " + err);
 });
 
+if (typeof SECRET !== 'undefined'){
+  SECRET = SECRET.trim();
+} else {
+  // TODO: LOG
+  console.log("SECRET is undefined");
+}
+
+if (typeof HOST !== 'undefined') {
+  HOST = HOST.trim();
+} else {
+  // TODO: LOG
+  console.log("HOST is undefined");
+}
+
+const app     = express();
+const limiter = require('express-limiter')(app, client);
+
+// Limit requests to 150 per hour per IP
+limiter({
+  lookup: ['connection.remoteAddress'],
+  total : 150,
+  expire: 1000 * 60 * 60
+})
+
+// Ejs templating
+app.set('view engine', 'ejs');
+app.set('views', [
+  path.join(__dirname, 'dist/views'),
+  path.join(__dirname, 'dist/dashboard'),
+]);
+
+// Server side sessions with Redis
 app.use(
   session({
     store : new RedisStore(redisOptions),
@@ -59,92 +82,65 @@ app.use(
   })
 );
 
-const limiter = require('express-limiter')(app, client);
-// 150 per hour per IP
-limiter({
-  lookup: ['connection.remoteAddress'],
-  total : 150,
-  expire: 1000 * 60 * 60
-})
-
-const urlEncParser = bodyParser.urlencoded({
-  extended: false
-});
-const jsonParser = bodyParser.json();
-
-app.set('view engine', 'ejs');
-app.set('views', [
-  path.join(__dirname, 'public', 'views'),
-  path.join(__dirname, 'public', 'dashboard'),
-  path.join(__dirname, 'public', 'dashboard', 'dist'),
-]);
-
+// Security
 app.use(helmet());
+app.use(helmet.hidePoweredBy());
 
+// Parsing
 app.use(urlEncParser); 
 app.use(jsonParser); 
 
-app.use('/bootstrap/4', express.static(__dirname + '/public/vendor/bootstrap-4.0.0/'));
-app.use('/bootstrap/3', express.static(__dirname + '/public/vendor/bootstrap-3.3.7/'));
-app.use('/jquery'     , express.static(__dirname + '/public/vendor/jquery/'));
-app.use('/angularjs'  , express.static(__dirname + '/public/vendor/angularjs/'));
-app.use('/css'        , express.static(__dirname + '/public/resources/css/'));
-app.use('/js'         , express.static(__dirname + '/public/resources/js/'));
-app.use('/images'     , express.static(__dirname + '/public/resources/images/'));
-
-for (let routeKeys in routes) {
-  app.use(routes[routeKeys]);
-}
+// Static Files
+app.use('/css', express.static(__dirname + '/dist/css'));
+app.use('/js', express.static(__dirname + '/dist/js'));
+app.use('/images', express.static(__dirname + '/dist/media/images'));
+app.use('/assets', express.static(__dirname + '/dist/dashboard/assets'));
 
 // Check for authorization for all api calls
 app.use('/api', checkAuth);
 
+// Adding API
 for (let apiKey in APIs) {
   app.use('/api', APIs[apiKey]);
 }
 
-// TODO Custom error handling and logs
+// Adding front-end routes
+for (let routeKeys in routes) {
+  app.use(routes[routeKeys]);
+}
+
+// Ejs templating
+app.set('view engine', 'ejs');
+app.set('views', [
+  path.join(__dirname, 'dist/views'),
+  path.join(__dirname, 'dist/dashboard'),
+]);
+
+// Default error handler
 app.use(function (err, req, res, next) {
   console.error(err.stack)
-  res.status(404).render('error.dist.ejs', {
-    url: req.hostname + req.originalUrl,
-  });
+  res.status(404).render('error', { url: req.originalUrl });
 });
 
-// assume 404 since no middleware responded
+// Assume 404 since no middleware responded
 app.use(function(req, res, next){
-  res.status(404).render('error.dist.ejs', {
-    url: req.hostname + req.originalUrl,
-    });
+  res.status(404).render('error', { url: req.originalUrl });
 });
 
-const server = app.listen(PORT, HOST, () => {
-  const host = server.address().address;
-  const port = server.address().port;
-  console.log(`Server running at http://${host}:${port}`);
-});
+// Server
+app.listen(port, host);
 
-// https.createServer(httpsOptions, app)
-//   .listen(sslPort, function() {
-//     console.log(`SERVER RUNNING ON https://localhost:3443`);
-//   })
 
 //        TODO
 
-// Make new mongodb ip, Read ip from private file
-
-// Need linter and unit tests
-// Finish CSRF
+// New mongodb ip, URI from private file
+// Linter and tests
+// Finish implementing CSRF
 // Nodemailer
 // Contact API
 // Stripe
 // SSL / TSL
-// - cert
-// - proxy
-// Logs
+// Logging
 // Favicon
-// Webpack
-// LESS
 // NGINX as a truted proxy? difference? see: proxy-addr
 // need first time login set password prompt
-// Better input sanitation middleware?

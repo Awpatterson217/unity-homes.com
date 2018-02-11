@@ -26,15 +26,15 @@ const SECRET      = 'pretendSecret';
 
 const app = express();
 
-// Redis sessions for production
+// Cookie sessions for development
 app.use(session({
   secret: SECRET,
+  resave: true,
+  saveUninitialized: false,
   cookie: {
     unset   : 'destroy',
     sameSite: true,
     maxAge  : sessionTime,
-    resave: true,
-    saveUninitialized: false
   }
 }));
 
@@ -47,7 +47,10 @@ app.use(urlEncParser);
 app.use(jsonParser); 
 
 // Static Files
-app.use('/', express.static(__dirname + '/dist/'));
+app.use('/css', express.static(__dirname + '/dist/css'));
+app.use('/js', express.static(__dirname + '/dist/js'));
+app.use('/images', express.static(__dirname + '/dist/media/images'));
+app.use('/assets', express.static(__dirname + '/dist/dashboard/assets'));
 
 // Check for authorization for all api calls
 app.use('/api', checkAuth);
@@ -65,10 +68,11 @@ for (let routeKeys in routes) {
 // Ejs templating
 app.set('view engine', 'ejs');
 app.set('views', [
-  path.join(__dirname, 'dist'),
+  path.join(__dirname, 'dist/views'),
+  path.join(__dirname, 'dist/dashboard'),
 ]);
 
-
+// Default error handler
 app.use(function (err, req, res, next) {
   console.error(err.stack)
   res.status(404).render('error', { url: req.originalUrl });
@@ -80,7 +84,7 @@ app.use(function(req, res, next){
 });
 
 const server = app.listen(port, host, () => {
-  const host = server.address().address;
-  const port = server.address().port;
-  console.log(`Server running at http://${host}:${port}`);
+  // const host = server.address().address;
+  // const port = server.address().port;
+  // console.log(`Server running at http://${host}:${port}`);
 });

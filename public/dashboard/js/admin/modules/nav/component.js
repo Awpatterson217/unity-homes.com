@@ -1,4 +1,4 @@
-import template from './template.ejs';
+import template from './template.html';
 
 class controller {
   constructor() {

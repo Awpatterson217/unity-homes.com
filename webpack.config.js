@@ -1,9 +1,6 @@
 const path = require('path');
-// To remove old build before production
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-// Importing html-webpack-plugin
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-// Import extract-text-webpack-plugin into config file
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 // Don't need this, but it is good practice, and can include
 // webpack's built-in plugins into project
@@ -14,41 +11,37 @@ const webpack = require('webpack');
 // - Will need to add this to a rule, and use extract() method
 // - Will need to add this plugin to our plugins
 const extractPlugin = new ExtractTextPlugin({
-  filename: './app.css'
+  filename: './assets/css/app.css'
 });
 
 const config = {
-  context: path.resolve(__dirname, "public"),
+  context: path.resolve(__dirname, 'public', 'dashboard'),
 
   // Optionally: entry: './app.js',
   // This (below) allows for advanced config, like
   // multiple entry points.
   entry: {
-    admin          : './dashboard/admin.js',
-    tenant         : './dashboard/tenant.js',
-    main           : './assets/js/main.js',
-    login          : './assets/js/login.js',
-    passwordPopover: './assets/js/passwordPopover.js',
+    app: './app.js',
+    // tenant: './tenant.js',
   },
-
   output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: './[name].bundle.js'
+    // Root of ALL output
+    path: path.resolve(__dirname, 'dist', 'dashboard'),
+    filename: 'assets/js/app.bundle.js',
   },
-
   // For loaders (stuff besides JS)
   module: {
     rules: [{
       // required prop
       test: /\.js$/,
       // optional
-      include: path.resolve('public', 'dashboard'),
+      include: '/public/dashboard',
       // optional
       exclude: /node_modules/,
       // required
       use: {
         // Required, multiple can be chained, parsed right to left
-        loader: "babel-loader",
+        loader: 'babel-loader',
         // Options can be string or obj
         options: {
           // Rule to enable presets
@@ -57,13 +50,11 @@ const config = {
       }
     },{
       // Configuring html loader
-      test: /\.ejs$/,
+      test: /\.html$/,
       use: ['html-loader']
     },{
       test: /\.css$/,
-      include: [
-        path.resolve(__dirname, 'public', 'dashboard', 'assets', 'css'),
-        ],
+      include: [path.resolve(__dirname, 'public', 'dashboard', 'assets', 'css')],
       // Use the loaders extract() method
       // Pass the required loaders in the form
       // of an object inside the method
@@ -85,9 +76,6 @@ const config = {
     },{
       // For static content (images)
       test: /\.(jpg|png|gif|svg)$/,
-      include: [
-        path.resolve(__dirname, 'public', 'assets', 'images'),
-      ],
       use: [
         {
           loader: 'file-loader',
@@ -96,8 +84,8 @@ const config = {
             // VERY IMP: ADD '/' to end of outputPath
             // to avoid concatenating the specified string
             // and the filename.
-            outputPath: './dist/assets/',
-            publicPath: './dist/'
+            outputPath: './media/',
+            publicPath: './media/'
           }
         }
       ]
@@ -113,88 +101,38 @@ const config = {
   // Every plugin must be a new instance
   plugins: [
     // Can have more folders than just dist
-    new CleanWebpackPlugin(['dist']),
+    new CleanWebpackPlugin(['dist/views', 'dist/js', 'dist/media', 'dist/css', 'dist/dashboard']),
     // This plugin simplifies creation of HTML files
     new HtmlWebpackPlugin({
       filename: 'admin.ejs',
-      template: 'dashboard/admin.html',
-      chunks: ['admin']
+      template: 'admin.html',
+      inject: false,
+      // hash: true
     }),
-    new HtmlWebpackPlugin({
-      filename: 'tenant.ejs',
-      template: 'dashboard/tenant.html',
-      chunks: ['tenant']
-    }),
-    new HtmlWebpackPlugin({
-      filename: 'apply.ejs',
-      template: 'views/apply.ejs',
-      chunks: ['main']
-    }),
-    new HtmlWebpackPlugin({
-      filename: 'contact.ejs',
-      template: 'views/contact.ejs',
-      chunks: ['main']
-    }),
-    new HtmlWebpackPlugin({
-      filename: 'error.ejs',
-      template: 'views/error.ejs',
-      chunks: ['main']
-    }),
-    new HtmlWebpackPlugin({
-      filename: 'home.ejs',
-      template: 'views/home.ejs',
-      chunks: ['main']
-    }),
-    new HtmlWebpackPlugin({
-      filename: 'listings.ejs',
-      template: 'views/listings.ejs',
-      chunks: ['main']
-    }),
-    new HtmlWebpackPlugin({
-      filename: 'login.ejs',
-      template: 'views/login.ejs',
-      chunks: ['main', 'login']
-    }),
-    new HtmlWebpackPlugin({
-      filename: 'register.ejs',
-      template: 'views/register.ejs',
-      chunks: ['main', 'passwordPopover']
-    }),
-    new HtmlWebpackPlugin({
-      filename: 'registered.ejs',
-      template: 'views/registered.ejs',
-      chunks: ['main']
-    }),
-    new HtmlWebpackPlugin({
-      filename: 'includes/head.ejs',
-      template: 'includes/head.ejs',
-      chunks: []
-    }),
-    new HtmlWebpackPlugin({
-      filename: 'includes/nav.ejs',
-      template: 'includes/nav.ejs',
-      chunks: []
-    }),
-    new HtmlWebpackPlugin({
-      filename: 'includes/footer.ejs',
-      template: 'includes/footer.ejs',
-      chunks: []
+    // So that bootstrap can find jquery
+    new webpack.ProvidePlugin({   
+        jQuery: 'jquery',
+        $: 'jquery',
+        jquery: 'jquery'
     }),
     // The instance of ExtractTextPlugin
-    extractPlugin,
+    extractPlugin
   ],
-
   devServer: {
-    // Serve static images from here:
-    contentBase: path.resolve(__dirname, "dist/media"),
+    contentBase: path.resolve(__dirname, 'dist', 'dashboard'),
     // Show only errors in bundle
-    stats: 'errors-only',
-    open: true,
+    // stats: 'errors-only',
+    // open: true,
     port: 3000,
+    filename: 'js/app.bundle.js',
+    index: 'admin.ejs',
+    // hot: true,
+    // inline: true,
+    publicPath: '/',
+    openPage: '',
     // Enable gzip compression for everything served
     compress: true
   },
-
   // For debugging, outputting errors
   devtool: 'inline-source-map'
 };

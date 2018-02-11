@@ -1,0 +1,82 @@
+<div class="page-header">
+  <h1>Applicants</h1>
+</div>
+
+<div class="table-responsive">
+<table class="table table-condensed table-hover" st-table="applicants" st-safe-src="data.applicants">
+  <thead>
+    <tr>
+      <th colspan="2">
+        Applicant
+      </th>
+      <th colspan="4">
+        Property
+      </th>
+    </tr>
+    <tr>
+      <th>
+        Email
+      </th>
+      <th>
+        Name
+      </th>
+      <th>
+        Street
+      </th>
+      <th>
+        City
+      </th>
+      <th>
+        State
+      </th>
+      <th>
+        Postal Code
+      </th>
+      <th>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-class="isNew(applicant.timestamp)" ng-repeat="applicant in applicants">
+      <td>
+        {{ applicant.email }}
+      </td>
+      <td>
+        {{ applicant.firstName }}
+        {{ applicant.lastName }}
+      </td>
+      <td>
+        123 Main Street
+      </td>
+      <td>
+        Champaign
+      </td>
+      <td>
+        IL
+      </td>
+      <td>
+        61820
+      </td>
+      <td>
+        <a class="btn btn-sm btn-default" uib-tooltip="View Application" ng-click="">
+          <span class="glyphicon glyphicon-list"></span>
+        </a>
+        <a class="btn btn-sm btn-primary" uib-tooltip="Download Application" ng-click="">
+          <span class="glyphicon glyphicon-save-file"></span>
+        </a>
+        <a class="btn btn-sm btn-success" uib-tooltip="Approve Application" ng-click="">
+          <span class="glyphicon glyphicon-ok"></span>
+        </a>
+        <a class="btn btn-sm btn-danger" uib-tooltip="Deny Application" ng-click="">
+          <span class="glyphicon glyphicon-trash"></span>
+        </a>
+      </td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr>
+      <td st-pagination colspan="7"></td>
+    </tr>
+  </tfoot>
+</table>
+</div>

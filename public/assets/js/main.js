@@ -1,8 +1,4 @@
-"use strict"
-
-const currentPage = window.location.pathname.slice(1);    
-
-
+const currentPage = window.location.pathname.slice(1);
 
 const addActive = function() {
 	if (typeof(currentPage) !== 'undefined' && currentPage !== null && currentPage !== '') {
@@ -14,5 +10,3 @@ const addActive = function() {
 }
 
 addActive();
-
-autofillEmail();
