@@ -7,7 +7,6 @@ const sass        = require('gulp-sass');
 const browserSync = require('browser-sync').create();
 const vendor      = require('gulp-concat-vendor');
 const babel       = require('gulp-babel');
-const del         = require('del');
 const uglify      = require('gulp-uglify');
 const nodemon     = require('gulp-nodemon');
 const sequence    = require('run-sequence');
@@ -200,10 +199,6 @@ gulp.task('dev', function() {
 
 //                         UNUSED TASKS
 
-// Clean out distribution folder
-gulp.task('clean', function() {
-  return del(['dist/css', 'dist/js', 'dist/views', 'dist/dashboard']);
-});
 // Copy minified bootstrap JS
 gulp.task('copy-bootstrap-js', function() {
   return gulp.src('public/assets/vendor/bootstrap-4.0.0/dist/js/bootstrap.min.js')
