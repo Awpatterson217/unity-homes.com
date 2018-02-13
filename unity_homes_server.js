@@ -182,7 +182,7 @@ app.use(function(req, res, next){
   res.status(404).render('error', { url: req.originalUrl });
 });
 // Start Express server
-app.listen(port, host);
+app.listen(PORT, HOST);
 
 //        TODO
 
