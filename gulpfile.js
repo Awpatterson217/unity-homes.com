@@ -174,7 +174,7 @@ gulp.task('dev-back', function() {
 // Servers front end files, re-routes request to back-end server
 gulp.task('dev-front', function () {
   browserSync.init({
-      proxy: '127.0.0.4:3000'
+      proxy: 'localhost:3000'
   });
   // Watch and reload
   gulp.watch("./dist/css/*.css").on("change", reload);
