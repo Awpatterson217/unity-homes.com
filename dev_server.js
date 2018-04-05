@@ -9,27 +9,18 @@ const helmet     = require('helmet');
 const session    = require('express-session');
 const ejs        = require('ejs');
 
-// I require all routes and API endpoints from
-// the index.js located in /local/routes and /local/api
 const routes = require('./local/routes');
 const APIs   = require('./local/api');
-// Custom authorization check as middleware,
-// I tell express to use this middleware before
-// passing any reuests to their designated API route.
+
 const { checkAuth } = require('./local/node_modules/lib/middleware');
-// Creating the parsing middleware that will
-// be used as middleware later in the application.
+
 const urlEncParser = bodyParser.urlencoded({
   extended: false
 });
-const jsonParser = bodyParser.json();
-// The length of time before a session expires
+const jsonParser  = bodyParser.json();
 const sessionTime = 1000000;
-// These values are hidden in production,
-// but they are the host and port numbers used
-// to initializethe server at the bottom of this page.
 const port        = 3000;
-const host        = '127.0.0.4';
+const host        = 'localhost';
 // In production, this shouldn't
 // be publicly visible.
 // This is the secret used to sign the session ID cookie.
