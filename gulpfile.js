@@ -10,16 +10,27 @@ const babel       = require('gulp-babel');
 const uglify      = require('gulp-uglify');
 const nodemon     = require('gulp-nodemon');
 const sequence    = require('run-sequence');
+const mkdirs      = require('mkdirs');
 const reload      = browserSync.reload;
+const {
+  log,
+  execute,
+  sep
+} = require('./helperFunctions');
 
 //                COMPILERS / TRANSFORMERS / COPY
+
+const DOCKER_MONGO_SCRIPT = 'docker run --rm --name mongo-dev -p 27017:27017 mongo';
+
+gulp.task('start-mongo', function() {
+  return execute(DOCKER_MONGO_SCRIPT);
+});
 
 // Copy Unity-Homes templates to /dist
 gulp.task('copy-views', function() {
   return gulp.src('public/views/**/*.ejs')
     .pipe(gulp.dest('dist/views'));
 });
-
 // Copy Unity-Homes images to /media/images
 gulp.task('copy-images', function() {
   return gulp.src([
@@ -31,7 +42,6 @@ gulp.task('copy-images', function() {
 gulp.task('copy-favicon', function() {
   return gulp.src('public/assets/images/favicon/*.ico').pipe(gulp.dest('dist/media/images/favicon'));
 });
-
 // Copy minified bootstrap CSS to dist/
 gulp.task('copy-bootstrap', function() {
   return gulp.src('public/assets/vendor/bootstrap-4.0.0/dist/css/bootstrap.min.css')
@@ -84,7 +94,6 @@ gulp.task('dev-compile-sass', function () {
     .pipe(gulp.dest('./dist/css'))
     .pipe(browserSync.stream());
 });
-
 // Transpiles, minifies, and concats custom scripts
 gulp.task('compile-scripts', function() {
   return gulp.src('public/assets/js/*.js', { sourcemaps: true })
@@ -145,10 +154,10 @@ gulp.task('watch', [
 gulp.task('dev-back', function() {
   let nodemon = require('gulp-nodemon'),
       spawn   = require('cross-spawn'),
-      bunyan
+      bunyan;
 
   nodemon({
-    script: 'dev_server.js',
+    script: './dev/dev_server.js',
     watch:    ['./local'],
     stdout:   false,
     readable: false
@@ -190,7 +199,7 @@ gulp.task('build', [
   'vendor',
   'copy-images',
   'copy-favicon',
-  'compile-scripts'
+  'compile-scripts',
 ]);
 
 gulp.task('dev', function() {
@@ -204,7 +213,7 @@ gulp.task('copy-bootstrap-js', function() {
   return gulp.src('public/assets/vendor/bootstrap-4.0.0/dist/js/bootstrap.min.js')
     .pipe(gulp.dest('dist/js'));
 });
-// Copy minified Jquery slim
+// Copy minified jQuery slim
 gulp.task('copy-bootstrap-js', function() {
   return gulp.src('public/assets/vendor/jquery/jquery-3.2.1.slim.min.js')
     .pipe(gulp.dest('dist/js'));

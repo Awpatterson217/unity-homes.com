@@ -1,12 +1,12 @@
 # ignore node modules #
-/node_modules
-/node_modules/
+node_modules
+node_modules/
 ssl
 ssl/
-old/
-/old/
+dist
 dist/
-/dist/
+mongodb
+mongodb/
 
 # Compiled source #
 ###################
