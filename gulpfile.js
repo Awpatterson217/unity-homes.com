@@ -16,7 +16,7 @@ const {
   log,
   execute,
   sep
-} = require('./helperFunctions');
+} = require('./local/node_modules/lib/functions');
 
 //                COMPILERS / TRANSFORMERS / COPY
 

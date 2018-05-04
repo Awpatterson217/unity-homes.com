@@ -10,29 +10,22 @@ const redis      = require("redis");
 const session    = require('express-session');
 const RedisStore = require('connect-redis')(session);
 const ejs        = require('ejs');
-// Custom authorization check as middleware,
-// I tell express to use this middleware before
-// passing any reuests to their designated API route.
+
 const { checkAuth } = require('./local/node_modules/lib/middleware');
-// I require all routes and API endpoints from
-// the index.js located in /local/routes and /local/api
+
 const routes = require('./local/routes');
 const APIs   = require('./local/api');
-// Creating the parsing middleware that will
-// be used as middleware later in the application.
+
 const urlEncParser = bodyParser.urlencoded({
   extended: false
 });
-const jsonParser   = bodyParser.json();
-// Length of time to maintain a session.
+const jsonParser = bodyParser.json();
+
 const ttl = 180;  
-// I keep the production Port and Local IP
-// secret for security.
-// They are the host and port numbers used
-// to initializethe server at the bottom of this page.
+
 const PORT = process.env.UNITY_PORT;
 let HOST   = process.env.UNITY_HOST;
-// This is the secret used to sign the session ID cookie.
+
 let SECRET = process.env.UNITY_SECRET;
 
 if (typeof SECRET !== 'undefined'){
@@ -46,8 +39,6 @@ if (typeof HOST !== 'undefined') {
   console.log("HOST is undefined");
 }
 
-// Create a Redis client which will get
-// passed to the express-session middleware.
 const client       = redis.createClient();
 const redisOptions = {
   client,
@@ -69,9 +60,6 @@ limiter({
   expire: 1000 * 60 * 60
 })
 
-// Ejs templates
-// All files to be served must
-// use the .ejs extension.
 app.set('view engine', 'ejs');
 app.set('views', [
   path.join(__dirname, 'dist/views'),

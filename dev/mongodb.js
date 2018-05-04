@@ -1,7 +1,9 @@
 const mkdir = require('mkdir');
 const os = require('os');
 
-const { sep, log, execute } = require('./helperFunctions');
+const root = path.resolve(__dirname, '..');
+
+const { sep, log, execute } = require(`${root}/local/node_modules/lib/functions`);
 
 const mac = `curl https://fastdl.mongodb.org/osx/mongodb-osx-ssl-x86_64-3.6.3.tgz`;
 const linux = `curl https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-amazon-3.6.3.tgz`;
