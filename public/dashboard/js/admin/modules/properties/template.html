@@ -1,3 +1,71 @@
 <div class="page-header">
   <h1>Properties</h1>
 </div>
+
+<div class="table-responsive">
+  <table class="table table-condensed table-hover" st-table="properties" st-safe-src="data.properties">
+    <thead>
+      <tr>
+        <th colspan="2">
+        </th>
+        <th colspan="4">
+          Property
+        </th>
+        <th colspan="1">
+        </th>
+      </tr>
+      <tr>
+        <th>
+          Occupied
+        </th>
+        <th>
+          Street
+        </th>
+        <th>
+          City
+        </th>
+        <th>
+          State
+        </th>
+        <th>
+          Postal Code
+        </th>
+        <th>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="property in properties">
+        <td>
+          <span ng-if="property.occupied" class="glyphicon glyphicon-check text-success"></span>
+          <span ng-if="!property.occupied" class="glyphicon glyphicon-unchecked text-danger"></span>
+        </td>
+        <td>
+          {{ property.street }}
+        </td>
+        <td>
+          {{ property.city }}
+        </td>
+        <td>
+          {{ property.state }}
+        </td>
+        <td>
+          {{ property.zip }}
+        </td>
+        <td>
+          <a class="btn btn-sm btn-default" uib-tooltip="View Details" ng-click="viewDetails(property)">
+            <span class="glyphicon glyphicon-info-sign"></span>
+          </a>  
+          <a class="btn btn-sm btn-danger" uib-tooltip="Remove Property" ng-click="removeProperty(property)">
+            <span class="glyphicon glyphicon-trash"></span>
+          </a>
+        </td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td st-pagination colspan="7"></td>
+      </tr>
+    </tfoot>
+  </table>
+</div>

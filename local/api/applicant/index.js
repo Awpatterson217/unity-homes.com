@@ -1,7 +1,5 @@
 "use strict";
 
-const path    = require('path');
-const fs      = require('fs');
 const express = require('express');
 const csrf    = require('csurf');
 
@@ -31,8 +29,9 @@ router.get('/applicant', function(req, res) {
 
   applicant.all()
     .then( applicants => {
-      if (applicants.length)
+      if (applicants.length) {
         return res.type('application/json').status(200).send(JSON.stringify(applicants, null, 2));
+      }
 
       return res.status(404).render('error', {
         url: req.hostname + req.originalUrl,
@@ -68,13 +67,15 @@ router.post('/applicant', checkNames, checkEmail, checkPhone, function(req, res,
   const applicant = new Applicant();
 
   applicant.fill(req, function(error, dataObj) {
-    if (error !== null)
+    if (error) {
       return res.status(500).send(error);
+    }
   });
 
   applicant.create(function(error, user) {
-    if (error !== null)
+    if (error) {
       return res.status(500).send(error);
+    }
       console.log('user: ', user);
     return res.status(200).send('Success');
   });
@@ -94,17 +95,20 @@ router.delete('/applicant/:email', checkEmailParam, function(req, res, next) {
 
   const email = req.params.email;
 
-  if (email === '')
+  if (email === '') {
     return res.status(500).send('Empty User Identifier!');
+  }
 
   applicant.delete({
     'email': email
   }, function(error, numOfDeletes) {
-    if (error !== null)
+    if (error) {
       return res.status(500).send(error);
+    }
 
-    if (!numOfDeletes)
+    if (!numOfDeletes) {
       return res.status(500).send('Something went wrong!');
+    }
 
     return res.status(200).send('Success');
   });

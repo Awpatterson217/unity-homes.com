@@ -30,43 +30,16 @@ router.post('/login', checkEmail, checkPass, function(req, res, next) {
     return res.render('login', { invalid: true });
 
   user.authenticate(email, password, function(error, user) {
-    if (error !== null)
+    if (error)
       return res.render('login', {
         invalid: true
       });
 
-    req.session.type      = user.type;
-    req.session.userAuth  = true;
+    req.session.email    = email;
+    req.session.type     = user.type;
+    req.session.userAuth = true;
 
-    if (user.type === 'admin') {
-      administrator.find({ email })
-        .then((admin) => {
-          req.session.firstName = admin.firstName;
-          req.session.lastName  = admin.lastName;
-
-          return res.redirect('/dashboard/admin');
-        })
-        .catch( error => {
-          // LOG/HANDLE ERROR
-          console.log(error);
-          return res.status(500).send(error);
-        });
-    }
-
-    if (user.type === 'tenant') {
-      tenant.find({ email })
-        .then((tenant) => {
-          req.session.firstName = tenant.firstName;
-          req.session.lastName  = tenant.lastName;
-
-          return res.redirect('/dashboard/tenant');
-        })
-        .catch( error => {
-          // LOG/HANDLE ERROR
-          console.log(error);
-          return res.status(500).send(error);
-        });
-    }
+    return res.redirect('/dashboard');
   });
 });
 

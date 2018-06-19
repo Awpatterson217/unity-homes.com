@@ -12,6 +12,8 @@
         <th colspan="4">
           Property
         </th>
+        <th colspan="1">
+        </th>
       </tr>
       <tr>
         <th>
@@ -47,25 +49,25 @@
           {{ tenant.lastName }}
         </td>
         <td>
-          123 Main Street
+          {{ tenant.street }}
         </td>
         <td>
-          Champaign
+          {{ tenant.city }}
         </td>
         <td>
-          IL
+          {{ tenant.state }}
         </td>
         <td>
-          61820
+          {{ tenant.zip }}
         </td>
         <td>
-          <a class="btn btn-sm btn-primary" uib-tooltip="Register" ng-click="">
+          <a class="btn btn-sm btn-primary" uib-tooltip="Send Registration Code" ng-click="sendCode(tenant)">
             <span class="glyphicon glyphicon-share"></span>
           </a>
-          <a class="btn btn-sm btn-default" uib-tooltip="Details" ng-click="">
+          <a class="btn btn-sm btn-default" uib-tooltip="View Details" ng-click="viewDetails(tenant)">
             <span class="glyphicon glyphicon-info-sign"></span>
           </a>  
-          <a class="btn btn-sm btn-danger" uib-tooltip="Remove Tenant" ng-click="">
+          <a class="btn btn-sm btn-danger" uib-tooltip="Remove Tenant" ng-click="removeTenant(tenant)">
             <span class="glyphicon glyphicon-trash"></span>
           </a>
         </td>

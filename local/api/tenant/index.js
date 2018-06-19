@@ -1,7 +1,5 @@
 "use strict";
 
-const path    = require('path');
-const fs      = require('fs');
 const express = require('express');
 const _filter = require('lodash/filter');
 const csrf    = require('csurf');
@@ -37,8 +35,9 @@ router.get('/tenant', function (req, res) {
   .then( allTenants => {
     const tenants = _filter(allTenants, { type: 'tenant' });
 
-    if (allTenants.length)
+    if (allTenants.length) {
       return res.type('application/json').status(200).send(JSON.stringify(tenants, null, 2));
+    }
 
     return res.status(404).render('error', {
       url: req.hostname + req.originalUrl,
@@ -81,21 +80,26 @@ router.post('/tenant', checkNames, checkEmail, checkPass, checkPassTwo, checkPho
   const password    = req.body.password;
   const passwordTwo = req.body.passwordTwo;
 
-  if (isEmpty(email, password, passwordTwo, firstName, lastName))
+  if (isEmpty(email, password, passwordTwo, firstName, lastName)) {
     return res.status(500).send('Something went wrong!');
+  }
 
-  if (!password)
+  if (!password) {
     return res.status(500).send('Something went wrong!');
+  }
 
-  if (!passwordTwo)
+  if (!passwordTwo) {
     return res.status(500).send('Something went wrong!');
+  }
 
-  if (password !== passwordTwo)
+  if (password !== passwordTwo) {
     return res.status(500).send('Something went wrong!');
+  }
 
   user.hash(password).then(function(success) {
-    if (!success)
+    if (!success) {
       return res.status(500).send('Something went wrong!');
+    }
 
     user.setVal('email', email);
     user.setVal('type', 'tenant');
@@ -109,12 +113,14 @@ router.post('/tenant', checkNames, checkEmail, checkPass, checkPassTwo, checkPho
     tenant.setVal('timestamp', Math.floor(Date.now() / 1000).toString());
 
     user.create(function(error, user) {
-      if (error !== null)
+      if (error) {
         return res.status(500).send(error);
+      }
 
       tenant.create(function(error, admin) {
-        if (error !== null)
+        if (error) {
           return res.status(500).send(error);
+        }
 
        return res.status(200).send('Success');
       });
@@ -139,18 +145,21 @@ router.delete('/tenant/:email', checkEmailParam, function(req, res, next) {
 
   const email = req.params.email;
 
-  if (email === '')
+  if (email === '') {
     return res.status(500).send('Something went wrong!');
+  }
 
   tenant.delete({
     'email': email,
     'type' : 'tenant'
   }, function(error, numOfDeletes) {
-    if (error !== null)
+    if (error) {
       return res.status(500).send(error);
+    }
 
-    if (!numOfDeletes)
+    if (!numOfDeletes) {
       return res.status(500).send('Something went wrong!');
+    }
 
     return res.status(200).send('Success');
   });

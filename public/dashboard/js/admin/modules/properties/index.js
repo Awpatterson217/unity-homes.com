@@ -1,7 +1,16 @@
-import controller from './controller.js'
-import config from './config.js'
+import controller from './controller.js';
+import config     from './config.js';
 
-export default angular.module('properties', [])
-.controller(controller.name, controller)
-.config(config)
-.name;
+import propertiesDetails from './details';
+import addProperties     from './add';
+
+const dependencies = [
+  propertiesDetails,
+  addProperties
+];
+
+export default angular.module('properties', dependencies)
+  .controller(controller.name, controller)
+  .config(config)
+  .name;
+  

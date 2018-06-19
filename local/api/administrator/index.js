@@ -1,9 +1,6 @@
 "use strict";
 
-const path    = require('path');
-const fs      = require('fs');
 const express = require('express');
-const _filter = require('lodash/filter');
 const csrf    = require('csurf');
 
 const Administrator = require('models/Administrator');
@@ -34,8 +31,9 @@ router.get('/administrator', function(req, res) {
 
   administrator.all()
     .then( admins => {
-      if (admins.length)
+      if (admins.length) {
         return res.type('application/json').send(JSON.stringify(admins, null, 2));
+      }
 
         return res.status(404).render('error', {
           url: req.hostname + req.originalUrl,
@@ -79,21 +77,26 @@ router.post('/administrator', checkNames, checkEmail, checkPass, checkPassTwo, f
   const password    = req.body.password;
   const passwordTwo = req.body.passwordTwo;
 
-  if (isEmpty(email, password, passwordTwo, firstName, lastName))
+  if (isEmpty(email, password, passwordTwo, firstName, lastName)) {
     return res.status(500).send('Something went wrong!');
+  }
 
-  if (!password)
+  if (!password) {
     return res.status(500).send('Something went wrong!');
+  }
 
-  if (!passwordTwo)
+  if (!passwordTwo) {
     return res.status(500).send('Something went wrong!');
+  }
 
-  if (password !== passwordTwo)
+  if (password !== passwordTwo) {
     return res.status(500).send('Something went wrong!');
+  }
 
   user.hash(password).then(function(success) {
-    if (!success)
+    if (!success) {
       return res.status(500).send('Something went wrong!');
+    }
 
     user.setVal('email', email);
     user.setVal('type', 'admin');
@@ -106,12 +109,14 @@ router.post('/administrator', checkNames, checkEmail, checkPass, checkPassTwo, f
     administrator.setVal('timestamp', Math.floor(Date.now() / 1000).toString());
 
     user.create(function(error, user) {
-      if (error !== null)
+      if (error) {
         return res.status(500).send(error);
+      }
 
       administrator.create(function(error, admin) {
-        if (error !== null)
+        if (error) {
           return res.status(500).send(error);
+        }
 
        return res.status(200).send('Success');
       });
@@ -136,18 +141,21 @@ router.delete('/administrator/:email', checkEmail, function(req, res, next) {
 
   const email = req.params.email;
 
-  if (email === '')
+  if (email === '') {
     return res.status(500).send('Something went wrong!');
+  }
 
   administrator.delete({
     'email': email,
     'type' : 'admin'
   }, function(error, numOfDeletes) {
-    if (error !== null)
+    if (error) {
       return res.status(500).send(error);
+    }
 
-    if (!numOfDeletes)
+    if (!numOfDeletes) {
       return res.status(500).send('Something went wrong!');
+    }
 
     return res.status(200).send('Success');
   });

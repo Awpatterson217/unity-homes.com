@@ -1,7 +1,5 @@
 "use strict";
 
-const path    = require('path');
-const fs      = require('fs');
 const express = require('express');
 const csrf    = require('csurf');
 
@@ -32,8 +30,9 @@ router.get('/application', checkAdminAuth, function(req, res) {
 
   application.all()
     .then( apps => {
-      if (apps.length)
+      if (apps.length) {
         return res.type('application/json').status(200).send(JSON.stringify(apps, null, 2));
+      }
 
       return res.status(404).render('error', {
         url: req.hostname + req.originalUrl,
@@ -69,13 +68,15 @@ router.post('/application/create', checkApp, function(req, res, next) {
   const application = new Application();
 
   application.fill(req, function(error, dataObj) {
-    if (error !== null)
+    if (error) {
       return res.status(500).send(error);
+    }
   });
 
   application.create(function(error, app) {
-    if (error !== null)
+    if (error) {
       return res.status(500).send(error);
+    }
 
     return res.status(200).send('Success');
   });
@@ -95,17 +96,20 @@ router.delete('/application/:email', checkEmailParam, function(req, res, next) {
 
   const email = req.params.email;
 
-  if (email === '')
+  if (email === '') {
     return res.status(500).send('Something went wrong!');
+  }
 
   application.delete({
     'email': email
   }, function(error, numOfDeletes) {
-    if (error !== null)
+    if (error) {
       return res.status(500).send('Something went wrong!');
+    }
 
-    if (!numOfDeletes)
+    if (!numOfDeletes) {
       return res.status(500).send('Something went wrong!');
+    }
 
     return res.status(200).send('Success');
   });

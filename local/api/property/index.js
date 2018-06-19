@@ -1,7 +1,5 @@
 "use strict";
 
-const path    = require('path');
-const fs      = require('fs');
 const express = require('express');
 const csrf    = require('csurf');
 
@@ -40,8 +38,9 @@ router.get('/property', function(req, res) {
           return res.status(500).send(error);
         });
       }
-      if (props.length)
+      if (props.length) {
         return res.type('application/json').status(200).send(JSON.stringify(props, null, 5));
+      }
 
       return res.status(404).render('error', {
         url: req.hostname + req.originalUrl,
@@ -98,13 +97,15 @@ router.post('/property', checkProps, function(req, res, next) {
     : 'true';
 
   property.fill(req, function(error, dataObj) {
-    if (error !== null)
+    if (error) {
       return res.status(500).send(error);
+    }
   });
 
   property.create(function(error, prop) {    
-    if (error !== null)
+    if (error) {
       return res.status(500).send(error);
+    }
     
     return res.status(200).send('Success');
   });
@@ -124,17 +125,20 @@ router.delete('/property/:id', checkIdParam, function(req, res, next) {
 
   const id = req.params.id;
 
-  if (id === '')
+  if (id === '') {
     return res.status(500).send('Empty Property Identifier!');
+  }
 
   property.delete({
     'id': id,
   }, function(error, numOfDeletes) {
-    if (error !== null)
+    if (error) {
       return res.status(500).send(error);
+    }
 
-    if (!numOfDeletes)
+    if (!numOfDeletes) {
       return res.status(500).send('Something went wrong!');
+    }
 
     return res.status(200).send('Success');
   });

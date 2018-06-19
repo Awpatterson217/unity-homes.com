@@ -3,10 +3,10 @@ import controller from './controller.js'
 
 export default function config($stateProvider) {
   $stateProvider
-    .state('root.settings.personal', {
-        url: '/personal',
-        controller: controller.name,
-        template,
+    .state('root.admin.settings.personal', {
+      url: '/personal',
+      controller: controller.name,
+      template,
     });
 }
 

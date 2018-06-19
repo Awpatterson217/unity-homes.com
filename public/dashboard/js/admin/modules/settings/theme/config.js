@@ -3,10 +3,10 @@ import controller from './controller.js'
 
 export default function config($stateProvider) {
   $stateProvider
-    .state('root.settings.theme', {
-        url: '/theme',
-        controller: controller.name,
-        template,
+    .state('root.admin.settings.theme', {
+      url: '/theme',
+      controller: controller.name,
+      template,
     });
 }
 

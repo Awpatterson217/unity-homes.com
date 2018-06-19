@@ -1,5 +1,22 @@
-export default function applicantsCtrl($scope) {
+export default function applicantsCtrl($scope, $state) {
   console.log("applicants controller");
+
+  $scope.viewApp = function({ email }) {
+    $state.go('root.admin.applicantsApplication', { email });
+  }
+
+  $scope.downloadApp = function({ email }) {
+    // TODO
+  }
+
+  $scope.approveApp = function({ email }) {
+    // TODO
+  }
+
+  $scope.denyApp = function({ email }) {
+    // TODO
+  }
+
   $scope.data = {
     applicants: [{
       firstName: 'Adam',
@@ -8,8 +25,8 @@ export default function applicantsCtrl($scope) {
       timestamp: '1517351875',
       application: {}
     },{
-      firstName: 'Lane',
-      lastName: 'Wilson',
+      firstName: 'Bob',
+      lastName: 'Fake',
       email: 'fakeEmail@mail.com',
       timestamp: '1518051875',
       application: {}
@@ -71,10 +88,11 @@ export default function applicantsCtrl($scope) {
   };
   $scope.isNew = function(timestamp) {
     const age = Date.now() / 1000 - timestamp;
-    if(age < 604800)
+    if (age < 604800) {
       return ['success'];
+    }
     return 'default';
   }
 }
 
-applicantsCtrl.$inject = ['$scope'];
+applicantsCtrl.$inject = ['$scope', '$state'];

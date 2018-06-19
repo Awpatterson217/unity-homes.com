@@ -40,6 +40,7 @@ router.post('/register', checkCode, checkEmail, checkPass, checkPassTwo, functio
     });
 
   applicant.find({ email, code}).then( thisApplicant => {
+    // TODO: Users handle pw
     tenant.hash(password).then(function(success) {
       if (!success)
         return res.render('register', {
@@ -52,7 +53,7 @@ router.post('/register', checkCode, checkEmail, checkPass, checkPassTwo, functio
       tenant.setVal('lastName'  , thisApplicant.lastName);
       tenant.setVal('timestamp' ,  Math.floor(Date.now() / 1000).toString());
       tenant.create(function(error, thisApplicant) {
-        if (error !== null) {
+        if (error) {
           return res.render('register', {
             invalid: true
           });

@@ -3,10 +3,10 @@ import controller from './controller.js'
 
 export default function config($stateProvider) {
   $stateProvider
-    .state('root.help', {
-        url: '/help',
-        controller: controller.name,
-        template,
+    .state('root.admin.help', {
+      url: '/help',
+      controller: controller.name,
+      template,
     });
 }
 

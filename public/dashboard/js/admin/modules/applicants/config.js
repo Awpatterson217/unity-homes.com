@@ -3,7 +3,7 @@ import controller from './controller.js'
 
 export default function config($stateProvider) {
   $stateProvider
-    .state('root.applicants', {
+    .state('root.admin.applicants', {
         url: '/applicants',
         controller: controller.name,
         template,

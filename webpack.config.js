@@ -11,7 +11,7 @@ const webpack = require('webpack');
 // - Will need to add this to a rule, and use extract() method
 // - Will need to add this plugin to our plugins
 const extractPlugin = new ExtractTextPlugin({
-  filename: './assets/css/app.css'
+  filename: './assets/css/dashboard.css'
 });
 
 const config = {
@@ -21,13 +21,12 @@ const config = {
   // This (below) allows for advanced config, like
   // multiple entry points.
   entry: {
-    app: './app.js',
-    // tenant: './tenant.js',
+    dashboard: './dashboard.js',
   },
   output: {
     // Root of ALL output
     path: path.resolve(__dirname, 'dist', 'dashboard'),
-    filename: 'assets/js/app.bundle.js',
+    filename: 'assets/js/dashboard.bundle.js',
   },
   // For loaders (stuff besides JS)
   module: {
@@ -104,8 +103,8 @@ const config = {
     new CleanWebpackPlugin(['dist/views', 'dist/js', 'dist/media', 'dist/css', 'dist/dashboard']),
     // This plugin simplifies creation of HTML files
     new HtmlWebpackPlugin({
-      filename: 'admin.ejs',
-      template: 'admin.html',
+      filename: 'dashboard.ejs',
+      template: 'dashboard.html',
       inject: false,
       // hash: true
     }),
@@ -124,9 +123,9 @@ const config = {
     // stats: 'errors-only',
     // open: true,
     port: 3000,
-    filename: 'js/app.bundle.js',
-    index: 'admin.ejs',
-    // hot: true,
+    filename: 'js/dashboard.bundle.js',
+    index: 'dashboard.ejs',
+    hot: true,
     // inline: true,
     publicPath: '/',
     openPage: '',

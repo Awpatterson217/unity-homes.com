@@ -9,51 +9,48 @@ const helmet     = require('helmet');
 const redis      = require("redis");
 const session    = require('express-session');
 const RedisStore = require('connect-redis')(session);
-const ejs        = require('ejs');
 
 const { checkAuth } = require('./local/node_modules/lib/middleware');
+const routes        = require('./local/routes');
+const APIs          = require('./local/api');
 
-const routes = require('./local/routes');
-const APIs   = require('./local/api');
-
+const jsonParser   = bodyParser.json();
 const urlEncParser = bodyParser.urlencoded({
   extended: false
 });
-const jsonParser = bodyParser.json();
 
-const ttl = 180;  
-
+const TTL  = 180;
 const PORT = process.env.UNITY_PORT;
-let HOST   = process.env.UNITY_HOST;
+// const STRIPE_DEV_KEY = process.env.UNITY_STRIPE_DEV_KEY
 
-let SECRET = process.env.UNITY_SECRET;
+let host   = process.env.UNITY_HOST;
+let secret = process.env.UNITY_SECRET;
 
-if (typeof SECRET !== 'undefined'){
-  SECRET = SECRET.trim();
+if (secret) {
+  secret = secret.trim();
 } else {
   console.log("SECRET is undefined");
 }
-if (typeof HOST !== 'undefined') {
-  HOST = HOST.trim();
+if (host) {
+  host = host.trim();
 } else {
   console.log("HOST is undefined");
 }
 
+const app          = express();
 const client       = redis.createClient();
 const redisOptions = {
   client,
-  ttl
-}
+  ttl: TTL
+};
 
 client.on("error", function(err) {
   // TODO: LOG
   console.log("Error " + err);
 });
 
-const app = express();
-
 const limiter = require('express-limiter')(app, client);
-// Limit requests to 150 per hour per IP
+
 limiter({
   lookup: ['connection.remoteAddress'],
   total : 150,
@@ -68,8 +65,8 @@ app.set('views', [
 
 app.use(
   session({
+    secret,
     store : new RedisStore(redisOptions),
-    secret: SECRET,
     saveUninitialized: false,
     resave: false
   })
@@ -89,32 +86,49 @@ app.use('/api', checkAuth);
 for (let apiKey in APIs) {
   app.use('/api', APIs[apiKey]);
 }
-
 for (let routeKeys in routes) {
   app.use(routes[routeKeys]);
 }
-// Default error handler
+
 app.use(function (err, req, res, next) {
   console.error(err.stack)
   res.status(404).render('error', { url: req.originalUrl });
 });
 
-app.use(function(req, res, next){
+app.use(function(req, res, next) {
   res.status(404).render('error', { url: req.originalUrl });
 });
 
-app.listen(PORT, HOST);
+app.listen(PORT, host);
 
-//        TODO
+//        TODO:
+// Refactor leftover callback model methods
+// MongoDB URI and Stripe key in private env vars
+// fix hot reloading for dashboard
 
-// New mongodb ip, URI from private file
-// Linter and tests
-// Finish implementing CSRF
+// RestService, StripeService, and CacheService
+
+// Form to add properties
+// UI for property details
+
+// UI for viewing tenant details
+
+// UI for viewing applications
+
+// UI for viewing billing details
+
+// Tenant side Billing System
+
+// Settings model and api (back-end)
+// Nodemailer api (and model?)
+
+// Modals for confirmations (deletes, paying bills, etc.)
+
+// CSRF
 // Nodemailer
 // Contact API
-// Stripe
 // SSL / TSL
 // Logging
 // Favicon
-// NGINX as a truted proxy? difference? see: proxy-addr
+// NGINX as a trusted proxy? difference? see: proxy-addr
 // need first time login set password prompt

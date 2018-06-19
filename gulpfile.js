@@ -1,4 +1,3 @@
-const path        = require('path');
 const gulp        = require('gulp');
 const concat      = require('gulp-concat');
 const concatCss   = require('gulp-concat-css');
@@ -8,9 +7,7 @@ const browserSync = require('browser-sync').create();
 const vendor      = require('gulp-concat-vendor');
 const babel       = require('gulp-babel');
 const uglify      = require('gulp-uglify');
-const nodemon     = require('gulp-nodemon');
 const sequence    = require('run-sequence');
-const mkdirs      = require('mkdirs');
 const reload      = browserSync.reload;
 const {
   log,
