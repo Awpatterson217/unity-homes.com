@@ -3,10 +3,12 @@
 const User          = require('../local/node_modules/models/User');
 const Administrator = require('../local/node_modules/models/Administrator');
 const Tenant        = require('../local/node_modules/models/Tenant');
+const Application   = require('../local/node_modules/models/Application');
 
 const admin  = new Administrator();
 const tenant = new Tenant();
 const user   = new User();
+const app    = new Application();
 
 function insertAdmin() {
   admin.setVal("email", "admin@unity.com");
@@ -34,6 +36,10 @@ function insertAdmin() {
         })
       })
     });
+}
+
+function insertApp() {
+
 }
 
 function insertTenant() {
@@ -66,3 +72,4 @@ function insertTenant() {
 
 // insertAdmin();
 // insertTenant();
+// insertApp();

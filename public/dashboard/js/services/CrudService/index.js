@@ -6,14 +6,10 @@ export default function CrudService($http) {
       this.url = url;
     }
 
-    Service.prototype.getAll = function({ path }) {
-      const url = path
-        ? path
-        : this.url;
-
+    Service.prototype.getAll = function() {
       return $http({
         method: 'GET',
-        url,
+        url: this.url,
       });
     }
 

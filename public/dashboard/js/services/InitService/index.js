@@ -1,13 +1,25 @@
 "use strict"
 
-export default function InitService(CrudService) {
-  const billingProvider  = CrudService(paths.billing);
-  const adminProvider    = CrudService(paths.administrator);
-  const tenantProvider   = CrudService(paths.tenant);
-  const propProvider     = CrudService(paths.property);
-  const appProvider      = CrudService(paths.application);
-  const settingsProvider = CrudService(paths.administrator);
-  const helpProvider     = CrudService(paths.administrator);
+export default function InitService(CrudService, PathService) {
+  const {
+    billing,
+    administrator,
+    tenant,
+    property,
+    application,
+    setting,
+    help,
+  } = PathService();
+
+  console.log('paths.billing: ', billing);
+
+  const billingProvider  = CrudService(billing );
+  const adminProvider    = CrudService(administrator);
+  const tenantProvider   = CrudService(tenant);
+  const propProvider     = CrudService(property);
+  const appProvider      = CrudService(application);
+  const settingsProvider = CrudService(setting);
+  const helpProvider     = CrudService(help);
 
   return function() {
     function Service() {}
@@ -17,32 +29,31 @@ export default function InitService(CrudService) {
       let tenants;
       let properties;
       let settings;
-      let applicants;
+      let applications;
       let billings;
 
       try {
-        billings       = await billingProvider.getAll();
+        // billings       = await billingProvider.getAll();
         administrators = await adminProvider.getAll();
         tenants        = await tenantProvider.getAll();
-        properties     = await propProvider.getAll();
-        applicants     = await appProvider.getAll();
-        settings       = await settingsProvider.getAll();
-        help           = await helpProvider.getAll();
+        // properties     = await propProvider.getAll();
+        // applications   = await appProvider.getAll();
+        // settings       = await settingsProvider.getAll();
+        // help           = await helpProvider.getAll();
       } catch (error) {
         throw error;
       }
 
       return {
-        billings,
-        administrators,
-        tenants,
-        properties,
-        applicants,
-        settings,
-        help,
+        // billings,
+        administrators: administrators.data,
+        tenants: tenants.data,
+        // properties: properties.data,
+        // applications: applications.data,
+        // settings: settings.data,
+        // help: help.data,
       }
     }
-
   
     const initService = new Service()
     
@@ -50,4 +61,4 @@ export default function InitService(CrudService) {
   }
 }
 
-InitService.$inject = ['CrudService'];
+InitService.$inject = ['CrudService', 'PathService'];

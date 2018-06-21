@@ -18,7 +18,6 @@ const port           = 3000;
 const host           = 'localhost';
 const secret         = 'pretendSecret';
 // const STRIPE_DEV_KEY = process.env.STRIPE_DEV_KEY;
-
 const STRIPE_DEV_KEY = '';
 
 const jsonParser   = bodyParser.json();

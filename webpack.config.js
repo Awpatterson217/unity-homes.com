@@ -1,7 +1,7 @@
-const path = require('path');
+const path               = require('path');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const HtmlWebpackPlugin  = require('html-webpack-plugin');
+const ExtractTextPlugin  = require('extract-text-webpack-plugin');
 // Don't need this, but it is good practice, and can include
 // webpack's built-in plugins into project
 const webpack = require('webpack');
