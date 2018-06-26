@@ -1,6 +1,4 @@
 export default function billingCtrl($scope, $state) {
-  console.log("billing controller");
-
   $scope.viewDetails = function({ date, email }) {
     $state.go('root.admin.billingDetails', { date, email });
   }

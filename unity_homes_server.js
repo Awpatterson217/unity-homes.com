@@ -19,16 +19,17 @@ const urlEncParser = bodyParser.urlencoded({
   extended: false
 });
 
-const TTL            = process.env.UNITY_TTL;
-const PORT           = process.env.UNITY_PORT;
-const STRIPE_API_KEY = process.env.UNITY_STRIPE_API_KEY
-const STRIPE_DEV_KEY = process.env.UNITY_STRIPE_DEV_KEY
+// const STRIPE_TEST_SECRET_KEY = process.env.UNITY_STRIPE_TEST_SECRET_KEY
+// const STRIPE_TEST_PUBLISHABLE_KEY = process.env.UNITY_STRIPE_TEST_PUBLISHABLE_KEY
+
+const TTL  = process.env.UNITY_TTL;
+const PORT = process.env.UNITY_PORT;
 
 const HOST = process.env.UNITY_HOST
   ? process.env.UNITY_HOST.trim()
   : null;
 
-const SECRET = process.env.UNITY_SECRET
+  const SECRET = process.env.UNITY_SECRET
   ? process.env.UNITY_SECRET.trim()
   : null;
 
@@ -128,11 +129,12 @@ app.listen(PORT, HOST);
 
 // Modals for confirmations (deletes, paying bills, etc.)
 
+// Remove console.logs in dashboard
+// Create better backend logging system
 // CSRF
 // Nodemailer
 // Contact API
 // SSL / TSL
-// Logging
-// Favicon
 // NGINX as a trusted proxy? difference? see: proxy-addr
-// need first time login set password prompt
+// First time login set password prompt for admin
+// Favicon

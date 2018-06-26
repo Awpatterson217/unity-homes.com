@@ -1,7 +1,5 @@
-export default function adminCtrl($window) {
-  const email = $window.localStorage.getItem('email');
-
-  console.log("admin controller");
+export default function tenantCtrl() {
+  // Could do various setup work here, after root but before tenant
 }
 
-adminCtrl.$inject = ['$window', '$cacheFactory'];
+tenantCtrl.$inject = [];

@@ -1,5 +1,5 @@
 export default function adminHomeCtrl($scope) {
-  console.log("home controller");
+  // Will contain most recent updates like RSS Feed
 }
 
 adminHomeCtrl.$inject = ['$scope'];

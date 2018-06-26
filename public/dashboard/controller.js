@@ -3,46 +3,45 @@
 const injectables = [
   '$state',
   '$scope',
+  '$cookies',
   'CacheService',
   'InitService',
 ];
 
-  export default function Controller($state, $scope, CacheService, InitService) {
+  export default function Controller($state, $scope, $cookies, CacheService, InitService) {
+    // Temporary, will need token or Oauth.
+    // Maybe create auth service?
+    const EMAIL = $cookies.get('email');
+    const TYPE  = $cookies.get('type');
+    const STRIPE_PUBLISHABLE_KEY = $cookies.get('stripe_publishable_key');
+
+    console.log('email: ', EMAIL);
+    console.log('TYPE: ', TYPE);
+    console.log('STRIPE_PUBLISHABLE_KEY: ', STRIPE_PUBLISHABLE_KEY);
+
     $scope.hasData = false;
 
     const cache = CacheService();
     const init  = InitService();
 
-    // TODO: Pass email from redis session to angularJS
-    // TODO: Pass Stripe key from redis session to angularJS
-    // Use localStorage?
-    // const email = $window.localStorage.getItem('email');
-    // const type  = $window.localStorage.getItem('type');
+    cache.put("email", EMAIL);
 
-    // Test publishable key
-    const STRIPE_API_KEY = 'pk_test_hdv1oJmfn5IRru1y5g3A6q1R';
-    // Temporary
-    const email = 'admin@unity.com';
-    const type  = 'admin';
-
-    cache.put("email", email);
-
-    // Setup stripe, get/cache the appropriate data,
-    // route application.
-    init.init(type, STRIPE_API_KEY)
+    init.init(TYPE, STRIPE_PUBLISHABLE_KEY)
       .then(({ data, stripeSuccess }) => {
         cache.put('data', data);
 
         console.log('data: ', data);
         console.log('stripeSuccess', stripeSuccess);
 
+        // If there is no data, display error page.
+        // Make error page route?
         $scope.hasData = true;
 
-        if (type === 'admin') {
+        if (TYPE === 'admin') {
           $state.go('root.admin.home');
         }
 
-        if (type === 'tenant') {
+        if (TYPE === 'tenant') {
           $state.go('root.tenant.home');
         }
       })

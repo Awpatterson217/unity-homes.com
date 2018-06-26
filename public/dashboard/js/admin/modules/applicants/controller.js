@@ -1,6 +1,4 @@
 export default function applicantsCtrl($scope, $state) {
-  console.log("applicants controller");
-
   $scope.viewApp = function({ email }) {
     $state.go('root.admin.applicantsApplication', { email });
   }

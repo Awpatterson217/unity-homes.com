@@ -1,6 +1,4 @@
 export default function propertiesCtrl($scope, $state) {
-  console.log("properties controller");
-
   $scope.viewDetails = function({ id }) {
     $state.go('root.admin.propertiesDetails', { id });
   }

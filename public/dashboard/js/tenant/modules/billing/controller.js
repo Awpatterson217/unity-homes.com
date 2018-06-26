@@ -1,6 +1,4 @@
 export default function tenantBillingCtrl($scope, $state) {
-  console.log("Tenant Billing Controller");
-
   $scope.viewDetails = function({ date }) {
     $state.go('root.tenant.billingsDetails', { date });
   }

@@ -6,10 +6,11 @@ const Tenant        = require('../local/node_modules/models/Tenant');
 const Application   = require('../local/node_modules/models/Application');
 const Property      = require('../local/node_modules/models/Property');
 
-const admin  = new Administrator();
-const tenant = new Tenant();
-const user   = new User();
-const app    = new Application();
+const admin   = new Administrator();
+const tenant  = new Tenant();
+const userOne = new User();
+const userTwo = new User();
+const app     = new Application();
 
 const propOne     = new Property();
 const propTwo     = new Property();
@@ -20,13 +21,13 @@ function insertAdmin() {
   admin.setVal("firstName", "adam");
   admin.setVal("middleName", "w");
   admin.setVal("lastName", "patterson");
-  
-  user.setVal("email", "admin@unity.com");
-  user.setVal("type", "admin");
-  user.setVal("firstLogin", "false");
-  user.hash("Password1")
+  admin.setVal("firstLogin", "false");
+
+  userTwo.setVal("email", "admin@unity.com");
+  userTwo.setVal("type", "admin");
+  userTwo.hash("Password1")
     .then(() => {
-      user.create((error, thisUser) => {
+      userTwo.create((error, thisUser) => {
         if (error) {
           return console.log("Error while creating test user: ", error);
         }
@@ -125,12 +126,11 @@ function insertTenant() {
   tenant.setVal("lastName", "patterson");
   tenant.setVal("isRegistered", "true");
 
-  user.setVal("email", "tenant@unity.com");
-  user.setVal("type", "tenant");
-  user.setVal("firstLogin", "false");
-  user.hash("Password1")
+  userOne.setVal("email", "tenant@unity.com");
+  userOne.setVal("type", "tenant");
+  userOne.hash("Password1")
     .then(() => {
-      user.create((error, thisUser) => {
+      userOne.create((error, thisUser) => {
         if (error) {
           return console.log("Error while creating test user: ", error);
         }
@@ -146,8 +146,6 @@ function insertTenant() {
       })
     });
 }
-
-// run this file as: UNITY_MONGO_DB=mongodb://127.0.0.1:27017/test node insert.js
 
 insertAdmin();
 insertTenant();

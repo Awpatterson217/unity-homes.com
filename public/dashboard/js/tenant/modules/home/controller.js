@@ -1,5 +1,5 @@
 export default function tenantHomeCtrl($scope) {
-  console.log("home controller");
+  // Will contain various updates, like RSS feed.
 }
 
 tenantHomeCtrl.$inject = ['$scope'];

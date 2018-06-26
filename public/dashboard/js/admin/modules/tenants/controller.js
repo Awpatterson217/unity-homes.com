@@ -1,8 +1,5 @@
 export default function tenantsCtrl($scope, $state) {
-  console.log("tenants controller");
-
   $scope.viewDetails = function({ email }) {
-    console.log('viewDetails: ', email);
     $state.go('root.admin.tenantDetails', { email });
   }
 

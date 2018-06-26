@@ -1,6 +1,5 @@
 export default function adminCtrl($cacheFactory) {
-
-  console.log("admin controller");
+  // Could do more setup here, after root and before admin route
 }
 
 adminCtrl.$inject = ['$cacheFactory'];

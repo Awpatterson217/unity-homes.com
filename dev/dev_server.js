@@ -25,9 +25,6 @@ const secret      = 'pretendSecret';
 //   cert: fs.readFileSync(path.resolve(`${ROOT}/cert/server.crt`))
 // }
 
-// const STRIPE_DEV_KEY = process.env.STRIPE_DEV_KEY;
-const STRIPE_DEV_KEY = '';
-
 const jsonParser   = bodyParser.json();
 const urlEncParser = bodyParser.urlencoded({
   extended: false

@@ -22,7 +22,8 @@ router.post('/login', checkEmail, checkPass, function(req, res, next) {
   const email    = req.body.email;
   const password = req.body.password;
   const year     = 365 * 24 * 60 * 60 * 1000;
-  
+  const tenMin   = 10 * 60 * 1000;
+
   if (req.body.remember)
     res.cookie('remember', email, { maxAge: year });
 
@@ -39,6 +40,14 @@ router.post('/login', checkEmail, checkPass, function(req, res, next) {
     req.session.email    = email;
     req.session.type     = user.type;
     req.session.userAuth = true;
+
+    const STRIPE_PUBLISHABLE_KEY = process.env.UNITY_STRIPE_TEST_PUBLISHABLE_KEY;
+
+    // TODO: Need Token or something more secure and randomized
+    // Otherwise, I could access in use sessions from other clients
+    res.cookie('email', email, { maxAge: tenMin });
+    res.cookie('type', user.type, { maxAge: tenMin });
+    res.cookie('stripe_publishable_key', STRIPE_PUBLISHABLE_KEY, { maxAge: tenMin });
 
     return res.redirect('/dashboard');
   });

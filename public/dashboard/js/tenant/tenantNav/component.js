@@ -6,9 +6,7 @@ class controller {
     this.email = this.cache.get('email');
   }
 
-  $onInit() {
-    console.log('Nav initiated');
-  }
+  $onInit() {}
 }
 
 controller.$inject = ['CacheService'];
