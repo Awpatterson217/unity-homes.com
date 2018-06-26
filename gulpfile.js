@@ -17,12 +17,6 @@ const {
 
 //                COMPILERS / TRANSFORMERS / COPY
 
-const DOCKER_MONGO_SCRIPT = 'docker run --rm --name mongo-dev -p 27017:27017 mongo';
-
-gulp.task('start-mongo', function() {
-  return execute(DOCKER_MONGO_SCRIPT);
-});
-
 // Copy Unity-Homes templates to /dist
 gulp.task('copy-views', function() {
   return gulp.src('public/views/**/*.ejs')
@@ -224,4 +218,9 @@ gulp.task('bundle-css', function() {
   return gulp.src('./public/assets/css/*.css')
     .pipe(concatCss('styles.bundle.css'))
     .pipe(gulp.dest('./dist/css/'));
+});
+const DOCKER_MONGO_SCRIPT = 'docker run --rm --name mongo-dev -p 27017:27017 mongo';
+
+gulp.task('start-mongo', function() {
+  return execute(DOCKER_MONGO_SCRIPT);
 });

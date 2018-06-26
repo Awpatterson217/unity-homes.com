@@ -1,4 +1,4 @@
-<nav class="navbar navbar-inverse navbar-fixed-top" style="background-color: #5A0000;">
+<nav class="navbar navbar-inverse navbar-fixed-top">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
@@ -8,7 +8,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a ui-sref="root.admin.home">
+      <a ui-sref="root.admin.home" ui-sref-active="active">
         <p title="Profile" class="navbar-text">
           <span class="glyphicon glyphicon-user"></span>
             {{ $ctrl.email }}
@@ -18,20 +18,20 @@
     </div>
     <div class="collapse navbar-collapse" id="collapsable">
       <ul class="nav navbar-nav">
-        <li><a ui-sref="root.admin.billing">Billing</a></li>
-        <li><a ui-sref="root.admin.tenants">Tenants</a></li>
-        <li><a ui-sref="root.admin.applicants">Applicants</a></li>
-        <li><a ui-sref="root.admin.properties">Properties</a></li>
+        <li><a ui-sref="root.admin.billing" ui-sref-active="active">Billing</a></li>
+        <li><a ui-sref="root.admin.tenants" ui-sref-active="active">Tenants</a></li>
+        <li><a ui-sref="root.admin.applicants" ui-sref-active="active">Applicants</a></li>
+        <li><a ui-sref="root.admin.properties" ui-sref-active="active">Properties</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-          <a title="Settings" ui-sref="root.admin.settings.personal">
+          <a title="Settings" ui-sref="root.admin.settings.personal" ui-sref-active="active">
             <span class="glyphicon glyphicon-cog"></span>
             Profile & Settings
           </a>
         </li>
         <li>
-          <a title="Help" ui-sref="root.admin.help">
+          <a title="Help" ui-sref="root.admin.help" ui-sref-active="active">
             <span class="glyphicon glyphicon-question-sign"></span>
             Help
           </a>

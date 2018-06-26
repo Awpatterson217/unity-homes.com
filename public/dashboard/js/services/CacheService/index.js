@@ -31,10 +31,8 @@ export default function CacheService($cacheFactory) {
     Service.prototype.info = function() {
       return this.cache.info();
     }
-
-    const cacheService = new Service()
     
-    return cacheService;
+    return new Service();
   }
 }
 

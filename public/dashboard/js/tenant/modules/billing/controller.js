@@ -1,5 +1,5 @@
 export default function tenantBillingCtrl($scope, $state) {
-  console.log("billing controller");
+  console.log("Tenant Billing Controller");
 
   $scope.viewDetails = function({ date }) {
     $state.go('root.tenant.billingsDetails', { date });
@@ -16,44 +16,29 @@ export default function tenantBillingCtrl($scope, $state) {
   $scope.data = {
     billings: [{
       status: 'pending',
-      amount: '1500',
+      amount: '1080',
     },{
       status: 'pending',
-      amount: '1400',
+      amount: '1080',
     },{
       status: 'pending',
-      amount: '1650.40',
+      amount: '1080',
     },{
       status: 'success',
-      amount: '850',
+      amount: '1080',
     },{
       status: 'success',
-      amount: '450',
+      amount: '1080',
     },{
       status: 'failed',
-      amount: '1080',
-    },{
-      status: 'success',
-      amount: '1080',
-    },{
-      status: 'success',
-      amount: '1400',
-    },{
-      status: 'failed',
-      amount: '1080',
-    },{
-      status: 'success',
-      amount: '1400',
-    },{
-      status: 'success',
       amount: '1080',
     }]
   };
+
   $scope.data.billings = $scope.data.billings.map( ({ status, amount }) => {
     return {
       status,
       amount,
-      email: 'test@main.com',
       date: '12/56/2019',
     }
   });

@@ -2,6 +2,7 @@
 
 const path       = require('path');
 // const https      = require('https');
+// const fs         = require('fs')
 const express    = require('express');
 const bodyParser = require('body-parser');
 const helmet     = require('helmet');
@@ -17,6 +18,13 @@ const sessionTime    = 1000000;
 const port           = 3000;
 const host           = 'localhost';
 const secret         = 'pretendSecret';
+
+// Local https: https://medium.freecodecamp.org/how-to-get-https-working-on-your-local-development-environment-in-5-minutes-7af615770eec
+// const certOptions = {
+//   key: fs.readFileSync(path.resolve(`${ROOT}/cert/server.key`)),
+//   cert: fs.readFileSync(path.resolve(`${ROOT}/cert/server.crt`))
+// }
+
 // const STRIPE_DEV_KEY = process.env.STRIPE_DEV_KEY;
 const STRIPE_DEV_KEY = '';
 
@@ -70,6 +78,12 @@ app.use(function (err, req, res, next) {
 app.use(function(req, res, next) {
   res.status(404).render('error', { url: req.originalUrl });
 });
+
+// const server = https.createServer(certOptions, app).listen(443, host, () => {
+//     const host = server.address().address;
+//     const port = server.address().port;
+//     console.log(`Proxy running at http://${host}:${port}`);
+//   });
 
 const server = app.listen(port, host, () => {
   const host = server.address().address;

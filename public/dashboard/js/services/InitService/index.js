@@ -1,36 +1,77 @@
 "use strict"
 
-export default function InitService(CrudService, PathService) {
+export default function InitService(CrudService, PathService, StripeService) {
   const {
-    billing,
+    stripeUrl,
+    // billing,
     administrator,
     tenant,
-    property,
-    application,
-    setting,
-    help,
+    // property,
+    // application,
+    // setting,
+    // help,
   } = PathService();
 
-  console.log('paths.billing: ', billing);
+  const stripeService = StripeService(stripeUrl);
 
-  const billingProvider  = CrudService(billing );
+  // const billingProvider  = CrudService(billing);
   const adminProvider    = CrudService(administrator);
   const tenantProvider   = CrudService(tenant);
-  const propProvider     = CrudService(property);
-  const appProvider      = CrudService(application);
-  const settingsProvider = CrudService(setting);
-  const helpProvider     = CrudService(help);
+  // const propProvider     = CrudService(property);
+  // const appProvider      = CrudService(application);
+  // const settingsProvider = CrudService(setting);
+  // const helpProvider     = CrudService(help);
 
   return function() {
     function Service() {}
+    Service.prototype.init = async function(type, STRIPE_API_KEY) {
+      let data;
+      let stripeSuccess;
 
-    Service.prototype.getAllData = async function() {
+      try {
+        stripeSuccess = await stripeService.init(STRIPE_API_KEY);
+
+        if (type === 'tenant') {
+          data = await this.getTenantData();
+        }
+
+        if (type === 'admin') {
+          data = await this.getAdminData();
+        }
+      } catch (error) {
+        throw error;
+      }
+      
+      return {
+        data,
+        stripeSuccess
+      }
+    }
+
+    Service.prototype.getTenantData = async function() {
+      // let settings;
+      // let billings;
+
+      try {
+        // billings       = await billingProvider.getAll();
+        // settings       = await settingsProvider.getAll();
+      } catch (error) {
+        throw error;
+      }
+
+      return {
+        // billings,
+        // settings: settings.data,
+      }
+    } 
+
+    Service.prototype.getAdminData = async function() {
       let administrators;
       let tenants;
-      let properties;
-      let settings;
-      let applications;
-      let billings;
+      // let properties;
+      // let settings;
+      // let applications;
+      // let billings;
 
       try {
         // billings       = await billingProvider.getAll();
@@ -54,11 +95,9 @@ export default function InitService(CrudService, PathService) {
         // help: help.data,
       }
     }
-  
-    const initService = new Service()
-    
-    return initService;
+
+    return new Service();
   }
 }
 
-InitService.$inject = ['CrudService', 'PathService'];
+InitService.$inject = ['CrudService', 'PathService', 'StripeService'];

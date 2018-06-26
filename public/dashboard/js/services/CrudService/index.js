@@ -58,10 +58,8 @@ export default function CrudService($http) {
         url,
       });
     }
-  
-    const crudService = new Service(url)
-    
-    return crudService;
+
+    return new Service(url);
   }
 }
 

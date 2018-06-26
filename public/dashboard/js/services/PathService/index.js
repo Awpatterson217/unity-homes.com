@@ -2,6 +2,7 @@
 
 export default function PathService() {
   return () => ({
+    stripeUrl    : 'https://js.stripe.com/v3/',
     property     : '/api/property',
     application  : '/api/application',
     tenant       : '/api/tenant',

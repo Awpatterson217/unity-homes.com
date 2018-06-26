@@ -82,6 +82,15 @@ td, th {
   text-align: center;
 }
 
+.active {
+  color: white !important;
+  /* font-weight: bold; */
+}
+.active > p {
+  color: white !important;
+  /* font-weight: bold; */
+}
+
 .table tbody tr > td.actions-col {
   background-color: white !important;
 }

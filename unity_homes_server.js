@@ -106,8 +106,6 @@ app.listen(PORT, host);
 // MongoDB URI and Stripe key in private env vars
 // fix hot reloading for dashboard
 
-// RestService, StripeService, and CacheService
-
 // Form to add properties
 // UI for property details
 
