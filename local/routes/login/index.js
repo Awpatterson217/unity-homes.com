@@ -29,6 +29,7 @@ router.post('/login', checkEmail, checkPass, function(req, res, next) {
   if (isEmpty(email, password))
     return res.render('login', { invalid: true });
 
+    // TODO: If user === tenant, CHECK FOR isRegistered = true
   user.authenticate(email, password, function(error, user) {
     if (error)
       return res.render('login', {

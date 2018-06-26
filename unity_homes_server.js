@@ -1,14 +1,14 @@
 "use strict";
 
 const express    = require('express');
-const https      = require('https');
 const bodyParser = require('body-parser');
 const path       = require('path');
-const fs         = require('fs');
 const helmet     = require('helmet');
 const redis      = require("redis");
 const session    = require('express-session');
 const RedisStore = require('connect-redis')(session);
+// const https      = require('https');
+// const fs         = require('fs');
 
 const { checkAuth } = require('./local/node_modules/lib/middleware');
 const routes        = require('./local/routes');
@@ -19,21 +19,23 @@ const urlEncParser = bodyParser.urlencoded({
   extended: false
 });
 
-const TTL  = 180;
-const PORT = process.env.UNITY_PORT;
-// const STRIPE_DEV_KEY = process.env.UNITY_STRIPE_DEV_KEY
+const TTL            = process.env.UNITY_TTL;
+const PORT           = process.env.UNITY_PORT;
+const STRIPE_API_KEY = process.env.UNITY_STRIPE_API_KEY
+const STRIPE_DEV_KEY = process.env.UNITY_STRIPE_DEV_KEY
 
-let host   = process.env.UNITY_HOST;
-let secret = process.env.UNITY_SECRET;
+const HOST = process.env.UNITY_HOST
+  ? process.env.UNITY_HOST.trim()
+  : null;
 
-if (secret) {
-  secret = secret.trim();
-} else {
+const SECRET = process.env.UNITY_SECRET
+  ? process.env.UNITY_SECRET.trim()
+  : null;
+
+if (!SECRET) {
   console.log("SECRET is undefined");
 }
-if (host) {
-  host = host.trim();
-} else {
+if (!HOST) {
   console.log("HOST is undefined");
 }
 
@@ -45,7 +47,6 @@ const redisOptions = {
 };
 
 client.on("error", function(err) {
-  // TODO: LOG
   console.log("Error " + err);
 });
 
@@ -65,10 +66,10 @@ app.set('views', [
 
 app.use(
   session({
-    secret,
-    store : new RedisStore(redisOptions),
+    secret           : SECRET,
+    store            : new RedisStore(redisOptions),
     saveUninitialized: false,
-    resave: false
+    resave           : false
   })
 );
 
@@ -91,15 +92,20 @@ for (let routeKeys in routes) {
 }
 
 app.use(function (err, req, res, next) {
+  const url = req.originalUrl;
+
   console.error(err.stack)
-  res.status(404).render('error', { url: req.originalUrl });
+
+  res.status(404).render('error', { url });
 });
 
 app.use(function(req, res, next) {
-  res.status(404).render('error', { url: req.originalUrl });
+  const url = req.originalUrl;
+
+  res.status(404).render('error', { url });
 });
 
-app.listen(PORT, host);
+app.listen(PORT, HOST);
 
 //        TODO:
 // Refactor leftover callback model methods

@@ -1,12 +1,12 @@
 "use strict";
 
 const path       = require('path');
-// const https      = require('https');
-// const fs         = require('fs')
 const express    = require('express');
 const bodyParser = require('body-parser');
 const helmet     = require('helmet');
 const session    = require('express-session');
+// const https      = require('https');
+// const fs         = require('fs')
 
 const ROOT = path.resolve(__dirname, '..');
 
@@ -14,10 +14,10 @@ const { checkAuth } = require(`${ROOT}/local/node_modules/lib/middleware`);
 const routes        = require(`${ROOT}/local/routes`);
 const APIs          = require(`${ROOT}/local/api`);
 
-const sessionTime    = 1000000;
-const port           = 3000;
-const host           = 'localhost';
-const secret         = 'pretendSecret';
+const sessionTime = 1000000;
+const port        = 3000;
+const host        = 'localhost';
+const secret      = 'pretendSecret';
 
 // Local https: https://medium.freecodecamp.org/how-to-get-https-working-on-your-local-development-environment-in-5-minutes-7af615770eec
 // const certOptions = {
@@ -43,9 +43,9 @@ app.set('views', [
 
 app.use(session({
   secret,
-  resave: true,
+  resave           : true,
   saveUninitialized: false,
-  cookie: {
+  cookie           : {
     unset   : 'destroy',
     sameSite: true,
     maxAge  : sessionTime,
@@ -71,12 +71,17 @@ for (let routeKeys in routes) {
 }
 
 app.use(function (err, req, res, next) {
+  const url = req.originalUrl;
+
   console.error(err.stack)
-  res.status(404).render('error', { url: req.originalUrl });
+
+  res.status(404).render('error', { url });
 });
 
 app.use(function(req, res, next) {
-  res.status(404).render('error', { url: req.originalUrl });
+  const url = req.originalUrl;
+
+  res.status(404).render('error', { url });
 });
 
 // const server = https.createServer(certOptions, app).listen(443, host, () => {
