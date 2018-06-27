@@ -1,14 +1,10 @@
 # ignore node modules #
 node_modules
 node_modules/
-ssl
-ssl/
-cert
-cert/
 dist
 dist/
-mongodb
-mongodb/
+data
+data/
 
 # Compiled source #
 ###################

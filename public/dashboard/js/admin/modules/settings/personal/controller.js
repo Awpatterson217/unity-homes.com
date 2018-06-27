@@ -1,4 +1,4 @@
-export default function personalCtrl($scope) {
+export default function personalCtrl($scope, CacheService) {
 }
 
-personalCtrl.$inject = ['$scope'];
+personalCtrl.$inject = ['$scope', 'CacheService'];

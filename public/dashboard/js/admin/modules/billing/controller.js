@@ -1,4 +1,4 @@
-export default function billingCtrl($scope, $state) {
+export default function billingCtrl($scope, $state, CacheService) {
   $scope.viewDetails = function({ date, email }) {
     $state.go('root.admin.billingDetails', { date, email });
   }
@@ -61,4 +61,4 @@ export default function billingCtrl($scope, $state) {
   });
 }
 
-billingCtrl.$inject = ['$scope', '$state'];
+billingCtrl.$inject = ['$scope', '$state', 'CacheService'];

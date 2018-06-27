@@ -6,7 +6,7 @@ export default function InitService(CrudService, PathService, StripeService) {
     // billing,
     administrator,
     tenant,
-    // property,
+    property,
     // application,
     // setting,
     // help,
@@ -17,7 +17,7 @@ export default function InitService(CrudService, PathService, StripeService) {
   // const billingProvider  = CrudService(billing);
   const adminProvider    = CrudService(administrator);
   const tenantProvider   = CrudService(tenant);
-  // const propProvider     = CrudService(property);
+  const propProvider     = CrudService(property);
   // const appProvider      = CrudService(application);
   // const settingsProvider = CrudService(setting);
   // const helpProvider     = CrudService(help);
@@ -68,7 +68,7 @@ export default function InitService(CrudService, PathService, StripeService) {
     Service.prototype.getAdminData = async function() {
       let administrators;
       let tenants;
-      // let properties;
+      let properties;
       // let settings;
       // let applications;
       // let billings;
@@ -77,7 +77,7 @@ export default function InitService(CrudService, PathService, StripeService) {
         // billings       = await billingProvider.getAll();
         administrators = await adminProvider.getAll();
         tenants        = await tenantProvider.getAll();
-        // properties     = await propProvider.getAll();
+        properties     = await propProvider.getAll();
         // applications   = await appProvider.getAll();
         // settings       = await settingsProvider.getAll();
         // help           = await helpProvider.getAll();
@@ -89,7 +89,7 @@ export default function InitService(CrudService, PathService, StripeService) {
         // billings,
         administrators: administrators.data,
         tenants: tenants.data,
-        // properties: properties.data,
+        properties: properties.data,
         // applications: applications.data,
         // settings: settings.data,
         // help: help.data,

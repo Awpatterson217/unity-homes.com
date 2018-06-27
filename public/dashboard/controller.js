@@ -15,10 +15,6 @@ const injectables = [
     const TYPE  = $cookies.get('type');
     const STRIPE_PUBLISHABLE_KEY = $cookies.get('stripe_publishable_key');
 
-    console.log('email: ', EMAIL);
-    console.log('TYPE: ', TYPE);
-    console.log('STRIPE_PUBLISHABLE_KEY: ', STRIPE_PUBLISHABLE_KEY);
-
     $scope.hasData = false;
 
     const cache = CacheService();
@@ -28,7 +24,7 @@ const injectables = [
 
     init.init(TYPE, STRIPE_PUBLISHABLE_KEY)
       .then(({ data, stripeSuccess }) => {
-        cache.put('data', data);
+        cache.put('data', angular.copy(data));
 
         console.log('data: ', data);
         console.log('stripeSuccess', stripeSuccess);

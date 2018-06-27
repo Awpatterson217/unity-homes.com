@@ -1,5 +1,5 @@
-export default function propertiesDetailsCtrl($scope, $stateParams) {
+export default function propertiesDetailsCtrl($scope, $stateParams, CacheService) {
   $scope.id = $stateParams.id;
 }
 
-propertiesDetailsCtrl.$inject = ['$scope', '$stateParams'];
+propertiesDetailsCtrl.$inject = ['$scope', '$stateParams', 'CacheService'];

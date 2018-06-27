@@ -8,12 +8,12 @@ export default function CacheService($cacheFactory) {
 
     Service.prototype.put = function(key, value) {
       if (key && value) {
-        this.cache.put(key, value);
+        this.cache.put(key, angular.copy(value));
       }
     }
 
     Service.prototype.get = function(key) {
-      return this.cache.get(key);
+      return angular.copy(this.cache.get(key));
     }
 
     Service.prototype.remove = function(key) {

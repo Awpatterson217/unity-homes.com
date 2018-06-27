@@ -19,6 +19,15 @@ const port        = 3000;
 const host        = 'localhost';
 const secret      = 'pretendSecret';
 
+/**
+ * 1st: setup dockerized database + mock data:
+ * 'npm run mongodb'
+ * 'npm run mongodb:insert'
+ * 
+ * 2nd: Start application
+ *  'npm run dev'
+ */
+
 // Local https: https://medium.freecodecamp.org/how-to-get-https-working-on-your-local-development-environment-in-5-minutes-7af615770eec
 // const certOptions = {
 //   key: fs.readFileSync(path.resolve(`${ROOT}/cert/server.key`)),

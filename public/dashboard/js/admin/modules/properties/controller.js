@@ -1,4 +1,12 @@
-export default function propertiesCtrl($scope, $state) {
+export default function propertiesCtrl($scope, $state, CacheService) {
+  const { properties } = CacheService().get('data');
+
+  console.log('properties: ', properties);
+
+  $scope.data = {
+    properties
+  };
+
   $scope.viewDetails = function({ id }) {
     $state.go('root.admin.propertiesDetails', { id });
   }
@@ -14,42 +22,8 @@ export default function propertiesCtrl($scope, $state) {
   }
 
   $scope.data = {
-    properties: [{
-      occupied: 'true'
-    },{
-      occupied: 'true'
-    },{
-      occupied: 'false'
-    },{
-      occupied: 'true'
-    },{
-      occupied: 'true'
-    },{
-      occupied: 'true'
-    },{
-      occupied: 'true'
-    },{
-      occupied: 'true'
-    },{
-      occupied: 'false'
-    },{
-      occupied: 'true'
-    }]
+    properties
   };
-  $scope.data.properties = $scope.data.properties.map( ({ occupied }) => {
-    const isOccupied = occupied === 'true'
-      ? true
-      : false;
-
-    return {
-      id: 'testId',
-      occupied: isOccupied,
-      street: '123 Main St.',
-      city: 'Champaign',
-      state: 'IL',
-      zip: '61820'
-    }
-  });
 }
 
-propertiesCtrl.$inject = ['$scope', '$state'];
+propertiesCtrl.$inject = ['$scope', '$state', 'CacheService'];

@@ -1,4 +1,4 @@
-export default function helpCtrl($scope) {
+export default function helpCtrl($scope, CacheService) {
 }
 
-helpCtrl.$inject = ['$scope'];
+helpCtrl.$inject = ['$scope', 'CacheService'];

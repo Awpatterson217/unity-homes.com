@@ -129,6 +129,9 @@ app.listen(PORT, HOST);
 
 // Modals for confirmations (deletes, paying bills, etc.)
 
+// safeState() for 2 chars
+
+// Decorate models instead of repeating code
 // Remove console.logs in dashboard
 // Create better backend logging system
 // CSRF

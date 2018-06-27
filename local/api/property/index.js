@@ -29,15 +29,6 @@ router.get('/property', function(req, res) {
 
   property.all()
     .then( props => {
-      for (let i = 0; i < props.length; i++) {
-        getImages(props[i].id).then( images => {
-          props[i].images = images;
-        }).catch( error => {
-          // LOG/HANDLE ERROR
-          console.log(error);
-          return res.status(500).send(error);
-        });
-      }
       if (props.length) {
         return res.type('application/json').status(200).send(JSON.stringify(props, null, 5));
       }

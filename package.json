@@ -4,19 +4,20 @@
   "description": "A web application for a real estate business",
   "main": "unity_homes_server.js",
   "scripts": {
-    "insert": "UNITY_MONGO_DB=mongodb://127.0.0.1:27017/test node ./dev/insert.js",
+    "mongodb:start": "docker run --name unity-mongo -d -p 27017:27017 -v ~/src/www/unity-homes.com/data/db:/data/db mongo",
+    "mongodb:stop": "docker stop unity-mongo || exit 0",
+    "mongodb:rm": "docker rm unity-mongo || exit 0",
+    "mongodb:erase": "rm -rf ~/src/www/unity-homes.com/data || exit 0",
+    "mongodb:insert": "UNITY_MONGO_DB=mongodb://127.0.0.1:27017/test node ./dev/insert.js",
+    "mongodb": "npm run mongodb:stop; npm run mongodb:rm; npm run mongodb:erase; npm run mongodb:start;",
     "build": "webpack && gulp build",
     "build:prod": "webpack -p && gulp build",
     "watch:webpack": "webpack --watch",
-    "server:dev": "nodemon dev_server.js",
-    "server:webpack": "webpack-dev-server",
     "dev": "npm run build && UNITY_STRIPE_TEST_PUBLISHABLE_KEY=pk_test_hdv1oJmfn5IRru1y5g3A6q1R UNITY_MONGO_DB=mongodb://127.0.0.1:27017/test gulp dev",
-    "dev:dashboard": "npm run build && gulp dev-dashboard",
     "delete:pm2": "pm2 delete -s unity || :",
     "log:pm2": "pm2 logs unity",
     "start": "npm run build:prod && pm2 start ecosystem.json --env production",
-    "restart": "pm2 restart ecosystem.json --env production",
-    "gulpTest": "gulp copyEjs"
+    "restart": "pm2 restart ecosystem.json --env production"
   },
   "repository": {
     "type": "git",

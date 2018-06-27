@@ -1,4 +1,4 @@
-export default function applicantsCtrl($scope, $state) {
+export default function applicantsCtrl($scope, $state, CacheService) {
   $scope.viewApp = function({ email }) {
     $state.go('root.admin.applicantsApplication', { email });
   }
@@ -93,4 +93,4 @@ export default function applicantsCtrl($scope, $state) {
   }
 }
 
-applicantsCtrl.$inject = ['$scope', '$state'];
+applicantsCtrl.$inject = ['$scope', '$state', 'CacheService'];
