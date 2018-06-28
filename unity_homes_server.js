@@ -7,8 +7,6 @@ const helmet     = require('helmet');
 const redis      = require("redis");
 const session    = require('express-session');
 const RedisStore = require('connect-redis')(session);
-// const https      = require('https');
-// const fs         = require('fs');
 
 const { checkAuth } = require('./local/node_modules/lib/middleware');
 const routes        = require('./local/routes');
@@ -110,7 +108,6 @@ app.listen(PORT, HOST);
 
 //        TODO:
 // Refactor leftover callback model methods
-// MongoDB URI and Stripe key in private env vars
 // fix hot reloading for dashboard
 
 // Form to add properties
@@ -131,7 +128,8 @@ app.listen(PORT, HOST);
 
 // safeState() for 2 chars
 
-// Decorate models instead of repeating code
+// Refactory Mongo CRUD operations
+// to work like _find()
 // Remove console.logs in dashboard
 // Create better backend logging system
 // CSRF

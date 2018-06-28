@@ -53,7 +53,6 @@ function insertAdmin() {
   admin.setVal("firstName", "adam");
   admin.setVal("middleName", "w");
   admin.setVal("lastName", "patterson");
-  admin.setVal("firstLogin", "false");
 
   user.setVal("email", "admin@unity.com");
   user.setVal("type", "admin");
@@ -118,12 +117,11 @@ function insertProp(property) {
   });
 }
 
-insertApp();
 insertAdmin();
 insertTenant();
 
 properties.forEach(property =>
   insertProp(property));
 
-applications.forEach(application =>
-  insertApp(application));
+// applications.forEach(application =>
+//   insertApp(application));
