@@ -7,23 +7,21 @@ export default function propertiesCtrl($scope, $state, CacheService) {
     properties
   };
 
-  $scope.viewDetails = function({ id }) {
-    $state.go('root.admin.propertiesDetails', { id });
+  $scope.viewDetails = function({ street }) {
+    $state.go('root.admin.propertiesDetails', { street });
   }
 
-  $scope.removeProperty = function({ email }) {
+  $scope.removeProperty = function({ street }) {
+    console.log('street: ', street);
     // TODO
     // Use RestService
   }
 
-  $scope.addProperty = function({ email }) {
+  $scope.addProperty = function(prop) {
+    console.log('prop: ', prop);
     // TODO
     // $state.go('root.admin.addProperty', { id });
   }
-
-  $scope.data = {
-    properties
-  };
 }
 
 propertiesCtrl.$inject = ['$scope', '$state', 'CacheService'];
