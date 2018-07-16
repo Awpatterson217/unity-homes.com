@@ -37,121 +37,87 @@ const Property = function() {
   this.mainImage = {
     value   : '',
     required: false,
-    safe    : (str) => {
-      return safeStr(str);
-    }
+    safe    : str => safeStr(str)
   }
   this.type = {
     value   : '',
     required: false,
-    safe    : (str) => {
-      return safeStr(str);
-    }
+    safe    : str => safeStr(str)
   }
   this.street = {
     value   : '',
     required: false,
-    safe    : (str) => {
-      return safeStr(str);
-    }        
+    safe    : str => safeStr(str)
   }
   this.city = {
     value   : '',
     required: false,
-    safe    : (str) => {
-      return safeStr(str);
-    }
+    safe    : str => safeStr(str)
   }
   this.state = {
     value   : '',
     required: false,
-    safe    : (str) => {
-      return safeStr(str);
-    }
+    safe    : str => safeStr(str)
   }
   this.zip = {
     value   : '',
     required: false,
-    safe    : (num) => {
-      return safeNum(num);
-    }
+    safe    : num => safeNum(num)
   }
   this.stories = {
     value   : '',
     required: false,
-    safe    : (num) => {
-      return safeNum(num);
-    }
+    safe    : num => safeNum(num)
   }
   this.rent = {
     value   : '',
     required: false,
-    safe    : (num) => {
-      return safeNum(num);
-    }
+    safe    : num => safeNum(num)
   }
   this.occupied = {
     value   : '',
     required: false,
-    safe    : (bool) => {
-      return safeBool(bool);
-    }        
+    safe    : bool => safeBool(bool)
   }
   this.occupants = {
     value   : '',
     required: false,
-    safe    : (str) => {
-      return safeStr(str);
-    }
+    safe    : str => safeStr(str)
   }
   this.sqft = {
     value   : '',
     required: false,
-    safe    : (num) => {
-      return safeNum(num);
-    }
+    safe    : num => safeNum(num)
   }
   this.year = {
     value   : '',
     required: false,
-    safe    : (num) => {
-      return safeYear(num);
-    }
+    safe    : num => safeYear(num)
   }
   this.washer = {
     value   : '',
     required: false,
-    safe    : (bool) => {
-      return safeBool(bool);
-    }        
+    safe    : bool => safeBool(bool)
   }
   this.dryer = {
     value   : '',
     required: false,
-    safe    : (bool) => {
-      return safeBool(bool);
-    }        
+    safe    : bool => safeBool(bool)
   }
   this.garage = {
     value   : '',
     required: false,
-    safe    : (bool) => {
-      return safeBool(bool);
-    }        
+    safe    : bool => safeBool(bool)
   }
   this.basement = {
     value   : '',
     required: false,
-    safe    : (bool) => {
-      return safeBool(bool);
-    }        
+    safe    : bool => safeBool(bool)
   }
   this.fence = {
     value   : '',
     required: false,
-    safe    : (bool) => {
-      return safeBool(bool);
-    }        
+    safe    : bool => safeBool(bool)
   }
 }
 

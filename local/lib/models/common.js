@@ -21,37 +21,27 @@ function Basic() {
   this.email = {
     value   : '',
     required: true,
-    safe    : (email) => {
-      return safeEmail(email);
-    }
+    safe    : email => safeEmail(email)
   }
   this.phone = {
     value   : '',
     required: false,
-    safe    : (num) => {
-      return safeNum(num);
-    }
+    safe    : num => safeNum(num)
   }
   this.firstName = {
     value   : '',
     required: false,
-    safe    : (str) => {
-      return safeStr(str);
-    }
+    safe    : str => safeStr(str)
   }
   this.middleName = {
     value   : '',
     required: false,
-    safe    : (str) => {
-      return safeStr(str);
-    }
+    safe    : str => safeStr(str)
   }
   this.lastName = {
     value   : '',
     required: false,
-    safe    : (str) => {
-      return safeStr(str);
-    }
+    safe    : str => safeStr(str)
   }
 }
 
@@ -59,30 +49,22 @@ function Address() {
   this.street = {
     value   : '',
     required: false,
-    safe    : (str) => {
-      return safeStr(str);
-    }        
+    safe    : str => safeStr(str)    
   }
   this.city = {
     value   : '',
     required: false,
-    safe    : (str) => {
-      return safeStr(str);
-    }
+    safe    : str => safeStr(str)
   }
   this.state = {
     value   : '',
     required: false,
-    safe    : (str) => {
-      return safeStr(str);
-    }
+    safe    : str => safeStr(str)
   }
   this.zip = {
     value   : '',
     required: false,
-    safe    : (num) => {
-      return safeNum(num);
-    }
+    safe    : num => safeNum(num)
   }
 }
 

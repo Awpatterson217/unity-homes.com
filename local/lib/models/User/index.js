@@ -40,9 +40,7 @@ const User = function() {
   this.email = {
     value   : '',
     required: true,
-    safe    : (email) => {
-      return safeEmail(email);
-    }
+    safe    : email => safeEmail(email)
   }
   this.password = {
     value   : '',
@@ -51,9 +49,7 @@ const User = function() {
   this.type = {
     value   : '',
     required: true,
-    safe    : (str) => {
-      return safeStr(str);
-    }
+    safe    : str => safeStr(str)
   }
   this.hash = async (password) => {
     const safePassword = safePass(password);

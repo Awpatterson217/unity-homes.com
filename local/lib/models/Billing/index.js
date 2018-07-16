@@ -26,9 +26,7 @@ DataModel.call(this);
   this.email = {
     value   : '',
     required: true,
-    safe    : (email) => {
-      return safeEmail(email);
-    }
+    safe    : (email) => safeEmail(email)
   }
 }
 

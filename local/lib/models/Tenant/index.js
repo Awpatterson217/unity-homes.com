@@ -42,30 +42,22 @@ const Tenant = function() {
   this.rent = {
     value   : '',
     required: false,
-    safe    : (num) => {
-      return safeNum(num);
-    }
+    safe    : num => safeNum(num)
   }
   this.leaseStart = {
     value   : '',
     required: false,
-    safe    : (num) => {
-      return safeNum(num);
-    }
+    safe    : num => safeNum(num)
   }
   this.leaseEnd = {
     value   : '',
     required: false,
-    safe    : (num) => {
-      return safeNum(num);
-    }
+    safe    : num => safeNum(num)
   }   
   this.pet = {
     value   : '',
     required: false,
-    safe    : (bool) => {
-      return safeBool(bool);
-    }      
+    safe    : bool => safeBool(bool)
   }
   this.code = {
     value: '',
@@ -74,9 +66,7 @@ const Tenant = function() {
   this.isRegistered = {
     value: '',
     required: true,
-    safe    : (str) => {
-      return safeStr(str);
-    }
+    safe    : str => safeStr(str)
   }
 }
 

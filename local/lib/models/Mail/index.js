@@ -31,79 +31,57 @@ const Mail = function() {
   this.host = {
     value   : '',
     required: true,
-    safe    : (str) => {
-      return safeStr(str);
-    }
+    safe    : str => safeStr(str)
   }
   this.username = {
     value   : '',
     required: true,
-    safe    : (email) => {
-      return safeEmail(email);
-    }
+    safe    : email => safeEmail(email)
   }
   this.password = {
     value   : '',
     required: true,
-    safe    : (str) => {
-      return safeStr(str);
-    }
+    safe    : str => safeStr(str)
   }
   this.port = {
     value   : '',
     required: true,
-    safe    : (num) => {
-      return safeNum(num);
-    }
+    safe    : num => safeNum(num)
   }
   this.secure = {
     value   : '',
     required: false,
-    safe    : (bool) => {
-      return safeBool(bool);
-    }
+    safe    : bool => safeBool(bool)
   }
   this.requireTLS = {
     value   : '',
     required: false,
-    safe    : (bool) => {
-      return safeBool(bool);
-    }
+    safe    : bool => safeBool(bool)
   }
   this.from = {
     value   : '',
     required: true,
-    safe    : (str) => {
-      return safeStr(str);
-    }
+    safe    : str => safeStr(str)
   }
   this.to = {
     value   : '',
     required: true,
-    safe    : (email) => {
-      return safeEmail(email);
-    }
+    safe    : email => safeEmail(email)
   }
   this.subject = {
     value   : '',
     required: false,
-    safe    : (str) => {
-      return safeStr(str);
-    }
+    safe    : str => safeStr(str)
   }
   this.text = {
     value   : '',
     required: false,
-    safe    : (str) => {
-      return safeStr(str);
-    }
+    safe    : str => safeStr(str)
   }
   this.html = {
     value   : '',
     required: false,
-    safe    : (str) => {
-      return safeStr(str);
-    }
+    safe    : str => safeStr(str)
   }
   this.send = (callback) => {
     const dataObj = this.getObject();
@@ -112,6 +90,7 @@ const Mail = function() {
       if (prop.required)
         if (prop.value === '') {
           this.reset();
+
           callback(customErr('Missing Required Value'))
         }
     });
@@ -132,8 +111,10 @@ const Mail = function() {
       text   : this.text,
       html   : this.html,
     }.bind(this), (error, info) => {
-      if (error)
+      if (error) {
         return callback(error)
+      }
+
       return callback(null, info);
     });
   }
