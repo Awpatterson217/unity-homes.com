@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 const administrator = require('./administrator');
 const property      = require('./property');

@@ -1,22 +1,14 @@
-"use strict";
+'use strict';
 
-const newErr = function(error) {
-  const errorObj = {
-    err: true,
-    msg: error.msg
-  }
-  
-  return errorObj;
-}
+const newErr = (error) => ({
+  err: true,
+  msg: error.msg
+});
 
-const customErr = function(message) {
-  const errorObj = {
-    err: true,
-    msg: message
-  }
-  
-  return errorObj;
-}
+const customErr = (message) => ({
+  err: true,
+  msg: message
+});
 
 module.exports = {
   newErr,

@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 const express = require('express');
 const csrf    = require('csurf');
@@ -13,7 +13,7 @@ const {
   checkId,
   checkAdminAuth,
   checkIdParam,
-  } = require('../../lib/middleware');
+} = require('../../lib/middleware');
 
 const router = express.Router();
 
@@ -39,10 +39,10 @@ router.get('/property', function(req, res) {
       return res.status(404).render('error', {
         url: req.hostname + req.originalUrl,
       });
-    }).catch( error => {
+    }).catch((error) => {
       // LOG/HANDLE ERROR
       console.log(error);
-        return res.status(500).send(error);
+      return res.status(500).send(error);
     });
 });
 

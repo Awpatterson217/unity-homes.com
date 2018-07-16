@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 const validator = require('validator');
 
@@ -8,7 +8,7 @@ const {
   safeBool,
   safeStr,
   safeNum
-  } = require('./safe');
+} = require('./safe');
 
 const checkEmail = (req, res, next) => {
   const email = sanitize(req.body.email);

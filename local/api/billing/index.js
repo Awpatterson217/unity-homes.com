@@ -13,7 +13,7 @@ const {
   checkAuth,
   checkAdminAuth,
   checkIdParam,
-  } = require('../../lib/middleware');
+} = require('../../lib/middleware');
 
 const router = express.Router();
 
@@ -24,14 +24,14 @@ const csrfProtection = csrf()
 // <input type="hidden" name="_csrf" value="{{csrfToken}}">
 
 // Get all billing 
-router.get('/billing', checkAdminAuth, function(req, res) {
+router.get('/billing', checkAdminAuth, (req, res) => {
   const billing = new Billing();
   // TODO
   return res.status(500).send('Something went wrong!');
 });
 
 // Get a billing by id
-router.get('/billing/:id', checkAdminAuth, checkIdParam, function(req, res) {
+router.get('/billing/:id', checkAdminAuth, checkIdParam, (req, res) => {
   const billing = new Billing();
 
   const id = req.params.id;
@@ -42,9 +42,10 @@ router.get('/billing/:id', checkAdminAuth, checkIdParam, function(req, res) {
         .status(200)
         .send(JSON.stringify(bill, null, 2));
     })
-      .catch( error => {
+      .catch((error) => {
       // LOG/HANDLE ERROR
       console.log(error);
+
       return res.status(500).send(error);
     });
 
@@ -53,21 +54,21 @@ router.get('/billing/:id', checkAdminAuth, checkIdParam, function(req, res) {
 });
 
 // Create a billing
-router.post('/billing', function(req, res, next) {
+router.post('/billing', (req, res, next) => {
   const billing = new Billing();
   // TODO
   return res.status(500).send('Something went wrong!');
 });
 
 // Update a billing by id
-router.put('/billing/:id', checkIdParam, function(req, res, next) {
+router.put('/billing/:id', checkIdParam, (req, res, next) => {
   const billing = new Billing();
   // TODO
   return res.status(500).send('Something went wrong!');
 });
 
 // Delete a billing by id
-router.delete('/billing/:id', checkAdminAuth, checkIdParam, function(req, res, next) {
+router.delete('/billing/:id', checkAdminAuth, checkIdParam, (req, res, next) => {
   const billing = new Billing();
   // TODO
   return res.status(500).send('Something went wrong!');

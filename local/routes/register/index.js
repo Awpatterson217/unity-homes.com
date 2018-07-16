@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 const express = require('express');
 const moment  = require('moment');
@@ -10,7 +10,7 @@ const {
   checkCode,
   checkPass,
   checkPassTwo
-  } = require('../../lib/middleware');
+} = require('../../lib/middleware');
 
 const router = express.Router();
 
@@ -19,7 +19,7 @@ router.get('/register', (req, res) => {
 });
 
 router.post('/register', checkCode, checkEmail, checkPass, checkPassTwo, (req, res, next) => {
-  const tenant    = new Tenant();
+  const tenant = new Tenant();
   // TODO Log time and req
   const code        = req.body.code;
   const email       = req.body.email;

@@ -11,7 +11,7 @@ const {
   checkPass,
   checkPassTwo,
   checkIdParam,
-  } = require('../../lib/middleware');
+} = require('../../lib/middleware');
 
 const router = express.Router();
 
@@ -22,7 +22,7 @@ const csrfProtection = csrf()
 // <input type="hidden" name="_csrf" value="{{csrfToken}}">
 
 // get all mail
-router.get('/mail', function(req, res) {
+router.get('/mail', (req, res) => {
   const mail = new Mail();
 
   // TODO
@@ -31,7 +31,7 @@ router.get('/mail', function(req, res) {
 });
 
 // Get a mail by id
-router.get('/mail/:id', checkIdParam, function(req, res) {
+router.get('/mail/:id', checkIdParam, (req, res) => {
   const mail = new Mail();
 
   console.log('id: ', req.params.id);
@@ -44,15 +44,16 @@ router.get('/mail/:id', checkIdParam, function(req, res) {
         .status(200)
         .send(JSON.stringify(thisMail, null, 2));
     })
-    .catch( error => {
+    .catch((error) => {
       // LOG/HANDLE ERROR
       console.log(error);
+
       return res.status(500).send(error);
     });
 });
 
 // Create a mail
-router.post('/mail', function(req, res, next) {
+router.post('/mail', (req, res, next) => {
   const mail = new Mail();
 
   // TODO
@@ -61,7 +62,7 @@ router.post('/mail', function(req, res, next) {
 });
 
 // Update a mail by id
-router.put('/mail/:id', checkIdParam, function(req, res, next) {
+router.put('/mail/:id', checkIdParam, (req, res, next) => {
   const mail = new Mail();
 
   const id = req.params.id;
@@ -72,7 +73,7 @@ router.put('/mail/:id', checkIdParam, function(req, res, next) {
 });
 
 // Delete a mail by id
-router.delete('/mail/:id', checkIdParam, function(req, res, next) {
+router.delete('/mail/:id', checkIdParam, (req, res, next) => {
   const mail = new Mail();
 
   console.log('id: ', req.params.id);

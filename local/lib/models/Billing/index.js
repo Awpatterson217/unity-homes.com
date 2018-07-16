@@ -1,9 +1,7 @@
-"use strict";
+'use strict';
 
 const { DataModel } = require('../common');
-const { 
-  safeEmail,
-} = require('../../safe');
+const { safeEmail } = require('../../safe');
 
 const Billing = function() {
 /**

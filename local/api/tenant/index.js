@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 const express = require('express');
 const _filter = require('lodash/filter');
@@ -14,7 +14,7 @@ const {
   checkPassTwo,
   checkAdminAuth,
   checkEmailParam,
-  } = require('../../lib/middleware');
+} = require('../../lib/middleware');
 
 // Add as middleware
 const csrfProtection = csrf()
@@ -28,11 +28,11 @@ const router = express.Router();
 router.use('/tenant', checkAdminAuth)
 
 // Get all registered tenants
-router.get('/tenant', function (req, res) {
+router.get('/tenant',  (req, res) => {
   const tenant = new Tenant();
 
   tenant.all()
-  .then( allTenants => {
+  .then((allTenants) => {
     const tenants = _filter(allTenants, { type: 'tenant' });
 
     if (allTenants.length) {
@@ -42,7 +42,7 @@ router.get('/tenant', function (req, res) {
     return res.status(404).render('error', {
       url: req.hostname + req.originalUrl,
     });
-  }).catch( error => {
+  }).catch((error) => {
     // LOG/HANDLE ERROR
     console.log(error);
     return res.status(500).send(error);
@@ -50,7 +50,7 @@ router.get('/tenant', function (req, res) {
 });
 
 // Get a registered tenant by email
-router.get('/tenant/:email', checkEmailParam, function(req, res) {
+router.get('/tenant/:email', checkEmailParam, (req, res) => {
   const tenant = new Tenant();
   const email = req.params.email;
 
@@ -60,7 +60,7 @@ router.get('/tenant/:email', checkEmailParam, function(req, res) {
         .status(200)
         .send(JSON.stringify(tenant, null, 2));
     })
-    .catch( error => {
+    .catch((error) => {
       // LOG/HANDLE ERROR
       console.log(error);
       return res.status(500).send(error);
@@ -68,7 +68,7 @@ router.get('/tenant/:email', checkEmailParam, function(req, res) {
 });
 
 // Create a registered tenant
-router.post('/tenant', checkNames, checkEmail, checkPass, checkPassTwo, checkPhone, function(req, res, next) {
+router.post('/tenant', checkNames, checkEmail, checkPass, checkPassTwo, checkPhone, (req, res, next) => {
   const tenant = new Tenant();
   const user   = new User();
 
@@ -88,7 +88,7 @@ router.post('/tenant', checkNames, checkEmail, checkPass, checkPassTwo, checkPho
     return res.status(500).send('Something went wrong!');
   }
 
-  user.hash(password).then(function(success) {
+  user.hash(password).then((success) => {
     if (!success) {
       return res.status(500).send('Something went wrong!');
     }
@@ -104,12 +104,12 @@ router.post('/tenant', checkNames, checkEmail, checkPass, checkPassTwo, checkPho
     tenant.setVal('lastName', lastName);
     tenant.setVal('timestamp', Math.floor(Date.now() / 1000).toString());
 
-    user.create(function(error, user) {
+    user.create((error, user) => {
       if (error) {
         return res.status(500).send(error);
       }
 
-      tenant.create(function(error, admin) {
+      tenant.create((error, admin) => {
         if (error) {
           return res.status(500).send(error);
         }
@@ -117,14 +117,14 @@ router.post('/tenant', checkNames, checkEmail, checkPass, checkPassTwo, checkPho
        return res.status(200).send('Success');
       });
     });
-  }).catch(function(error) {
+  }).catch((error) => {
     console.log(error);
     return res.status(500).send(error);
   });
 });
 
 // Update a registered tenant by email
-router.put('/tenant/:email', checkEmailParam, function(req, res, next) {
+router.put('/tenant/:email', checkEmailParam, (req, res, next) => {
   const tenant = new Tenant();
   console.log('email: ', req.params.email);
   // TODO
@@ -132,7 +132,7 @@ router.put('/tenant/:email', checkEmailParam, function(req, res, next) {
 });
 
 // Delete a registered tenant by email
-router.delete('/tenant/:email', checkEmailParam, function(req, res, next) {
+router.delete('/tenant/:email', checkEmailParam, (req, res, next) => {
   const tenant = new Tenant();
 
   const email = req.params.email;
@@ -144,7 +144,7 @@ router.delete('/tenant/:email', checkEmailParam, function(req, res, next) {
   tenant.delete({
     'email': email,
     'type' : 'tenant'
-  }, function(error, numOfDeletes) {
+  }, (error, numOfDeletes) => {
     if (error) {
       return res.status(500).send(error);
     }

@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 const validator = require('validator');
 const safe      = require('safe-regex');
@@ -8,14 +8,14 @@ const passExpL = /(?=.*[A-Z])/;
 const passExpn = /(?=.*[0-9])/;
 
 const sanitize = (input) => {
-  let response;
-  let trimmed;
   if (typeof input === 'string') {
-    trimmed = validator.trim(input);
+    const trimmed = validator.trim(input);
+
     if (!validator.isEmpty(trimmed)) {
-      return response = validator.escape(trimmed);
+      return validator.escape(trimmed);
     }
   }
+
   return '';
 };
 
@@ -63,102 +63,114 @@ const isPassFormat = (password) => {
 }
 
 const safeEmail = (email) => {
-  const safeEmail = {};
-  safeEmail.val = sanitize(email);
+  const safeEmail = {
+    val: sanitize(email),
+    safe: false
+  };
+
   if (validator.isEmail(safeEmail.val)) {
     safeEmail.safe = true;
-
-    return safeEmail;
   }
-
-  safeEmail.safe = false;
 
   return safeEmail;
 }
 
 const safeCode = (code) => {
-  const safeCode = {};
-  safeCode.val = sanitize(code);
+  const safeCode = {
+    val: sanitize(code),
+    safe: false
+  };
+
   if (validator.isNumeric(safeCode.val)) {
     safeCode.safe = true;
-    return safeCode;
   }
-  safeCode.safe = false;
+
   return safeCode;
 }
 
 const safePass = (password) => {
-  const safePass = {};
-  safePass.val = sanitize(password);
+  const safePass = {
+    val: sanitize(password),
+    safe: false
+  };
+
   if (safePass.val === '') {
-    safePass.safe = false;
     return safePass;
   }
+
   if (isPassFormat(safePass.val)) {
     safePass.safe = true;
-    return safePass;
   }
-  safePass.safe = false;
+
   return safePass;
 }
 
 const safeNum = (num) => {
-  const safeNum = {};
-  safeNum.val = sanitize(num);
+  const safeNum = {
+    val: sanitize(num),
+    safe: false
+  };
+
   if (safeNum.val === '') {
-    safeNum.safe = false;
     return safeNum;
   }
+
   if (validator.isNumeric(safeNum.val)) {
     safeNum.safe = true;
-    return safeNum;
   }
-  safeNum.safe = false;
+
   return safeNum;
 }
 
 const safeYear = (num) => {
-  const safeNum = {};
-  safeNum.val = sanitize(num);
+  const safeNum = {
+    val: sanitize(num),
+    safe: false
+  };
+
   if (safeNum.val === '') {
-    safeNum.safe = false;
     return safeNum;
   }
+
   if (safeNum.val.length !== 4) {
-    safeNum.safe = false;
-      return safeNum;
+    return safeNum;
   }
+
   if (validator.isNumeric(safeNum.val)) {
     safeNum.safe = true;
-    return safeNum;
   }
-  safeNum.safe = false;
+
   return safeNum;
 }
 
 const safeBool = (boolean) => {
-  const safeBool = {};
-  safeBool.val = sanitize(boolean);
+  const safeBool = {
+    val: sanitize(boolean),
+    safe: false
+  };
+
   if (safeBool.val === '') {
-    safeBool.safe = false;
     return safeBool;
   }
   if (validator.isBoolean(safeBool.val)) {
     safeBool.safe = true;
-    return safeBool;
   }
-  safeBool.safe = false;
+
   return safeBool;
 }
 
 const safeStr = (str) => {
-  const safeStr = {};
-  safeStr.val = sanitize(str);
+  const safeStr = {
+    val: sanitize(str),
+    safe: false
+  };
+
   if (safeStr.val === '') {
-    safeStr.safe = false;
     return safeStr;
   }
+
   safeStr.safe = true;
+
   return safeStr;
 }
 

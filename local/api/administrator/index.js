@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 const express = require('express');
 const csrf    = require('csurf');
@@ -12,7 +12,7 @@ const {
   checkPassTwo,
   checkNames,
   checkAdminAuth,
-  } = require('../../lib/middleware');
+} = require('../../lib/middleware');
 
 const router = express.Router();
 
@@ -26,27 +26,28 @@ const csrfProtection = csrf()
 router.use('/administrator', checkAdminAuth)
 
 // Get all administrator
-router.get('/administrator', function(req, res) {
+router.get('/administrator', (req, res) => {
   const administrator = new Administrator();
 
   administrator.all()
-    .then( admins => {
+    .then((admins) => {
       if (admins.length) {
         return res.type('application/json').send(JSON.stringify(admins, null, 2));
       }
 
-        return res.status(404).render('error', {
-          url: req.hostname + req.originalUrl,
-        });
-    }).catch( error => {
+      return res.status(404).render('error', {
+        url: req.hostname + req.originalUrl,
+      });
+    }).catch((error) => {
       // LOG/HANDLE ERROR
       console.log(error);
+
       return res.status(500).send(error);
     });
 });
 
 // Get an administrator by email
-router.get('/administrator/:email', function(req, res) {
+router.get('/administrator/:email', (req, res) => {
   const administrator = new Administrator();
   console.log('email: ', req.params.email);
 
@@ -58,7 +59,7 @@ router.get('/administrator/:email', function(req, res) {
         .status(200)
         .send(JSON.stringify(admin, null, 2));
     })
-    .catch( error => {
+    .catch((error) => {
       // LOG/HANDLE ERROR
       console.log(error);
       return res.status(500).send(error);
@@ -66,7 +67,7 @@ router.get('/administrator/:email', function(req, res) {
 });
 
 // Create an administrator
-router.post('/administrator', checkNames, checkEmail, checkPass, checkPassTwo, function(req, res, next) {
+router.post('/administrator', checkNames, checkEmail, checkPass, checkPassTwo, (req, res, next) => {
   const administrator = new Administrator();
   const user          = new User();
 
@@ -93,7 +94,7 @@ router.post('/administrator', checkNames, checkEmail, checkPass, checkPassTwo, f
     return res.status(500).send('Something went wrong!');
   }
 
-  user.hash(password).then(function(success) {
+  user.hash(password).then((success) => {
     if (!success) {
       return res.status(500).send('Something went wrong!');
     }
@@ -108,12 +109,12 @@ router.post('/administrator', checkNames, checkEmail, checkPass, checkPassTwo, f
     administrator.setVal('lastName', lastName);
     administrator.setVal('timestamp', Math.floor(Date.now() / 1000).toString());
 
-    user.create(function(error, user) {
+    user.create((error, user) => {
       if (error) {
         return res.status(500).send(error);
       }
 
-      administrator.create(function(error, admin) {
+      administrator.create((error, admin) => {
         if (error) {
           return res.status(500).send(error);
         }
@@ -121,22 +122,24 @@ router.post('/administrator', checkNames, checkEmail, checkPass, checkPassTwo, f
        return res.status(200).send('Success');
       });
     });
-  }).catch(function(error) {
+  }).catch((error) => {
     console.log(error);
+
     return res.status(500).send(error);
   });
 });
 
 // Update an administrator by email
-router.put('/administrator/:email', function(req, res, next) {
+router.put('/administrator/:email', (req, res, next) => {
   const administrator = new Administrator();
+
   console.log('email: ', req.params.email);
   // TODO
   return res.status(500).send('Something went wrong!');
 });
 
 // Delete an administrator by email
-router.delete('/administrator/:email', checkEmail, function(req, res, next) {
+router.delete('/administrator/:email', checkEmail, (req, res, next) => {
   const administrator = new Administrator();
 
   const email = req.params.email;
@@ -148,7 +151,7 @@ router.delete('/administrator/:email', checkEmail, function(req, res, next) {
   administrator.delete({
     'email': email,
     'type' : 'admin'
-  }, function(error, numOfDeletes) {
+  }, (error, numOfDeletes) => {
     if (error) {
       return res.status(500).send(error);
     }

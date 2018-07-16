@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 const User          = require('../local/lib/models/User');
 const Administrator = require('../local/lib/models/Administrator');
