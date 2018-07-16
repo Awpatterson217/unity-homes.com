@@ -75,22 +75,26 @@ const User = function() {
     const thisEmail    = safeEmail(email);
     const thisPassword = safePass(password);
 
-    if (!thisEmail.safe)
+    if (!thisEmail.safe) {
       return callback(customErr('Invalid Email'));
+    }
 
-    if (!thisPassword.safe)
+    if (!thisPassword.safe) {
       return callback(customErr('Invalid Password'));
+    }
 
-      try{
+      try {
         const user = await _find('user', {'email': thisEmail.val});
 
-        if (!user)
+        if (!user) {
           return callback(customErr('Invalid Email'));
+        }
 
         const validPW = await bcrypt.compare(thisPassword.val, user.password);
 
-        if (!validPW)
+        if (!validPW) {
           return callback(customErr('Invalid Email'));
+        }
 
         return callback(null, user);
       } catch(err) {

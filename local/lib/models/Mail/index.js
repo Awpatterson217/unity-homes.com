@@ -87,12 +87,13 @@ const Mail = function() {
     const dataObj = this.getObject();
 
     Object.keys(dataObj).forEach((prop) => {
-      if (prop.required)
+      if (prop.required) {
         if (prop.value === '') {
           this.reset();
 
           callback(customErr('Missing Required Value'))
         }
+      }
     });
 
     nodemailer.createTransport({

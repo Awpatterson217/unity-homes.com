@@ -22,18 +22,21 @@ router.post('/login', checkEmail, checkPass, (req, res, next) => {
   const year     = 365 * 24 * 60 * 60 * 1000;
   const tenMin   = 10 * 60 * 1000;
 
-  if (req.body.remember)
+  if (req.body.remember) {
     res.cookie('remember', email, { maxAge: year });
+  }
 
-  if (isEmpty(email, password))
+  if (isEmpty(email, password)) {
     return res.render('login', { invalid: true });
+  }
 
     // TODO: If user === tenant, CHECK FOR isRegistered = true
   user.authenticate(email, password, (error, user) => {
-    if (error)
+    if (error) {
       return res.render('login', {
         invalid: true
       });
+    }
 
     req.session.email    = email;
     req.session.type     = user.type;

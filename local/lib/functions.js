@@ -17,7 +17,7 @@ const execute = (cmd) => {
 }
 
 const isEmpty = (...params) => {
-  if (!prams.length) {
+  if (!params.length) {
     console.log('isEmpty() - no params!');
 
     return true;
