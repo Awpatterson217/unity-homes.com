@@ -3,7 +3,7 @@
 const express = require('express');
 const csrf    = require('csurf');
 
-const Billing = require('models/Billing');
+const Billing = require('../../lib/models/Billing');
 
 const {
   checkEmail,
@@ -13,7 +13,7 @@ const {
   checkAuth,
   checkAdminAuth,
   checkIdParam,
-  } = require('lib/middleware');
+  } = require('../../lib/middleware');
 
 const router = express.Router();
 

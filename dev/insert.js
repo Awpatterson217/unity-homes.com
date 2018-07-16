@@ -1,10 +1,10 @@
 "use strict";
 
-const User          = require('../local/node_modules/models/User');
-const Administrator = require('../local/node_modules/models/Administrator');
-const Tenant        = require('../local/node_modules/models/Tenant');
-const Application   = require('../local/node_modules/models/Application');
-const Property      = require('../local/node_modules/models/Property');
+const User          = require('../local/lib/models/User');
+const Administrator = require('../local/lib/models/Administrator');
+const Tenant        = require('../local/lib/models/Tenant');
+const Application   = require('../local/lib/models/Application');
+const Property      = require('../local/lib/models/Property');
 
 const properties   = require('./mockData/properties');
 const applications = require('./mockData/applications');

@@ -3,14 +3,17 @@
 const express = require('express');
 const csrf    = require('csurf');
 
-const Property               = require('models/Property');
-const { getImages, isEmpty } = require('lib/functions');
+const Property = require('../../lib/models/Property');
+const {
+  getImages,
+  isEmpty
+} = require('../../lib/functions');
 const {
   checkProps,
   checkId,
   checkAdminAuth,
   checkIdParam,
-  } = require('lib/middleware');
+  } = require('../../lib/middleware');
 
 const router = express.Router();
 
@@ -28,7 +31,7 @@ router.get('/property', function(req, res) {
   const property = new Property();
 
   property.all()
-    .then( props => {
+    .then((props) => {
       if (props.length) {
         return res.type('application/json').status(200).send(JSON.stringify(props, null, 5));
       }
@@ -57,7 +60,7 @@ router.get('/property/:id', checkIdParam, function(req, res) {
         .status(200)
         .send(JSON.stringify(prop, null, 2));
     })
-    .catch( error => {
+    .catch((error) => {
       // LOG/HANDLE ERROR
       console.log(error);
       return res.status(500).send(error);

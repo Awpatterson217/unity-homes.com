@@ -3,7 +3,7 @@
 const {
   DataModel,
   Basic,
-} = require('lib/decorators');
+} = require('../common');
 
 const Administrator = function() {
 /**

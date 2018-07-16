@@ -3,7 +3,7 @@
 const express = require('express');
 const csrf    = require('csurf');
 
-const Mail = require('models/Mail');
+const Mail = require('../../lib/models/Mail');
 const {
   checkEmail,
   checkAuth,
@@ -11,7 +11,7 @@ const {
   checkPass,
   checkPassTwo,
   checkIdParam,
-  } = require('lib/middleware');
+  } = require('../../lib/middleware');
 
 const router = express.Router();
 

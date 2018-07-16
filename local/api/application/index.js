@@ -3,13 +3,13 @@
 const express = require('express');
 const csrf    = require('csurf');
 
-const Application = require('models/Application');
-const { isEmpty } = require('lib/functions');
+const Application = require('../../lib/models/Application');
+const { isEmpty } = require('../../lib/functions');
 const {
   checkApp,
   checkAdminAuth,
   checkEmailParam
-  } = require('lib/middleware');
+  } = require('../../lib/middleware');
 
 const router = express.Router();
 

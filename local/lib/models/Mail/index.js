@@ -2,13 +2,13 @@
 
 const nodemailer = require('nodemailer');
 
-const { DataModel } = require('lib/decorators');
-const { customErr } = require('lib/error');
+const { DataModel } = require('../common');
+const { customErr } = require('../../error');
 const { 
   safeEmail,
   safeNum,
   safeStr,
-} = require('lib/safe');
+} = require('../../safe');
 
 const Mail = function() {
 /**
@@ -31,90 +31,90 @@ const Mail = function() {
   this.host = {
     value   : '',
     required: true,
-    safe    : function(str) {
+    safe    : (str) => {
       return safeStr(str);
     }
   }
   this.username = {
     value   : '',
     required: true,
-    safe    : function(email) {
+    safe    : (email) => {
       return safeEmail(email);
     }
   }
   this.password = {
     value   : '',
     required: true,
-    safe    : function(str) {
+    safe    : (str) => {
       return safeStr(str);
     }
   }
   this.port = {
     value   : '',
     required: true,
-    safe    : function(num) {
+    safe    : (num) => {
       return safeNum(num);
     }
   }
   this.secure = {
     value   : '',
     required: false,
-    safe    : function(bool) {
+    safe    : (bool) => {
       return safeBool(bool);
     }
   }
   this.requireTLS = {
     value   : '',
     required: false,
-    safe    : function(bool) {
+    safe    : (bool) => {
       return safeBool(bool);
     }
   }
   this.from = {
     value   : '',
     required: true,
-    safe    : function(str) {
+    safe    : (str) => {
       return safeStr(str);
     }
   }
   this.to = {
     value   : '',
     required: true,
-    safe    : function(email) {
+    safe    : (email) => {
       return safeEmail(email);
     }
   }
   this.subject = {
     value   : '',
     required: false,
-    safe    : function(str) {
+    safe    : (str) => {
       return safeStr(str);
     }
   }
   this.text = {
     value   : '',
     required: false,
-    safe    : function(str) {
+    safe    : (str) => {
       return safeStr(str);
     }
   }
   this.html = {
     value   : '',
     required: false,
-    safe    : function(str) {
+    safe    : (str) => {
       return safeStr(str);
     }
   }
-  this.send = function(callback) {
+  this.send = (callback) => {
     const dataObj = this.getObject();
 
-    Object.keys(dataObj).forEach( function(prop) {
-      if (prop.required === true)
+    Object.keys(dataObj).forEach((prop) => {
+      if (prop.required)
         if (prop.value === '') {
           this.reset();
           callback(customErr('Missing Required Value'))
         }
-    }.bind(this));
+    });
 
     nodemailer.createTransport({
       host      : this.host,

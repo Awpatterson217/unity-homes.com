@@ -4,43 +4,48 @@ const path = require('path');
 const fs   = require('fs');
 const exec = require('child_process').exec;
 
-const Tenant    = require('models/Tenant');
-const Property  = require('models/Property');
+const Tenant   = require('./models/Tenant');
+const Property = require('./models/Property');
 
 const log = console.log;
 
 const execute = (cmd) => {
-  exec(cmd, function (err, stdout, stderr) {
+  exec(cmd, (err, stdout, stderr) => {
     log(stdout);
     log(stderr);
-    if (err !== null)
+    if (err !== null) {
       log('exec error: ' + err);
+    }
   });
 }
 
-const isEmpty = function(...str) {
+const isEmpty = (...str) => {
   let params = [...str];
   let empty  = false;
 
-  params.forEach(function(val, index, array) {
-    if (val === '')
+  params.forEach((val) => {
+    if (val === '') {
       empty = true;
+    }
   });
-  if (empty)
+
+  if (empty) {
     return true;
+  }
+
   return false;  
 }
 
-const propdata = async function() {
+const propdata = async () => {
   const property = new Property();
 
-  let data = {};
+  const data = {};
   try{
-    let properties = await property.all();
+    const properties = await property.all();
 
     for (let i = 0; i < properties.length; i++) {
       properties[i].images = [];
-      let theseImages = await getImages(properties[i].id);
+      const theseImages = await getImages(properties[i].id);
       properties[i].images.concat(theseImages);
     }
 
@@ -52,7 +57,7 @@ const propdata = async function() {
   }
 }
 
-const adminData = async function(fullName, callback) {
+const adminData = async (fullName, callback) => {
   const tenant    = new Tenant();
   const property  = new Property();
 
@@ -78,7 +83,7 @@ const adminData = async function(fullName, callback) {
   }
 }
 
-const imageMatcher = function(item, id) {
+const imageMatcher = (item, id) => {
   let parsedItem;
   parsedItem = path.parse(item);
   parsedItem = parsedItem.name;
@@ -86,7 +91,7 @@ const imageMatcher = function(item, id) {
   return (parsedItem[0] === id);
 }
 
-const getImages = function(id) {
+const getImages = (id) => {
   let pathToImages;
   pathToImages = path.join('public', 'resources', 'images', 'properties');
   pathToImages = path.join(process.cwd(), pathToImages);

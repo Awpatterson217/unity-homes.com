@@ -4,11 +4,12 @@ const {
   DataModel,
   Basic,
   Address,
-} = require('lib/decorators');const { 
+} = require('../common');
+const { 
   safeNum,
   safeBool,
   safeStr,
-} = require('lib/safe');
+} = require('../../safe');
 
 const Tenant = function() {
 /**
@@ -41,28 +42,28 @@ const Tenant = function() {
   this.rent = {
     value   : '',
     required: false,
-    safe    : function(num) {
+    safe    : (num) => {
       return safeNum(num);
     }
   }
   this.leaseStart = {
     value   : '',
     required: false,
-    safe    : function(num) {
+    safe    : (num) => {
       return safeNum(num);
     }
   }
   this.leaseEnd = {
     value   : '',
     required: false,
-    safe    : function(num) {
+    safe    : (num) => {
       return safeNum(num);
     }
   }   
   this.pet = {
     value   : '',
     required: false,
-    safe    : function(bool) {
+    safe    : (bool) => {
       return safeBool(bool);
     }      
   }
@@ -73,7 +74,7 @@ const Tenant = function() {
   this.isRegistered = {
     value: '',
     required: true,
-    safe    : function(str) {
+    safe    : (str) => {
       return safeStr(str);
     }
   }

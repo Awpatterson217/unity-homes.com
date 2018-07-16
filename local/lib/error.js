@@ -20,5 +20,5 @@ const customErr = function(message) {
 
 module.exports = {
   newErr,
-  customErr,
+  customErr
 };

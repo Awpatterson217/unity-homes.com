@@ -4,8 +4,8 @@ const express = require('express');
 const _filter = require('lodash/filter');
 const csrf    = require('csurf');
 
-const Tenant      = require('models/Tenant');
-const { isEmpty } = require('lib/functions');
+const Tenant      = require('../../lib/models/Tenant');
+const { isEmpty } = require('../../lib/functions');
 const {
   checkEmail,
   checkPhone,
@@ -14,7 +14,7 @@ const {
   checkPassTwo,
   checkAdminAuth,
   checkEmailParam,
-  } = require('lib/middleware');
+  } = require('../../lib/middleware');
 
 // Add as middleware
 const csrfProtection = csrf()
@@ -81,14 +81,6 @@ router.post('/tenant', checkNames, checkEmail, checkPass, checkPassTwo, checkPho
   const passwordTwo = req.body.passwordTwo;
 
   if (isEmpty(email, password, passwordTwo, firstName, lastName)) {
-    return res.status(500).send('Something went wrong!');
-  }
-
-  if (!password) {
-    return res.status(500).send('Something went wrong!');
-  }
-
-  if (!passwordTwo) {
     return res.status(500).send('Something went wrong!');
   }
 

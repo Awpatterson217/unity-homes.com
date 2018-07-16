@@ -5,14 +5,14 @@ const bcrypt = require('bcryptjs');
 const {
   DataModel,
   Basic,
-} = require('lib/decorators');
-const { customErr } = require('lib/error');
-const { _find }     = require('crud');
+} = require('../common');
+const { customErr } = require('../../error');
+const { _find }     = require('../../crud');
 const { 
   safePass,
   safeStr,
   safeEmail,
-} = require('lib/safe');
+} = require('../../safe');
 
 const User = function() {
 /**
@@ -40,7 +40,7 @@ const User = function() {
   this.email = {
     value   : '',
     required: true,
-    safe    : function(email) {
+    safe    : (email) => {
       return safeEmail(email);
     }
   }
@@ -51,11 +51,11 @@ const User = function() {
   this.type = {
     value   : '',
     required: true,
-    safe    : function(str) {
+    safe    : (str) => {
       return safeStr(str);
     }
   }
-  this.hash = async function(password) {
+  this.hash = async (password) => {
     const safePassword = safePass(password);
 
     if (safePassword.safe) {
@@ -75,7 +75,7 @@ const User = function() {
     
     return false;
   }
-  this.authenticate = async function(email, password, callback) {
+  this.authenticate = async (email, password, callback) => {
     const thisEmail    = safeEmail(email);
     const thisPassword = safePass(password);
 

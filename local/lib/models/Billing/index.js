@@ -1,9 +1,9 @@
 "use strict";
 
-const { DataModel } = require('lib/decorators');
+const { DataModel } = require('../common');
 const { 
   safeEmail,
-} = require('lib/safe');
+} = require('../../safe');
 
 const Billing = function() {
 /**
@@ -26,7 +26,7 @@ DataModel.call(this);
   this.email = {
     value   : '',
     required: true,
-    safe    : function(email) {
+    safe    : (email) => {
       return safeEmail(email);
     }
   }

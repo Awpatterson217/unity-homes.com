@@ -10,7 +10,7 @@ const session    = require('express-session');
 
 const ROOT = path.resolve(__dirname, '..');
 
-const { checkAuth } = require(`${ROOT}/local/node_modules/lib/middleware`);
+const { checkAuth } = require(`${ROOT}/local/lib/middleware`);
 const routes        = require(`${ROOT}/local/routes`);
 const APIs          = require(`${ROOT}/local/api`);
 

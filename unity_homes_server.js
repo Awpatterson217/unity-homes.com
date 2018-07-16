@@ -114,9 +114,7 @@ app.listen(PORT, HOST);
 // UI for property details
 
 // UI for viewing tenant details
-
 // UI for viewing applications
-
 // UI for viewing billing details
 
 // Tenant side Billing System
@@ -128,12 +126,11 @@ app.listen(PORT, HOST);
 
 // safeState() for 2 chars
 
-// Refactory Mongo CRUD operations
-// to work like _find()
+// Add active vs inactive property to User Model
+// Refactory Mongo CRUD operations to match _find()
 // Remove console.logs in dashboard
 // Create better backend logging system
 // CSRF
-// Nodemailer
 // Contact API
 // SSL / TSL
 // NGINX as a trusted proxy? difference? see: proxy-addr

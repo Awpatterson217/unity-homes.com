@@ -4,12 +4,12 @@ const {
   DataModel,
   Basic,
   Address,
-} = require('lib/decorators');
+} = require('../common');
 const { 
   safeNum,
   safeStr,
   safeBool,
-} = require('lib/safe');
+} = require('../../safe');
 
 const Application = function() {
 /**

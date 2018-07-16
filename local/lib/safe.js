@@ -7,7 +7,7 @@ const passExpl = /(?=.*[a-z])/;
 const passExpL = /(?=.*[A-Z])/;
 const passExpn = /(?=.*[0-9])/;
 
-const sanitize = function(input) {
+const sanitize = (input) => {
   let response;
   let trimmed;
   if (typeof input === 'string') {
@@ -19,46 +19,65 @@ const sanitize = function(input) {
   return '';
 };
 
-const isPassFormat = function(password) {
-  if (!password)
+const isPassFormat = (password) => {
+  if (!password) {
     return false;
+  }
+
   // Is password 8-20 characters
-  if (!(validator.isLength(password, {min: 8, max: 20})))
+  if (!(validator.isLength(password, { min: 8, max: 20 }))) {
     return false;
+  }
+
   // Make sure regular expressions
   // are not susceptible to DOS attack
-  if (!safe(passExpl))
+  if (!safe(passExpl)) {
     return false;
-  if (!safe(passExpL))
+  }
+
+  if (!safe(passExpL)) {
     return false;
-  if (!safe(passExpn))
+  }
+
+  if (!safe(passExpn)) {
     return false;
+  }
+
   // Does password have:
   // 1 uppercase
   // 1 lowercase
   // 1 number
-  if (!(validator.matches(password, passExpl)))
+  if (!(validator.matches(password, passExpl))) {
     return false;
-  if (!(validator.matches(password, passExpL)))
+  }
+
+  if (!(validator.matches(password, passExpL))) {
     return false;
-  if (!(validator.matches(password, passExpn)))
+  }
+
+  if (!(validator.matches(password, passExpn))) {
     return false;
+  }
+
   return true;
 }
 
-const safeEmail = function(email) {
-  let safeEmail = {};
+const safeEmail = (email) => {
+  const safeEmail = {};
   safeEmail.val = sanitize(email);
   if (validator.isEmail(safeEmail.val)) {
     safeEmail.safe = true;
+
     return safeEmail;
   }
+
   safeEmail.safe = false;
+
   return safeEmail;
 }
 
-const safeCode = function(code) {
-  let safeCode = {};
+const safeCode = (code) => {
+  const safeCode = {};
   safeCode.val = sanitize(code);
   if (validator.isNumeric(safeCode.val)) {
     safeCode.safe = true;
@@ -68,8 +87,8 @@ const safeCode = function(code) {
   return safeCode;
 }
 
-const safePass = function(password) {
-  let safePass = {};
+const safePass = (password) => {
+  const safePass = {};
   safePass.val = sanitize(password);
   if (safePass.val === '') {
     safePass.safe = false;
@@ -83,8 +102,8 @@ const safePass = function(password) {
   return safePass;
 }
 
-const safeNum = function(num) {
-  let safeNum = {};
+const safeNum = (num) => {
+  const safeNum = {};
   safeNum.val = sanitize(num);
   if (safeNum.val === '') {
     safeNum.safe = false;
@@ -98,8 +117,8 @@ const safeNum = function(num) {
   return safeNum;
 }
 
-const safeYear = function(num) {
-  let safeNum = {};
+const safeYear = (num) => {
+  const safeNum = {};
   safeNum.val = sanitize(num);
   if (safeNum.val === '') {
     safeNum.safe = false;
@@ -117,8 +136,8 @@ const safeYear = function(num) {
   return safeNum;
 }
 
-const safeBool = function(boolean) {
-  let safeBool = {};
+const safeBool = (boolean) => {
+  const safeBool = {};
   safeBool.val = sanitize(boolean);
   if (safeBool.val === '') {
     safeBool.safe = false;
@@ -132,8 +151,8 @@ const safeBool = function(boolean) {
   return safeBool;
 }
 
-const safeStr = function(str) {
-  let safeStr = {};
+const safeStr = (str) => {
+  const safeStr = {};
   safeStr.val = sanitize(str);
   if (safeStr.val === '') {
     safeStr.safe = false;

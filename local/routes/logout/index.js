@@ -4,15 +4,14 @@ const express = require('express');
 
 const router = express.Router();
 
-router.get('/logout', function(req, res) {
-  // TODO Log time and req
-  const NOW = new Date().getTime();
+router.get('/logout', (req, res) => {
 
-  return req.session.destroy(function(err) {
-		if (err)
+  return req.session.destroy((err) => {
+		if (err) {
 			console.log(err);
-		else
+		} else {
 			res.redirect('/home');
+		}
 	});
 });
 

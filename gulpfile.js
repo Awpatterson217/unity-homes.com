@@ -13,7 +13,7 @@ const {
   log,
   execute,
   sep
-} = require('./local/node_modules/lib/functions');
+} = require('./local/lib/functions');
 
 //                COMPILERS / TRANSFORMERS / COPY
 
@@ -155,7 +155,7 @@ gulp.task('dev-back', function() {
   })
   .on('readable', function() {
 
-  // free memory 
+  // Free memory 
   bunyan && bunyan.kill()
 
   bunyan = spawn('./node_modules/bunyan/bin/bunyan', [
@@ -171,7 +171,7 @@ gulp.task('dev-back', function() {
   });
 });
 
-// Servers front end files, re-routes request to back-end server
+// Serves front end files, re-routes requests to back-end server
 gulp.task('dev-front', function () {
   browserSync.init({
       proxy: 'localhost:3000'

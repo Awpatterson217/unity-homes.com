@@ -3,39 +3,40 @@
 const express = require('express');
 const moment  = require('moment');
 
-const Tenant      = require('models/Tenant');
-const { isEmpty } = require('lib/functions');
+const Tenant      = require('../../lib/models/Tenant');
+const { isEmpty } = require('../../lib/functions');
 const {
   checkEmail,
   checkCode,
   checkPass,
   checkPassTwo
-  } = require('lib/middleware');
+  } = require('../../lib/middleware');
 
 const router = express.Router();
 
-router.get('/register', function(req, res) {
+router.get('/register', (req, res) => {
   return res.render('register');
 });
 
-router.post('/register', checkCode, checkEmail, checkPass, checkPassTwo, function(req, res, next) {
+router.post('/register', checkCode, checkEmail, checkPass, checkPassTwo, (req, res, next) => {
   const tenant    = new Tenant();
   // TODO Log time and req
-  const now         = new Date().getTime();
   const code        = req.body.code;
   const email       = req.body.email;
   const password    = req.body.password;
   const passwordTwo = req.body.passwordTwo;
 
-  if (isEmpty(code, email, password, passwordTwo))
+  if (isEmpty(code, email, password, passwordTwo)) {
     return res.render('register', {
       invalid: true
     });
+  }
 
-  if (password !== passwordTwo)
+  if (password !== passwordTwo) {
     return res.render('register', {
       match: false
     });
+  }
 
     // TODO: UPDATE REGISTRATION
     // JUST NEED TO CHECK REGISTRATION CODE FOR TENANT

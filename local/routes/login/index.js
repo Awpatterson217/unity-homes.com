@@ -2,19 +2,17 @@
 
 const express = require('express');
 
-const Tenant                    = require('models/Tenant');
-const User                      = require('models/User');
-const Administrator             = require('models/Administrator');
-const { checkEmail, checkPass } = require('lib/middleware');
-const { isEmpty }               = require('lib/functions');
+const Tenant                    = require('../../lib/models/Tenant');
+const User                      = require('../../lib/models/User');
+const Administrator             = require('../../lib/models/Administrator');
+const { checkEmail, checkPass } = require('../../lib/middleware');
+const { isEmpty }               = require('../../lib/functions');
 
 const router = express.Router();
 
-router.get('/login', function(req, res) {
-  return res.render('login');
-});
+router.get('/login', (req, res) => res.render('login'));
   
-router.post('/login', checkEmail, checkPass, function(req, res, next) {
+router.post('/login', checkEmail, checkPass, (req, res, next) => {
   const tenant         = new Tenant();
   const user           = new User();
   const administrator  = new Administrator();
@@ -31,7 +29,7 @@ router.post('/login', checkEmail, checkPass, function(req, res, next) {
     return res.render('login', { invalid: true });
 
     // TODO: If user === tenant, CHECK FOR isRegistered = true
-  user.authenticate(email, password, function(error, user) {
+  user.authenticate(email, password, (error, user) => {
     if (error)
       return res.render('login', {
         invalid: true

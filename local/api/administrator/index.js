@@ -3,16 +3,16 @@
 const express = require('express');
 const csrf    = require('csurf');
 
-const Administrator = require('models/Administrator');
-const User          = require('models/User');
-const { isEmpty }   = require('lib/functions');
+const Administrator = require('../../lib/models/Administrator');
+const User          = require('../../lib/models/User');
+const { isEmpty }   = require('../../lib/functions');
 const {
   checkEmail,
   checkPass,
   checkPassTwo,
   checkNames,
   checkAdminAuth,
-  } = require('lib/middleware');
+  } = require('../../lib/middleware');
 
 const router = express.Router();
 
