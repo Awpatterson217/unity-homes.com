@@ -76,16 +76,16 @@ for (let routeKeys in routes) {
   app.use(routes[routeKeys]);
 }
 
-app.use(function (err, req, res, next) {
-  const url = req.originalUrl;
+app.use((err, req, res, next) => {
+  const { originalUrl: url } = req;
 
   console.error(err.stack)
 
   res.status(404).render('error', { url });
 });
 
-app.use(function(req, res, next) {
-  const url = req.originalUrl;
+app.use((req, res, next) => {
+  const { originalUrl: url } = req;
 
   res.status(404).render('error', { url });
 });

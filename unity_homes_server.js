@@ -27,15 +27,20 @@ const HOST = process.env.UNITY_HOST
   ? process.env.UNITY_HOST.trim()
   : null;
 
-  const SECRET = process.env.UNITY_SECRET
+const SECRET = process.env.UNITY_SECRET
   ? process.env.UNITY_SECRET.trim()
   : null;
 
+const {
+  log,
+  error
+} = console;
+
 if (!SECRET) {
-  console.log("SECRET is undefined");
+  log("SECRET is undefined");
 }
 if (!HOST) {
-  console.log("HOST is undefined");
+  log("HOST is undefined");
 }
 
 const app          = express();
@@ -45,8 +50,8 @@ const redisOptions = {
   ttl: TTL
 };
 
-client.on("error", function(err) {
-  console.log("Error " + err);
+client.on("error", (err) => {
+  log("Error " + err);
 });
 
 const limiter = require('express-limiter')(app, client);
@@ -55,7 +60,7 @@ limiter({
   lookup: ['connection.remoteAddress'],
   total : 150,
   expire: 1000 * 60 * 60
-})
+});
 
 app.set('view engine', 'ejs');
 app.set('views', [
@@ -90,16 +95,16 @@ for (let routeKeys in routes) {
   app.use(routes[routeKeys]);
 }
 
-app.use(function (err, req, res, next) {
-  const url = req.originalUrl;
+app.use((err, req, res, next) => {
+  const { originalUrl: url } = req;
 
-  console.error(err.stack)
+  error(err.stack)
 
   res.status(404).render('error', { url });
 });
 
-app.use(function(req, res, next) {
-  const url = req.originalUrl;
+app.use((req, res, next) => {
+  const { originalUrl: url } = req;
 
   res.status(404).render('error', { url });
 });
