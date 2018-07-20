@@ -3,11 +3,15 @@
 const bcrypt = require('bcryptjs');
 
 const {
-  DataModel,
+  ModelMethods,
   Basic,
 } = require('../common');
-const { customErr } = require('../../error');
-const { _find }     = require('../../crud');
+const {
+  customErr
+} = require('../../error');
+const {
+  _find 
+} = require('../../crud');
 const { 
   safePass,
   safeStr,
@@ -16,9 +20,9 @@ const {
 
 const User = function() {
 /**
- * Inherit from DataModel
+ * Inherit from ModelMethods
  */
-  DataModel.call(this);
+  ModelMethods.call(this);
 /**
  * Inherit properties firstName, middleName,
  * lastName, email, and phone from Basic.

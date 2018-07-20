@@ -1,13 +1,17 @@
 'use strict';
 
-const { DataModel } = require('../common');
-const { safeEmail } = require('../../safe');
+const {
+  ModelMethods
+} = require('../common');
+const {
+  safeEmail
+} = require('../../safe');
 
 const Billing = function() {
 /**
- * Inherit from DataModel
+ * Inherit from ModelMethods
  */
-DataModel.call(this);
+  ModelMethods.call(this);
 /**
  * Name of collection
  * to be stored in DB

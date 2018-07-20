@@ -1,7 +1,7 @@
 'use strict';
 
 const {
-  DataModel,
+  ModelMethods,
   Basic,
   Address,
 } = require('../common');
@@ -13,9 +13,9 @@ const {
 
 const Tenant = function() {
 /**
- * Decorates this function
+ * Inherit from ModelMethods
  */
-  DataModel.call(this);
+  ModelMethods.call(this);
 /**
  * Inherit properties street, city,
  * state, and zip from Address.

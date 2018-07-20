@@ -1,7 +1,7 @@
 'use strict';
 
 const {
-  DataModel,
+  ModelMethods,
   Basic,
   Address,
 } = require('../common');
@@ -13,9 +13,9 @@ const {
 
 const Application = function() {
 /**
- * Inherit from DataModel
+ * Inherit from ModelMethods
  */
-  DataModel.call(this);
+  ModelMethods.call(this);
 /**
  * Inherit properties firstName, middleName,
  * lastName, email, and phone from Basic.

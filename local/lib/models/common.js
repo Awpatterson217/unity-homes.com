@@ -1,6 +1,8 @@
 'use strict';
 
-const { customErr } = require('../error');
+const {
+  customErr
+} = require('../error');
 const {
   _count,
   _find,
@@ -68,7 +70,7 @@ function Address() {
   }
 }
 
-function DataModel() {
+function ModelMethods() {
   this.timestamp = {
     value   : '',
     required: false,
@@ -98,8 +100,9 @@ function DataModel() {
     const keys = [];
 
     Object.keys(this).forEach((val) => {
-      if (typeof this[val] !== 'function')
+      if (typeof this[val] !== 'function') {
         keys.push(val);
+      }
     });
 
     for (let i = 0; i < keys.length - 1; i++) {
@@ -115,8 +118,9 @@ function DataModel() {
     const keys   = [];
 
     Object.keys(this).forEach((val) => {
-      if (typeof this[val] !== 'function')
+      if (typeof this[val] !== 'function') {
         keys.push(val);
+      }
     });
 
     for (let i = 0; i < keys.length; i++) {
@@ -250,7 +254,7 @@ function DataModel() {
 }
 
 module.exports = {
-  DataModel,
+  ModelMethods,
   Basic,
   Address,
 }

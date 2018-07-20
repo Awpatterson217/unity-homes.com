@@ -8,7 +8,7 @@ const redis      = require("redis");
 const session    = require('express-session');
 const RedisStore = require('connect-redis')(session);
 
-const { checkAuth } = require('./local/node_modules/lib/middleware');
+const { checkAuth } = require('./local/lib/middleware');
 const routes        = require('./local/routes');
 const APIs          = require('./local/api');
 

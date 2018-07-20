@@ -2,8 +2,12 @@
 
 const nodemailer = require('nodemailer');
 
-const { DataModel } = require('../common');
-const { customErr } = require('../../error');
+const {
+  ModelMethods
+} = require('../common');
+const {
+  customErr
+} = require('../../error');
 const { 
   safeEmail,
   safeNum,
@@ -12,9 +16,9 @@ const {
 
 const Mail = function() {
 /**
- * Decorates this function
+ * Inherit from ModelMethods
  */
-  DataModel.call(this);
+  ModelMethods.call(this);
 /**
  * Name of collection
  * to be stored in DB

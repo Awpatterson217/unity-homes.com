@@ -6,16 +6,16 @@ const { customErr } = require('../../error');
 
 const DB = process.env.UNITY_MONGO_DB;
 
-const _find = function(collectionName, filter) {
+const _find = (collectionName, filter) => {
   return new Promise((resolve, reject) => {
-    MongoClient.connect(DB, function(error, db) {
+    MongoClient.connect(DB, (error, db) => {
       if (error) {
         return reject(customErr('_find() - Connection Failed'));
       }
 
       const collection = db.collection(collectionName);
 
-      collection.find(filter).toArray(function(error, users) {
+      collection.find(filter).toArray((error, users) => {
         db.close();
 
         if (error) {
@@ -32,14 +32,14 @@ const _find = function(collectionName, filter) {
   });
 };
 
-const _count = function(collectionName, filter, callback) {
-  MongoClient.connect(DB, function(error, db) {
+const _count = (collectionName, filter, callback) => {
+  MongoClient.connect(DB, (error, db) => {
     if (error) {
       return callback(customErr('_count() - Connection Failed'));
     }
 
     const collection = db.collection(collectionName);
-    collection.count(filter, function(error, count) {
+    collection.count(filter, (error, count) => {
       db.close();
 
       if (error) {
@@ -51,14 +51,14 @@ const _count = function(collectionName, filter, callback) {
   });
 };
 
-const _all = function(collectionName) {
-    return MongoClient.connect(DB).then(function(db) {
-      const collection = db.collection(collectionName);
+const _all = (collectionName) => {
+    return MongoClient.connect(DB)
+      .then((db) => {
+        const collection = db.collection(collectionName);
 
-      return collection.find().toArray();
-    }).then(function(items) {
-      return items;
-    });
+        return collection.find().toArray();
+      })
+      .then(items => items);
 };
 
 module.exports = {

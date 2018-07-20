@@ -6,15 +6,15 @@ const { customErr } = require('../../error');
 
 const DB = process.env.UNITY_MONGO_DB;
 
-const _update = function(collectionName, filter, data, callback) {
-  MongoClient.connect(DB, function(error, db) {
+const _update = (collectionName, filter, data, callback) => {
+  MongoClient.connect(DB, (error, db) => {
     if (error) {
       return callback(customErr('_update() - Connection Failed'));
     }
 
     const collection = db.collection(collectionName);
 
-    collection.updateOne(filter, data, function(error, user) {
+    collection.updateOne(filter, data, (error, user) => {
       db.close();
 
       if (error) {
