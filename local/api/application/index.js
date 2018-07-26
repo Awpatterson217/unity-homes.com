@@ -4,17 +4,17 @@ const express = require('express');
 const csrf    = require('csurf');
 
 const {
-  Application
+  Application,
 } = require('../../lib/models');
 
 const {
-  isEmpty
+  isEmpty,
 } = require('../../lib/functions');
 
 const {
   checkApp,
   checkAdminAuth,
-  checkEmailParam
+  checkEmailParam,
 } = require('../../lib/middleware');
 
 const router = express.Router();
@@ -103,7 +103,7 @@ router.delete('/application/:email', checkEmailParam, (req, res, next) => {
 
   const email = req.params.email;
 
-  if (email === '') {
+  if (isEmpty(email)) {
     return res.status(500).send('Something went wrong!');
   }
 

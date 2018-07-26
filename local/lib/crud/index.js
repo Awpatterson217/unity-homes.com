@@ -1,6 +1,15 @@
-const { _create } = require('./create');
-const { _update } = require('./update');
-const { _delete } = require('./delete');
+const {
+  _create,
+} = require('./create');
+
+const {
+  _update,
+} = require('./update');
+
+const {
+  _delete,
+} = require('./delete');
+
 const {
   _find,
   _count,

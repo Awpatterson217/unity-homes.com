@@ -2,7 +2,9 @@
 
 const MongoClient = require('mongodb').MongoClient;
 
-const { customErr } = require('../../error');
+const {
+  customErr,
+} = require('../../error');
 
 const DB = process.env.UNITY_MONGO_DB;
 

@@ -1,22 +1,25 @@
 'use strict';
 
 const express = require('express');
-const moment  = require('moment');
 
-const Tenant      = require('../../lib/models/Tenant');
-const { isEmpty } = require('../../lib/functions');
+const {
+  Tenant,
+} = require('../../lib/models');
+
+const {
+  isEmpty,
+} = require('../../lib/functions');
+
 const {
   checkEmail,
   checkCode,
   checkPass,
-  checkPassTwo
+  checkPassTwo,
 } = require('../../lib/middleware');
 
 const router = express.Router();
 
-router.get('/register', (req, res) => {
-  return res.render('register');
-});
+router.get('/register', (req, res) => res.render('register'));
 
 router.post('/register', checkCode, checkEmail, checkPass, checkPassTwo, (req, res, next) => {
   const tenant = new Tenant();

@@ -4,7 +4,9 @@ const path = require('path');
 const fs   = require('fs');
 const exec = require('child_process').exec;
 
-const log = console.log;
+const {
+  log,
+} = console;
 
 const execute = (cmd) => {
   exec(cmd, (err, stdout, stderr) => {

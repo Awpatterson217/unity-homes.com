@@ -9,11 +9,11 @@ const {
 } = require('../common');
 
 const {
-  customErr
+  customErr,
 } = require('../../error');
 
 const {
-  _find 
+  _find,
 } = require('../../crud');
 
 const { 

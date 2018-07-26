@@ -3,12 +3,20 @@
 const validator = require('validator');
 const safe      = require('safe-regex');
 
+const {
+  isEmpty,
+} = require('../lib/functions');
+
+const {
+  isString,
+} = require('is-lib');
+
 const passExpl = /(?=.*[a-z])/;
 const passExpL = /(?=.*[A-Z])/;
 const passExpn = /(?=.*[0-9])/;
 
 const sanitize = (input) => {
-  if (typeof input === 'string') {
+  if (isString(input)) {
     const trimmed = validator.trim(input);
 
     if (!validator.isEmpty(trimmed)) {
@@ -94,7 +102,7 @@ const safePass = (password) => {
     safe: false
   };
 
-  if (safePass.val === '') {
+  if (isEmpty(safePass.val)) {
     return safePass;
   }
 
@@ -111,7 +119,7 @@ const safeNum = (num) => {
     safe: false
   };
 
-  if (safeNum.val === '') {
+  if (isEmpty(safeNum.val)) {
     return safeNum;
   }
 
@@ -123,21 +131,14 @@ const safeNum = (num) => {
 }
 
 const safeYear = (num) => {
-  const safeNum = {
-    val: sanitize(num),
-    safe: false
-  };
+  const safeNum = safeNum(num);
 
-  if (safeNum.val === '') {
+  if(!safeNum.safe) {
     return safeNum;
   }
 
   if (safeNum.val.length !== 4) {
-    return safeNum;
-  }
-
-  if (validator.isNumeric(safeNum.val)) {
-    safeNum.safe = true;
+    safeNum.safe = false;
   }
 
   return safeNum;
@@ -149,7 +150,7 @@ const safeBool = (boolean) => {
     safe: false
   };
 
-  if (safeBool.val === '') {
+  if (isEmpty(safeBool.val)) {
     return safeBool;
   }
   if (validator.isBoolean(safeBool.val)) {
@@ -165,7 +166,7 @@ const safeStr = (str) => {
     safe: false
   };
 
-  if (safeStr.val === '') {
+  if (isEmpty(safeStr.val)) {
     return safeStr;
   }
 

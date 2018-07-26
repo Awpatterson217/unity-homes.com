@@ -5,11 +5,11 @@ const csrf    = require('csurf');
 
 const {
   Administrator,
-  User
+  User,
 } = require('../../lib/models');
 
 const {
-  isEmpty
+  isEmpty,
 } = require('../../lib/functions');
 
 const {
@@ -148,7 +148,7 @@ router.delete('/administrator/:email', checkEmail, (req, res, next) => {
 
   const email = req.params.email;
 
-  if (email === '') {
+  if (isEmpty(email)) {
     return res.status(500).send('Something went wrong!');
   }
 

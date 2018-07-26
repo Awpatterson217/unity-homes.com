@@ -4,11 +4,11 @@ const express = require('express');
 const csrf    = require('csurf');
 
 const {
-  Property
+  Property,
 } = require('../../lib/models');
 
 const {
-  isEmpty
+  isEmpty,
 } = require('../../lib/functions');
 
 const {
@@ -122,7 +122,7 @@ router.delete('/property/:id', checkIdParam, function(req, res, next) {
 
   const id = req.params.id;
 
-  if (id === '') {
+  if (isEmpty(id)) {
     return res.status(500).send('Empty Property Identifier!');
   }
 

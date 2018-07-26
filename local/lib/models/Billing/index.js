@@ -2,7 +2,7 @@
 
 const {
   ModelMethods,
-  addProperty
+  addProperty,
 } = require('../common');
 
 const Billing = function() {

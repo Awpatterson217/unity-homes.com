@@ -4,7 +4,7 @@ const express = require('express');
 const csrf    = require('csurf');
 
 const {
-  Billing
+  Billing,
 } = require('../../lib/models');
 
 const {

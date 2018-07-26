@@ -6,11 +6,11 @@ const csrf    = require('csurf');
 
 const {
   Tenant,
-  User
+  User,
 } = require('../../lib/models');
 
 const {
-  isEmpty
+  isEmpty,
 } = require('../../lib/functions');
 
 const {
@@ -142,7 +142,7 @@ router.delete('/tenant/:email', checkEmailParam, (req, res, next) => {
 
   const email = req.params.email;
 
-  if (email === '') {
+  if (isEmpty(email)) {
     return res.status(500).send('Something went wrong!');
   }
 

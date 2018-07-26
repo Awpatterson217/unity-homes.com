@@ -4,7 +4,7 @@ const express = require('express');
 const csrf    = require('csurf');
 
 const {
-  Mail
+  Mail,
 } = require('../../lib/models');
 
 const {

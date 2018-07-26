@@ -7,7 +7,7 @@ const {
   isPassFormat,
   safeBool,
   safeStr,
-  safeNum
+  safeNum,
 } = require('./safe');
 
 const checkEmail = (req, res, next) => {

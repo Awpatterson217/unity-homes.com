@@ -2,11 +2,20 @@
 
 const express = require('express');
 
-const Tenant                    = require('../../lib/models/Tenant');
-const User                      = require('../../lib/models/User');
-const Administrator             = require('../../lib/models/Administrator');
-const { checkEmail, checkPass } = require('../../lib/middleware');
-const { isEmpty }               = require('../../lib/functions');
+const {
+  Tenant,
+  User,
+  Administrator,
+} = require('../../lib/models');
+
+const {
+  checkEmail,
+  checkPass,
+} = require('../../lib/middleware');
+
+const {
+  isEmpty,
+} = require('../../lib/functions');
 
 const router = express.Router();
 
@@ -34,7 +43,7 @@ router.post('/login', checkEmail, checkPass, (req, res, next) => {
   user.authenticate(email, password, (error, user) => {
     if (error) {
       return res.render('login', {
-        invalid: true
+        invalid: true,
       });
     }
 

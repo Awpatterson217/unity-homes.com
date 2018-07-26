@@ -2,11 +2,11 @@
 
 const {
   isString,
-  isFunction
+  isFunction,
 } = require('is-lib');
 
 const {
-  customErr
+  customErr,
 } = require('../error');
 
 const {
@@ -14,24 +14,28 @@ const {
   _find,
   _all,
   _delete,
-  _create
+  _create,
 } = require('../crud');
 
 const { 
-  safeDictionary
+  safeDictionary,
 } = require('../safe');
+
+const { 
+  isEmpty,
+} = require('../functions');
 
 const {
   create,
-  keys: getKeys
+  keys: getKeys,
 } = Object;
 
 const {
-  log
+  log,
 } = console;
 
 const {
-  has
+  has,
 } = Reflect;
 
 const mkTimeStamp = () => {
@@ -155,7 +159,7 @@ function ModelMethods() {
 
     for(let x = 0; x < keys.length; x++) {
       if (fullObj[keys[x]].required) {
-        if (fullObj[keys[x]].value === '') {
+        if (isEmpty(fullObj[keys[x]].value)) {
           check.value = keys[x];
           return check
         }

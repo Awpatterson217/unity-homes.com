@@ -4,7 +4,7 @@ const {
   ModelMethods,
   BasicProps,
   AddressProps,
-  addProperty
+  addProperty,
 } = require('../common');
 
 const Application = function() {

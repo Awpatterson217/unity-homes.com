@@ -8,8 +8,12 @@ const {
 } = require('../common');
 
 const {
-  customErr
+  customErr,
 } = require('../../error');
+
+const {
+  isEmpty,
+} = require('../../functions');
 
 const Mail = function() {
 /**
@@ -48,7 +52,7 @@ const Mail = function() {
 
     Object.keys(dataObj).forEach((prop) => {
       if (prop.required) {
-        if (prop.value === '') {
+        if (isEmpty(prop.value)) {
           this.reset();
 
           callback(customErr('Missing Required Value'))
