@@ -3,9 +3,15 @@
 const express = require('express');
 const csrf    = require('csurf');
 
-const Administrator = require('../../lib/models/Administrator');
-const User          = require('../../lib/models/User');
-const { isEmpty }   = require('../../lib/functions');
+const {
+  Administrator,
+  User
+} = require('../../lib/models');
+
+const {
+  isEmpty
+} = require('../../lib/functions');
+
 const {
   checkEmail,
   checkPass,
@@ -101,13 +107,11 @@ router.post('/administrator', checkNames, checkEmail, checkPass, checkPassTwo, (
 
     user.setVal('email', email);
     user.setVal('type', 'admin');
-    user.setVal('timestamp', Math.floor(Date.now() / 1000).toString());
 
     administrator.setVal('email', email);
     administrator.setVal('firstName', firstName);
     administrator.setVal('middleName', middleName);
     administrator.setVal('lastName', lastName);
-    administrator.setVal('timestamp', Math.floor(Date.now() / 1000).toString());
 
     user.create((error, user) => {
       if (error) {

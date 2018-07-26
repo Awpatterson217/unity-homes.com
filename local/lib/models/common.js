@@ -1,8 +1,14 @@
 'use strict';
 
 const {
+  isString,
+  isFunction
+} = require('is-lib');
+
+const {
   customErr
 } = require('../error');
+
 const {
   _count,
   _find,
@@ -10,64 +16,51 @@ const {
   _delete,
   _create
 } = require('../crud');
+
 const { 
-  safeEmail,
-  safeNum,
-  safeStr,
+  safeDictionary
 } = require('../safe');
 
-// TODO:
-// replace typeof checks with fn
+const {
+  create,
+  keys: getKeys
+} = Object;
 
-function Basic() {
-  this.email = {
-    value   : '',
-    required: true,
-    safe    : email => safeEmail(email)
-  }
-  this.phone = {
-    value   : '',
-    required: false,
-    safe    : num => safeNum(num)
-  }
-  this.firstName = {
-    value   : '',
-    required: false,
-    safe    : str => safeStr(str)
-  }
-  this.middleName = {
-    value   : '',
-    required: false,
-    safe    : str => safeStr(str)
-  }
-  this.lastName = {
-    value   : '',
-    required: false,
-    safe    : str => safeStr(str)
+const {
+  log
+} = console;
+
+const {
+  has
+} = Reflect;
+
+const mkTimeStamp = () => {
+  return Math.round(
+    (new Date()).getTime() / 1000
+  );
+}
+
+const addProperty = function(name, type, required) {
+  this[name] = {
+    value: '',
+    safe: safeDictionary[type],
+    required: !!required
   }
 }
 
-function Address() {
-  this.street = {
-    value   : '',
-    required: false,
-    safe    : str => safeStr(str)    
-  }
-  this.city = {
-    value   : '',
-    required: false,
-    safe    : str => safeStr(str)
-  }
-  this.state = {
-    value   : '',
-    required: false,
-    safe    : str => safeStr(str)
-  }
-  this.zip = {
-    value   : '',
-    required: false,
-    safe    : num => safeNum(num)
-  }
+function BasicProps() {
+  addProperty.call(this, 'email', 'email', true);
+  addProperty.call(this, 'phone', 'number', false);
+  addProperty.call(this, 'firstName', 'string', false);
+  addProperty.call(this, 'middleName', 'string', false);
+  addProperty.call(this, 'lastName', 'string', false);
+}
+
+function AddressProps() {
+  addProperty.call(this, 'street', 'string', false);
+  addProperty.call(this, 'city', 'string', false);
+  addProperty.call(this, 'state', 'string', false);
+  addProperty.call(this, 'zip', 'number', false);
 }
 
 function ModelMethods() {
@@ -77,11 +70,7 @@ function ModelMethods() {
   }
 
   this.setVal = (key, val) => {
-    if (typeof key !== 'string') {
-      return false;
-    }
-
-    if (typeof val !== 'string') {
+    if (!isString(key) || !isString(val)) {
       return false;
     }
 
@@ -99,8 +88,8 @@ function ModelMethods() {
   this.reset = () => {
     const keys = [];
 
-    Object.keys(this).forEach((val) => {
-      if (typeof this[val] !== 'function') {
+    getKeys(this).forEach((val) => {
+      if (!isFunction(this[val])) {
         keys.push(val);
       }
     });
@@ -114,16 +103,20 @@ function ModelMethods() {
 
   // An object to be inserted into NoSQL DB
   this.getObject = () => {
-    const object = {};
+    const object = create(null);
     const keys   = [];
 
-    Object.keys(this).forEach((val) => {
-      if (typeof this[val] !== 'function') {
+    getKeys(this).forEach((val) => {
+      // Only collect properties
+      // not functions.
+      if (!isFunction(this[val])) {
         keys.push(val);
       }
     });
 
     for (let i = 0; i < keys.length; i++) {
+      // Assign the property
+      // to a new object
       object[keys[i]] = this[keys[i]].value;
     }
 
@@ -132,11 +125,11 @@ function ModelMethods() {
 
   // An object like { value, required }
   this.getFullObject = () => {
-    const object = {};
+    const object = create(null);
     const keys   = [];
 
-    Object.keys(this).forEach((val) => {
-      if (typeof this[val] !== 'function') {
+    getKeys(this).forEach((val) => {
+      if (!isFunction(this[val])) {
         keys.push(val);
       }
     });
@@ -151,54 +144,80 @@ function ModelMethods() {
     return object;
   }
 
-  this.fill = (request, callback) => {
-    const dataObj = this.getObject();
+  this.checkRequired = () => {
+    const fullObj = this.getFullObject();
+    const keys    = getKeys(fullObj);
 
-    Object.keys(request.body).forEach((key) => {
-      if (dataObj.hasOwnProperty(key)) {
+    const check = {
+      safe: false,
+      value: ''
+    };
+
+    for(let x = 0; x < keys.length; x++) {
+      if (fullObj[keys[x]].required) {
+        if (fullObj[keys[x]].value === '') {
+          check.value = keys[x];
+          return check
+        }
+      }
+    }
+
+    check.safe = true;
+
+    return check;
+  }
+
+  // Parses request and returns filled Object
+  // to be inserted into collection.
+  this.fill = (request, callback) => {
+    getKeys(request.body).forEach((key) => {
+      if (has(this.getObject(), key)) {
         this.setVal(key, request.body[key]);
       }
     });
 
-    const filledObj = this.getObject();
-    const fullObj   = this.getFullObject();
-    const keys      = Object.keys(fullObj);
+    const requiredCheck = this.checkRequired();
 
-    for(let x = 0; x < keys.length; x++) {
-      if (fullObj[keys[x]].required) {
-        if (fullObj[keys[x]].value === '') {
-          this.reset();
-          return callback(customErr('Missing Required Value'))
-        }
-      }
+    // Make sure all required
+    // properties are set.
+    if(!requiredCheck.safe) {
+      this.reset();
+
+      return callback(
+        customErr(`Missing Required Value: ${requiredCheck.value}`,)
+      );
     }
 
-    return callback(null, filledObj);
+    return callback(null, this.getObject());
   }
 
   this.create = (callback) => {
-    this.timestamp.value = Math.round((new Date()).getTime() / 1000);
+    this.timestamp.value = mkTimeStamp();
 
-    const fullObj = this.getFullObject();
     const dataObj = this.getObject();
-    const keys    = Object.keys(fullObj);
 
-    for(let x = 0; x < keys.length; x++) {
-      if (fullObj[keys[x]].required) {
-        if (fullObj[keys[x]].value === '') {
-          this.reset();
+    const requiredCheck = this.checkRequired();
 
-          return callback(customErr('Missing Required Value'))
-        }
-      }
+    // Make sure all required
+    // properties are set.
+    if(!requiredCheck.safe) {
+      this.reset();
+
+      return callback(
+        customErr(`Missing Required Value: ${requiredCheck.value}`,)
+      );
     }
 
     // TODO: better solution than uniqueVal
+    // Each model has a unique value, (primary key)
     const filter = {
-      [this.uniqueVal]: this[this.uniqueVal].value
+      [this.getUniqueVal()]: this[this.getUniqueVal()].value
     };
 
-    _count(this.collection, filter, (error, count) => {
+    // Make sure an object with the same
+    // unique key doesn't already exist,
+    // then insert object into collection.
+    _count(this.getCollection(), filter, (error, count) => {
       if (error) {
         return callback(newErr(error));
       }
@@ -207,7 +226,7 @@ function ModelMethods() {
         return callback(customErr('Duplicate'));
       }
 
-      _create(this.collection, dataObj, (error, admin) => {
+      _create(this.getCollection(), dataObj, (error, admin) => {
         if (error) {
           return callback(newErr(error));
         }
@@ -217,7 +236,7 @@ function ModelMethods() {
     });
   }
   this.delete = (filter, callback) => {
-    _delete(this.collection, filter, (error, numOfDeletes) => {
+    _delete(this.getCollection(), filter, (error, numOfDeletes) => {
       if (error) {
         return callback(newErr(error));
       }
@@ -227,12 +246,12 @@ function ModelMethods() {
   }
   this.all = async () => {
     try{
-      const objects = await _all(this.collection);
+      const objects = await _all(this.getCollection());
 
       return objects;
     } catch(err) {
       // TODO: Handle error
-      console.log(err);
+      log(err);
       return err;
     }    
   }
@@ -242,12 +261,12 @@ function ModelMethods() {
       : this.getObject();
 
     try{
-      const obj = await _find(this.collection, thisFilter);
+      const obj = await _find(this.getCollection(), thisFilter);
 
       return obj;
     } catch(err) {
       // TODO: Handle error
-      console.log(err);
+      log(err);
       return err;
     }
   }
@@ -255,6 +274,7 @@ function ModelMethods() {
 
 module.exports = {
   ModelMethods,
-  Basic,
-  Address,
+  BasicProps,
+  AddressProps,
+  addProperty,
 }

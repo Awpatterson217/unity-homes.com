@@ -174,6 +174,15 @@ const safeStr = (str) => {
   return safeStr;
 }
 
+const safeDictionary = Object.create(null);
+
+safeDictionary.string  = safeStr;
+safeDictionary.number  = safeNum;
+safeDictionary.boolean = safeBool;
+safeDictionary.email   = safeEmail;
+safeDictionary.code    = safeCode;
+safeDictionary.year    = safeYear;
+
 module.exports = {
   sanitize,
   isPassFormat,
@@ -183,5 +192,6 @@ module.exports = {
   safeNum,
   safeBool,
   safeStr,
-  safeYear
+  safeYear,
+  safeDictionary
 }

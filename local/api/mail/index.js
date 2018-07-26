@@ -3,7 +3,10 @@
 const express = require('express');
 const csrf    = require('csurf');
 
-const Mail = require('../../lib/models/Mail');
+const {
+  Mail
+} = require('../../lib/models');
+
 const {
   checkEmail,
   checkAuth,

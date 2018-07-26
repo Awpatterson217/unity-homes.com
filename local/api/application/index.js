@@ -3,8 +3,14 @@
 const express = require('express');
 const csrf    = require('csurf');
 
-const Application = require('../../lib/models/Application');
-const { isEmpty } = require('../../lib/functions');
+const {
+  Application
+} = require('../../lib/models');
+
+const {
+  isEmpty
+} = require('../../lib/functions');
+
 const {
   checkApp,
   checkAdminAuth,

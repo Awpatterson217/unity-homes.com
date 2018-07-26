@@ -4,17 +4,20 @@ const bcrypt = require('bcryptjs');
 
 const {
   ModelMethods,
-  Basic,
+  BasicProps,
+  addProperty,
 } = require('../common');
+
 const {
   customErr
 } = require('../../error');
+
 const {
   _find 
 } = require('../../crud');
+
 const { 
   safePass,
-  safeStr,
   safeEmail,
 } = require('../../safe');
 
@@ -25,36 +28,31 @@ const User = function() {
   ModelMethods.call(this);
 /**
  * Inherit properties firstName, middleName,
- * lastName, email, and phone from Basic.
+ * lastName, email, and phone from BasicProps.
  */
-  Basic.call(this);
+  BasicProps.call(this);
 /**
  * Name of collection
  * to be stored in DB
  */
-  this.collection = 'user';
+  this.getCollection = () => 'user';
 /**
  * A unique property to use
  * when checking for duplicates
  */
-  this.uniqueVal = 'email';
+  this.getUniqueVal = () => 'email';
 /**
  * Properties unique to this model
  */
-  this.email = {
-    value   : '',
-    required: true,
-    safe    : email => safeEmail(email)
-  }
+  addProperty.call(this, 'type', 'string', true);
+
   this.password = {
     value   : '',
     required: false
   }
-  this.type = {
-    value   : '',
-    required: true,
-    safe    : str => safeStr(str)
-  }
+/**
+ * Methods unique to this model
+ */
   this.hash = async (password) => {
     const safePassword = safePass(password);
 

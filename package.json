@@ -48,6 +48,7 @@
     "express-validator": "^4.1.1",
     "formidable": "^1.1.1",
     "helmet": "^3.8.1",
+    "is-lib": "git+https://github.com/Awpatterson217/is-lib.git",
     "jquery": "^3.3.1",
     "lodash": "^4.17.5",
     "moment": "^2.18.1",

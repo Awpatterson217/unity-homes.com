@@ -2,14 +2,10 @@
 
 const {
   ModelMethods,
-  Basic,
-  Address,
+  BasicProps,
+  AddressProps,
+  addProperty,
 } = require('../common');
-const { 
-  safeNum,
-  safeBool,
-  safeStr,
-} = require('../../safe');
 
 const Tenant = function() {
 /**
@@ -18,56 +14,40 @@ const Tenant = function() {
   ModelMethods.call(this);
 /**
  * Inherit properties street, city,
- * state, and zip from Address.
+ * state, and zip from AddressProps.
  */
-  Address.call(this);
+  AddressProps.call(this);
 /**
  * Inherit properties firstName, middleName,
- * lastName, email, and phone from Basic.
+ * lastName, email, and phone from BasicProps.
  */
-  Basic.call(this);
+  BasicProps.call(this);
 /**
  * Name of collection
  * to be stored in DB
  */
-  this.collection = 'tenant';
+  this.getCollection = () => 'tenant';
 /**
  * A unique property to use
  * when checking for duplicates
  */
-  this.uniqueVal = 'email';
+  this.getUniqueVal = () => 'email';
 /**
  * Properties unique to this model
  */
-  this.rent = {
-    value   : '',
-    required: false,
-    safe    : num => safeNum(num)
-  }
-  this.leaseStart = {
-    value   : '',
-    required: false,
-    safe    : num => safeNum(num)
-  }
-  this.leaseEnd = {
-    value   : '',
-    required: false,
-    safe    : num => safeNum(num)
-  }   
-  this.pet = {
-    value   : '',
-    required: false,
-    safe    : bool => safeBool(bool)
-  }
+  addProperty.call(this, 'rent', 'number', false);
+  addProperty.call(this, 'leaseStart', 'number', false);
+  addProperty.call(this, 'leaseEnd', 'number', false);
+  addProperty.call(this, 'pet', 'boolean', false);
+  addProperty.call(this, 'isRegistered', 'string', true);
   this.code = {
     value: '',
     required: false
   }
-  this.isRegistered = {
-    value: '',
-    required: true,
-    safe    : str => safeStr(str)
-  }
+/**
+ * Methods unique to this model
+ * would go below
+ */
 }
 
 module.exports = Tenant;

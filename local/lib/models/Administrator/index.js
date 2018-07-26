@@ -2,7 +2,7 @@
 
 const {
   ModelMethods,
-  Basic,
+  BasicProps,
 } = require('../common');
 
 const Administrator = function() {
@@ -12,21 +12,25 @@ const Administrator = function() {
   ModelMethods.call(this);
 /**
  * Inherit properties firstName, middleName,
- * lastName, email, and phone from Basic.
+ * lastName, email, and phone from BasicProps.
  */
-  Basic.call(this);
+  BasicProps.call(this);
 /**
  * Name of collection
  * to be stored in DB
  */
-  this.collection = 'administrator';
+  this.getCollection = () => 'administrator';
 /**
  * A unique property to use
  * when checking for duplicates
  */
-  this.uniqueVal = 'email';
+  this.getUniqueVal = () => 'email';
 /**
  * Properties unique to this model
+ * would go below
+ */
+/**
+ * Methods unique to this model
  * would go below
  */
 }

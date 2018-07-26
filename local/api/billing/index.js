@@ -3,7 +3,9 @@
 const express = require('express');
 const csrf    = require('csurf');
 
-const Billing = require('../../lib/models/Billing');
+const {
+  Billing
+} = require('../../lib/models');
 
 const {
   checkEmail,

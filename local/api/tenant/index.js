@@ -4,8 +4,15 @@ const express = require('express');
 const _filter = require('lodash/filter');
 const csrf    = require('csurf');
 
-const Tenant      = require('../../lib/models/Tenant');
-const { isEmpty } = require('../../lib/functions');
+const {
+  Tenant,
+  User
+} = require('../../lib/models');
+
+const {
+  isEmpty
+} = require('../../lib/functions');
+
 const {
   checkEmail,
   checkPhone,
@@ -27,29 +34,29 @@ const router = express.Router();
 // Must be admin for all API calls
 router.use('/tenant', checkAdminAuth)
 
-// Get all registered tenants
+// Get all tenants
 router.get('/tenant',  (req, res) => {
   const tenant = new Tenant();
 
   tenant.all()
-  .then((allTenants) => {
-    const tenants = _filter(allTenants, { type: 'tenant' });
+    .then((allTenants) => {
+      const tenants = _filter(allTenants, { type: 'tenant' });
 
-    if (allTenants.length) {
-      return res.type('application/json').status(200).send(JSON.stringify(tenants, null, 2));
-    }
+      if (allTenants.length) {
+        return res.type('application/json').status(200).send(JSON.stringify(tenants, null, 2));
+      }
 
-    return res.status(404).render('error', {
-      url: req.hostname + req.originalUrl,
+      return res.status(404).render('error', {
+        url: req.hostname + req.originalUrl,
+      });
+    }).catch((error) => {
+      // LOG/HANDLE ERROR
+      console.log(error);
+      return res.status(500).send(error);
     });
-  }).catch((error) => {
-    // LOG/HANDLE ERROR
-    console.log(error);
-    return res.status(500).send(error);
-  });
 });
 
-// Get a registered tenant by email
+// Get a tenant by email
 router.get('/tenant/:email', checkEmailParam, (req, res) => {
   const tenant = new Tenant();
   const email = req.params.email;
@@ -67,7 +74,7 @@ router.get('/tenant/:email', checkEmailParam, (req, res) => {
     });
 });
 
-// Create a registered tenant
+// Create a tenant
 router.post('/tenant', checkNames, checkEmail, checkPass, checkPassTwo, checkPhone, (req, res, next) => {
   const tenant = new Tenant();
   const user   = new User();
@@ -95,14 +102,12 @@ router.post('/tenant', checkNames, checkEmail, checkPass, checkPassTwo, checkPho
 
     user.setVal('email', email);
     user.setVal('type', 'tenant');
-    user.setVal('timestamp', Math.floor(Date.now() / 1000).toString());
 
     tenant.setVal('email', email);
     tenant.setVal('phone', phone);
     tenant.setVal('firstName', firstName);
     tenant.setVal('middleName', middleName);
     tenant.setVal('lastName', lastName);
-    tenant.setVal('timestamp', Math.floor(Date.now() / 1000).toString());
 
     user.create((error, user) => {
       if (error) {
@@ -123,7 +128,7 @@ router.post('/tenant', checkNames, checkEmail, checkPass, checkPassTwo, checkPho
   });
 });
 
-// Update a registered tenant by email
+// Update a tenant by email
 router.put('/tenant/:email', checkEmailParam, (req, res, next) => {
   const tenant = new Tenant();
   console.log('email: ', req.params.email);
@@ -131,7 +136,7 @@ router.put('/tenant/:email', checkEmailParam, (req, res, next) => {
   return res.status(500).send('Something went wrong!');
 });
 
-// Delete a registered tenant by email
+// Delete a tenant by email
 router.delete('/tenant/:email', checkEmailParam, (req, res, next) => {
   const tenant = new Tenant();
 

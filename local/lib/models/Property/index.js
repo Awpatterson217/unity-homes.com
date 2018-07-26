@@ -2,14 +2,9 @@
 
 const {
   ModelMethods,
-  Address,
+  AddressProps,
+  addProperty,
 } = require('../common');
-const { 
-  safeNum,
-  safeBool,
-  safeStr,
-  safeYear,
-} = require('../../safe');
 
 const Property = function() {
 /**
@@ -18,107 +13,39 @@ const Property = function() {
   ModelMethods.call(this);
 /**
  * Inherit properties street, city,
- * state, and zip from Address.
+ * state, and zip from AddressProps.
  */
-  Address.call(this);
+  AddressProps.call(this);
 /**
  * Name of collection
  * to be stored in DB
  */
-  this.collection = 'property';
+  this.getCollection = () => 'property';
 /**
  * A unique property to use
  * when checking for duplicates
  */
-  this.uniqueVal = 'street';
+  this.getUniqueVal = () => 'street';
 /**
  * Properties unique to this model
  */
-  this.mainImage = {
-    value   : '',
-    required: false,
-    safe    : str => safeStr(str)
-  }
-  this.type = {
-    value   : '',
-    required: false,
-    safe    : str => safeStr(str)
-  }
-  this.street = {
-    value   : '',
-    required: false,
-    safe    : str => safeStr(str)
-  }
-  this.city = {
-    value   : '',
-    required: false,
-    safe    : str => safeStr(str)
-  }
-  this.state = {
-    value   : '',
-    required: false,
-    safe    : str => safeStr(str)
-  }
-  this.zip = {
-    value   : '',
-    required: false,
-    safe    : num => safeNum(num)
-  }
-  this.stories = {
-    value   : '',
-    required: false,
-    safe    : num => safeNum(num)
-  }
-  this.rent = {
-    value   : '',
-    required: false,
-    safe    : num => safeNum(num)
-  }
-  this.occupied = {
-    value   : '',
-    required: false,
-    safe    : bool => safeBool(bool)
-  }
-  this.occupants = {
-    value   : '',
-    required: false,
-    safe    : str => safeStr(str)
-  }
-  this.sqft = {
-    value   : '',
-    required: false,
-    safe    : num => safeNum(num)
-  }
-  this.year = {
-    value   : '',
-    required: false,
-    safe    : num => safeYear(num)
-  }
-  this.washer = {
-    value   : '',
-    required: false,
-    safe    : bool => safeBool(bool)
-  }
-  this.dryer = {
-    value   : '',
-    required: false,
-    safe    : bool => safeBool(bool)
-  }
-  this.garage = {
-    value   : '',
-    required: false,
-    safe    : bool => safeBool(bool)
-  }
-  this.basement = {
-    value   : '',
-    required: false,
-    safe    : bool => safeBool(bool)
-  }
-  this.fence = {
-    value   : '',
-    required: false,
-    safe    : bool => safeBool(bool)
-  }
+  addProperty.call(this, 'mainImage', 'string', false);
+  addProperty.call(this, 'type', 'string', false);
+  addProperty.call(this, 'stories', 'number', false);
+  addProperty.call(this, 'rent', 'number', false);
+  addProperty.call(this, 'occupied', 'boolean', false);
+  addProperty.call(this, 'occupants', 'number', false);
+  addProperty.call(this, 'sqft', 'number', false);
+  addProperty.call(this, 'year', 'year', false);
+  addProperty.call(this, 'washer', 'boolean', false);
+  addProperty.call(this, 'dryer', 'boolean', false);
+  addProperty.call(this, 'garage', 'boolean', false);
+  addProperty.call(this, 'basement', 'boolean', false);
+  addProperty.call(this, 'fence', 'boolean', false);
+/**
+ * Methods unique to this model
+ * would go below
+ */
 }
 
 module.exports = Property;

@@ -3,11 +3,14 @@
 const express = require('express');
 const csrf    = require('csurf');
 
-const Property = require('../../lib/models/Property');
 const {
-  getImages,
+  Property
+} = require('../../lib/models');
+
+const {
   isEmpty
 } = require('../../lib/functions');
+
 const {
   checkProps,
   checkId,

@@ -3,16 +3,13 @@
 const nodemailer = require('nodemailer');
 
 const {
-  ModelMethods
+  ModelMethods,
+  addProperty,
 } = require('../common');
+
 const {
   customErr
 } = require('../../error');
-const { 
-  safeEmail,
-  safeNum,
-  safeStr,
-} = require('../../safe');
 
 const Mail = function() {
 /**
@@ -23,70 +20,29 @@ const Mail = function() {
  * Name of collection
  * to be stored in DB
  */
-  this.collection = 'mail';
+  this.getCollection = () => 'mail';
 /**
  * A unique property to use
  * when checking for duplicates
  */
-  this.uniqueVal = ''; // TODO
+  this.getUniqueVal = () => ''; // TODO
 /**
  * Properties unique to this model
  */
-  this.host = {
-    value   : '',
-    required: true,
-    safe    : str => safeStr(str)
-  }
-  this.username = {
-    value   : '',
-    required: true,
-    safe    : email => safeEmail(email)
-  }
-  this.password = {
-    value   : '',
-    required: true,
-    safe    : str => safeStr(str)
-  }
-  this.port = {
-    value   : '',
-    required: true,
-    safe    : num => safeNum(num)
-  }
-  this.secure = {
-    value   : '',
-    required: false,
-    safe    : bool => safeBool(bool)
-  }
-  this.requireTLS = {
-    value   : '',
-    required: false,
-    safe    : bool => safeBool(bool)
-  }
-  this.from = {
-    value   : '',
-    required: true,
-    safe    : str => safeStr(str)
-  }
-  this.to = {
-    value   : '',
-    required: true,
-    safe    : email => safeEmail(email)
-  }
-  this.subject = {
-    value   : '',
-    required: false,
-    safe    : str => safeStr(str)
-  }
-  this.text = {
-    value   : '',
-    required: false,
-    safe    : str => safeStr(str)
-  }
-  this.html = {
-    value   : '',
-    required: false,
-    safe    : str => safeStr(str)
-  }
+  addProperty.call(this, 'host', 'string', true);
+  addProperty.call(this, 'username', 'email', true);
+  addProperty.call(this, 'password', 'string', true);
+  addProperty.call(this, 'port', 'number', true);
+  addProperty.call(this, 'secure', 'boolean', false);
+  addProperty.call(this, 'requireTLS', 'boolean', false);
+  addProperty.call(this, 'from', 'string', true);
+  addProperty.call(this, 'to', 'email', true);
+  addProperty.call(this, 'subject', 'string', true);
+  addProperty.call(this, 'text', 'string', true);
+  addProperty.call(this, 'html', 'string', true);
+/**
+ * Methods unique to this model
+ */
   this.send = (callback) => {
     const dataObj = this.getObject();
 

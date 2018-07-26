@@ -1,11 +1,9 @@
 'use strict';
 
 const {
-  ModelMethods
+  ModelMethods,
+  addProperty
 } = require('../common');
-const {
-  safeEmail
-} = require('../../safe');
 
 const Billing = function() {
 /**
@@ -16,20 +14,20 @@ const Billing = function() {
  * Name of collection
  * to be stored in DB
  */
-  this.collection = 'billing';
+  this.getCollection = () => 'billing';
 /**
  * A unique property to use
  * when checking for duplicates
  */
-  this.uniqueVal = ''; // TODO: id or email + date combo
+  this.getUniqueVal = () => ''; // TODO: id or email + date combo
 /**
  * Properties unique to this model
  */
-  this.email = {
-    value   : '',
-    required: true,
-    safe    : (email) => safeEmail(email)
-  }
+  addProperty.call(this, 'email', 'email', true);
+/**
+ * Methods unique to this model
+ * would go below
+ */
 }
 
 module.exports = Billing;

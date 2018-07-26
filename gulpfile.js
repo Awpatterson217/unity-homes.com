@@ -156,12 +156,12 @@ gulp.task('dev-back', function() {
   .on('readable', function() {
 
   // Free memory 
-  bunyan && bunyan.kill()
+  bunyan && bunyan.kill();
 
   bunyan = spawn('./node_modules/bunyan/bin/bunyan', [
     '--output', 'short',
     '--color'
-  ])
+  ]);
 
   bunyan.stdout.pipe(process.stdout)
   bunyan.stderr.pipe(process.stderr)
