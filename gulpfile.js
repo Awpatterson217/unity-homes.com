@@ -9,10 +9,11 @@ const babel       = require('gulp-babel');
 const uglify      = require('gulp-uglify');
 const sequence    = require('run-sequence');
 const reload      = browserSync.reload;
+
 const {
   log,
   execute,
-  sep
+  sep,
 } = require('./local/lib/functions');
 
 //                COMPILERS / TRANSFORMERS / COPY
@@ -22,6 +23,7 @@ gulp.task('copy-views', function() {
   return gulp.src('public/views/**/*.ejs')
     .pipe(gulp.dest('dist/views'));
 });
+
 // Copy Unity-Homes images to /media/images
 gulp.task('copy-images', function() {
   return gulp.src([
@@ -29,10 +31,12 @@ gulp.task('copy-images', function() {
     'public/assets/images/**/*.png',
     ]).pipe(gulp.dest('dist/media/images'));
 });
+
 // Copy Unity-Homes images to /media/images/favicon
 gulp.task('copy-favicon', function() {
   return gulp.src('public/assets/images/favicon/*.ico').pipe(gulp.dest('dist/media/images/favicon'));
 });
+
 // Copy minified bootstrap CSS to dist/
 gulp.task('copy-bootstrap', function() {
   return gulp.src('public/assets/vendor/bootstrap-4.0.0/dist/css/bootstrap.min.css')
@@ -53,12 +57,14 @@ gulp.task('vendor', function() {
     .pipe(vendor('vendor.js'))
     .pipe(gulp.dest('./dist/js'));
 });
+
  // Compile less
 gulp.task('compile-less', function() {  
   return gulp.src('./public/assets/less/styles.less')
     .pipe(less())
     .pipe(gulp.dest('./dist/css/'));
 });
+
  // Dev compile less
  // Dev - Transpiles, minifies, and concats custom scripts
 // .pipe(browserSync.stream()) guarantees browserSync doesn't
@@ -69,12 +75,14 @@ gulp.task('dev-compile-less', function() {
     .pipe(gulp.dest('./dist/css/'))
     .pipe(browserSync.stream());
 });
+
 // Compile sass
 gulp.task('compile-sass', function () {
   return gulp.src('./public/assets/sass/styles.scss')
     .pipe(sass().on('error', sass.logError))
     .pipe(gulp.dest('./dist/css'));
 });
+
 // Dev compile sass
 // Dev - Transpiles, minifies, and concats custom scripts
 // .pipe(browserSync.stream()) guarantees browserSync doesn't
@@ -85,6 +93,7 @@ gulp.task('dev-compile-sass', function () {
     .pipe(gulp.dest('./dist/css'))
     .pipe(browserSync.stream());
 });
+
 // Transpiles, minifies, and concats custom scripts
 gulp.task('compile-scripts', function() {
   return gulp.src('public/assets/js/*.js', { sourcemaps: true })
@@ -93,6 +102,7 @@ gulp.task('compile-scripts', function() {
     .pipe(concat('scripts.min.js'))
     .pipe(gulp.dest('dist/js/'));
 });
+
 // Dev - Transpiles, minifies, and concats custom scripts
 gulp.task('dev-compile-scripts', function() {
   return gulp.src('public/assets/js/*.js', { sourcemaps: true })
@@ -109,22 +119,27 @@ gulp.task('dev-compile-scripts', function() {
 gulp.task('watch-less', function() {  
   return gulp.watch('./public/assets/less/**/*.less' , ['dev-compile-less']);
 });
+
 // Watch and recompile sass
 gulp.task('watch-sass', function () {
   return gulp.watch('./public/assets/sass/**/*.scss', ['dev-compile-sass']);
 });
+
 // Watch and retranspile js
 gulp.task('watch-js', function () {
   return gulp.watch('./public/assets/js/**/*.js', ['dev-compile-scripts']);
 });
+
  // Watch and copy views
 gulp.task('watch-views', function() {  
   return gulp.watch('public/views/**/*.ejs' , ['copy-views']);
 });
+
  // Watch and copy images
 gulp.task('watch-images', function() {  
   return gulp.watch(['public/assets/images/**/*.jpg','public/assets/**/*.png'] , ['copy-images']);
 });
+
  // Watch and copy favicon
 gulp.task('watch-favicon', function() {  
   return gulp.watch('public/assets/images/favicon/*.ico', ['copy-favicon']);
@@ -204,16 +219,19 @@ gulp.task('copy-bootstrap-js', function() {
   return gulp.src('public/assets/vendor/bootstrap-4.0.0/dist/js/bootstrap.min.js')
     .pipe(gulp.dest('dist/js'));
 });
+
 // Copy minified jQuery slim
 gulp.task('copy-bootstrap-js', function() {
   return gulp.src('public/assets/vendor/jquery/jquery-3.2.1.slim.min.js')
     .pipe(gulp.dest('dist/js'));
 });
+
 // Copy minified tether
 gulp.task('copy-bootstrap-js', function() {
   return gulp.src('public/assets/vendor/tether/tether-1.4.0.min.js')
     .pipe(gulp.dest('dist/js'));
 });
+
 gulp.task('bundle-css', function() {
   return gulp.src('./public/assets/css/*.css')
     .pipe(concatCss('styles.bundle.css'))

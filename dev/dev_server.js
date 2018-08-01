@@ -5,14 +5,43 @@ const express    = require('express');
 const bodyParser = require('body-parser');
 const helmet     = require('helmet');
 const session    = require('express-session');
-// const https      = require('https');
-// const fs         = require('fs');
 
 const ROOT = path.resolve(__dirname, '..');
 
-const { checkAuth } = require(`${ROOT}/local/lib/middleware`);
-const routes        = require(`${ROOT}/local/routes`);
-const APIs          = require(`${ROOT}/local/api`);
+const {
+  checkAuth,
+} = require(`${ROOT}/local/lib/middleware`);
+
+const routes = require(`${ROOT}/local/routes`);
+const APIs   = require(`${ROOT}/local/api`);
+
+// MONGODB
+
+const {
+  initMongoDB,
+  getMongoDB,
+} = require(`${ROOT}/local/mongoDB`)
+
+const DB = process.env.UNITY_MONGO_DB;
+
+initMongoDB(DB, (error, connection) => {
+  if (error) {
+    console.log('error: ', error);
+  }
+
+  console.log('isConnected: ', connection.isConnected());
+
+  process.on('SIGINT', () => {
+    mongoDB.closeConnection(() => {
+      process.exit(0);
+    });
+  });
+
+  const mongoDB = getMongoDB()
+  // mongoDB.closeConnection();
+});
+
+// END MONGODB
 
 const sessionTime = 1000000;
 const port        = 3000;
@@ -27,12 +56,6 @@ const secret      = 'pretendSecret';
  * 2nd: Start application
  *  'npm run dev'
  */
-
-// Local https: https://medium.freecodecamp.org/how-to-get-https-working-on-your-local-development-environment-in-5-minutes-7af615770eec
-// const certOptions = {
-//   key: fs.readFileSync(path.resolve(`${ROOT}/cert/server.key`)),
-//   cert: fs.readFileSync(path.resolve(`${ROOT}/cert/server.crt`))
-// }
 
 const jsonParser   = bodyParser.json();
 const urlEncParser = bodyParser.urlencoded({

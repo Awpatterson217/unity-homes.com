@@ -13,8 +13,10 @@ const {
 } = require('../../error');
 
 const {
-  _find,
-} = require('../../crud');
+  getMongoDB,
+} = require('../../../mongoDB');
+
+const mongoDB = getMongoDB();
 
 const { 
   safePass,
@@ -86,7 +88,7 @@ const User = function() {
     }
 
       try {
-        const user = await _find('user', {'email': thisEmail.val});
+        const user = await mongoDB.find('user', {'email': thisEmail.val});
 
         if (!user) {
           return callback(customErr('Invalid Email'));

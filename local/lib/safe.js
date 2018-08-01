@@ -131,17 +131,17 @@ const safeNum = (num) => {
 }
 
 const safeYear = (num) => {
-  const safeNum = safeNum(num);
+  const safe = safeNum(num);
 
-  if(!safeNum.safe) {
-    return safeNum;
+  if(!safe.safe) {
+    return safe;
   }
 
-  if (safeNum.val.length !== 4) {
-    safeNum.safe = false;
+  if (safe.val.length !== 4) {
+    safe.safe = false;
   }
 
-  return safeNum;
+  return safe;
 }
 
 const safeBool = (boolean) => {

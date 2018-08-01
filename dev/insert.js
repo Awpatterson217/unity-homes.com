@@ -1,5 +1,9 @@
 'use strict';
 
+const path = require('path');
+
+const ROOT = path.resolve(__dirname, '..');
+
 const {
   User,
   Administrator,
@@ -119,11 +123,28 @@ function insertProp(property) {
   });
 }
 
-insertAdmin();
-insertTenant();
+const {
+  initMongoDB,
+  getMongoDB,
+} = require(`${ROOT}/local/mongoDB`)
 
-properties.forEach(property =>
-  insertProp(property));
+initMongoDB((error, connection) => {
+  if (error) {
+    console.log('error: ', error);
+  }
 
-// applications.forEach(application =>
-//   insertApp(application));
+  insertAdmin();
+  insertTenant();
+  
+  properties.forEach(property =>
+    insertProp(property));
+  
+  // applications.forEach(application => insertApp(application));
+
+  process.on('SIGINT', () => {
+    getMongoDB().closeConnection(() => {
+      process.exit(0);
+    });
+  });
+});
+

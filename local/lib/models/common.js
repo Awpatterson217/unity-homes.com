@@ -10,14 +10,10 @@ const {
 } = require('../error');
 
 const {
-  _count,
-  _find,
-  _all,
-  _delete,
-  _create,
-} = require('../crud');
+  getMongoDB
+} = require('../../mongoDB');
 
-const { 
+const {
   safeDictionary,
 } = require('../safe');
 
@@ -221,26 +217,26 @@ function ModelMethods() {
     // Make sure an object with the same
     // unique key doesn't already exist,
     // then insert object into collection.
-    _count(this.getCollection(), filter, (error, count) => {
-      if (error) {
-        return callback(newErr(error));
-      }
-
-      if (count) {
-        return callback(customErr('Duplicate'));
-      }
-
-      _create(this.getCollection(), dataObj, (error, admin) => {
-        if (error) {
-          return callback(newErr(error));
+    getMongoDB().count(this.getCollection(), filter)
+      .then((count) => {
+        if (count) {
+          return callback(customErr('Duplicate'));
         }
 
-        return callback(null, admin)
-      });
-    });
+        getMongoDB().create(this.getCollection(), dataObj, (error, admin) => {
+          if (error) {
+            return callback(newErr(error));
+          }
+
+          return callback(null, admin)
+        });
+      })
+      .catch((error) => {
+        return callback(newErr(error));
+      })
   }
   this.delete = (filter, callback) => {
-    _delete(this.getCollection(), filter, (error, numOfDeletes) => {
+    getMongoDB().delete(this.getCollection(), filter, (error, numOfDeletes) => {
       if (error) {
         return callback(newErr(error));
       }
@@ -250,9 +246,7 @@ function ModelMethods() {
   }
   this.all = async () => {
     try{
-      const objects = await _all(this.getCollection());
-
-      return objects;
+      return await getMongoDB().getAll(this.getCollection());
     } catch(err) {
       // TODO: Handle error
       log(err);
@@ -265,9 +259,7 @@ function ModelMethods() {
       : this.getObject();
 
     try{
-      const obj = await _find(this.getCollection(), thisFilter);
-
-      return obj;
+      return await getMongoDB().find(this.getCollection(), thisFilter);
     } catch(err) {
       // TODO: Handle error
       log(err);
